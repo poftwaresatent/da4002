@@ -93,6 +93,56 @@ class StringListIterator
 }
 
 
+class StringVector
+{
+    public String [] data;
+    public int size;
+    
+    public StringVector(int initialCapacity)
+    {
+	data = new String [initialCapacity];
+	size = 0;
+    }
+    
+    public void grow()
+    {
+	String [] bigger = new String [2 * data.length];
+	for (int ii = 0; ii < size; ++ii) {
+	    bigger[ii] = data[ii];
+	}
+	data = bigger;
+    }
+    
+    public void insertFront(String value)
+    {
+	if (size >= data.length) {
+	    grow();
+	}
+	for (int ii = 0, jj = 1; ii < size; ++ii, ++jj) {
+	    data[jj] = data[ii];
+	}
+	data[0] = value;
+	++size;
+    }
+    
+    public void insertRear(String value)
+    {
+	if (size >= data.length) {
+	    grow();
+	}
+	data[size++] = value;
+    }
+    
+    public void print(String prefix)
+    {
+	for (int ii = 0; ii < size; ++ii) {
+	    System.out.println(prefix + data[ii]);
+	}
+    }
+    
+}
+
+
 class LogEntry
 {
     public String xData, yData;
@@ -232,8 +282,30 @@ public class SequenceComplexity
 	    list.print("  - ");
 	}
     }
-
-    public static void main(String [] args)
+    
+    
+    public static void vectorDemo(boolean verbose)
+    {
+	StringVector vector = new StringVector(256);
+	
+	if (verbose) {
+	    System.out.println("Inserting three items at the front.");
+	}
+	
+	vector.insertFront("blah one");
+	vector.insertFront("blah two");
+	vector.insertFront("blah three");
+	
+	if (verbose) {
+	    System.out.println("  Result:");
+	    vector.print("  - ");
+	    System.out.println();
+	    ////	    System.out.println("Inserting three items after the head.");
+	}
+    }
+    
+    
+    public static void demoBenchmark()
     {
 	LogBook demoLog = new LogBook("running demo with or without printing");
 	
@@ -256,5 +328,49 @@ public class SequenceComplexity
 	}
 	
 	demoLog.print();
+    }
+    
+    
+    public static void insertFrontBenchmark()
+    {
+	LogBook insertFrontLog = new LogBook("repeated insertion at the front");
+	LogColumn stringListColumn = insertFrontLog.addColumn("StringList");
+	LogColumn stringVectorColumn = insertFrontLog.addColumn("StringVector");
+	
+	String value = "whatever";
+	
+	for (int ii = 1024; 200000 >= ii; ii *= 2) {
+	    System.out.println("inserting " + ii + " ...");
+	    StringList list = new StringList();
+	    StringVector vector = new StringVector(256);
+	    try {
+		
+		stringListColumn.start();
+		for (int jj = 0; jj < ii; ++jj) {
+		    list.insertFront(value);
+		}
+		stringListColumn.stop("" + ii);
+		
+		stringVectorColumn.start();
+		for (int jj = 0; jj < ii; ++jj) {
+		    vector.insertFront(value);
+		}
+		stringVectorColumn.stop("" + ii);
+		
+	    }
+	    catch (OutOfMemoryError ee) {
+		System.out.println("OUT OF MEMORY: aborting benchmark");
+		break;
+	    }
+	}
+	
+	insertFrontLog.print();
+    }
+    
+    
+    public static void main(String [] args)
+    {
+	vectorDemo(true);
+	insertFrontBenchmark();
     }
 }
