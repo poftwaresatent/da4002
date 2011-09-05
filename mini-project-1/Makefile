@@ -1,9 +1,10 @@
-JAVAC= javac
-
 SRCS= $(wildcard *.java)
 OBJS= $(SRCS:.java=.class) 
 
 all: $(OBJS)
+
+doc:
+	javadoc -d doc $(SRCS)
 
 clean:
 	rm -f *.class *~
@@ -11,4 +12,4 @@ clean:
 .SUFFIXES: .java .class
 
 .java.class:
-	$(JAVAC) $<
+	$(javac) $<

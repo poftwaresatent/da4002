@@ -102,7 +102,7 @@ public class SimpleStringList
     
     /**
        A static function that demonstrates some of the list
-       operations. When @param verbose is true it prints messages to
+       operations. When verbose is true it prints messages to
        System.out.
     */
     public static void demo(boolean verbose)
