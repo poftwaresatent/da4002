@@ -3,7 +3,7 @@ OBJS= $(SRCS:.java=.class)
 
 all: $(OBJS)
 
-doc:
+doc: $(SRCS)
 	javadoc -d doc $(SRCS)
 
 clean:
@@ -12,4 +12,4 @@ clean:
 .SUFFIXES: .java .class
 
 .java.class:
-	$(javac) $<
+	javac $<
