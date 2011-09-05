@@ -1,98 +1,3 @@
-class StringListNode
-{
-    public String data;
-    public StringListNode next;
-    
-    public StringListNode(String _data)
-    {
-	data = _data;
-    }
-}
-
-
-class StringList
-{
-    public StringListNode head;
-    
-    public void insertFront(String data)
-    {
-	StringListNode node = new StringListNode(data);
-	node.next = head;
-	head = node;
-    }
-    
-    public void insertAfter(StringListNode position, String data)
-    {
-	StringListNode node = new StringListNode(data);
-	node.next = position.next;
-	position.next = node;
-    }
-    
-    public String getFront()
-    {
-	// optional error checking:
-	// if (null == head) { ... }
-	return head.data;
-    }
-    
-    public void removeFront()
-    {
-	// optional error checking:
-	// if (null == head) { return false; }
-	head = head.next;
-    }
-    
-    public void removeAfter(StringListNode position)
-    {
-	// optional error checking:
-	// if (null == position.next) { return false; }
-	position.next = position.next.next;
-    }
-    
-    public boolean isEmpty()
-    {
-	return null == head;
-    }
-    
-    public void print(String prefix)
-    {
-	for (StringListNode current = head; null != current; current = current.next) {
-	    System.out.println(prefix + current.data);
-	}
-    }
-}
-
-
-class StringListIterator
-{
-    public StringListNode current;
-    
-    public StringListIterator(StringList list)
-    {
-	current = list.head;
-    }
-    
-    public boolean isFinished()
-    {
-	return null == current;
-    }
-    
-    public void advance()
-    {
-	// optional error checking:
-	// if (null != current) { ... }
-	current = current.next;
-    }
-    
-    public String getData()
-    {
-	// optional error checking:
-	// if (null != current) { ... }
-	return current.data;
-    }
-}
-
-
 class StringVector
 {
     public String [] data;
@@ -228,62 +133,6 @@ class LogBook
 
 public class SequenceComplexity
 {
-    public static void listDemo(boolean verbose)
-    {
-	StringList list = new StringList();
-	
-	if (verbose) {
-	    System.out.println("Inserting three items at the front.");
-	}
-	
-	list.insertFront("blah one");
-	list.insertFront("blah two");
-	list.insertFront("blah three");
-	
-	if (verbose) {
-	    System.out.println("  Result:");
-	    list.print("  - ");
-	    System.out.println();
-	    System.out.println("Inserting three items after the head.");
-	}
-	
-	list.insertAfter(list.head, "more blah one");
-	list.insertAfter(list.head, "more blah two");
-	list.insertAfter(list.head, "more blah three");
-
-	if (verbose) {
-	    System.out.println("  Result:");
-	    list.print("  - ");
-	    System.out.println();
-	    System.out.println("Removing front '" + list.getFront() + "'");
-	}
-	
-	list.removeFront();
-	if (verbose) {
-	    System.out.println("Removing front '" + list.getFront() + "'");
-	}
-	list.removeFront();
-	if (verbose) {
-	    System.out.println("Removing front '" + list.getFront() + "'");
-	}
-	list.removeFront();
-	
-	if (verbose) {
-	    System.out.println("  Result:");
-	    list.print("  - ");
-	    System.out.println();
-	    System.out.println("Removing twice after the head.");
-	}
-	
-	list.removeAfter(list.head);
-	list.removeAfter(list.head);
-	if (verbose) {
-	    System.out.println("  Result:");
-	    list.print("  - ");
-	}
-    }
-    
-    
     public static void vectorDemo(boolean verbose)
     {
 	StringVector vector = new StringVector(256);
@@ -313,7 +162,7 @@ public class SequenceComplexity
 	for (int ii = 1; 3 >= ii; ++ii) {
 	    col.start();
 	    for (int jj = 0; ii > jj; ++jj) {
-		listDemo(true);
+		SimpleStringList.demo(true);
 	    }
 	    col.stop("" + ii);
 	}
@@ -322,7 +171,7 @@ public class SequenceComplexity
 	for (int ii = 1; 3 >= ii; ++ii) {
 	    col.start();
 	    for (int jj = 0; ii > jj; ++jj) {
-		listDemo(false);
+		SimpleStringList.demo(false);
 	    }
 	    col.stop("" + ii);
 	}
@@ -334,14 +183,14 @@ public class SequenceComplexity
     public static void insertFrontBenchmark()
     {
 	LogBook insertFrontLog = new LogBook("repeated insertion at the front");
-	LogColumn stringListColumn = insertFrontLog.addColumn("StringList");
+	LogColumn stringListColumn = insertFrontLog.addColumn("SimpleStringList");
 	LogColumn stringVectorColumn = insertFrontLog.addColumn("StringVector");
 	
 	String value = "whatever";
 	
 	for (int ii = 1024; 200000 >= ii; ii *= 2) {
 	    System.out.println("inserting " + ii + " ...");
-	    StringList list = new StringList();
+	    SimpleStringList list = new SimpleStringList();
 	    StringVector vector = new StringVector(256);
 	    try {
 		
