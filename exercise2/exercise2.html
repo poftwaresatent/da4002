@@ -5,66 +5,181 @@
 <h2>exercise 2.1: vectors (resizeable arrays)</h2>
 
 <p>
-<a href="itads/exercise2/StringVector.java">StringVector.java</a> is an empty shell for implementing a dynamically expanding array of strings.  Implement each of the undefined methods and check your work regularly by executing the provided main function.  You can of course extend the main function as needed for testing more things
+<a href="itads/exercise2/StringVector.java">StringVector.java</a> is
+an empty shell for implementing a dynamically expanding array of
+strings.  Implement each of the undefined methods and check your work
+regularly by executing the provided main function.  You can of course
+extend the main function as needed for testing more things
 </p>
+
+
+
+<h2>exercise 2.2: a simple stack machine</h2>
+
+<p>
+The StringVector from the previous exercise can be used like a
+stack. As an illustration of this
+behavior, <a href="itads/exercise2/RPNCalculator.java">RPNCalculator.java</a>
+uses a StringVector as stack for implementing
+a <a href="http://en.wikipedia.org/wiki/Reverse_Polish_Notation">Reverse
+Polish Notation</a> (RPN) calculator. Such a calculator is an example
+of <a href="http://en.wikipedia.org/wiki/Stack_machine">stack
+machine</a>, a simple yet powerful computing technique.
+</p>
+
+<p>
+The way it works is that you enter <em>operands</em> (numbers) one per
+line, and each one gets pushed onto a stack. Then you enter an
+<em>operation</em> code, such as <b>+</b> to perform an addition. When
+an operation is encountered, the corresponding operands are popped off the stack, the operation is performed on them, and the result is pushed onto the stack.
+</p>
+
+<p>
+Thus, in order to compute 1+2, you have to enter 1 (return), 2
+(return), and + (return). Try it out by compiling and launching
+RPNCalculator. At the beginning, the RPNCalculator only supports
+additions and substractions. It does not even support a "quit"
+command, so you have to press Control-C to exit from it.
+</p>
+
+<ol>
+ <li>
+  Locate the code which reads the input lines and feeds it to the RPN processing routine.
+ </li>
+ <li>
+  Locate the code which performs operations (additions and substractions).
+ </li>
+ <li>
+  Change the RPN processing routine such that you can also multiply
+  and divide with the calculator.
+ </li>
+ <li>
+  Change the processing routine to add the following commands:
+  <ul>
+   <li><b>h</b> - print a help message listing all available operations</li>
+   <li><b>c</b> - clear the stack</li>
+   <li><b>s</b> - sum up all the numbers on the stack (and place the result back on the stack)</li>
+   <li><b>q</b> - quit the application</li>
+  </ul>
+ </li>
+</ol>
 
 
 
 <h2>exercise 2.3: linked lists</h2>
 
 <p>
-<a href="itads/exercise2/StringList.java">StringList.java</a> is a functioning implementation of a simply linked list of strings <em>(some of the methods are not yet implemented and some fields are still commented-out)</em>.  It needs <a href="itads/exercise2/StringListNode.java">StringListNode.java</a> to store the data along with the pointer to the next element, and it uses <a href="itads/exercise2/StringListIterator.java">StringListIterator.java</a> to make it easier for client code to iterate over all elements.
+<a href="itads/exercise2/StringList.java">StringList.java</a> is a
+functioning implementation of a simply linked list of
+strings <em>(some of the methods are not yet implemented and some
+fields are still commented-out)</em>.  It
+needs <a href="itads/exercise2/StringListNode.java">StringListNode.java</a>
+to store the data along with the pointer to the next element, and it
+uses <a href="itads/exercise2/StringListIterator.java">StringListIterator.java</a>
+to make it easier for client code to iterate over all elements.
 </p>
 
 <ol>
  <li>
-  Implement the method <tt>insertAfter</tt> to support insertion at any location (except the front).
+  Implement the <tt>insert</tt> method to support insertion at
+  (immediately following) any location (except the front).
  </li>
  <li>
-  Write a ...
+   In order to split a random sequence of "o" and "*" such that all
+   "o" are in one block at the beginning of a list, and all "*" are in
+   a block after that, all that needs to be done is to insert items
+   always into the boundary between the already existing
+   blocks. <a href="itads/exercise2/SplitSequence.java">SplitSequence.java</a>
+   is an almost-finished program to illustrate that simple and
+   effective algorithm. Locate the comment which tells you where to
+   add code, and do the necessary changes so that program correctly
+   clusters the "o" and the "*" into two blocks.
  </li>
 </ol>
 
 
+<h2>exercise 2.4 <em>(optional)</em>: detecting cycles in simply linked lists</h2>
 
-<h2>exercise 2.4: linked list iteration</h2>
-
-
-
-<h2>exercise 2.8: sorting gnomes</h2>
+<dl>
+ <dt>Note</dt>
+ <dd>This is exercise 17.4 from the course book</dd>
+</dl>
 
 <p>
-With an iterator which does or doesn't get advanced based on the gnome that last joined the row.
+A linked list contains a cycle if, starting from some node <em>p</em>,
+following a sufficient number of <em>next</em> links brings us back to
+node <em>p</em>. Node <em>p</em> does not have to be the first node in
+the list. Assume that you are given a linked list with an unknown
+number of nodes. Design an algorithm to determine whether the list
+contains a cycle:
 </p>
+
+<ol>
+  <li>
+    You may use extra space proportional to the number of nodes in the
+    list.
+  </li>
+  <li>
+    Now find a better algorithm which requires only very little extra
+    space, and the amount of extra space is independent of the number
+    of nodes in the list. <em>(Hint: Use two iterators that are
+      initially at the start of the list, but advance at different
+      speeds.)</em>
+  </li>
+  <li>
+    Implement your algorithm: use the
+    half-finished <a href="itads/exercise2/DetectCycle.java">DetectCycle.java</a>
+    which contains a test fixture (some code that will call your
+    function and tell you whether it works or not).
+  </li>
+</ol>
 
 
 
 <h2>exercise 2.5: doubly linked list</h2>
 
 <p>
-Simple extension of simply linked list.
+In StringList.java (after you've done exercise 2.3), un-comment the
+fields and methods that relate to doubly linked
+lists: <tt>tail</tt>, <tt>pushBack</tt>, <tt>popBack</tt>,
+and <tt>back</tt>. Implement the methods such that the StringList is
+now doubly linked. This will also require changes to most of the
+existing methods. Check your work by extending the <tt>main</tt>
+method with new tests.
 </p>
 
 
 
-<h2>exercise 2.6: doubly linked list iteration</h2>
-
-
-
-<h2>exercise 2.7: using inheritance to support any data type</h2>
+<h2>exercise 2.7 <em>(optional)</em>: using generics to support any data type</h2>
 
 <p>
-Use a cast...
+The vector and list data structures used in the exercises above are
+all hard-coded to work with strings. This makes them hard to reuse in
+practice, because you would have to copy-paste-edit them for each new
+type of value that you want to store. Instead, it is much better to
+define these data structures using Java generics.
 </p>
 
+<ol>
+  <li>
+    Save StringList.java as List.java and change it so that it
+    supports any type. You can use the
+    generic <a href="itads/exercise2/ListNode.java">ListNode.java</a>
+    and <a href="itads/exercise2/ListIterator.java">ListIterator.java</a>
+    as a starting point, which show you how to make the two necessary
+    ingredients generic. Test your generic list by changing
+    the <tt>main</tt> function to use something other than strings.
+  </li>
+  <li>
+    Do the same with StringVector.java: rename it to Vector.java and
+    do the necessary changes. <b>Note</b> that Java does not allow to
+    create arrays of generics, but you can use a workaround that
+    involves an unchecked type case. Instead of
+    <pre>array = new AnyType [initialCapacity]</pre>
+    you can write
+    <pre>array = (AnyType[]) new Object [initialCapacity]</pre>
+    The Java compiler will issue a warning, but in this case it can
+    safely be ignored.
+  </li>
+</ol>
 
-
-<h2>exercise 2.9: sequence container interfaces</h2>
-
-
-
-<h2>exercise 2.10: stacks</h2>
-
-<h2>exercise 2.11: queues</h2>
-
-<h2>exercise XXX (extra): using generics to support any data type</h2>
