@@ -1,8 +1,8 @@
 import java.util.Random;
 
-public class SplitSequence
+public class SSplitSequence
 {
-    private static StringList list = new StringList();
+    private static SStringList list = new SStringList();
     private static StringListIterator position;
     private static Random rnd = new Random();
     
@@ -13,11 +13,9 @@ public class SplitSequence
 	    position = list.begin();
 	}
 	list.insert(item, position);
-	
-	////////////////////////////////////////////////////
-	// Add code here to make sure the list always has all the "o"
-	// at the beginning and all the "*" at the end.
-	////////////////////////////////////////////////////
+	if (item.equals("o")) {
+	    position.next();
+	}
     }
     
     public static void main(String[] args)
