@@ -3,7 +3,7 @@ import java.io.InputStreamReader;
 
 public class RPNCalculator
 {
-    static private SStringVector stack = new SStringVector(10);
+    static private StringVector stack = new StringVector(10);
     
     static private String process(String input)
     {
