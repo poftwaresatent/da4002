@@ -3,29 +3,29 @@ public class StringListIterator
     /**
        The node which the iterator is currently pointing at.
     */
-    public StringListNode current;
+    public StringListNode node;
     
     
-    public StringListIterator(StringListNode _current)
+    public StringListIterator(StringListNode _node)
     {
-	current = _current;
+	node = _node;
     }
     
     
     public boolean valid()
     {
-	return null != current;
+	return null != node;
     }
     
     
     public String get()
     {
-	return current.value;
+	return node.value;
     }
     
     
     public void next()
     {
-	current = current.next;
+	node = node.next;
     }
 }
