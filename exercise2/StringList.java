@@ -29,6 +29,13 @@ public class StringList
     }
     
     
+    public void insertAfter(String value, StringListIterator position)
+    {
+	// Write a method which inserts the given value such that it
+	// ends up as the next element after the given position.
+    }
+    
+    
     public boolean empty()
     {
 	// Write a method which determines whether the StringList is

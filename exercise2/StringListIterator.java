@@ -3,7 +3,7 @@ public class StringListIterator
     /**
        The node which the iterator is currently pointing at.
     */
-    private StringListNode current;
+    public StringListNode current;
     
     
     public StringListIterator(StringListNode _current)
@@ -22,6 +22,7 @@ public class StringListIterator
     {
 	return current.value;
     }
+    
     
     public void next()
     {
