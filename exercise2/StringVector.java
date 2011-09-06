@@ -36,18 +36,18 @@ public class StringVector
     }
     
     
-    public String get(int index)
+    public String at(int index)
     {
 	// Write a method which returns the element stored at the
 	// index given as argument.
-	return "IMPLEMENT METHOD StringVector.get";
+	return "IMPLEMENT ME!";
     }
     
     
-    public String getBack()
+    public String back()
     {
 	// Write a method which returns the last element.
-	return "IMPLEMENT METHOD StringVector.getBack";
+	return "IMPLEMENT ME!";
     }
     
     
@@ -92,7 +92,7 @@ public class StringVector
 	// testing the correctness of each method with the help of a
 	// little example code?
 	
-	StringVector sv = new StringVector(64);
+	StringVector sv = new StringVector(1);
 	
 	sv.pushBack("hello");
 	for (int ii = 0; ii < 3; ++ii) {
@@ -109,6 +109,7 @@ public class StringVector
 	}
 	
 	sv.clear();
+	sv.print("* ");
 	
 	if (sv.empty()) {
 	    System.out.println("the StringVector is empty");
@@ -120,11 +121,15 @@ public class StringVector
 	sv.pushBack("one");
 	sv.pushBack("two");
 	sv.pushBack("three");
+	for (int ii = 0; ii < sv.size(); ++ii) {
+	    System.out.print(" " + sv.at(ii));
+	}
+	System.out.println();
 	
 	System.out.println("the StringVector contains " + sv.size() + " elements");
 	sv.print("* ");
 	while ( ! sv.empty()) {
-	    System.out.println("  pop " + sv.getBack());
+	    System.out.println("  pop " + sv.back());
 	    sv.popBack();
 	    sv.print("  - ");
 	}
