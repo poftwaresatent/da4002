@@ -1,7 +1,16 @@
 public class StringVector
 {
-    // As you implement each of the methods, add the required fields
-    // here.
+    /**
+       The array field contains the underlying data storage.
+    */
+    private String[] array;
+    
+    /**
+       The size field tracks the current size of the StringVector,
+       independently from array.length (which is the current
+       capacity).
+    */
+    private int size;
     
     
     public StringVector(int initialCapacity)
@@ -87,10 +96,6 @@ public class StringVector
 	// The main method tries out the effects of the various
 	// StringVector methods. Run it to make sure your
 	// implementations are correct.
-	//
-	// Optional: can you think of good ways for automatically
-	// testing the correctness of each method with the help of a
-	// little example code?
 	
 	StringVector sv = new StringVector(1);
 	
