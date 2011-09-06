@@ -1,6 +1,6 @@
 import java.util.Random;
 
-public class DetectCycle
+public class SDetectCycle
 {
     static private Random rnd = new Random();
     
@@ -33,9 +33,19 @@ public class DetectCycle
     
     static private boolean detectCycle(StringList list)
     {
-	//////////////////////////////////////////////////
-	// Add your code here.
-	//////////////////////////////////////////////////
+	StringListIterator fast = list.begin();
+	StringListIterator slow = list.begin();
+	while (fast.valid()) {
+	    fast.next();
+	    if ( ! fast.valid()) {
+		return false;
+	    }
+	    if (fast.node == slow.node) {
+		return true;
+	    }
+	    slow.next();
+	    fast.next();
+	}
 	return false;
     }
     
