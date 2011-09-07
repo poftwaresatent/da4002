@@ -1,5 +1,3 @@
-package exercise2;
-
 public class ListIterator<AnyType>
 {
     /**

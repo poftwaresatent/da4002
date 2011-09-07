@@ -2,9 +2,13 @@ SRCS= $(wildcard *.java)
 OBJS= $(SRCS:.java=.class) 
 
 JC= javac
-JCFLAGS= -classpath ../..
+JCFLAGS=
 
 all: $(OBJS)
+
+re: clean
+	touch $(SRCS)
+	$(MAKE) all
 
 doc: $(SRCS)
 	javadoc -d doc $(SRCS)

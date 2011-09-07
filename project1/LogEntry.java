@@ -1,5 +1,3 @@
-package project1;
-
 /**
    A log book entry, which is just an (x,y) coordinate pair.
 */

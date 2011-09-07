@@ -1,5 +1,3 @@
-package exercise2;
-
 /**
    A list of strings. At the beginning of exercise 2, StringList is
    singly linked and does no error checking.

@@ -1,7 +1,3 @@
-package project1;
-
-import exercise2.solution.*;
-
 public class SequenceComplexity
 {
     public static void pushBenchmark()

@@ -1,5 +1,3 @@
-package exercise2;
-
 public class List<AnyType>
 {
     /**
