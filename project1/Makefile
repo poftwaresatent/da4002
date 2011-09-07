@@ -1,7 +1,14 @@
 SRCS= $(wildcard *.java)
 OBJS= $(SRCS:.java=.class) 
 
+JC= javac
+JCFLAGS= -classpath .:..
+
 all: $(OBJS)
+
+re: clean
+	touch $(SRCS)
+	$(MAKE) all
 
 doc: $(SRCS)
 	javadoc -d doc $(SRCS)
@@ -12,4 +19,4 @@ clean:
 .SUFFIXES: .java .class
 
 .java.class:
-	javac $<
+	$(JC) $(JCFLAGS) $<
