@@ -1,3 +1,5 @@
+package exercise2;
+
 import java.util.Random;
 
 public class DetectCycle

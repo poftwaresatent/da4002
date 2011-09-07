@@ -1,3 +1,5 @@
+package exercise2;
+
 public class Vector<AnyType>
 {
     /**

@@ -1,3 +1,5 @@
+package exercise2.solution;
+
 public class SStringVector
 {
     /**

@@ -2,7 +2,7 @@ SRCS= $(wildcard *.java)
 OBJS= $(SRCS:.java=.class) 
 
 JC= javac
-JCFLAGS= -classpath ..
+JCFLAGS= -classpath ../..
 
 all: $(OBJS)
 

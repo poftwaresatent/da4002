@@ -1,3 +1,6 @@
+package exercise2.solution;
+
+import exercise2.*;
 import java.util.Random;
 
 public class SDetectCycle
