@@ -1,6 +1,6 @@
 package exercise2.solution;
 
-public class SStringVector
+public class StringVector
 {
     /**
        The array field contains the underlying data storage.
@@ -8,14 +8,14 @@ public class SStringVector
     private String[] array;
     
     /**
-       The size field tracks the current size of the SStringVector,
+       The size field tracks the current size of the StringVector,
        independently from array.length (which is the current
        capacity).
     */
     private int size;
     
     
-    public SStringVector(int initialCapacity)
+    public StringVector(int initialCapacity)
     {
 	array = new String [initialCapacity];
 	size = 0;
@@ -88,10 +88,10 @@ public class SStringVector
     public static void main(String [] args)
     {
 	// The main method tries out the effects of the various
-	// SStringVector methods. Run it to make sure your
+	// StringVector methods. Run it to make sure your
 	// implementations are correct.
 	
-	SStringVector sv = new SStringVector(1);
+	StringVector sv = new StringVector(1);
 	
 	sv.pushBack("hello");
 	for (int ii = 0; ii < 3; ++ii) {
@@ -101,20 +101,20 @@ public class SStringVector
 	sv.print("* ");
 	
 	if (sv.empty()) {
-	    System.out.println("the SStringVector is empty");
+	    System.out.println("the StringVector is empty");
 	}
 	else {
-	    System.out.println("the SStringVector is not empty");
+	    System.out.println("the StringVector is not empty");
 	}
 	
 	sv.clear();
 	sv.print("* ");
 	
 	if (sv.empty()) {
-	    System.out.println("the SStringVector is empty");
+	    System.out.println("the StringVector is empty");
 	}
 	else {
-	    System.out.println("the SStringVector is not empty");
+	    System.out.println("the StringVector is not empty");
 	}
 	
 	sv.pushBack("one");
@@ -125,7 +125,7 @@ public class SStringVector
 	}
 	System.out.println();
 	
-	System.out.println("the SStringVector contains " + sv.size() + " elements");
+	System.out.println("the StringVector contains " + sv.size() + " elements");
 	sv.print("* ");
 	while ( ! sv.empty()) {
 	    System.out.println("  pop " + sv.back());

@@ -9,7 +9,7 @@ import exercise2.*;
    <b>Update this documentation</b> when you are done with the
    exercise.
 */
-public class SStringList
+public class StringList
 {
     /**
        The head is the first node of the list. In case of an empty
@@ -138,7 +138,7 @@ public class SStringList
 	// StringList methods. Run it to make sure your
 	// implementations are correct.
 	
-	SStringList sl = new SStringList();
+	StringList sl = new StringList();
 	
 	System.out.println("pushing some things onto the list...");
 	
@@ -152,10 +152,10 @@ public class SStringList
 	sl.print("  * ");
 	
 	if (sl.empty()) {
-	    System.out.println("the SStringList is empty");
+	    System.out.println("the StringList is empty");
 	}
 	else {
-	    System.out.println("the SStringList is not empty");
+	    System.out.println("the StringList is not empty");
 	}
 	
 	System.out.println("clearing the list...");
@@ -166,10 +166,10 @@ public class SStringList
 	sl.print("  * ");
 	
 	if (sl.empty()) {
-	    System.out.println("the SStringList is empty");
+	    System.out.println("the StringList is empty");
 	}
 	else {
-	    System.out.println("the SStringList is not empty");
+	    System.out.println("the StringList is not empty");
 	}
 	
 	System.out.println("pushing some things onto the list...");
