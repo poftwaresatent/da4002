@@ -15,8 +15,30 @@ public class StringVector
     
     public StringVector(int initialCapacity)
     {
-	array = new String [initialCapacity];
+	array = new String[initialCapacity];
 	size = 0;
+    }
+    
+    
+    public StringVector(String[] original)
+    {
+	if (original.length == 0) {
+	    array = new String[1];
+	    size = 0;
+	}
+	else {
+	    array = new String[original.length];
+	    for (int ii = 0; ii < original.length; ++ii) {
+		array[ii] = original[ii];
+	    }
+	    size = original.length;
+	}
+    }
+    
+    
+    public StringVector(StringVector original)
+    {
+	this(original.raw());
     }
     
     
@@ -57,6 +79,12 @@ public class StringVector
     }
     
     
+    public String[] raw()
+    {
+	return array;
+    }
+    
+    
     public int size()
     {
 	return size;
@@ -75,8 +103,11 @@ public class StringVector
     }
     
     
-    public void print(String prefix)
+    public void print(String title, String prefix)
     {
+	if (title.length() != 0) {
+	    System.out.println(title);
+	}
 	for (int ii = 0; ii < size; ++ii) {
 	    System.out.println(prefix + array[ii]);
 	}
@@ -96,7 +127,7 @@ public class StringVector
 	    sv.pushBack(" " + ii);
 	}
 	sv.pushBack("byebye!");
-	sv.print("* ");
+	sv.print("init:", "* ");
 	
 	if (sv.empty()) {
 	    System.out.println("the StringVector is empty");
@@ -106,7 +137,7 @@ public class StringVector
 	}
 	
 	sv.clear();
-	sv.print("* ");
+	sv.print("after clearing:", "* ");
 	
 	if (sv.empty()) {
 	    System.out.println("the StringVector is empty");
@@ -124,11 +155,11 @@ public class StringVector
 	System.out.println();
 	
 	System.out.println("the StringVector contains " + sv.size() + " elements");
-	sv.print("* ");
+	sv.print("before popping:", "* ");
 	while ( ! sv.empty()) {
-	    System.out.println("  pop " + sv.back());
+	    System.out.println("pop " + sv.back());
 	    sv.popBack();
-	    sv.print("  - ");
+	    sv.print("  result:", "  - ");
 	}
     }
 }
