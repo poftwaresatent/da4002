@@ -39,6 +39,22 @@ public class StringVector
     }
     
     
+    //// This was not part of the exercise, but illustrates what needs
+    //// to be done in order to insert elements into the middle of the
+    //// vector.
+    public void insertAt(String value, int index)
+    {
+	if (size >= array.length) {
+	    grow();
+	}
+	for (int ii = size; ii > index; --ii) {
+	    array[ii] = array[ii-1];
+	}
+	array[index] = value;
+	++size;
+    }
+
+
     public void popBack()
     {
 	--size;
@@ -130,5 +146,14 @@ public class StringVector
 	    sv.popBack();
 	    sv.print("  - ");
 	}
+	
+	sv.clear();
+	sv.pushBack("one");
+	sv.pushBack("two");
+	sv.pushBack("three");
+	sv.print(" before  ");
+	sv.insertAt("HELLO", 1);
+	sv.print(" after  ");
+	
     }
 }
