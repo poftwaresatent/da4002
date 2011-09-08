@@ -13,6 +13,21 @@ public class StringList
     */
     private StringListNode head;
     
+    
+    public StringList()
+    {
+	head = null;
+    }
+    
+    
+    public StringList(String[] original)
+    {
+	for (int ii = original.length - 1; ii >= 0; --ii) {
+	    pushFront(original[ii]);
+	}
+    }
+    
+    
     // Add this field when changing StringList into a doubly-linked list
     //
     // private StringListNode tail;
@@ -239,7 +254,5 @@ public class StringList
 	sl.insertBefore("--22", pos);
 	sl.insertBefore("--33", pos);
 	sl.print("result:", "  * ");
-	
-	
     }
 }
