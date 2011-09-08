@@ -1,4 +1,4 @@
-public class MergeSort
+public class InsertionSort
 {
     static private void dump(String title, int[] array, int ii)
     {
