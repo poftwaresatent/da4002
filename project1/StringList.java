@@ -23,8 +23,7 @@ public class StringList
     */
     public void pushFront(String value)
     {
-	StringListNode node = new StringListNode(value);
-	node.next = head;
+	StringListNode node = new StringListNode(value, head);
 	head = node;
     }
     
@@ -74,15 +73,22 @@ public class StringList
     // }
     
     
-    public void insert(String value, StringListIterator position)
+    public void insertAfter(String value, StringListIterator position)
     {
-	StringListNode node = new StringListNode(value);
-	node.next = position.node.next;
+	StringListNode node = new StringListNode(value, position.node.next);
 	position.node.next = node;
     }
     
     
-    public void remove(StringListIterator position)
+    public void insertBefore(String value, StringListIterator position)
+    {
+	StringListNode node = new StringListNode(position.node.value, position.node.next);
+	position.node.value = value;
+	position.node.next = node;
+    }
+    
+    
+    public void removeAfter(StringListIterator position)
     {
 	position.node.next = position.node.next.next;
     }
@@ -116,12 +122,28 @@ public class StringList
     
     
     /**
+       No error checking, the list must not be empty.
+    */
+    public StringListNode findLastNode()
+    {
+	StringListNode node = head;
+	while (node.next != null) {
+	    node = node.next;
+	}
+	return node;
+    }
+    
+    
+    /**
        Prints all elements of the list on a separate line of
        System.out. Each line is prefixed with the given string to
        allow a basic form of custom formatting.
     */
-    public void print(String prefix)
+    public void print(String title, String prefix)
     {
+	if (title.length() != 0) {
+	    System.out.println(title);
+	}
 	for (StringListNode current = head; null != current; current = current.next) {
 	    System.out.println(prefix + current.value);
 	}
@@ -144,8 +166,7 @@ public class StringList
 	}
 	sl.pushFront("byebye!");
 	
-	System.out.println("result:");
-	sl.print("  * ");
+	sl.print("result:", " * ");
 	
 	if (sl.empty()) {
 	    System.out.println("the StringList is empty");
@@ -158,8 +179,7 @@ public class StringList
 
 	sl.clear();
 
-	System.out.println("result:");
-	sl.print("  * ");
+	sl.print("result:", "  * ");
 	
 	if (sl.empty()) {
 	    System.out.println("the StringList is empty");
@@ -183,8 +203,43 @@ public class StringList
 	while ( ! sl.empty()) {
 	    System.out.println("popping " + sl.front());
 	    sl.popFront();
-	    System.out.println("result:");
-	    sl.print("  * ");
+	    sl.print("result:", "  * ");
 	}
+	
+	System.out.print("Inserting some nodes after the head...");
+	
+	sl.pushFront("first node");
+	StringListIterator pos = sl.begin();
+	sl.insertAfter("11", pos);
+	sl.insertAfter("22", pos);
+	sl.insertAfter("33", pos);
+	sl.print("result:", "  * ");
+	
+	System.out.print("Inserting some nodes before the head...");
+	
+	sl.insertBefore("-1", pos);
+	sl.insertBefore("-2", pos);
+	sl.insertBefore("-3", pos);
+	sl.print("result:", "  * ");
+	
+	System.out.print("Inserting some nodes after the last...");
+	
+	pos.node = sl.findLastNode();
+	pos.node.value = "the last node (at first)";
+	sl.insertAfter("1111", pos);
+	sl.insertAfter("2222", pos);
+	sl.insertAfter("3333", pos);
+	sl.print("result:", "  * ");
+	
+	System.out.print("Inserting some nodes before the last...");
+	
+	pos.node = sl.findLastNode();
+	pos.node.value = "the last node (really)";
+	sl.insertBefore("--11", pos);
+	sl.insertBefore("--22", pos);
+	sl.insertBefore("--33", pos);
+	sl.print("result:", "  * ");
+	
+	
     }
 }
