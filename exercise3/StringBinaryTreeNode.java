@@ -13,9 +13,9 @@ public class StringBinaryTreeNode
         right   = _right;
     }
     
-    public StringBinaryTreeNode()
+    public StringBinaryTreeNode(String value)
     {
-        this(null, null, null);
+        this(value, null, null);
     }
     
     public int computeSize()
