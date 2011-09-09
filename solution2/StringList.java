@@ -1,9 +1,8 @@
 /**
-   A list of strings. At the beginning of exercise 2, StringList is
-   singly linked and does no error checking.
-   
-   <b>Update this documentation</b> when you are done with the
-   exercise.
+   A doubly-linked list of strings. It uses raw head and tail
+   references, instead of the example in the course book which uses
+   "dummy" head and tail nodes to reduce some of the special case
+   handling required here.
 */
 public class StringList
 {
@@ -13,18 +12,20 @@ public class StringList
     */
     private StringListNode head;
     
+    /**
+       The tail is the last node. Like the head, it is null when the list is empty.
+    */
     private StringListNode tail;
     
     
     /**
-       Insert a given value at the front of the list.
+       Prepend a value to the list.
     */
     public void pushFront(String value)
     {
 	StringListNode node = new StringListNode(value);
 	node.next = head;
-	if (null == head) {
-	    // this is the first time we add something to the list
+	if (null == head) {	// the list was empty
 	    tail = node;
 	}
 	else {
@@ -35,17 +36,14 @@ public class StringList
     
     
     /**
-       Delete the first list item. This will result in the second item
-       becoming the new head, unless of course there are no more
-       elements. <b>No error checking</b> is performed, calling
-       popFront on an empty list will result in a null pointer
-       exception. Use the empty() to check for emptyness.
+       Delete the first list item. <b>No error checking</b> is
+       performed: calling popFront on an empty list is an error. Use
+       the empty() method to check for emptyness.
     */
     public void popFront()
     {
 	head = head.next;
-	if (null == head) {
-	    // the list is now empty
+	if (null == head) {	// the list is now empty
 	    tail = null;
 	}
 	else {
@@ -56,8 +54,9 @@ public class StringList
     
     /**
        Retrieve the value which is stored in the first element of the
-       list. <b>No error checking</b> is performed: use the empty()
-       method to find out whether there is anything to retrieve.
+       list. <b>No error checking</b> is performed: it is an error to
+       call this method on an empty list. Use the empty() method to
+       check for emptyness.
     */
     public String front()
     {
@@ -65,11 +64,13 @@ public class StringList
     }
     
     
+    /**
+       Append a value to the list.
+    */
     public void pushBack(String value)
     {
 	StringListNode node = new StringListNode(value);
-	if (null == tail) {
-	    // this is the first time we add something to the list
+	if (null == tail) {	// the list was empty
 	    head = node;
 	    tail = node;
 	    return;
@@ -80,6 +81,11 @@ public class StringList
     }
     
     
+    /**
+       Delete the last item from the list. <b>No error checking</b> is
+       performed: calling popBack on an empty list is an error. Use
+       the empty() method to check for emptyness.
+    */
     public void popBack()
     {
 	tail = tail.prev;
@@ -92,12 +98,22 @@ public class StringList
     }
     
     
+    /**
+       Retrieve the value which is stored in the last element of the
+       list. <b>No error checking</b> is performed: it is an error to
+       call this method on an empty list. Use the empty() method to
+       check for emptyness.
+    */
     public String back()
     {
 	return tail.value;
     }
     
     
+    /**
+       Insert a value into the list such that it comes after the
+       specified position.
+    */
     public void insertAfter(String value, StringListIterator position)
     {
 	StringListNode node = new StringListNode(value, position.node, position.node.next);
@@ -111,6 +127,10 @@ public class StringList
     }
     
     
+    /**
+       Insert a value into the list such that it comes before the
+       specified position.
+    */
     public void insertBefore(String value, StringListIterator position)
     {
 	StringListNode node = new StringListNode(value, position.node.prev, position.node);
@@ -124,6 +144,9 @@ public class StringList
     }
     
     
+    /**
+       Remove an item (specified by its position) from the list.
+    */
     public void remove(StringListIterator position)
     {
 	if (head == position.node) {
@@ -176,7 +199,11 @@ public class StringList
     }
     
     
-    private static void pstring(String val, int width)
+    /**
+       Helper method which prints a string and then some empty space
+       until the given width is reached.
+    */
+    public static void pstring(String val, int width)
     {
 	System.out.print(val);
 	for (int rem = width - val.length(); rem > 0; --rem) {
@@ -187,8 +214,9 @@ public class StringList
     
     /**
        Prints all elements of the list on a separate line of
-       System.out. Each line is prefixed with the given string to
-       allow a basic form of custom formatting.
+       System.out. If a title is given, that is printed first. Then
+       each list item, along with its prev and next items (for
+       debugging).
     */
     public void print(String title, String prefix, int colwidth)
     {
@@ -223,12 +251,12 @@ public class StringList
     }
     
     
+    /***
+	The main method tries out the effects of the various
+	StringList methods.
+    */
     public static void main(String [] args)
     {
-	// The main method tries out the effects of the various
-	// StringList methods. Run it to make sure your
-	// implementations are correct.
-	
 	StringList sl = new StringList();
 	
 	sl.pushFront("hello");
