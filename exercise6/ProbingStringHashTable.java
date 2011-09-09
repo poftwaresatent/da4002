@@ -1,3 +1,6 @@
+import java.io.*;
+import java.util.*;
+
 public class ProbingStringHashTable
 {
     int[] dataHash;		// -2 means unused, -1 means deleted
@@ -111,7 +114,7 @@ public class ProbingStringHashTable
 	}
     }
     
-    static public void main(String[] args)
+    static public void demo()
     {
 	ProbingStringHashTable ht = new ProbingStringHashTable(5);
 	ht.print("freshly baked", "  ");
@@ -144,5 +147,44 @@ public class ProbingStringHashTable
 	ht.insert("duplicate");
 	ht.insert("duplicate");
 	ht.print("after 4 duplicates", "  ");
+    }
+    
+    static public void main(String[] args)
+    {
+	// Yes, it's wasteful to to create two new objects at the risk
+	// of just throwing them away again. But Java is not able to
+	// figure out that the "in" variable is always initialized by
+	// the time we try to read from it... and flags it as an
+	// error. Really annoying.
+	//
+	BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
+	
+	if (0 < args.length) {
+	    try{
+		in = new BufferedReader(new FileReader(args[0]));
+	    }
+	    catch (FileNotFoundException ee) {
+		System.out.println(args[0] + ": no such file");
+		System.exit(42);
+	    }
+	}
+	
+	ProbingStringHashTable ht = new ProbingStringHashTable(26);
+	String line;
+	outer:
+	try {
+	    while (null != (line = in.readLine())) {
+		StringTokenizer st = new StringTokenizer(line);
+		while (st.hasMoreTokens()) {
+		    if ( ! ht.insert(st.nextToken())) {
+			System.out.println("OOPS: more input than capacity, aborting");
+			break outer;
+		    }
+		}
+	    }
+	}
+	catch (IOException ee) {
+	}
+	ht.print("", "");
     }
 }
