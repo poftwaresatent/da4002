@@ -13,9 +13,7 @@ public class StringList
     */
     private StringListNode head;
     
-    // Add this field when changing StringList into a doubly-linked list
-    //
-    // private StringListNode tail;
+    private StringListNode tail;
     
     
     /**
@@ -25,6 +23,13 @@ public class StringList
     {
 	StringListNode node = new StringListNode(value);
 	node.next = head;
+	if (null == head) {
+	    // this is the first time we add something to the list
+	    tail = node;
+	}
+	else {
+	    head.prev = node;
+	}
 	head = node;
     }
     
@@ -39,6 +44,13 @@ public class StringList
     public void popFront()
     {
 	head = head.next;
+	if (null == head) {
+	    // the list is now empty
+	    tail = null;
+	}
+	else {
+	    head.prev = null;
+	}
     }
     
     
@@ -51,40 +63,79 @@ public class StringList
     {
 	return head.value;
     }
-
-    
-    // Add this method when changing StringList into a doubly-linked list
-    //
-    // public void pushBack(String value)
-    // {
-    // }
     
     
-    // Add this method when changing StringList into a doubly-linked list
-    //
-    // public void popBack()
-    // {
-    // }
-    
-    
-    // Add this method when changing StringList into a doubly-linked list
-    //
-    // public String back()
-    // {
-    // }
-    
-    
-    public void insert(String value, StringListIterator position)
+    public void pushBack(String value)
     {
 	StringListNode node = new StringListNode(value);
-	node.next = position.node.next;
+	if (null == tail) {
+	    // this is the first time we add something to the list
+	    head = node;
+	    tail = node;
+	    return;
+	}
+	tail.next = node;
+	node.prev = tail;
+	tail = node;
+    }
+    
+    
+    public void popBack()
+    {
+	tail = tail.prev;
+	if (null == tail) {
+	    // the list is now empty
+	    head = null;
+	    return;
+	}
+	tail.next = null;
+    }
+    
+    
+    public String back()
+    {
+	return tail.value;
+    }
+    
+    
+    public void insertAfter(String value, StringListIterator position)
+    {
+	StringListNode node = new StringListNode(value, position.node, position.node.next);
 	position.node.next = node;
+	if (tail == position.node) {
+	    tail = node;
+	}
+	else {
+	    node.next.prev = node;
+	}
+    }
+    
+    
+    public void insertBefore(String value, StringListIterator position)
+    {
+	StringListNode node = new StringListNode(value, position.node.prev, position.node);
+	position.node.prev = node;
+	if (head == position.node) {
+	    head = node;
+	}
+	else {
+	    node.prev.next = node;
+	}
     }
     
     
     public void remove(StringListIterator position)
     {
-	position.node.next = position.node.next.next;
+	if (head == position.node) {
+	    popFront();
+	    return;
+	}
+	if (tail == position.node) {
+	    popBack();
+	    return;
+	}
+	position.node.prev.next = position.node.next;
+	position.node.next.prev = position.node.prev;
     }
     
     
@@ -103,15 +154,34 @@ public class StringList
     public void clear()
     {
 	head = null;
+	tail = null;
     }
     
     
     /**
        Creates an iterator that starts at the beginning of the list.
     */
-    public StringListIterator begin()
+    public StringListIterator first()
     {
 	return new StringListIterator(head);
+    }
+    
+    
+    /**
+       Creates an iterator that starts at the end of the list.
+    */
+    public StringListIterator last()
+    {
+	return new StringListIterator(tail);
+    }
+    
+    
+    private static void pstring(String val, int width)
+    {
+	System.out.print(val);
+	for (int rem = width - val.length(); rem > 0; --rem) {
+	    System.out.print(" ");
+	}
     }
     
     
@@ -120,11 +190,36 @@ public class StringList
        System.out. Each line is prefixed with the given string to
        allow a basic form of custom formatting.
     */
-    public void print(String prefix)
+    public void print(String title, String prefix, int colwidth)
     {
-	for (StringListNode current = head; null != current; current = current.next) {
-	    System.out.println(prefix + current.value);
+	if (0 < title.length()) {
+	    System.out.println(title);
 	}
+	if (null == head) {
+	    System.out.println(prefix + "(empty list)");
+	    return;
+	}
+	System.out.println(prefix + "head: " + head.value);
+	for (StringListNode current = head; null != current; current = current.next) {
+	    System.out.print(prefix);
+	    pstring(current.value, colwidth);
+	    System.out.print("p: ");
+	    if (null == current.prev) {
+		pstring("(null)", colwidth);
+	    }
+	    else {
+		pstring(current.prev.value, colwidth);
+	    }
+	    System.out.print("n: ");
+	    if (null == current.next) {
+		pstring("(null)", colwidth);
+	    }
+	    else {
+		pstring(current.next.value, colwidth);
+	    }
+	    System.out.println();
+	}
+	System.out.println(prefix + "tail: " + tail.value);
     }
     
     
@@ -136,55 +231,63 @@ public class StringList
 	
 	StringList sl = new StringList();
 	
-	System.out.println("pushing some things onto the list...");
-	
 	sl.pushFront("hello");
 	for (int ii = 0; ii < 3; ++ii) {
 	    sl.pushFront(" " + ii);
 	}
 	sl.pushFront("byebye!");
+	sl.print("after 5 pushFront", "  * ", 10);
 	
-	System.out.println("result:");
-	sl.print("  * ");
-	
-	if (sl.empty()) {
-	    System.out.println("the StringList is empty");
-	}
-	else {
-	    System.out.println("the StringList is not empty");
-	}
-	
-	System.out.println("clearing the list...");
-
 	sl.clear();
-
-	System.out.println("result:");
-	sl.print("  * ");
+	sl.print("after clear", "  * ", 10);
 	
-	if (sl.empty()) {
-	    System.out.println("the StringList is empty");
-	}
-	else {
-	    System.out.println("the StringList is not empty");
-	}
-	
-	System.out.println("pushing some things onto the list...");
-	
-	sl.pushFront("one");
-	sl.pushFront("two");
-	sl.pushFront("three");
+	sl.pushBack("one");
+	sl.pushBack("two");
+	sl.pushBack("three");
+	sl.print("after 3 pushBack", "  * ", 10);
 
 	System.out.print("using the iterator:");
-	for (StringListIterator ii = sl.begin(); ii.valid(); ii.next()) {
+	for (StringListIterator ii = sl.first(); ii.valid(); ii.next()) {
 	    System.out.print(" " + ii.get());
 	}
 	System.out.println();
 	
 	while ( ! sl.empty()) {
-	    System.out.println("popping " + sl.front());
+	    System.out.println("pop front (" + sl.front() + ")");
 	    sl.popFront();
 	    System.out.println("result:");
-	    sl.print("  * ");
+	    sl.print("  result", "    - ", 10);
 	}
+	
+	sl.pushBack("a1");
+	sl.pushBack("a2");
+	sl.print("after 3 pushBack", "  * ", 10);
+
+	sl.insertAfter("b1", sl.first());
+	sl.print("inserted after the head", "  * ", 10);
+	
+	sl.insertAfter("b2", sl.last());
+	sl.print("inserted after the tail", "  * ", 10);
+
+	sl.insertBefore("c1", sl.first());
+	sl.print("inserted before the head", "  * ", 10);
+	
+	sl.insertBefore("c2", sl.last());
+	sl.print("inserted before the tail", "  * ", 10);
+	
+	for (StringListIterator ii = sl.first(); ii.valid(); ii.next()) {
+	    ii.next();
+	    if (ii.valid()) {
+		sl.remove(ii);
+	    }
+	}
+	sl.print("after removing nodes number 2, 4, ...", "  * ", 10);
+	
+	sl.remove(sl.first());
+	sl.print("after removing first node", "  * ", 10);
+	
+	sl.remove(sl.last());
+	sl.print("after last node", "  * ", 10);
     }
+    
 }
