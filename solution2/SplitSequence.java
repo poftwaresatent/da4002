@@ -10,9 +10,9 @@ public class SplitSequence
     {
 	if (null == position) {
 	    list.pushFront("dummy"); // will be removed after processing
-	    position = list.begin();
+	    position = list.first();
 	}
-	list.insert(item, position);
+	list.insertAfter(item, position);
 	if (item.equals("o")) {
 	    position.next();
 	}
@@ -34,7 +34,7 @@ public class SplitSequence
 	System.out.println();
 	
 	list.popFront();	// remove the dummy element
-	for (StringListIterator ii = list.begin(); ii.valid(); ii.next()) {
+	for (StringListIterator ii = list.first(); ii.valid(); ii.next()) {
 	    System.out.print(ii.get());
 	}
 	System.out.println();

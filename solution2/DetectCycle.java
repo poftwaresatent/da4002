@@ -18,11 +18,11 @@ public class DetectCycle
 	for (int ii = 0; ii < length; ++ii) {
 	    list.pushFront("" + rnd.nextInt(100));
 	    if (0 == ii) {
-		last = list.begin();
+		last = list.first();
 	    }
 	}
 	if (0 <= cyclePosition) {
-	    StringListIterator cycle = list.begin();
+	    StringListIterator cycle = list.first();
 	    for (int ii = 0; ii < cyclePosition; ++ii) {
 		cycle.next();
 	    }
@@ -33,8 +33,8 @@ public class DetectCycle
     
     static private boolean detectCycle(StringList list)
     {
-	StringListIterator fast = list.begin();
-	StringListIterator slow = list.begin();
+	StringListIterator fast = list.first();
+	StringListIterator slow = list.first();
 	while (fast.valid()) {
 	    fast.next();
 	    if ( ! fast.valid()) {
