@@ -114,6 +114,18 @@ public class ProbingStringHashTable
 	}
     }
     
+    public void printCompact(String title, String prefix)
+    {
+	if (0 != title.length()) {
+	    System.out.println(title);
+	}
+	for (int ii = 0; ii < dataHash.length; ++ii) {
+	    if (0 <= dataHash[ii]) {
+		System.out.println(prefix + dataValue[ii]);
+	    }
+	}
+    }
+    
     static public void demo()
     {
 	ProbingStringHashTable ht = new ProbingStringHashTable(5);
@@ -169,7 +181,7 @@ public class ProbingStringHashTable
 	    }
 	}
 	
-	ProbingStringHashTable ht = new ProbingStringHashTable(26);
+	ProbingStringHashTable ht = new ProbingStringHashTable(100);
 	String line;
 	outer:
 	try {
@@ -185,6 +197,6 @@ public class ProbingStringHashTable
 	}
 	catch (IOException ee) {
 	}
-	ht.print("", "");
+	ht.printCompact("", "");
     }
 }
