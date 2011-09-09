@@ -9,8 +9,8 @@ public class StringBinaryTreeNode
 				StringBinaryTreeNode _right)
     {
 	value = _value;
-        left    = _left;
-        right   = _right;
+        left = _left;
+        right = _right;
     }
     
     public StringBinaryTreeNode(String value)
