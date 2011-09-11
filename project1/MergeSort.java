@@ -10,7 +10,7 @@ public class MergeSort
     }
     
     
-    static public void sort(String[] array, String[] tmp, int begin, int end)
+    static private void doSort(String[] array, String[] tmp, int begin, int end)
     {
 	int length = end - begin;
 	if (length <= 1) {
@@ -18,29 +18,25 @@ public class MergeSort
 	}
 	
 	int middle = begin + length / 2;
-	sort(array, tmp, begin, middle);
-	sort(array, tmp, middle, end);
+	doSort(tmp, array, begin, middle);
+	doSort(tmp, array, middle, end);
 	
 	int ii = begin;
 	int jj = middle;
 	int kk = begin;
 	while (ii < middle && jj < end) {
-	    if (array[ii].compareTo(array[jj]) < 0) {
-		tmp[kk++] = array[ii++];
+	    if (tmp[ii].compareTo(tmp[jj]) < 0) {
+		array[kk++] = tmp[ii++];
 	    }
 	    else {
-		tmp[kk++] = array[jj++];
+		array[kk++] = tmp[jj++];
 	    }
 	}
 	while (ii < middle) {
-	    tmp[kk++] = array[ii++];
+	    array[kk++] = tmp[ii++];
 	}
 	while (jj < end) {
-	    tmp[kk++] = array[jj++];
-	}
-	
-	for (ii = begin; ii < end; ++ii) {
-	    array[ii] = tmp[ii];
+	    array[kk++] = tmp[jj++];
 	}
     }
     
@@ -48,13 +44,16 @@ public class MergeSort
     static public void sort(StringVector sv)
     {
 	String[] tmp = new String[sv.size()];
-	sort(sv.raw(), tmp, 0, sv.size());
+	for (int ii = 0; ii < sv.size(); ++ii) {
+	    tmp[ii] = sv.at(ii);
+	}
+	doSort(sv.raw(), tmp, 0, sv.size());
     }
     
     
     static public void main(String[] args)
     {
-	String[] dataset = Factory.createRandomStrings(10);
+	String[] dataset = Factory.createRandomStrings(7);
 	StringVector sv = new StringVector(dataset);
 
 	sv.print("StringVector before:", "  ");
