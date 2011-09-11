@@ -49,7 +49,7 @@ public class MergeSort
     }
     
     
-    static public void sort(StringVector sv)
+    static public void sort(String[] array, int effectiveLength)
     {
 	// In order to do the merge, we need a temporary array as
 	// scratch area. In order to avoid creating and destroying
@@ -60,11 +60,11 @@ public class MergeSort
 	// step. For this trick to work properly, we have to first
 	// copy all the data into the temporary.
 	
-	String[] tmp = new String[sv.size()];
-	for (int ii = 0; ii < sv.size(); ++ii) {
-	    tmp[ii] = sv.at(ii);
+	String[] tmp = new String[effectiveLength];
+	for (int ii = 0; ii < effectiveLength; ++ii) {
+	    tmp[ii] = array[ii];
 	}
-	mSort(sv.raw(), tmp, 0, sv.size());
+	mSort(array, tmp, 0, effectiveLength);
     }
     
     
@@ -74,7 +74,7 @@ public class MergeSort
 	StringVector sv = new StringVector(dataset);
 
 	sv.print("unsorted:", "  ");
-	sort(sv);
+	sort(sv.raw(), sv.size());
 	sv.print("\nsorted:", "  ");
     }
 

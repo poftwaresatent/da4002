@@ -37,10 +37,9 @@ public class InsertionSort
     }
     
     
-    static public void sort(StringVector sv)
+    static public void sort(String[] array, int effectiveLength)
     {
-	String[] array = sv.raw();
-	for (int ii = 1; ii < array.length; ++ii) {
+	for (int ii = 1; ii < effectiveLength; ++ii) {
 	    String ival = array[ii];
 	    int jj = ii;
 	    for ( ; jj > 0 && ival.compareTo(array[jj-1]) < 0; --jj) {
@@ -59,33 +58,25 @@ public class InsertionSort
 	}
 	StringListIterator src = sl.begin();
 	sorted.pushFront(src.node.value);
-	//dbg//	sorted.print("  init:", "    ");
 	src.next();
 	while (src.valid()) {
 	    StringListIterator dst = sorted.begin();
 	    if (src.node.value.compareTo(dst.node.value) <= 0) {
 		sorted.pushFront(src.node.value);
-		//dbg// sorted.print("  push " + src.node.value + ":", "    ");
 	    }
 	    else {
 		while (src.node.value.compareTo(dst.node.value) > 0 && null != dst.node.next) {
 		    dst.next();
 		}
 		if (null != dst.node.next) {
-		    //dbg// String dbg = "insert " + src.node.value + " before " + dst.node.value;
 		    sorted.insertBefore(src.node.value, dst);
-		    //dbg// sorted.print("  " + dbg + ":", "    ");
 		}
 		else {
 		    if (src.node.value.compareTo(dst.node.value) > 0) {
-			//dbg// String dbg = "insert " + src.node.value + " after last node " + dst.node.value;
 			sorted.insertAfter(src.node.value, dst);
-			//dbg// sorted.print("  " + dbg + ":", "    ");
 		    }
 		    else {
-			//dbg// String dbg = "insert " + src.node.value + " before last node " + dst.node.value;
 			sorted.insertBefore(src.node.value, dst);
-			//dbg// sorted.print("  " + dbg + ":", "    ");
 		    }
 		}
 	    }
@@ -101,7 +92,7 @@ public class InsertionSort
 	StringVector sv = new StringVector(dataset);
 
 	sv.print("StringVector before:", "  ");
-	sort(sv);
+	sort(sv.raw(), sv.size());
 	sv.print("StringVector after:", "  ");
 	
 	StringList sl = createSortedList(new StringList(dataset));
