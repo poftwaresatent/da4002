@@ -1,20 +1,15 @@
 public class MergeSort
 {
-    static private void dump(String title, int[] array, int begin, int end)
-    {
-	System.out.print(title);
-	for (int jj = begin; jj < end; ++jj) {
-	    System.out.print("  " + array[jj]);
-	}
-	System.out.println();
-    }
-    
-    
     static private void merge(String[] dst, String[] src, int begin, int middle, int end)
     {	
-	int ii = begin;
-	int jj = middle;
-	int kk = begin;
+	int ii = begin;		// first half of the source
+	int jj = middle;	// second half of the source
+	int kk = begin;		// destination
+	
+	// First go along the first and the second halves of the
+	// source, appending the smaller of the two to the
+	// destination.
+	
 	while (ii < middle && jj < end) {
 	    if (src[ii].compareTo(src[jj]) < 0) {
 		dst[kk++] = src[ii++];
@@ -23,9 +18,13 @@ public class MergeSort
 		dst[kk++] = src[jj++];
 	    }
 	}
+	
+	// Copy the remainder of the first half, if any.
 	while (ii < middle) {
 	    dst[kk++] = src[ii++];
 	}
+	
+	// Copy the remainder of the second half, if any.
 	while (jj < end) {
 	    dst[kk++] = src[jj++];
 	}
@@ -39,6 +38,11 @@ public class MergeSort
 	    return;
 	}
 	int middle = begin + length / 2;
+	
+	// trick to avoid copy:
+	// - swap array and tmp in recursion
+	// - merge tmp into array
+	
 	mSort(tmp, array, begin, middle);
 	mSort(tmp, array, middle, end);
 	merge(array, tmp, begin, middle, end);
@@ -47,6 +51,15 @@ public class MergeSort
     
     static public void sort(StringVector sv)
     {
+	// In order to do the merge, we need a temporary array as
+	// scratch area. In order to avoid creating and destroying
+	// such a temporary in each step, we create it here and pass
+	// it into the recursion. In order to avoid copying the result
+	// of the merge back into the container, we use the trick of
+	// alternating the temporary and the container at each
+	// step. For this trick to work properly, we have to first
+	// copy all the data into the temporary.
+	
 	String[] tmp = new String[sv.size()];
 	for (int ii = 0; ii < sv.size(); ++ii) {
 	    tmp[ii] = sv.at(ii);
@@ -57,31 +70,12 @@ public class MergeSort
     
     static public void main(String[] args)
     {
-	String[] dataset = Factory.createRandomStrings(7);
+	String[] dataset = Factory.createRandomStrings(30);
 	StringVector sv = new StringVector(dataset);
 
-	sv.print("StringVector before:", "  ");
+	sv.print("unsorted:", "  ");
 	sort(sv);
-	sv.print("StringVector after:", "  ");
-	
-	// StringList sl = createSortedList(new StringList(dataset));
-	// sl.print("StringList after:", "  ");
-	
-	// StringListIterator ilist = sl.begin();
-	// int ivec = 0;
-	// boolean ok = true;
-	// while (ilist.valid() && ivec < sv.size()) {
-	//     if ( ! ilist.get().equals(sv.at(ivec))) {
-	// 	System.out.println("MISMATCH at index " + ivec + ": " + ilist.get() + " should be " + sv.at(ivec));
-	// 	ok = false;
-	// 	break;
-	//     }
-	//     ilist.next();
-	//     ++ivec;
-	// }
-	// if (ok && (ilist.valid() || ivec < sv.size())) {
-	//     System.out.println("SIZE mismatch");
-	// }
+	sv.print("\nsorted:", "  ");
     }
 
 }
