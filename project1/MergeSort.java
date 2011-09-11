@@ -10,34 +10,38 @@ public class MergeSort
     }
     
     
-    static private void doSort(String[] array, String[] tmp, int begin, int end)
+    static private void merge(String[] dst, String[] src, int begin, int middle, int end)
+    {	
+	int ii = begin;
+	int jj = middle;
+	int kk = begin;
+	while (ii < middle && jj < end) {
+	    if (src[ii].compareTo(src[jj]) < 0) {
+		dst[kk++] = src[ii++];
+	    }
+	    else {
+		dst[kk++] = src[jj++];
+	    }
+	}
+	while (ii < middle) {
+	    dst[kk++] = src[ii++];
+	}
+	while (jj < end) {
+	    dst[kk++] = src[jj++];
+	}
+    }
+    
+    
+    static private void mSort(String[] array, String[] tmp, int begin, int end)
     {
 	int length = end - begin;
 	if (length <= 1) {
 	    return;
 	}
-	
 	int middle = begin + length / 2;
-	doSort(tmp, array, begin, middle);
-	doSort(tmp, array, middle, end);
-	
-	int ii = begin;
-	int jj = middle;
-	int kk = begin;
-	while (ii < middle && jj < end) {
-	    if (tmp[ii].compareTo(tmp[jj]) < 0) {
-		array[kk++] = tmp[ii++];
-	    }
-	    else {
-		array[kk++] = tmp[jj++];
-	    }
-	}
-	while (ii < middle) {
-	    array[kk++] = tmp[ii++];
-	}
-	while (jj < end) {
-	    array[kk++] = tmp[jj++];
-	}
+	mSort(tmp, array, begin, middle);
+	mSort(tmp, array, middle, end);
+	merge(array, tmp, begin, middle, end);
     }
     
     
@@ -47,7 +51,7 @@ public class MergeSort
 	for (int ii = 0; ii < sv.size(); ++ii) {
 	    tmp[ii] = sv.at(ii);
 	}
-	doSort(sv.raw(), tmp, 0, sv.size());
+	mSort(sv.raw(), tmp, 0, sv.size());
     }
     
     
