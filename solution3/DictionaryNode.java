@@ -1,14 +1,14 @@
-public class StringTreeMapNode
+public class DictionaryNode
 {
     public String key;
     public String value;
-    public StringTreeMapNode smaller;
-    public StringTreeMapNode bigger;
+    public DictionaryNode smaller;
+    public DictionaryNode bigger;
     
-    public StringTreeMapNode(String _key,
-			     String _value,
-			     StringTreeMapNode _smaller,
-			     StringTreeMapNode _bigger)
+    public DictionaryNode(String _key,
+			  String _value,
+			  DictionaryNode _smaller,
+			  DictionaryNode _bigger)
     {
 	key = _key;
 	value = _value;
@@ -16,7 +16,7 @@ public class StringTreeMapNode
         bigger = _bigger;
     }
     
-    public StringTreeMapNode(String key, String value)
+    public DictionaryNode(String key, String value)
     {
         this(key, value, null, null);
     }

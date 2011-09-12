@@ -1,16 +1,16 @@
-public class StringTreeMap
+public class Dictionary
 {
-    public StringTreeMapNode root;
+    public DictionaryNode root;
     
-    public StringTreeMap()
+    public Dictionary()
     {
 	root = null;
     }
     
-    static private StringTreeMapNode insert(String key, String value, StringTreeMapNode node)
+    static private DictionaryNode insert(String key, String value, DictionaryNode node)
     {
 	if (null == node) {
-	    return new StringTreeMapNode(key, value);
+	    return new DictionaryNode(key, value);
 	}
 	int comparison = key.compareTo(node.key);
 	if (0 > comparison) {
@@ -33,7 +33,7 @@ public class StringTreeMap
 	root = insert(key, value, root);
     }
     
-    static public StringTreeMapNode findMinNode(StringTreeMapNode node)
+    static public DictionaryNode findMinNode(DictionaryNode node)
     {
 	while (null != node.smaller) {
 	    node = node.smaller;
@@ -46,11 +46,11 @@ public class StringTreeMap
 	if (null == root) {
 	    return null;
 	}
-	StringTreeMapNode node = findMinNode(root);
+	DictionaryNode node = findMinNode(root);
 	return node.value;
     }
     
-    static public StringTreeMapNode findMaxNode(StringTreeMapNode node)
+    static public DictionaryNode findMaxNode(DictionaryNode node)
     {
 	while (null != node.bigger) {
 	    node = node.bigger;
@@ -63,7 +63,7 @@ public class StringTreeMap
 	if (null == root) {
 	    return null;
 	}
-	StringTreeMapNode node = findMaxNode(root);
+	DictionaryNode node = findMaxNode(root);
 	return node.value;
     }
     
@@ -73,7 +73,7 @@ public class StringTreeMap
     // "someDescendent.bigger=someDescendent.bigger.bigger" which cuts
     // the original bigger child of the node out of the tree.
     //
-    static private StringTreeMapNode removeMin(StringTreeMapNode node)
+    static private DictionaryNode removeMin(DictionaryNode node)
     {
 	if (null != node.smaller) {
 	    node.smaller = removeMin(node.smaller);
@@ -84,7 +84,7 @@ public class StringTreeMap
     
     // Note: silently ignore non-existing entries.
     //
-    static private StringTreeMapNode remove(String key, StringTreeMapNode node)
+    static private DictionaryNode remove(String key, DictionaryNode node)
     {
 	int comparison = key.compareTo(node.key);
 	
@@ -129,7 +129,7 @@ public class StringTreeMap
 	// so removing it is trivial (and implemented in a recursive
 	// helper function called removeMin).
 	
-	StringTreeMapNode replacement = findMinNode(node.bigger);
+	DictionaryNode replacement = findMinNode(node.bigger);
 	node.key = replacement.key;
 	node.value = replacement.value;
 	node.bigger = removeMin(node.bigger);
@@ -144,7 +144,7 @@ public class StringTreeMap
     
     public String find(String key)
     {
-	StringTreeMapNode node = root;
+	DictionaryNode node = root;
 	while (null != node) {
 	    int comparison = key.compareTo(node.key);
 	    if (0 > comparison) {
@@ -222,27 +222,27 @@ public class StringTreeMap
     
     public static void main(String[] args)
     {
-	StringTreeMap sm = new StringTreeMap();
+	Dictionary dict = new Dictionary();
 	int nEntries = 100;
 	int gap = 37;
 	
         for (int ii = gap; 0 != ii; ii = (ii + gap) % nEntries) {
-            sm.set("key_" + paddedNumber(ii, 3), "value_" + paddedNumber(ii, 3));
+            dict.set("key_" + paddedNumber(ii, 3), "value_" + paddedNumber(ii, 3));
 	}
 	
         for (int ii = 1; ii < nEntries; ii += 2) {
-            sm.unset("key_" + paddedNumber(ii, 3));
+            dict.unset("key_" + paddedNumber(ii, 3));
 	}
 	
-	sm.printInOrder("after adding lots and removing half of it again", "  ");
+	dict.printInOrder("after adding lots and removing half of it again", "  ");
 	
-	String mv = sm.findMinValue();
+	String mv = dict.findMinValue();
 	String mvCheck = "value_" + paddedNumber(2, 3);
         if ( ! mvCheck.equals(mv)) {
 	    System.out.println("FindMinValue returned " + mv + " instead of " + mvCheck);
 	}
 	
-	mv = sm.findMaxValue();
+	mv = dict.findMaxValue();
 	mvCheck = "value_" + paddedNumber(nEntries-2, 3);
         if ( ! mvCheck.equals(mv)) {
 	    System.out.println("FindMaxValue returned " + mv + " instead of " + mvCheck);
@@ -250,14 +250,14 @@ public class StringTreeMap
 	
         for (int ii = 2; ii < nEntries; ii += 2) {
 	    String pn = paddedNumber(ii, 3);
-	    if ( ! ("value_" + pn).equals(sm.find("key_" + pn))) {
+	    if ( ! ("value_" + pn).equals(dict.find("key_" + pn))) {
 		System.out.println("Failed to find value " + pn);
 	    }
 	}
 	
         for (int ii = 1; ii < nEntries; ii += 2) {
 	    String pn = paddedNumber(ii, 3);
-	    if (null != sm.find("key_" + pn)) {
+	    if (null != dict.find("key_" + pn)) {
 		System.out.println("Found bogus entry for key " + pn);
 	    }
 	}
