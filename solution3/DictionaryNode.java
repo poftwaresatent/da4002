@@ -5,6 +5,7 @@ public class DictionaryNode
     public DictionaryNode smaller;
     public DictionaryNode bigger;
     
+    
     public DictionaryNode(String _key,
 			  String _value,
 			  DictionaryNode _smaller,
@@ -16,43 +17,70 @@ public class DictionaryNode
         bigger = _bigger;
     }
     
+    
     public DictionaryNode(String key, String value)
     {
         this(key, value, null, null);
     }
     
-    public void printPreOrder(String prefix)
+    
+    public String info()
     {
-        System.out.println(prefix + key + " -> " + value);
+	return key + " -> " + value;
+    }
+    
+    
+    public void printPreOrder(String prefix, String indent)
+    {
+        System.out.println(prefix + info());
 	if (null != smaller) {
-            smaller.printPreOrder(prefix + "  ");
+            smaller.printPreOrder(prefix + indent, indent);
 	}
 	if (null != bigger) {
-            bigger.printPreOrder(prefix + "  ");
+            bigger.printPreOrder(prefix + indent, indent);
 	}
     }
     
     
-    public void printPostOrder(String prefix)
+    public void printPostOrder(String prefix, String indent)
     {
 	if (null != smaller) {
-            smaller.printPostOrder(prefix + "  ");
+            smaller.printPostOrder(prefix + indent, indent);
 	}
 	if (null != bigger) {
-            bigger.printPostOrder(prefix + "  ");
+            bigger.printPostOrder(prefix + indent, indent);
 	}
-        System.out.println(prefix + key + " -> " + value);
+        System.out.println(prefix + info());
     }
     
     
-    public void printInOrder(String prefix)
+    public void printInOrder(String prefix, String indent)
     {
 	if (null != smaller) {
-            smaller.printInOrder(prefix + "  ");
+            smaller.printInOrder(prefix + indent, indent);
 	}
-        System.out.println(prefix + key + " -> " + value);
+        System.out.println(prefix + info());
 	if (null != bigger) {
-            bigger.printInOrder(prefix + "  ");
+            bigger.printInOrder(prefix + indent, indent);
 	}
     }
+    
+    
+    public boolean check(String lowerBound, String upperBound)
+    {
+	if (null != lowerBound && key.compareTo(lowerBound) <= 0) {
+	    return false;
+	}
+	if (null != upperBound && key.compareTo(upperBound) >= 0) {
+	    return false;
+	}
+	if (null != smaller && ! smaller.check(lowerBound, key)) {
+	    return false;
+	}
+	if (null != bigger && ! bigger.check(key, upperBound)) {
+	    return false;
+	}
+	return true;
+    }
+
 }

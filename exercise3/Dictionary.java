@@ -2,10 +2,12 @@ public class Dictionary
 {
     public DictionaryNode root;
     
+    
     public Dictionary()
     {
 	root = null;
     }
+    
     
     static private DictionaryNode insert(String key, String value, DictionaryNode node)
     {
@@ -28,10 +30,12 @@ public class Dictionary
 	return node;
     }
     
+    
     public void set(String key, String value)
     {
 	root = insert(key, value, root);
     }
+    
     
     static public DictionaryNode findMinNode(DictionaryNode node)
     {
@@ -40,6 +44,7 @@ public class Dictionary
 	}
 	return node;
     }
+    
     
     public String findMinValue()
     {
@@ -50,6 +55,7 @@ public class Dictionary
 	return node.value;
     }
     
+    
     static public DictionaryNode findMaxNode(DictionaryNode node)
     {
 	while (null != node.bigger) {
@@ -57,6 +63,7 @@ public class Dictionary
 	}
 	return node;
     }
+    
     
     public String findMaxValue()
     {
@@ -66,6 +73,7 @@ public class Dictionary
 	DictionaryNode node = findMaxNode(root);
 	return node.value;
     }
+    
     
     // This works becaue the caller will say something like
     // "node.bigger=removeMin(node.bigger)" which recurses down the
@@ -81,6 +89,7 @@ public class Dictionary
 	}
 	return node.bigger;
     }
+    
     
     // Note: silently ignore non-existing entries.
     //
@@ -137,10 +146,12 @@ public class Dictionary
 	return node;
     }
     
+    
     public void unset(String key)
     {
 	root = remove(key, root);
     }
+    
     
     public String find(String key)
     {
@@ -160,54 +171,55 @@ public class Dictionary
 	return null;
     }
     
+    
     public void printPreOrder(String title, String prefix)
     {
-	if (0 != title.length()) {
-	    System.out.println(title);
-	}
-        if (null == root) {
-	    System.out.println(prefix + "(empty tree)");
-	}
-	else {
-            root.printPreOrder(prefix);
-	}
+	// Write a method that first writes the title on a line by
+	// itself, then checks that the root is not null, before
+	// calling printPreOrder on the root to actually print the
+	// tree (using pre-order traversal).
     }
+    
     
     public void printInOrder(String title, String prefix)
     {
-	if (0 != title.length()) {
-	    System.out.println(title);
-	}
-        if (null == root) {
-	    System.out.println(prefix + "(empty tree)");
-	}
-	else {
-           root.printInOrder(prefix);
-	}
+	// Write a method that first writes the title on a line by
+	// itself, then checks that the root is not null, before
+	// calling printInOrder on the root to actually print the
+	// tree (using in-order traversal).
     }
-
+    
+    
     public void printPostOrder(String title, String prefix)
     {
-	if (0 != title.length()) {
-	    System.out.println(title);
-	}
-        if (null == root) {
-	    System.out.println(prefix + "(empty tree)");
-	}
-	else {
-           root.printPostOrder(prefix);
-	}
+	// Write a method that first writes the title on a line by
+	// itself, then checks that the root is not null, before
+	// calling printPostOrder on the root to actually print the
+	// tree (using post-order traversal).
     }
-
+    
+    
+    public void printLevelOrder(String title, String prefix)
+    {
+	// Write a method that first writes the title on a line by
+	// itself, then checks that the root is not null, before
+	// printing all dictionary nodes using level-order
+	// traversal. Note: you will have to write a new queue class,
+	// for instance by adapting the StringTreeQueue code.
+    }
+    
+    
     public void clear()
     {
         root = null;
     }
-
+    
+    
     public boolean empty()
     {
         return null == root;
     }
+    
     
     static private String paddedNumber(int number, int width)
     {
@@ -219,6 +231,7 @@ public class Dictionary
 	}
 	return sb.toString() + ns;
     }
+    
     
     public static void main(String[] args)
     {

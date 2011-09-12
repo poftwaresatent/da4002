@@ -1,11 +1,11 @@
 <h1>ITADS Exercise 3a: Tree Data Structures</h1>
 
 <p>
-As before, it is recommended that you create a new directory for this
-exercise, and also that you use
-a <a href="itads/exercise3/Makefile">Makefile</a> to manage the
-building of executables. (Unless you are using Eclipse, which does not
-need <tt>make</tt> but uses its own internal tool instead.)
+  As before, it is recommended that you create a new directory for
+  this exercise, and also that you use
+  a <a href="itads/exercise3/Makefile">Makefile</a> to manage the
+  building of executables. (Unless you are using Eclipse, which does
+  not need <tt>make</tt> but uses its own internal tool instead.)
 </p>
 
 
@@ -13,19 +13,20 @@ need <tt>make</tt> but uses its own internal tool instead.)
 <h2>exercise 3.1: child/sibling trees</h2>
 
 <p>
-<a href="itads/exercise3/StringTree.java">StringTree.java</a> together
-with <a href="itads/exercise3/StringTreeQueue.java">StringTreeQueue.java</a>
-is a complete example implementation of a child/sibling tree that
-stores strings as values and supports three kinds of traversal
-methods. Note that there is no distinction between the class for the
-root and all the other nodes: that is not necessary because trees are
-inherently recursive data structures, and any node serves as root for
-its subtree.  The <tt>main</tt> method of <tt>StringTree</tt>
-replicates the example given on <b>slide 51</b> of the lecture
-(download
-the <a href="http://poftwaresatent.net/r/itads/slides/03-associative-containers-search-sort-print.pdf">handout</a>
-or
-the <a href="http://poftwaresatent.net/r/itads/slides/03-associative-containers-search-sort.pdf">slides</a>).
+  <a href="itads/exercise3/StringTree.java">StringTree.java</a>
+  together
+  with <a href="itads/exercise3/StringTreeQueue.java">StringTreeQueue.java</a>
+  is a complete example implementation of a child/sibling tree that
+  stores strings as values and supports three kinds of traversal
+  methods. Note that there is no distinction between the class for the
+  root and all the other nodes: that is not necessary because trees
+  are inherently recursive data structures, and any node serves as
+  root for its subtree.  The <tt>main</tt> method
+  of <tt>StringTree</tt> replicates the example given on <b>slide
+  51</b> of the lecture (download
+  the <a href="http://poftwaresatent.net/r/itads/slides/03-associative-containers-search-sort-print.pdf">handout</a>
+  or
+  the <a href="http://poftwaresatent.net/r/itads/slides/03-associative-containers-search-sort.pdf">slides</a>).
 </p>
 
 <ol>
@@ -54,3 +55,85 @@ the <a href="http://poftwaresatent.net/r/itads/slides/03-associative-containers-
    value of all leaf nodes.
  </li>
 </ol>
+
+
+
+<h2>exercise 3.2: binary tree theory</h2>
+
+<ol>
+  <li>
+    Derive the formula that allows to compute the maximum number of
+    nodes in a binary tree of height <em>H</em>.  (Hint: think about
+    the maximum number of <em>leaves</em> for a given depth, and what
+    happens when you sum up these numbers for depths ranging from 1
+    to <em>H</em>). If you cannot derive the formula by yourself, find
+    the answer on Wikipedia or in the course bookm and make sure you
+    understand it.
+  </li>
+  <li>
+    A <em>full node</em> is a node with two children. Prove that in a
+    binary tree the number of full nodes plus one equals the number of
+    leaves.
+  </li>
+</ol>
+
+
+
+<h2>exercise 3.3: binary search trees as associative containers</h2>
+
+<p>
+  <a href="itads/exercise3/DictionaryNode.java">DictionaryNode.java</a>
+  implements a binary search tree node that stores two strings, a key
+  and a value, and maintains two child links: <tt>smaller</tt> points
+  to a subtree where all <em>keys</em> are smaller,
+  and <tt>bigger</tt> is the opposite. Note
+  that <tt>DictionaryNode</tt> is still missing the methods for
+  traversing the tree using pre- in- post- and level-order.
+</p>
+
+<p>
+  <tt>DictionaryNode</tt> is used
+  by <a href="itads/exercise3/Dictionary.java">Dictionary.java</a> to
+  implement a dictionary which maps keys to values in a way that
+  allows inserting, finding, replacing, and removing entries by their
+  key.
+</p>
+
+<ol>
+  <li>
+    Implement the <tt>printInOrder</tt> method of <tt>Dictionary</tt>
+    (note: you will also have to add a corresponding method
+    to <tt>DictionaryNode</tt>). Make sure it works correctly by
+    inspecting the output produced when running the <tt>main</tt>
+    function of <tt>Dictionary</tt>.
+  </li>
+  <li>
+    <em>Optional:</em> also implement and
+    test <tt>printPreOrder</tt>, <tt>printPostOrder</tt>,
+    and <tt>printLevelOrder</tt>.
+  </li>
+  <li>
+    In the <tt>main</tt> function, change the value of <tt>gap</tt> to
+    1 (one). What happens? Why?
+  </li>
+</ol>
+
+
+
+<h2>exercise 3.4 <em>(optional)</em>: checking the search tree property</h2>
+
+<p>
+  Slide 57 gives an example of a binary tree where node "5" locally
+  verifies the search property, but its child "8" globally violates it
+  because it lies in the left subtree underneath node "7".
+</p>
+
+<p>
+  Design an algorithm to verify that all nodes of a given binary tree
+  verify the search property. Implement this algorithm
+  in <tt>DictionaryNode</tt> (and <tt>Dictionary</tt> as needed) which
+  checks the key of each node against an upper and lower bound coming
+  "from above".  Then write a test which shows that your method works
+  properly, both in the presence and the absence of nodes which
+  violate the search property.
+</p>

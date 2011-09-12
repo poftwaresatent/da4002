@@ -5,6 +5,7 @@ public class DictionaryNode
     public DictionaryNode smaller;
     public DictionaryNode bigger;
     
+    
     public DictionaryNode(String _key,
 			  String _value,
 			  DictionaryNode _smaller,
@@ -16,43 +17,15 @@ public class DictionaryNode
         bigger = _bigger;
     }
     
+    
     public DictionaryNode(String key, String value)
     {
         this(key, value, null, null);
     }
     
-    public void printPreOrder(String prefix)
+    
+    public String info()
     {
-        System.out.println(prefix + key + " -> " + value);
-	if (null != smaller) {
-            smaller.printPreOrder(prefix + "  ");
-	}
-	if (null != bigger) {
-            bigger.printPreOrder(prefix + "  ");
-	}
-    }
-    
-    
-    public void printPostOrder(String prefix)
-    {
-	if (null != smaller) {
-            smaller.printPostOrder(prefix + "  ");
-	}
-	if (null != bigger) {
-            bigger.printPostOrder(prefix + "  ");
-	}
-        System.out.println(prefix + key + " -> " + value);
-    }
-    
-    
-    public void printInOrder(String prefix)
-    {
-	if (null != smaller) {
-            smaller.printInOrder(prefix + "  ");
-	}
-        System.out.println(prefix + key + " -> " + value);
-	if (null != bigger) {
-            bigger.printInOrder(prefix + "  ");
-	}
+	return key + " -> " + value;
     }
 }
