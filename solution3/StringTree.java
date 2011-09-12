@@ -38,6 +38,7 @@ public class StringTree
 	return size;
     }
     
+    
     public int computeHeight()
     {
 	height = 0;
@@ -53,6 +54,7 @@ public class StringTree
 	return height;
     }
     
+    
     public int computeDepth(int parentDepth)
     {
 	depth = parentDepth + 1;
@@ -65,7 +67,10 @@ public class StringTree
     
     public String info()
     {
-	return value + "  (s: " + size + "  h: " + height + "  d: " + depth + ")";
+	if (null == child) {
+	    return value + " * (s: " + size + "  h: " + height + "  d: " + depth + ")";
+	}
+	return value + "   (s: " + size + "  h: " + height + "  d: " + depth + ")";
     }
     
     
@@ -122,10 +127,10 @@ public class StringTree
 	nA.computeDepth(-1);
 	
 	System.out.println("pre-order");
-	nA.printPreOrder("  ", "");
+	nA.printPreOrder("  ", "  ");
 	
 	System.out.println("post-order");
-	nA.printPostOrder("  ", "");
+	nA.printPostOrder("  ", "  ");
 	
 	System.out.println("level-order");
 	nA.printLevelOrder("  ");

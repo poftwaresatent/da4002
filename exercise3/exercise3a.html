@@ -1,0 +1,56 @@
+<h1>ITADS Exercise 3a: Tree Data Structures</h1>
+
+<p>
+As before, it is recommended that you create a new directory for this
+exercise, and also that you use
+a <a href="itads/exercise3/Makefile">Makefile</a> to manage the
+building of executables. (Unless you are using Eclipse, which does not
+need <tt>make</tt> but uses its own internal tool instead.)
+</p>
+
+
+
+<h2>exercise 3.1: child/sibling trees</h2>
+
+<p>
+<a href="itads/exercise3/StringTree.java">StringTree.java</a> together
+with <a href="itads/exercise3/StringTreeQueue.java">StringTreeQueue.java</a>
+is a complete example implementation of a child/sibling tree that
+stores strings as values and supports three kinds of traversal
+methods. Note that there is no distinction between the class for the
+root and all the other nodes: that is not necessary because trees are
+inherently recursive data structures, and any node serves as root for
+its subtree.  The <tt>main</tt> method of <tt>StringTree</tt>
+replicates the example given on <b>slide 51</b> of the lecture
+(download
+the <a href="http://poftwaresatent.net/r/itads/slides/03-associative-containers-search-sort-print.pdf">handout</a>
+or
+the <a href="http://poftwaresatent.net/r/itads/slides/03-associative-containers-search-sort.pdf">slides</a>).
+</p>
+
+<ol>
+ <li>
+   Read the source code and find answers for the following questions:
+   <ul>
+     <li>
+       In the <tt>main</tt> function: why are the (sub-) trees
+       constructed and attached to each other in that particular
+       order?
+     </li>
+     <li>
+       In the <tt>main</tt> function: why does the call
+       to <tt>nA.computeDepth()</tt> pass -1 as parameter?
+     </li>
+     <li>
+       What kind of container implementation approach was used to
+       write <tt>StringTreeQueue</tt>? How was it turned into a queue
+       (as opposed to a stack)?
+     </li>
+   </ul>
+ </li>
+ <li>
+   Extend the <tt>info</tt> method of the <tt>StringTree</tt> class
+   such that it also prints an asterisk (the "*" character) after the
+   value of all leaf nodes.
+ </li>
+</ol>
