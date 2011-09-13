@@ -17,7 +17,7 @@ public class SortingBenchmark
 	
 	System.out.println();
 	System.out.println("time required to sort arrays of random strings");
-	System.out.println("---------------------------------------------------");
+	System.out.println("----------------------------------------------");
 	System.out.println("array size\tinsertion sort\tmerge sort\tbubble sort");
 	for (int ii = sizeMin; ii < sizeMax; ii = (int) Math.round(ii * sizeFactor)) {
 	    System.out.print(ii);
@@ -50,7 +50,7 @@ public class SortingBenchmark
 	
 	System.out.println();
 	System.out.println("time required to sort arrays of already sorted strings");
-	System.out.println("---------------------------------------------------");
+	System.out.println("------------------------------------------------------");
 	System.out.println("array size\tinsertion sort\tmerge sort\tbubble sort");
 	for (int ii = sizeMin; ii < sizeMax; ii = (int) Math.round(ii * sizeFactor)) {
 	    System.out.print(ii);
@@ -75,7 +75,7 @@ public class SortingBenchmark
 	
 	System.out.println();
 	System.out.println("time required to sort arrays of inverted-order sorted strings");
-	System.out.println("---------------------------------------------------");
+	System.out.println("-------------------------------------------------------------");
 	System.out.println("array size\tinsertion sort\tmerge sort\tbubble sort");
 	for (int ii = sizeMin; ii < sizeMax; ii = (int) Math.round(ii * sizeFactor)) {
 	    System.out.print(ii);

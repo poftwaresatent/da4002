@@ -41,12 +41,24 @@
   measures how long each algorithm takes.
 </p>
 
+<p>
+  Add your <tt>BubbleSort</tt> to the sorting benchmark. Pay attention
+  to the fact that you have to create a new duplicate of the unsorted
+  array of random numbers before running bubble sort.
+</p>
+
+
+
+<h2>exercise 3.7 <em>(optional)</em>: input data dependence</h2>
+
+<p>
+  The time required to sort a given array of strings can depend on
+  whether the data is already partially sorted. In order to illustrate
+  this fact, we will look at two extreme cases: fully sorted input
+  data, and data which is in reverse order.
+</p>
+
 <ol>
-  <li>
-    Add your <tt>BubbleSort</tt> to the sorting benchmark. Pay
-    attention to the fact that you have to create a new duplicate of
-    the unsorted array of random numbers before running bubble sort.
-  </li>
   <li>
     Add a second set of measurements to the <tt>main</tt> function
     of <tt>SortingBenchmark</tt> in order to find out how long each
