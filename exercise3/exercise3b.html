@@ -36,3 +36,31 @@
   Download <a href="itads/exercise3/InsertionSort.java">InsertionSort.java</a> and
   <a href="itads/exercise3/MergeSort.java">MergeSort.java</a> files,
   which implement the sorting algorithms presented during lecture 3. Also download 
+  <a href="itads/exercise3/SortingBenchmark.java">SortingBenchmark.java</a>
+  which runs insertion and merge sort for various array lengths and
+  measures how long each algorithm takes.
+</p>
+
+<ol>
+  <li>
+    Add your <tt>BubbleSort</tt> to the sorting benchmark. Pay
+    attention to the fact that you have to create a new duplicate of
+    the unsorted array of random numbers before running bubble sort.
+  </li>
+  <li>
+    Add a second set of measurements to the <tt>main</tt> function
+    of <tt>SortingBenchmark</tt> in order to find out how long each
+    algorithm takes to process data that is already sorted.
+  </li>
+  <li>
+    Look at the different running times across algorithms, and notice
+    the difference between the measurements on random versus
+    already-sorted data. Try to explain these differences by analyzing
+    how each sorting algorithm works.
+  </li>
+  <li>
+    Add a third set of measurements to <tt>SortingBenchmark</tt>, this
+    time on data that is sorted in reverse. Which algorithms suffer
+    the most from this, and why?
+  </li>
+</ol>
