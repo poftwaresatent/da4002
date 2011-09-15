@@ -38,7 +38,17 @@ public class StringVector
     
     public StringVector(StringVector original)
     {
-	this(original.raw());
+	if (original.size() == 0) {
+	    array = new String[1];
+	    size = 0;
+	}
+	else {
+	    array = new String[original.size()];
+	    for (int ii = 0; ii < original.size(); ++ii) {
+		array[ii] = original.at(ii);
+	    }
+	    size = original.size();
+	}
     }
     
     
@@ -58,6 +68,24 @@ public class StringVector
 	    grow();
 	}
 	array[size++] = value;
+    }
+    
+    
+    /**
+       This was not part of exercise 2, but it illustrates what needs
+       to be done in order to insert elements into the middle of the
+       vector.
+    */
+    public void insertAt(String value, int index)
+    {
+	if (size >= array.length) {
+	    grow();
+	}
+	for (int ii = size; ii > index; --ii) {
+	    array[ii] = array[ii-1];
+	}
+	array[index] = value;
+	++size;
     }
     
     
@@ -161,5 +189,13 @@ public class StringVector
 	    sv.popBack();
 	    sv.print("  result:", "  - ");
 	}
+	
+	sv.clear();
+	sv.pushBack("one");
+	sv.pushBack("two");
+	sv.pushBack("three");
+	sv.print(" before inserting HELLO at index 1", "   - ");
+	sv.insertAt("HELLO", 1);
+	sv.print(" after inserting HELLO at index 1", "   - ");
     }
 }

@@ -5,6 +5,7 @@ public class Factory
     static private Random rnd = new Random();
     static private char[] charbag = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ".toCharArray();
     
+    
     static public String[] createRandomStrings(int length)
     {
 	if (length < 1) {
@@ -21,6 +22,23 @@ public class Factory
 	}
 	return array;
     }
+    
+    
+    static public String[] duplicate(String[] data, int effectiveLength)
+    {
+	String[] clone = new String[effectiveLength];
+	for (int ii = 0; ii < effectiveLength; ++ii) {
+	    clone[ii] = data[ii];
+	}
+	return clone;
+    }
+    
+    
+    static public String[] duplicate(String[] data)
+    {
+	return duplicate(data, data.length);
+    }
+    
     
     static public void main(String[] args) 
     {

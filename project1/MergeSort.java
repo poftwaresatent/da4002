@@ -60,21 +60,30 @@ public class MergeSort
 	// step. For this trick to work properly, we have to first
 	// copy all the data into the temporary.
 	
-	String[] tmp = new String[effectiveLength];
-	for (int ii = 0; ii < effectiveLength; ++ii) {
-	    tmp[ii] = array[ii];
-	}
+	String[] tmp = Factory.duplicate(array, effectiveLength);
 	mSort(array, tmp, 0, effectiveLength);
+    }
+    
+    
+    static public void sort(StringVector sv)
+    {
+	sort(sv.raw(), sv.size());
+    }
+    
+    
+    static public void sort(String[] sa)
+    {
+	sort(sa, sa.length);
     }
     
     
     static public void main(String[] args)
     {
-	String[] dataset = Factory.createRandomStrings(30);
-	StringVector sv = new StringVector(dataset);
+	String[] data = Factory.createRandomStrings(30);
+	StringVector sv = new StringVector(data);
 
 	sv.print("unsorted:", "  ");
-	sort(sv.raw(), sv.size());
+	sort(sv);
 	sv.print("\nsorted:", "  ");
     }
 

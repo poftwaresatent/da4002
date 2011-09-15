@@ -1,5 +1,10 @@
 public class InsertionSort
 {
+    /**
+       Writes an array to the console, from index 0 up to (including)
+       index ii. The title is printed out first on a separate line,
+       and the arry output is indented by two spaces.
+    */
     static private void dump(String title, int[] array, int ii)
     {
 	System.out.print(title);
@@ -10,6 +15,11 @@ public class InsertionSort
     }
     
     
+    /**
+       A small demo of insetion sort, which writes progress
+       information on the console. This can help to understand of
+       insertion sort works.
+    */
     static public void demo()
     {
 	int[] array = { 17, 8, 99, 14, 1009, 71, 72, 99, 8, 70 };
@@ -37,6 +47,13 @@ public class InsertionSort
     }
     
     
+    /**
+       Sort an array of strings, using insertion sort. The
+       effectiveLength parameter can be used to limit the sort to a
+       sub-array, for example when the array is the underying storage
+       for a vector. In that case, you will say "sort(sv.raw(),
+       sv.size()" assuming sv is an instance of StringVector.
+    */
     static public void sort(String[] array, int effectiveLength)
     {
 	for (int ii = 1; ii < effectiveLength; ++ii) {
@@ -56,11 +73,11 @@ public class InsertionSort
 	if (sl.empty()) {
 	    return sorted;
 	}
-	StringListIterator src = sl.begin();
+	StringListIterator src = sl.first();
 	sorted.pushFront(src.node.value);
 	src.next();
 	while (src.valid()) {
-	    StringListIterator dst = sorted.begin();
+	    StringListIterator dst = sorted.first();
 	    if (src.node.value.compareTo(dst.node.value) <= 0) {
 		sorted.pushFront(src.node.value);
 	    }
@@ -88,22 +105,23 @@ public class InsertionSort
     
     static public void main(String[] args)
     {
-	String[] dataset = Factory.createRandomStrings(10);
-	StringVector sv = new StringVector(dataset);
+	String[] data = Factory.createRandomStrings(10);
+	StringVector sv = new StringVector(data);
 
 	sv.print("StringVector before:", "  ");
 	sort(sv.raw(), sv.size());
 	sv.print("StringVector after:", "  ");
 	
-	StringList sl = createSortedList(new StringList(dataset));
-	sl.print("StringList after:", "  ");
+	StringList sl = createSortedList(new StringList(data));
+	sl.print("StringList after:", "  ", 10);
 	
-	StringListIterator ilist = sl.begin();
+	StringListIterator ilist = sl.first();
 	int ivec = 0;
 	boolean ok = true;
 	while (ilist.valid() && ivec < sv.size()) {
 	    if ( ! ilist.get().equals(sv.at(ivec))) {
-		System.out.println("MISMATCH at index " + ivec + ": " + ilist.get() + " should be " + sv.at(ivec));
+		System.out.println("MISMATCH at index " + ivec
+				   + ": " + ilist.get() + " should be " + sv.at(ivec));
 		ok = false;
 		break;
 	    }
@@ -114,5 +132,5 @@ public class InsertionSort
 	    System.out.println("SIZE mismatch");
 	}
     }
-
+    
 }

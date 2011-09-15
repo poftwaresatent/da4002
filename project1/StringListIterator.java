@@ -18,6 +18,18 @@ public class StringListIterator
     }
     
     
+    public boolean isLast()
+    {
+	return null == node.next;
+    }
+    
+    
+    public boolean isFirst()
+    {
+	return null == node.prev;
+    }
+    
+    
     public String get()
     {
 	return node.value;
@@ -28,4 +40,11 @@ public class StringListIterator
     {
 	node = node.next;
     }
+    
+    
+    public void prev()
+    {
+	node = node.prev;
+    }
+    
 }

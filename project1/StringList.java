@@ -1,9 +1,8 @@
 /**
-   A list of strings. At the beginning of exercise 2, StringList is
-   singly linked and does no error checking.
-   
-   <b>Update this documentation</b> when you are done with the
-   exercise.
+   A doubly-linked list of strings. It uses raw head and tail
+   references, instead of the example in the course book which uses
+   "dummy" head and tail nodes to reduce some of the special case
+   handling required here.
 */
 public class StringList
 {
@@ -13,99 +12,181 @@ public class StringList
     */
     private StringListNode head;
     
+    /**
+       The tail is the last node. Like the head, it is null when the list is empty.
+    */
+    private StringListNode tail;
+    
     
     public StringList()
     {
-	head = null;
+	// Java initializes head and tail to null anyway, but we have
+	// to have the default constructor because we also define
+	// non-default ones.
+    }
+    
+    
+    public StringList(String[] original, int effectiveLength)
+    {
+	for (int ii = 0; ii < effectiveLength; ++ii) {
+	    pushBack(original[ii]);
+	}
     }
     
     
     public StringList(String[] original)
     {
-	for (int ii = original.length - 1; ii >= 0; --ii) {
-	    pushFront(original[ii]);
-	}
+	this(original, original.length);
     }
     
     
-    // Add this field when changing StringList into a doubly-linked list
-    //
-    // private StringListNode tail;
+    public StringList(StringVector original)
+    {
+	this(original.raw(), original.size());
+    }
     
     
     /**
-       Insert a given value at the front of the list.
+       Prepend a value to the list.
     */
     public void pushFront(String value)
     {
-	StringListNode node = new StringListNode(value, head);
+	StringListNode node = new StringListNode(value);
+	node.next = head;
+	if (null == head) {	// the list was empty
+	    tail = node;
+	}
+	else {
+	    head.prev = node;
+	}
 	head = node;
     }
     
     
     /**
-       Delete the first list item. This will result in the second item
-       becoming the new head, unless of course there are no more
-       elements. <b>No error checking</b> is performed, calling
-       popFront on an empty list will result in a null pointer
-       exception. Use the empty() to check for emptyness.
+       Delete the first list item. <b>No error checking</b> is
+       performed: calling popFront on an empty list is an error. Use
+       the empty() method to check for emptyness.
     */
     public void popFront()
     {
 	head = head.next;
+	if (null == head) {	// the list is now empty
+	    tail = null;
+	}
+	else {
+	    head.prev = null;
+	}
     }
     
     
     /**
        Retrieve the value which is stored in the first element of the
-       list. <b>No error checking</b> is performed: use the empty()
-       method to find out whether there is anything to retrieve.
+       list. <b>No error checking</b> is performed: it is an error to
+       call this method on an empty list. Use the empty() method to
+       check for emptyness.
     */
     public String front()
     {
 	return head.value;
     }
-
-    
-    // Add this method when changing StringList into a doubly-linked list
-    //
-    // public void pushBack(String value)
-    // {
-    // }
     
     
-    // Add this method when changing StringList into a doubly-linked list
-    //
-    // public void popBack()
-    // {
-    // }
+    /**
+       Append a value to the list.
+    */
+    public void pushBack(String value)
+    {
+	StringListNode node = new StringListNode(value);
+	if (null == tail) {	// the list was empty
+	    head = node;
+	    tail = node;
+	    return;
+	}
+	tail.next = node;
+	node.prev = tail;
+	tail = node;
+    }
     
     
-    // Add this method when changing StringList into a doubly-linked list
-    //
-    // public String back()
-    // {
-    // }
+    /**
+       Delete the last item from the list. <b>No error checking</b> is
+       performed: calling popBack on an empty list is an error. Use
+       the empty() method to check for emptyness.
+    */
+    public void popBack()
+    {
+	tail = tail.prev;
+	if (null == tail) {
+	    // the list is now empty
+	    head = null;
+	    return;
+	}
+	tail.next = null;
+    }
     
     
+    /**
+       Retrieve the value which is stored in the last element of the
+       list. <b>No error checking</b> is performed: it is an error to
+       call this method on an empty list. Use the empty() method to
+       check for emptyness.
+    */
+    public String back()
+    {
+	return tail.value;
+    }
+    
+    
+    /**
+       Insert a value into the list such that it comes after the
+       specified position.
+    */
     public void insertAfter(String value, StringListIterator position)
     {
-	StringListNode node = new StringListNode(value, position.node.next);
+	StringListNode node = new StringListNode(value, position.node, position.node.next);
 	position.node.next = node;
+	if (tail == position.node) {
+	    tail = node;
+	}
+	else {
+	    node.next.prev = node;
+	}
     }
     
     
+    /**
+       Insert a value into the list such that it comes before the
+       specified position.
+    */
     public void insertBefore(String value, StringListIterator position)
     {
-	StringListNode node = new StringListNode(position.node.value, position.node.next);
-	position.node.value = value;
-	position.node.next = node;
+	StringListNode node = new StringListNode(value, position.node.prev, position.node);
+	position.node.prev = node;
+	if (head == position.node) {
+	    head = node;
+	}
+	else {
+	    node.prev.next = node;
+	}
     }
     
     
-    public void removeAfter(StringListIterator position)
+    /**
+       Remove an item (specified by its position) from the list.
+    */
+    public void remove(StringListIterator position)
     {
-	position.node.next = position.node.next.next;
+	if (head == position.node) {
+	    popFront();
+	    return;
+	}
+	if (tail == position.node) {
+	    popBack();
+	    return;
+	}
+	position.node.prev.next = position.node.next;
+	position.node.next.prev = position.node.prev;
     }
     
     
@@ -124,135 +205,145 @@ public class StringList
     public void clear()
     {
 	head = null;
+	tail = null;
     }
     
     
     /**
        Creates an iterator that starts at the beginning of the list.
     */
-    public StringListIterator begin()
+    public StringListIterator first()
     {
 	return new StringListIterator(head);
     }
     
     
     /**
-       No error checking, the list must not be empty.
+       Creates an iterator that starts at the end of the list.
     */
-    public StringListNode findLastNode()
+    public StringListIterator last()
     {
-	StringListNode node = head;
-	while (node.next != null) {
-	    node = node.next;
+	return new StringListIterator(tail);
+    }
+    
+    
+    /**
+       Helper method which prints a string and then some empty space
+       until the given width is reached.
+    */
+    public static void pstring(String val, int width)
+    {
+	System.out.print(val);
+	for (int rem = width - val.length(); rem > 0; --rem) {
+	    System.out.print(" ");
 	}
-	return node;
     }
     
     
     /**
        Prints all elements of the list on a separate line of
-       System.out. Each line is prefixed with the given string to
-       allow a basic form of custom formatting.
+       System.out. If a title is given, that is printed first. Then
+       each list item, along with its prev and next items (for
+       debugging). The colwidth is used to pad entries with spaces
+       until they are at least that wide.
     */
-    public void print(String title, String prefix)
+    public void print(String title, String prefix, int colwidth)
     {
-	if (title.length() != 0) {
+	if (0 < title.length()) {
 	    System.out.println(title);
 	}
-	for (StringListNode current = head; null != current; current = current.next) {
-	    System.out.println(prefix + current.value);
+	if (null == head) {
+	    System.out.println(prefix + "(empty list)");
+	    return;
 	}
+	System.out.println(prefix + "head: " + head.value);
+	for (StringListNode current = head; null != current; current = current.next) {
+	    System.out.print(prefix + "  ");
+	    pstring(current.value, colwidth);
+	    System.out.print("  p: ");
+	    if (null == current.prev) {
+		pstring("(null)", colwidth);
+	    }
+	    else {
+		pstring(current.prev.value, colwidth);
+	    }
+	    System.out.print("  n: ");
+	    if (null == current.next) {
+		pstring("(null)", colwidth);
+	    }
+	    else {
+		pstring(current.next.value, colwidth);
+	    }
+	    System.out.println();
+	}
+	System.out.println(prefix + "tail: " + tail.value);
     }
     
     
+    /***
+	The main method tries out the effects of the various
+	StringList methods.
+    */
     public static void main(String [] args)
     {
-	// The main method tries out the effects of the various
-	// StringList methods. Run it to make sure your
-	// implementations are correct.
-	
 	StringList sl = new StringList();
-	
-	System.out.println("pushing some things onto the list...");
 	
 	sl.pushFront("hello");
 	for (int ii = 0; ii < 3; ++ii) {
 	    sl.pushFront(" " + ii);
 	}
 	sl.pushFront("byebye!");
+	sl.print("after 5 pushFront", "  * ", 10);
 	
-	sl.print("result:", " * ");
-	
-	if (sl.empty()) {
-	    System.out.println("the StringList is empty");
-	}
-	else {
-	    System.out.println("the StringList is not empty");
-	}
-	
-	System.out.println("clearing the list...");
-
 	sl.clear();
-
-	sl.print("result:", "  * ");
+	sl.print("after clear", "  * ", 10);
 	
-	if (sl.empty()) {
-	    System.out.println("the StringList is empty");
-	}
-	else {
-	    System.out.println("the StringList is not empty");
-	}
-	
-	System.out.println("pushing some things onto the list...");
-	
-	sl.pushFront("one");
-	sl.pushFront("two");
-	sl.pushFront("three");
+	sl.pushBack("one");
+	sl.pushBack("two");
+	sl.pushBack("three");
+	sl.print("after 3 pushBack", "  * ", 10);
 
 	System.out.print("using the iterator:");
-	for (StringListIterator ii = sl.begin(); ii.valid(); ii.next()) {
+	for (StringListIterator ii = sl.first(); ii.valid(); ii.next()) {
 	    System.out.print(" " + ii.get());
 	}
 	System.out.println();
 	
 	while ( ! sl.empty()) {
-	    System.out.println("popping " + sl.front());
+	    System.out.println("pop front (" + sl.front() + ")");
 	    sl.popFront();
-	    sl.print("result:", "  * ");
+	    sl.print("  result", "    - ", 10);
 	}
 	
-	System.out.print("Inserting some nodes after the head...");
+	sl.pushBack("a1");
+	sl.pushBack("a2");
+	sl.print("after 2 pushBack", "  * ", 10);
+
+	sl.insertAfter("B1", sl.first());
+	sl.print("inserted B1 after the head", "  * ", 10);
 	
-	sl.pushFront("first node");
-	StringListIterator pos = sl.begin();
-	sl.insertAfter("11", pos);
-	sl.insertAfter("22", pos);
-	sl.insertAfter("33", pos);
-	sl.print("result:", "  * ");
+	sl.insertAfter("B2", sl.last());
+	sl.print("inserted B2 after the tail", "  * ", 10);
+
+	sl.insertBefore("C1", sl.first());
+	sl.print("inserted C1 before the head", "  * ", 10);
 	
-	System.out.print("Inserting some nodes before the head...");
+	sl.insertBefore("C2", sl.last());
+	sl.print("inserted C2 before the tail", "  * ", 10);
 	
-	sl.insertBefore("-1", pos);
-	sl.insertBefore("-2", pos);
-	sl.insertBefore("-3", pos);
-	sl.print("result:", "  * ");
+	for (StringListIterator ii = sl.first(); ii.valid(); ii.next()) {
+	    ii.next();
+	    if (ii.valid()) {
+		sl.remove(ii);
+	    }
+	}
+	sl.print("after removing nodes number 2, 4, ...", "  * ", 10);
 	
-	System.out.print("Inserting some nodes after the last...");
+	sl.remove(sl.first());
+	sl.print("after removing first node", "  * ", 10);
 	
-	pos.node = sl.findLastNode();
-	pos.node.value = "the last node (at first)";
-	sl.insertAfter("1111", pos);
-	sl.insertAfter("2222", pos);
-	sl.insertAfter("3333", pos);
-	sl.print("result:", "  * ");
-	
-	System.out.print("Inserting some nodes before the last...");
-	
-	pos.node = sl.findLastNode();
-	pos.node.value = "the last node (really)";
-	sl.insertBefore("--11", pos);
-	sl.insertBefore("--22", pos);
-	sl.insertBefore("--33", pos);
-	sl.print("result:", "  * ");
+	sl.remove(sl.last());
+	sl.print("after last node", "  * ", 10);
     }
+    
 }
