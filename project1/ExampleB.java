@@ -1,7 +1,7 @@
-public class ExampleA
+public class ExampleB
 {
-    private static int    nMin    =   1024;
-    private static int    nMax    = 100000;
+    private static int    nMin    =   256;
+    private static int    nMax    = 40000;
     private static double nFactor = Math.sqrt(2.0);
 
     private static void parseOptions(String [] args)
@@ -30,39 +30,35 @@ public class ExampleA
     {
 	parseOptions(args);
 	
-	LogBook log = new LogBook("container operations",
-				  "number of operations",
+	LogBook log = new LogBook("sorting algorithms",
+				  "input length",
 				  "elapsed time [ms]");
-	LogSeries listPushFrontSeries = log.addSeries("list push front");
-	LogSeries vectorPushBackSeries = log.addSeries("vector push back");
+	LogSeries insertionSortSeries = log.addSeries("insertion sort");
+	LogSeries mergeSortSeries = log.addSeries("merge sort");
 	
 	String value = "whatever";
 	
 	System.out.println();
-	System.out.println("time required for container operations");
-	System.out.println("--------------------------------------");
-	System.out.println("N\tlist push front\tvector push back");
+	System.out.println("time required to sort data");
+	System.out.println("--------------------------");
+	System.out.println("N\tinsertion sort\tmerge sort");
 	
 	for (int ii = nMin; nMax >= ii; ii = (int) Math.round(ii * nFactor)) {
-	    System.out.print(ii);
-	    StringList list = new StringList();
-	    StringVector vector = new StringVector(256);
-	    long dt;
-	    
 	    try {
+		System.out.print(ii);
+		long dt;
+		String[] data = Factory.createRandomStrings(ii);
 		
-		listPushFrontSeries.start();
-		for (int jj = 0; jj < ii; ++jj) {
-		    list.pushFront(value);
-		}
-		dt = listPushFrontSeries.stop("" + ii);
+		String[] clone = Factory.duplicate(data);
+		insertionSortSeries.start();
+		InsertionSort.sort(clone, clone.length);
+		dt = insertionSortSeries.stop("" + ii);
 		System.out.print("\t\t" + dt);
 		
-		vectorPushBackSeries.start();
-		for (int jj = 0; jj < ii; ++jj) {
-		    vector.pushBack(value);
-		}
-		dt = vectorPushBackSeries.stop("" + ii);
+		clone = Factory.duplicate(data);
+		mergeSortSeries.start();
+		MergeSort.sort(clone, clone.length);
+		dt = mergeSortSeries.stop("" + ii);
 		System.out.print("\t\t" + dt);
 		
 		System.out.println();
