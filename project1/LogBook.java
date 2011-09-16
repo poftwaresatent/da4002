@@ -1,5 +1,5 @@
-import java.util.LinkedList;
-import java.util.Iterator;
+import java.util.*;
+import java.io.*;
 
 /**
    Utility for collecting time measurements across various setups. The
@@ -10,12 +10,18 @@ import java.util.Iterator;
 */
 public class LogBook
 {
-    public String description;
-    public LinkedList<LogSeries> series;
+    private String description;
+    private String xLabel;
+    private String yLabel;
+    private LinkedList<LogSeries> series;
 
-    public LogBook(String _description)
+    public LogBook(String _description,
+		   String _xLabel,
+		   String _yLabel)
     {
 	description = _description;
+	xLabel = _xLabel;
+	yLabel = _yLabel;
 	series = new LinkedList<LogSeries>();
     }
     
@@ -36,68 +42,134 @@ public class LogBook
        Print the accumulated measurement series, along with their
        descriptions, in a format usable by gnuplot.
     */
-    public void printGnuplotData()
+    public void writeData(Writer ww)
+	throws IOException
     {
 	LinkedList<Iterator<LogEntry>> iterators
 	    = new LinkedList<Iterator<LogEntry>>();
 	
-	System.out.println("##############################");
-	System.out.println("# log description:");
-	System.out.println("#   " + description);
-	System.out.println("#");
-	System.out.println("# series titles (two data columns per series):");
+	ww.write("##############################\n");
+	ww.write("# log description:\n");
+	ww.write("#   " + description + "\n");
+	ww.write("#\n");
+	ww.write("# series titles (two data columns per series):\n");
 	for (LogSeries ser : series) {
-	    System.out.println("#   - " + ser.title);
+	    ww.write("#   - " + ser.title + "\n");
 	    iterators.add(ser.entries.iterator());
 	}
-	System.out.println("#");
+	ww.write("#\n");
 	
 	outer:
 	while (true) {
 	    for (Iterator<LogEntry> it : iterators) {
 		if ( ! it.hasNext()) {
-		    System.out.println();
+		    ww.write("\n");
 		    break outer;
 		}
 		LogEntry entry = it.next();
-		System.out.print(entry.xData + "  " + entry.yData + "    ");
+		ww.write(entry.xData + "  " + entry.yData + "    ");
 	    }
-	    System.out.println();
+	    ww.write("\n");
 	}
     }
     
-    public void printGnuplotScript(String dataFilename,
-				   String xLabel,
-				   String yLabel,
-				   boolean separatePlots)
+    public void writeDataFile(String baseName)
+	throws IOException
     {
-	System.out.println("set title '" + description + "'");
-	System.out.println("set xlabel '" + xLabel + "'");
-	System.out.println("set ylabel '" + yLabel + "'");
+	FileWriter fw = new FileWriter(baseName + ".data");
+	writeData(fw);
+	fw.close();
+    }
+    
+    public void printData()
+    {
+	try {
+	    FileWriter fw = new FileWriter("/dev/stdout");
+	    writeData(fw);
+	    fw.close();
+	}
+	catch (IOException ee) {
+	    System.err.println("exception in printData():\n  " + ee);
+	}
+    }
+    
+    public String createDataFile()
+	throws IOException
+    {
+	String baseName = "log-" + System.currentTimeMillis();
+	writeDataFile(baseName);
+	return baseName;
+    }
+    
+    public void writePlotScript(Writer ww,
+				String baseName,
+				boolean separatePlots)
+	throws IOException
+    {
+	ww.write("set title '" + description + "'\n");
+	ww.write("set xlabel '" + xLabel + "'\n");
+	ww.write("set ylabel '" + yLabel + "'\n");
 	if (separatePlots) {
 	    int ii = 1;
 	    for (LogSeries ser : series) {
-		System.out.println("plot '" + dataFilename + "' u "
-				   + (ii++) + ":" + (ii++) + " w l t '"
-				   + ser.title + "'");
+		ww.write("plot '" + baseName + ".data' u "
+			 + (ii++) + ":" + (ii++) + " w l t '"
+			 + ser.title + "'\n");
 	    }
 	}
 	else {
 	    int ii = 1;
 	    for (LogSeries ser : series) {
 		if (1 == ii) {
-		    System.out.print("plot '" + dataFilename + "' u "
-				     + (ii++) + ":" + (ii++) + " w l t '"
-				     + ser.title + "'");
+		    ww.write("plot '" + baseName + ".data' u "
+			     + (ii++) + ":" + (ii++) + " w l t '"
+			     + ser.title + "'");
 		}
 		else {
-		    System.out.print(", '" + dataFilename + "' u "
-				     + (ii++) + ":" + (ii++) + " w l t '"
-				     + ser.title + "'");
+		    ww.write(", '" + baseName + ".data' u "
+			     + (ii++) + ":" + (ii++) + " w l t '"
+			     + ser.title + "'");
 		}
 	    }
-	    System.out.println();
+	    ww.write("\n");
 	}
+    }
+    
+    public void writePlotScriptFile(String baseName,
+				    boolean separatePlots)
+	throws IOException
+    {
+	FileWriter fw = new FileWriter(baseName + ".plot");
+	writePlotScript(fw, baseName, separatePlots);
+	fw.close();
+    }
+    
+    public void printPlotScript(String baseName, boolean separatePlots)
+    {
+	try {
+	    FileWriter fw = new FileWriter("/dev/stdout");
+	    writePlotScript(fw, baseName, separatePlots);
+	    fw.close();
+	}
+	catch (IOException ee) {
+	    System.err.println("exception in printPlotScript():\n  " + ee);
+	}
+    }
+    
+    public String createFiles()
+    {
+	String baseName = "";
+	try {
+	    baseName = createDataFile();
+	    writePlotScriptFile(baseName, false);
+	}
+	catch (IOException ee) {
+	    System.err.println("failed to create files:\n  " + ee);
+	    return "";
+	}
+	System.out.println("created data and plot files with base name `" + baseName + "'");
+	System.out.println("  to see the plots, run `gnuplot -p " + baseName + ".plot'");
+	return baseName;
     }
     
     /**
@@ -106,7 +178,7 @@ public class LogBook
     */
     public static void main(String [] args)
     {
-	LogBook log = new LogBook("delay of for-loops");
+	LogBook log = new LogBook("delay of for-loops", "number of iterations", "elapsed time [ms]");
 	
 	LogSeries ser = log.addSeries("empty");
 	for (int ii = 1024; 1000000 >= ii; ii *= 2) {
@@ -126,7 +198,10 @@ public class LogBook
 	    ser.stop("" + ii);
 	}
 	
-	log.printGnuplotData();
+	log.printData();
+	log.printPlotScript("none", true);
+	
+	log.createFiles(); 
     }
     
 }

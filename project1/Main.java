@@ -2,7 +2,9 @@ public class Main
 {
     public static void insert()
     {
-	LogBook log = new LogBook("repeated insertion at the front");
+	LogBook log = new LogBook("repeated insertion at the front",
+				  "number of insertions",
+				  "elapsed time [ms]");
 	LogSeries listSeries = log.addSeries("list push front");
 	LogSeries vectorSeries = log.addSeries("vector push back");
 	
@@ -33,17 +35,14 @@ public class Main
 	    }
 	}
 	
-	log.printGnuplotData();
-	log.printGnuplotScript("foo.log",
-			       "number of insertions",
-			       "elapsed time [ms]",
-			       true);
+	log.printData();
+	log.printPlotScript("none", true);
     }
     
     
     public static void sortRandom()
     {
-	LogBook log = new LogBook("sorting algorithms");
+	LogBook log = new LogBook("sorting algorithms", "number of items", "elapsed time [ms]");
 	LogSeries insertionSortSeries = log.addSeries("insertion sort");
 	LogSeries mergeSortSeries = log.addSeries("merge sort");
 	
@@ -75,11 +74,8 @@ public class Main
 	    }
 	}
 	
-	log.printGnuplotData();
-	log.printGnuplotScript("foo.log",
-			       "number of items",
-			       "elapsed time [ms]",
-			       true);
+	log.printData();
+	log.printPlotScript("none", true);
     }
     
     
