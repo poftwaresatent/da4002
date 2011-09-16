@@ -10,9 +10,10 @@ import java.io.*;
 */
 public class LogBook
 {
-    private String description;
-    private String xLabel;
-    private String yLabel;
+    public final String description;
+    public final String xLabel;
+    public final String yLabel;
+    
     private LinkedList<LogSeries> series;
 
     public LogBook(String _description,

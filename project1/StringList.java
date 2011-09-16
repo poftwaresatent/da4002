@@ -228,6 +228,22 @@ public class StringList
     
     
     /**
+       Sequentially searches the list for (the first occurrence of)
+       the given value, and returns an iterator to that position. In
+       case the value is not found, null is returned.
+    */
+    public StringListIterator find(String value)
+    {
+	for (StringListNode ii = head; null != ii; ii = ii.next) {
+	    if (ii.value == value) {
+		return new StringListIterator(ii);
+	    }
+	}
+	return null;
+    }
+    
+    
+    /**
        Helper method which prints a string and then some empty space
        until the given width is reached.
     */

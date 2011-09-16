@@ -24,6 +24,32 @@ public class Factory
     }
     
     
+    static public String[] createSamples(String[] data, int length, double pRandom)
+    {
+	if (length < 1) {
+	    length = 1;
+	}
+	
+	String[] array = new String[length];
+	for (int ii = 0; ii < length; ++ii) {
+	    if ((0 == data.length)
+		|| (pRandom >= 1.0)
+		|| (rnd.nextDouble() < pRandom)) {
+		int strlen = 2 + rnd.nextInt(10);
+		StringBuilder sb = new StringBuilder(strlen);
+		for (int jj = 0; jj < strlen; ++jj) {
+		    sb.append(charbag[rnd.nextInt(charbag.length)]);
+		}
+		array[ii] = sb.toString();
+	    }
+	    else {
+		array[ii] = data[rnd.nextInt(data.length)];
+	    }
+	}
+	return array;
+    }
+    
+    
     static public String[] duplicate(String[] data, int effectiveLength)
     {
 	String[] clone = new String[effectiveLength];
