@@ -103,52 +103,69 @@ public class LogBook
     
     public void writePlotScript(Writer ww,
 				String baseName,
-				boolean separatePlots)
+				boolean pdfOutput)
 	throws IOException
     {
 	ww.write("set title '" + description + "'\n");
 	ww.write("set xlabel '" + xLabel + "'\n");
 	ww.write("set ylabel '" + yLabel + "'\n");
-	if (separatePlots) {
-	    int ii = 1;
-	    for (LogSeries ser : series) {
+	ww.write("set key left top\n");
+	
+	if (pdfOutput) {
+	    //// for gnuplot-4.4 from macports:
+	    //ww.write("set term pdf color lw 3 fsize 12\nset output '" + baseName + "-all.pdf'\n");
+	    ww.write("set term pdf lw 3\n");
+	    ww.write("set output '" + baseName + "-all.pdf'\n");
+	}
+	
+	// First, plot all data into one figure on the screen.
+	int ii = 1;
+	for (LogSeries ser : series) {
+	    if (1 == ii) {
 		ww.write("plot '" + baseName + ".data' u "
 			 + (ii++) + ":" + (ii++) + " w l t '"
-			 + ser.title + "'\n");
+			 + ser.title + "'");
+	    }
+	    else {
+		ww.write(", '" + baseName + ".data' u "
+			 + (ii++) + ":" + (ii++) + " w l t '"
+			 + ser.title + "'");
 	    }
 	}
-	else {
-	    int ii = 1;
-	    for (LogSeries ser : series) {
-		if (1 == ii) {
-		    ww.write("plot '" + baseName + ".data' u "
-			     + (ii++) + ":" + (ii++) + " w l t '"
-			     + ser.title + "'");
-		}
-		else {
-		    ww.write(", '" + baseName + ".data' u "
-			     + (ii++) + ":" + (ii++) + " w l t '"
-			     + ser.title + "'");
-		}
+	ww.write("\n");
+	
+	// Then, plot one figure per data column on the screen.
+	ii = 1;
+	int jj = 1;
+	for (LogSeries ser : series) {
+	    if (pdfOutput) {
+		ww.write("set output '" + baseName + "-" + (jj++) + ".pdf'\n");
 	    }
-	    ww.write("\n");
+	    else {
+		ww.write("set term wxt " + (jj++) + "\n");
+	    }
+	    ww.write("plot '" + baseName + ".data' u "
+		     + (ii++) + ":" + (ii++) + " w l t '"
+		     + ser.title + "'\n");
 	}
     }
     
-    public void writePlotScriptFile(String baseName,
-				    boolean separatePlots)
+    public void writePlotScriptFiles(String baseName)
 	throws IOException
     {
-	FileWriter fw = new FileWriter(baseName + ".plot");
-	writePlotScript(fw, baseName, separatePlots);
+	FileWriter fw = new FileWriter(baseName + "-screen.plot");
+	writePlotScript(fw, baseName, false);
+	fw.close();
+	fw = new FileWriter(baseName + "-pdf.plot");
+	writePlotScript(fw, baseName, true);
 	fw.close();
     }
     
-    public void printPlotScript(String baseName, boolean separatePlots)
+    public void printPlotScript(String baseName)
     {
 	try {
 	    FileWriter fw = new FileWriter("/dev/stdout");
-	    writePlotScript(fw, baseName, separatePlots);
+	    writePlotScript(fw, baseName, false);
 	    fw.close();
 	}
 	catch (IOException ee) {
@@ -161,14 +178,25 @@ public class LogBook
 	String baseName = "";
 	try {
 	    baseName = createDataFile();
-	    writePlotScriptFile(baseName, false);
+	    writePlotScriptFiles(baseName);
 	}
 	catch (IOException ee) {
 	    System.err.println("failed to create files:\n  " + ee);
 	    return "";
 	}
-	System.out.println("created data and plot files with base name `" + baseName + "'");
-	System.out.println("  to see the plots, run `gnuplot -p " + baseName + ".plot'");
+	System.out.println();
+	System.out.println("to view plots on screen, run this command:");
+	System.out.println();
+	System.out.println("    gnuplot -p " + baseName + "-screen.plot");
+	System.out.println();
+	System.out.println("to create PDF figures, run this command:");
+	System.out.println();
+	System.out.println("    gnuplot " + baseName + "-pdf.plot");
+	System.out.println();
+	System.out.println("to view the PDFs, you can use e.g.:");
+	System.out.println();
+	System.out.println("    evince " + baseName + "-*.pdf &");
+	System.out.println();
 	return baseName;
     }
     
@@ -199,7 +227,7 @@ public class LogBook
 	}
 	
 	log.printData();
-	log.printPlotScript("none", true);
+	log.printPlotScript("none");
 	
 	log.createFiles(); 
     }
