@@ -103,6 +103,7 @@ public class LogBook
     
     public void writePlotScript(Writer ww,
 				String baseName,
+				boolean separateSeries,
 				boolean pdfOutput)
 	throws IOException
     {
@@ -113,51 +114,62 @@ public class LogBook
 	
 	if (pdfOutput) {
 	    //// for gnuplot-4.4 from macports:
-	    //ww.write("set term pdf color lw 3 fsize 12\nset output '" + baseName + "-all.pdf'\n");
+	    //ww.write("set term pdf lw 3 fsize 12\n");
 	    ww.write("set term pdf lw 3\n");
-	    ww.write("set output '" + baseName + "-all.pdf'\n");
+	    if ( ! separateSeries) {
+		ww.write("set output '" + baseName + "-all.pdf'\n");
+	    }
 	}
 	
-	// First, plot all data into one figure on the screen.
-	int ii = 1;
-	for (LogSeries ser : series) {
-	    if (1 == ii) {
+	if (separateSeries) {
+	    // plot one figure per data series
+	    int ii = 1;
+	    int jj = 0;
+	    for (LogSeries ser : series) {
+		if (pdfOutput) {
+		    ww.write("set output '" + baseName + "-" + (jj++) + ".pdf'\n");
+		}
+		else {
+		    ww.write("set term wxt " + (jj++) + "\n");
+		}
 		ww.write("plot '" + baseName + ".data' u "
 			 + (ii++) + ":" + (ii++) + " w l t '"
-			 + ser.title + "'");
-	    }
-	    else {
-		ww.write(", '" + baseName + ".data' u "
-			 + (ii++) + ":" + (ii++) + " w l t '"
-			 + ser.title + "'");
+			 + ser.title + "'\n");
 	    }
 	}
-	ww.write("\n");
-	
-	// Then, plot one figure per data column on the screen.
-	ii = 1;
-	int jj = 1;
-	for (LogSeries ser : series) {
-	    if (pdfOutput) {
-		ww.write("set output '" + baseName + "-" + (jj++) + ".pdf'\n");
+	else {
+	    // plot all data into one figure
+	    int ii = 1;
+	    for (LogSeries ser : series) {
+		if (1 == ii) {
+		    ww.write("plot '" + baseName + ".data' u "
+			     + (ii++) + ":" + (ii++) + " w l t '"
+			     + ser.title + "'");
+		}
+		else {
+		    ww.write(", '" + baseName + ".data' u "
+			     + (ii++) + ":" + (ii++) + " w l t '"
+			     + ser.title + "'");
+		}
 	    }
-	    else {
-		ww.write("set term wxt " + (jj++) + "\n");
-	    }
-	    ww.write("plot '" + baseName + ".data' u "
-		     + (ii++) + ":" + (ii++) + " w l t '"
-		     + ser.title + "'\n");
+	    ww.write("\n");
 	}
     }
     
     public void writePlotScriptFiles(String baseName)
 	throws IOException
     {
-	FileWriter fw = new FileWriter(baseName + "-screen.plot");
-	writePlotScript(fw, baseName, false);
+	FileWriter fw = new FileWriter(baseName + "-sep-scr.plot");
+	writePlotScript(fw, baseName, true, false);
 	fw.close();
-	fw = new FileWriter(baseName + "-pdf.plot");
-	writePlotScript(fw, baseName, true);
+	fw = new FileWriter(baseName + "-all-scr.plot");
+	writePlotScript(fw, baseName, false, false);
+	fw.close();
+	fw = new FileWriter(baseName + "-sep-pdf.plot");
+	writePlotScript(fw, baseName, true, true);
+	fw.close();
+	fw = new FileWriter(baseName + "-all-pdf.plot");
+	writePlotScript(fw, baseName, false, true);
 	fw.close();
     }
     
@@ -165,7 +177,7 @@ public class LogBook
     {
 	try {
 	    FileWriter fw = new FileWriter("/dev/stdout");
-	    writePlotScript(fw, baseName, false);
+	    writePlotScript(fw, baseName, false, false);
 	    fw.close();
 	}
 	catch (IOException ee) {
@@ -185,16 +197,19 @@ public class LogBook
 	    return "";
 	}
 	System.out.println();
-	System.out.println("to view plots on screen, run this command:");
+	System.out.println("to view all data in one figure on screen, run this command:");
+	System.out.println("    gnuplot -p " + baseName + "-all-scr.plot");
 	System.out.println();
-	System.out.println("    gnuplot -p " + baseName + "-screen.plot");
+	System.out.println("to view separate figures on screen, run this command:");
+	System.out.println("    gnuplot -p " + baseName + "-sep-scr.plot");
 	System.out.println();
-	System.out.println("to create PDF figures, run this command:");
+	System.out.println("to create a PDF figure with all data, run this command:");
+	System.out.println("    gnuplot " + baseName + "-all-pdf.plot");
 	System.out.println();
-	System.out.println("    gnuplot " + baseName + "-pdf.plot");
+	System.out.println("to create separate PDF figures, run this command:");
+	System.out.println("    gnuplot " + baseName + "-sep-pdf.plot");
 	System.out.println();
 	System.out.println("to view the PDFs, you can use e.g.:");
-	System.out.println();
 	System.out.println("    evince " + baseName + "-*.pdf &");
 	System.out.println();
 	return baseName;

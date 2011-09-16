@@ -28,9 +28,11 @@ public class LogSeries
        given xData paired with the time elapsed since start was called
        (in milliseconds).
     */
-    public void stop(String xData)
+    public long stop(String xData)
     {
 	tStop = System.currentTimeMillis();
-	entries.add(new LogEntry(xData, "" + (tStop - tStart)));
+	long dt = tStop - tStart;
+	entries.add(new LogEntry(xData, "" + dt));
+	return dt;
     }
 }
