@@ -50,15 +50,15 @@ public class ExampleB
 		String[] data = Factory.createRandomStrings(ii);
 		
 		String[] clone = Factory.duplicate(data);
-		insertionSortSeries.start();
+		insertionSortSeries.startSingle();
 		InsertionSort.sort(clone, clone.length);
-		dt = insertionSortSeries.stop("" + ii);
+		dt = insertionSortSeries.stopSingle("" + ii);
 		System.out.print("\t\t" + dt);
 		
 		clone = Factory.duplicate(data);
-		mergeSortSeries.start();
+		mergeSortSeries.startSingle();
 		MergeSort.sort(clone, clone.length);
-		dt = mergeSortSeries.stop("" + ii);
+		dt = mergeSortSeries.stopSingle("" + ii);
 		System.out.print("\t\t" + dt);
 		
 		System.out.println();

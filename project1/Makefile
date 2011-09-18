@@ -19,7 +19,7 @@ doc: $(SRCS)
 	javadoc -d doc $(SRCS)
 
 clean:
-	rm -f *.class *~ *.log $(PDFS)
+	rm -f *.class *~ *.log *.aux *.bbl *.blg $(PDFS)
 
 .SUFFIXES: .java .class .tex .pdf
 

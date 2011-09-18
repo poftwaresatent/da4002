@@ -72,21 +72,21 @@ public class ExampleC
 			    String[] data = Factory.createRandomStrings(iData);
 			    String[] samples = Factory.createSamples(data, iSearches, pRnd);
 			    
-			    unsortedListSeries.start();
+			    unsortedListSeries.startSingle();
 			    StringList list = new StringList(data);
 			    for (int jj = 0; jj < iSearches; ++jj) {
 				list.find(samples[jj]);
 			    }
-			    dt = unsortedListSeries.stop("" + iSearches);
+			    dt = unsortedListSeries.stopSingle("" + iSearches);
 			    System.out.print("\t\t" + dt);
 			    
-			    mergeSortVectorSeries.start();
+			    mergeSortVectorSeries.startSingle();
 			    StringVector vector = new StringVector(data);
 			    MergeSort.sort(vector);
 			    for (int jj = 0; jj < iSearches; ++jj) {
 				BinarySearch.find(vector, samples[jj]);
 			    }
-			    dt = mergeSortVectorSeries.stop("" + iSearches);
+			    dt = mergeSortVectorSeries.stopSingle("" + iSearches);
 			    System.out.print("\t\t" + dt);
 			    
 			    System.out.println();

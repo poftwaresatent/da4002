@@ -48,19 +48,19 @@ public class ExampleA
 		String[] data = Factory.createRandomStrings(ii);
 		
 		StringList list = new StringList();
-		listPushFrontSeries.start();
+		listPushFrontSeries.startSingle();
 		for (int jj = 0; jj < ii; ++jj) {
 		    list.pushFront(data[jj]);
 		}
-		dt = listPushFrontSeries.stop("" + ii);
+		dt = listPushFrontSeries.stopSingle("" + ii);
 		System.out.print("\t\t" + dt);
 		
 		StringVector vector = new StringVector(256);
-		vectorPushBackSeries.start();
+		vectorPushBackSeries.startSingle();
 		for (int jj = 0; jj < ii; ++jj) {
 		    vector.pushBack(data[jj]);
 		}
-		dt = vectorPushBackSeries.stop("" + ii);
+		dt = vectorPushBackSeries.stopSingle("" + ii);
 		System.out.print("\t\t" + dt);
 		
 		//////////////////////////////////////////////////

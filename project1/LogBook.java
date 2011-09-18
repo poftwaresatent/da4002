@@ -225,20 +225,20 @@ public class LogBook
 	
 	LogSeries ser = log.addSeries("empty");
 	for (int ii = 1024; 1000000 >= ii; ii *= 2) {
-	    ser.start();
+	    ser.startSingle();
 	    for (int jj = 0; ii > jj; ++jj) {
 		/* nop */
 	    }
-	    ser.stop("" + ii);
+	    ser.stopSingle("" + ii);
 	}
 	
 	ser = log.addSeries("simple string operations");
 	for (int ii = 1024; 1000000 >= ii; ii *= 2) {
-	    ser.start();
+	    ser.startSingle();
 	    for (int jj = 0; ii > jj; ++jj) {
 		String blah = "blah" + jj;
 	    }
-	    ser.stop("" + ii);
+	    ser.stopSingle("" + ii);
 	}
 	
 	log.printData();
