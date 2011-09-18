@@ -1,4 +1,4 @@
-public class BonusA
+public class BonusAStats
 {
     private static int    nAvg    =      10;
     private static int    nMin    =    1000;

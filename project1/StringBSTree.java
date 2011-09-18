@@ -165,7 +165,7 @@ public class StringBSTree
     }
     
     
-    public boolean contains(String value)
+    public boolean find(String value)
     {
 	StringBSTreeNode node = root;
 	while (null != node) {
