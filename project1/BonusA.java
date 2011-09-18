@@ -1,28 +1,31 @@
-public class MandatoryA
+public class BonusA
 {
-    private static int    nMin    =    5000;
-    private static int    nMax    = 1000000;
+    private static int    nAvg    =      10;
+    private static int    nMin    =    1000;
+    private static int    nMax    =  200000;
     private static double nFactor = Math.sqrt(2.0);
     
     private static void parseOptions(String [] args)
     {
 	try {
-	    if (3 <= args.length) {
-		nMin = Integer.parseInt(args[0]);
-		nMax = Integer.parseInt(args[1]);
-		nFactor = Double.parseDouble(args[2]);
+	    if (4 <= args.length) {
+		nAvg = Integer.parseInt(args[0]);
+		nMin = Integer.parseInt(args[1]);
+		nMax = Integer.parseInt(args[2]);
+		nFactor = Double.parseDouble(args[3]);
 	    }
-	    else if (2 <= args.length) {
-		nMin = Integer.parseInt(args[0]);
-		nMax = Integer.parseInt(args[1]);
+	    else if (3 <= args.length) {
+		nAvg = Integer.parseInt(args[0]);
+		nMin = Integer.parseInt(args[1]);
+		nMax = Integer.parseInt(args[2]);
 	    }
 	    else if (1 <= args.length) {
-		nMin = Integer.parseInt(args[0]);
+		nAvg = Integer.parseInt(args[0]);
 	    }
 	}
 	catch (NumberFormatException ee) {
 	    System.err.println("failed to parse arguments:");
-	    System.err.println("  expected [nMin [nMax [nFactor]]]");
+	    System.err.println("  expected [nAvg [nMin [nMax [nFactor]]]]");
 	    System.exit(42);
 	}
     }
@@ -33,7 +36,7 @@ public class MandatoryA
 	
 	LogBook insertionLog = new LogBook("container insertions",
 					   "number of operations",
-					   "elapsed time [ms]");
+					   "average (N=" + nAvg + ") elapsed time [ms]");
 	
 	LogSeries listPushFrontSeries = insertionLog.addSeries("list push front");
 	LogSeries vectorPushBackSeries = insertionLog.addSeries("vector push back");
@@ -41,7 +44,7 @@ public class MandatoryA
 	
 	LogBook removalLog = new LogBook("container removals",
 					 "number of operations",
-					 "elapsed time [ms]");
+					 "average (N=" + nAvg + ") elapsed time [ms]");
 	
 	LogSeries listPopFrontSeries = removalLog.addSeries("list pop front");
 	LogSeries vectorPopBackSeries = removalLog.addSeries("vector pop back");
@@ -55,52 +58,70 @@ public class MandatoryA
 	for (int ii = nMin; nMax >= ii; ii = (int) Math.round(ii * nFactor)) {
 	    try {
 		System.out.print(ii);
-		long dt;
-		String[] data = Factory.createRandomStrings(ii);
 		
-		StringList list = new StringList();
-		listPushFrontSeries.startSingle();
-		for (int jj = 0; jj < ii; ++jj) {
-		    list.pushFront(data[jj]);
+		String[][] data = new String[nAvg][];
+		for (int kk = 0; kk < nAvg; ++kk) {
+		    data[kk] = Factory.createRandomStrings(ii);
 		}
-		dt = listPushFrontSeries.stopSingle("" + ii);
+		
+		listPushFrontSeries.initAverage();
+		listPopFrontSeries.initAverage();
+		for (int kk = 0; kk < nAvg; ++kk) {
+		    StringList list = new StringList();
+		    listPushFrontSeries.startAverage();
+		    for (int jj = 0; jj < ii; ++jj) {
+			list.pushFront(data[kk][jj]);
+		    }
+		    listPushFrontSeries.stopAverage();
+		    listPopFrontSeries.startAverage();
+		    for (int jj = 0; jj < ii; ++jj) {
+			list.popFront();
+		    }
+		    listPopFrontSeries.stopAverage();
+		}
+		double dt = listPushFrontSeries.finalizeAverage("" + ii);
+		System.out.print("\t" + dt);
+		dt = listPopFrontSeries.finalizeAverage("" + ii);
 		System.out.print("\t" + dt);
 		
-		listPopFrontSeries.startSingle();
-		for (int jj = 0; jj < ii; ++jj) {
-		    list.popFront();
+		vectorPushBackSeries.initAverage();
+		vectorPopBackSeries.initAverage();
+		for (int kk = 0; kk < nAvg; ++kk) {
+		    StringVector vector = new StringVector(256);
+		    vectorPushBackSeries.startAverage();
+		    for (int jj = 0; jj < ii; ++jj) {
+			vector.pushBack(data[kk][jj]);
+		    }
+		    vectorPushBackSeries.stopAverage();
+		    vectorPopBackSeries.startAverage();
+		    for (int jj = 0; jj < ii; ++jj) {
+			vector.popBack();
+		    }
+		    vectorPopBackSeries.stopAverage();
 		}
-		dt = listPopFrontSeries.stopSingle("" + ii);
-		System.out.print("\t" + dt);
-		
-		StringVector vector = new StringVector(256);
-		vectorPushBackSeries.startSingle();
-		for (int jj = 0; jj < ii; ++jj) {
-		    vector.pushBack(data[jj]);
-		}
-		dt = vectorPushBackSeries.stopSingle("" + ii);
+		dt = vectorPushBackSeries.finalizeAverage("" + ii);
 		System.out.print("\t\t" + dt);
-		
-		vectorPopBackSeries.startSingle();
-		for (int jj = 0; jj < ii; ++jj) {
-		    vector.popBack();
-		}
-		dt = vectorPopBackSeries.stopSingle("" + ii);
+		dt = vectorPopBackSeries.finalizeAverage("" + ii);
 		System.out.print("\t" + dt);
 		
-		StringBSTree bstree = new StringBSTree();
-		bstreeInsertSeries.startSingle();
-		for (int jj = 0; jj < ii; ++jj) {
-		    bstree.insert(data[jj]);
+		bstreeInsertSeries.initAverage();
+		bstreeRemoveMinSeries.initAverage();
+		for (int kk = 0; kk < nAvg; ++kk) {
+		    StringBSTree bstree = new StringBSTree();
+		    bstreeInsertSeries.startAverage();
+		    for (int jj = 0; jj < ii; ++jj) {
+			bstree.insert(data[kk][jj]);
+		    }
+		    bstreeInsertSeries.stopAverage();
+		    bstreeRemoveMinSeries.startAverage();
+		    for (int jj = 0; jj < ii; ++jj) {
+			bstree.removeMin();
+		    }
+		    bstreeRemoveMinSeries.stopAverage();
 		}
-		dt = bstreeInsertSeries.stopSingle("" + ii);
+		dt = bstreeInsertSeries.finalizeAverage("" + ii);
 		System.out.print("\t\t" + dt);
-
-		bstreeRemoveMinSeries.startSingle();
-		for (int jj = 0; jj < ii; ++jj) {
-		    bstree.removeMin();
-		}
-		dt = bstreeRemoveMinSeries.stopSingle("" + ii);
+		dt = bstreeRemoveMinSeries.finalizeAverage("" + ii);
 		System.out.print("\t" + dt);
 		
 		//////////////////////////////////////////////////
