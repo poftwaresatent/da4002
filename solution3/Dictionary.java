@@ -46,6 +46,12 @@ public class Dictionary
     }
     
     
+    public DictionaryNode findMinNode()
+    {
+	return findMinNode(root);
+    }
+    
+    
     public String findMinValue()
     {
 	if (null == root) {
@@ -88,6 +94,12 @@ public class Dictionary
 	    return node;
 	}
 	return node.bigger;
+    }
+    
+    
+    public void removeMin()
+    {
+	root = removeMin(root);
     }
     
     
@@ -333,6 +345,18 @@ public class Dictionary
 	}
 	else {
 	    System.out.println("Search property check caught the broken node");
+	}
+	
+	dict = new Dictionary();
+	String[] data = Factory.createRandomStrings(5);
+	for (int ii = 0; ii < data.length; ++ii) {
+	    dict.set(data[ii], "foo");
+	}
+	dict.printPreOrder("before repeated removing of min", "  ");
+	while ( ! dict.empty()) {
+	    DictionaryNode minNode = dict.findMinNode();
+	    dict.removeMin();
+	    dict.printPreOrder("after removing min `" + minNode.key + "'", "  ");
 	}
     }
 }
