@@ -1,10 +1,15 @@
 SRCS= $(wildcard *.java)
 OBJS= $(SRCS:.java=.class) 
 
+TEX_SRCS= $(wildcard *.tex)
+PDFS= $(TEX_SRCS:.tex=.pdf) 
+
 JC= javac
 JCFLAGS=
 
-all: $(OBJS)
+RUBBER= rubber
+
+all: $(OBJS) $(PDFS)
 
 re: clean
 	touch $(SRCS)
@@ -14,9 +19,12 @@ doc: $(SRCS)
 	javadoc -d doc $(SRCS)
 
 clean:
-	rm -f *.class *~
+	rm -f *.class *~ *.log $(PDFS)
 
-.SUFFIXES: .java .class
+.SUFFIXES: .java .class .tex .pdf
 
 .java.class:
 	$(JC) $(JCFLAGS) $<
+
+.tex.pdf:
+	$(RUBBER) -d $<

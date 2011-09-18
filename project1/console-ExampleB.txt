@@ -1,0 +1,35 @@
+
+time required to sort data
+--------------------------
+N        insertion sort        merge sort
+256                4                1
+362                2                1
+512                1                7
+724                2                0
+1024               2                1
+1448               6                0
+2048               8                1
+2896               17               1
+4096               32               1
+5793               64               2
+8193               129              2
+11587              265              4
+16386              559              5
+23173              1199             8
+32772              4245             15
+
+to view all data in one figure on screen, run this command:
+    gnuplot -p log-1316350944986-all-scr.plot
+
+to view separate figures on screen, run this command:
+    gnuplot -p log-1316350944986-sep-scr.plot
+
+to create a PDF figure with all data, run this command:
+    gnuplot log-1316350944986-all-pdf.plot
+
+to create separate PDF figures, run this command:
+    gnuplot log-1316350944986-sep-pdf.plot
+
+to view the PDFs, you can use e.g.:
+    evince log-1316350944986-*.pdf &
+

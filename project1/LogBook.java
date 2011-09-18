@@ -105,7 +105,8 @@ public class LogBook
     public void writePlotScript(Writer ww,
 				String baseName,
 				boolean separateSeries,
-				boolean pdfOutput)
+				boolean pdfOutput,
+				String scrTerm)
 	throws IOException
     {
 	ww.write("set title '" + description + "'\n");
@@ -114,8 +115,6 @@ public class LogBook
 	ww.write("set key left top\n");
 	
 	if (pdfOutput) {
-	    //// for gnuplot-4.4 from macports:
-	    //ww.write("set term pdf lw 3 fsize 12\n");
 	    ww.write("set term pdf lw 3\n");
 	    if ( ! separateSeries) {
 		ww.write("set output '" + baseName + "-all.pdf'\n");
@@ -131,10 +130,10 @@ public class LogBook
 		    ww.write("set output '" + baseName + "-" + (jj++) + ".pdf'\n");
 		}
 		else {
-		    ww.write("set term wxt " + (jj++) + "\n");
+		    ww.write("set term " + scrTerm + " " + (jj++) + "\n");
 		}
 		ww.write("plot '" + baseName + ".data' u "
-			 + (ii++) + ":" + (ii++) + " w l t '"
+			 + (ii++) + ":" + (ii++) + " w lp t '"
 			 + ser.title + "'\n");
 	    }
 	}
@@ -144,12 +143,12 @@ public class LogBook
 	    for (LogSeries ser : series) {
 		if (1 == ii) {
 		    ww.write("plot '" + baseName + ".data' u "
-			     + (ii++) + ":" + (ii++) + " w l t '"
+			     + (ii++) + ":" + (ii++) + " w lp t '"
 			     + ser.title + "'");
 		}
 		else {
 		    ww.write(", '" + baseName + ".data' u "
-			     + (ii++) + ":" + (ii++) + " w l t '"
+			     + (ii++) + ":" + (ii++) + " w lp t '"
 			     + ser.title + "'");
 		}
 	    }
@@ -161,16 +160,16 @@ public class LogBook
 	throws IOException
     {
 	FileWriter fw = new FileWriter(baseName + "-sep-scr.plot");
-	writePlotScript(fw, baseName, true, false);
+	writePlotScript(fw, baseName, true, false, "wxt");
 	fw.close();
 	fw = new FileWriter(baseName + "-all-scr.plot");
-	writePlotScript(fw, baseName, false, false);
+	writePlotScript(fw, baseName, false, false, "wxt");
 	fw.close();
 	fw = new FileWriter(baseName + "-sep-pdf.plot");
-	writePlotScript(fw, baseName, true, true);
+	writePlotScript(fw, baseName, true, true, "wxt");
 	fw.close();
 	fw = new FileWriter(baseName + "-all-pdf.plot");
-	writePlotScript(fw, baseName, false, true);
+	writePlotScript(fw, baseName, false, true, "wxt");
 	fw.close();
     }
     
@@ -178,7 +177,7 @@ public class LogBook
     {
 	try {
 	    FileWriter fw = new FileWriter("/dev/stdout");
-	    writePlotScript(fw, baseName, false, false);
+	    writePlotScript(fw, baseName, false, false, "wxt");
 	    fw.close();
 	}
 	catch (IOException ee) {

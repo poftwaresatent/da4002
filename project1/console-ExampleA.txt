@@ -1,0 +1,34 @@
+
+time required for container operations
+--------------------------------------
+N        list push front        vector push back
+1024                2                0
+1448                2                0
+2048                1                0
+2896                1                1
+4096                4                0
+5793                0                1
+8193                1                1
+11587               1                2
+16386               5                1
+23173               2                1
+32772               6                2
+46347               5                3
+65545               6                13
+92695               3                4
+
+to view all data in one figure on screen, run this command:
+    gnuplot -p log-1316350931155-all-scr.plot
+
+to view separate figures on screen, run this command:
+    gnuplot -p log-1316350931155-sep-scr.plot
+
+to create a PDF figure with all data, run this command:
+    gnuplot log-1316350931155-all-pdf.plot
+
+to create separate PDF figures, run this command:
+    gnuplot log-1316350931155-sep-pdf.plot
+
+to view the PDFs, you can use e.g.:
+    evince log-1316350931155-*.pdf &
+
