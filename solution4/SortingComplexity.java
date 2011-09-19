@@ -65,7 +65,35 @@ public class SortingComplexity
 	    }
 	    
 	    logFile.close();
+	    
+	    System.out.println();
 	    System.out.println("wrote data to file `" + filename + "'");
+	    System.out.println();
+	    System.out.println("suggestions for plotting it in gnuplot:");
+	    System.out.println("  set key top left");
+	    System.out.println("  plot 'log.data' u 1:2            w lp t 'insertion'");
+	    System.out.println("  plot 'log.data' u 1:3            w lp t 'merge'");
+	    System.out.println("  plot 'log.data' u 1:4            w lp t 'bubble'");
+	    System.out.println("  plot 'log.data' u 1:($2/log($1)) w lp t 'insertion / log N'");
+	    System.out.println("  plot 'log.data' u 1:($2/$1)      w lp t 'insertion / N'");
+	    System.out.println("  plot 'log.data' u 1:($2/($1**2)) w lp t 'insertion / N squared'");
+	    System.out.println("  plot 'log.data' u 1:($3/log($1)) w lp t 'merge / log N'");
+	    System.out.println("  plot 'log.data' u 1:($4/($1*$1)) w lp t 'bubble / N squared'");
+	    System.out.println();
+	    System.out.println("example for plotting two things on one figure:");
+	    System.out.println("  plot 'log.data' u 1:2 w lp t 'insertion', 'log.data' u 1:4 w lp t 'bubble'");
+	    System.out.println();
+	    System.out.println("example for plotting against a log-scale on the y-axis:");
+	    System.out.println("  set logscale y");
+	    System.out.println("  plot 'log.data' u 1:2 w lp t 'insertion', 'log.data' u 1:3 w lp t 'merge', 'log.data' u 1:4 w lp t 'bubble'");
+	    System.out.println();
+	    System.out.println("other useful gnuplot commands:");
+	    System.out.println("  unset logscale, set xlabel 'foo', set title 'bar', ...");
+	    System.out.println("  set term pdf, set output 'foo.pdf', ...");
+	    System.out.println("  replot (with or without additional specs)");
+	    System.out.println();
+	    System.out.println("for more documentation, go to http://www.gnuplot.info/");
+	    
 	    
 	}
 	catch (IOException ee) {
