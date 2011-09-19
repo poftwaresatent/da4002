@@ -54,7 +54,7 @@ Possible avenues for the bonus tasks are discussed in section~\ref{sec:tasks2}.
 
 Keep in mind that writing the report is an integral part of the project, so do not spend too much time on extending the functionality.
 Well-performed mandatory tasks that are properly documented in the report will receive a good grade.
-In order to achieve a very good grade, at least some amount of progress towards a bonus task will need to be demonstrated.
+In order to achieve an excellent grade, at least one bonus task needs to be done.
 
 It is important to note that teams are expected to manage their resources by themselves.
 This includes apportioning the time available for finding information online and in the book, developing and debugging code, running the benchmarks, and documenting the work.
@@ -179,11 +179,11 @@ Figure~\ref{fig:exb-plot} shows two figures based on this run, produced with the
 
 Table~\ref{tab:sorting-algorithms} list some sorting algorithms which can added to the benchmark.
 The list excludes bubble sort, insertion sort, and merge sort, because they are either provided as part of the project starting point or have been treated during an exercise.
-The (estimated) difficulty of implementing each algorithm is also given, along with a link to a Wikipedia page provding more details.
+The (estimated) difficulty of implementing each algorithm is also given, along with a link to a Wikipedia page providing more details.
 
 The mandatory tasks of alternative B are:
 First, add algorithms from table~\ref{tab:sorting-algorithms} to the sorting benchmark.
-Each team should choose either two \emph{easy} algorithms, or a single \emph{intermediate} one.
+Each team should choose either \textbf{two \emph{easy}} algorithms, or \textbf{one \emph{intermediate}} algorithm.
 Then, extend the sorting benchmark to also measure the time it takes each algorithm to sort data which is already sorted, as well as data which is sorted in reverse.
 Create clear plots which illustrate the differences between the sorting algorithms in all three cases of input data (random, sorted, and reversed).
 
@@ -191,26 +191,77 @@ Create clear plots which illustrate the differences between the sorting algorith
 
 \section{Bonus Tasks}\label{sec:tasks2}
 
+Choose \textbf{one} of the following bonus tasks in order to achieve an excellent grade.
+You are of course free to perform more than one bonus task, but keep in mind that documenting your choice and its results will also take some time.
+The first list of bonus tasks is applicable to either the container or the sorting benchmark.
+The following two lists are specific to each alternative.
+
+\begin{itemize}
+
+\item
+  Make the data containers or sorting algorithms generic.
+  Then create a benchmark which determines whether there is a significant performance difference between data of type \texttt{String} or \texttt{Integer}.
+  You will need to extend the \texttt{Factory} with a method to create arrays of random integers, similar to the one which creates random strings.
+  Create plots which clearly demonstrate your results.
+  
+\item
+  Determine how well the running times match the typical complexity classes.
+  This is done by computing the theoretical growth rate according to the $F(N)$ of the $O(F(N))$ expression, dividing the actual runtime by it, and detecting whether that ratio converges to a non-zero value.
+  You will notice that the running time measurements can be quite ``noisy.''
+  Create corresponding plots and discuss your findings in the report.
+  
+\item
+  Reduce the effect of ``noise'' in the runtime measurements by performing each measurement several times and taking the average.
+  The \texttt{LogSeries} class, which is used to log the actual runtimes, provides 4 methods to help with this task.
+  Find those methods, read their documentation, and apply them to the benchmark.
+  Create plots which compare the data with and without averaging, and discuss your findings.
+  
+\end{itemize}
+
+
 \subsection*{For Alternative A}
 
 \begin{itemize}
+
+\item
+  Investigate if and how the running times depend on the order of the input data.
+  Create benchmarks for inserting already-sorted data, data which is sorted in reverse, and data which has many duplicate items.
+  Produce benchmark plots that clearly demonstrate the different running times, and dicsuss the measured effects.
+
 \item
   Compare the running times for finding strings, using the \texttt{find} methods of \texttt{StringList} and your search tree implementation.
-  As noted in the \texttt{ExampleA.java} source code, the \texttt{Factory} provides a method which makes it easy to generate a list of strings to find:
-  ``\texttt{Factory.create\-Samples(data, 100, 0.1);}'' will create an array with 100 strings, where 90\% are taken from the provided \texttt{data}, and the remaining 10\% are randomly generated.
+  The \texttt{Factory} provides a method which makes it easy to generate a list of strings to find:
+  ``\texttt{Factory.create\-Samples(data, 1000, 0.1);}'' will create an array with 1000 strings, where 90\% are taken from the provided \texttt{data}, and the remaining 10\% are randomly generated.
   Verify that your \texttt{find} method works, and produce benchmark plots that clearly demonstrate the different running times of finding items in lists and trees.
+
+\item
+  Add a hash table and a balanced binary tree from the Java Collections library to the benchmark.
+  Use \texttt{java.util.HashSet<String>} and \texttt{java.util.TreeSet<String>}.
+  Produce benchmark plots that clearly demonstrate the different running times, and dicsuss the measured effects.
+
 \end{itemize}
+
+
 
 \subsection*{For Alternative B}
 
 \begin{itemize}
+
 \item
-  Add one of the \emph{difficult} algorithms from table~\ref{tab:sorting-algorithms} to the benchmark.
+  Add two \emph{intermediate} algorithms from table~\ref{tab:sorting-algorithms} to the benchmark.
+
+\item
+  Add one \emph{hard} algorithm from table~\ref{tab:sorting-algorithms} to the benchmark.
+  
 \end{itemize}
 
 
 
 \section{Additional Remarks}\label{sec:remarks}
+
+
+
+\subsection{Managing the Automatically Generated Files}
 
 The provided code for logging and and producing figures has a tendency to clutter the working directory with many files.
 The idea is to never delete data or plots, unless explicitly desired by the user.
@@ -245,5 +296,59 @@ Of course, adapt the directory name to something more meaningful first.
 Then, it will be possible to remove most (or even all) of the other \texttt{log-} files to make the project directory more tidy.
 
 
+
+\subsection{Customizing the Plot Scripts}
+
+The automatically generated scripts for plotting the data logs are text files with \texttt{gnuplot} commands.
+It is possible to edit these scripts in order to customize the plots.
+It is also possible to run \texttt{gnuplot} in interactive mode, and copy-paste-adapt individual commands from the script files.
+To enter interactive mode, simply launch \texttt{gnuplot} without arguments.
+
+Gnuplot comes with extensive online documentation~\cite{gnuplot}, and it has a built-in \texttt{help} command, too.
+
+
+
+\subsubsection{Example: Creating PNG Figures}
+
+Depending on the software used to prepare the project report, it may be better to produce figures in PNG format rather than the PDF format provided by the automatically generated scripts.
+This is easy to achieve by changing the corresponding \texttt{log-*-pdf.plot} script:
+
+\begin{enumerate}
+\item
+  open the script in a text editor
+\item
+  change the \texttt{term} variable to \texttt{png} instead of \texttt{pdf} (this is on or near line 5)
+\item
+  change the \texttt{output} filename to something ending in \texttt{.png} instead of \texttt{.pdf} (this is on or near line 6)
+\item
+  safe the modified script and run it using ``\texttt{gnuplot modified-script-filename}'' (of course, change the filename to whatever you saved the file as)
+\end{enumerate}
+
+
+
+\subsubsection{Example: Merging Parts from Different Plots}
+
+Suppose there are two log files \texttt{log-123.data} and \texttt{log-456.data} and their corresponding plot scripts.
+You wish to create a figure with the first data set from \texttt{log-123.data} and the second data set from \texttt{log-456.data}.
+
+\begin{enumerate}
+\item
+  choose one of the plot files as starting point and copy it to a new file, for example:\\
+  \texttt{cp log-123-all-scr.plot log-fused.plot}
+\item
+  open \texttt{log-fused.plot} in a text editor and remove the parts you do not want to plot anymore
+\item
+  copy-paste the relevant plot commands from the other script (\texttt{log-456-all-scr.plot} in this example)
+\item
+  safe \texttt{log-fused.plot} and run it using ``\texttt{gnuplot log-fused.plot}''
+\end{enumerate}
+
+Note that the \texttt{plot} command creates a fresh plot, if you want to have several data sets on the same plot they must come as comma-separated entries on one line.
+
+
+
+\footnotesize
+\bibliographystyle{plain}
+\bibliography{itads-bibliography}
 
 \end{document}

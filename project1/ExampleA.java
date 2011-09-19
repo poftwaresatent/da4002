@@ -63,22 +63,6 @@ public class ExampleA
 		dt = vectorPushBackSeries.stopSingle("" + ii);
 		System.out.print("\t\t" + dt);
 		
-		//////////////////////////////////////////////////
-		//
-		// Hint for extending this benchmark to measure how
-		// long it takes to find strings:
-		//
-		// String[] samples = Factory.createSamples(data, 100, 0.1);
-		//
-		// This will create a sample array of 100 strings,
-		// where each element is taken randomly from the data
-		// array, and 10% of the samples will be freshly
-		// created random strings. Thus, we can expect 90% of
-		// the samples to exist in the data, but 10% will not
-		// be found.
-		//
-		//////////////////////////////////////////////////
-		
 		System.out.println();
 	    }
 	    catch (OutOfMemoryError ee) {
