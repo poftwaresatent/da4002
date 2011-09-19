@@ -105,8 +105,7 @@ public class LogBook
     public void writePlotScript(Writer ww,
 				String baseName,
 				boolean separateSeries,
-				boolean pdfOutput,
-				String scrTerm)
+				boolean fileOutput)
 	throws IOException
     {
 	ww.write("set title '" + description + "'\n");
@@ -114,10 +113,10 @@ public class LogBook
 	ww.write("set ylabel '" + yLabel + "'\n");
 	ww.write("set key left top\n");
 	
-	if (pdfOutput) {
-	    ww.write("set term pdf lw 3\n");
+	if (fileOutput) {
+	    ww.write("set term " + fileTerm + "\n");
 	    if ( ! separateSeries) {
-		ww.write("set output '" + baseName + "-all.pdf'\n");
+		ww.write("set output '" + baseName + "-all." + fileTerm + "'\n");
 	    }
 	}
 	
@@ -126,8 +125,8 @@ public class LogBook
 	    int ii = 1;
 	    int jj = 0;
 	    for (LogSeries ser : series) {
-		if (pdfOutput) {
-		    ww.write("set output '" + baseName + "-" + (jj++) + ".pdf'\n");
+		if (fileOutput) {
+		    ww.write("set output '" + baseName + "-" + (jj++) + "." + fileTerm + "'\n");
 		}
 		else {
 		    ww.write("set term " + scrTerm + " " + (jj++) + "\n");
@@ -160,16 +159,16 @@ public class LogBook
 	throws IOException
     {
 	FileWriter fw = new FileWriter(baseName + "-sep-scr.plot");
-	writePlotScript(fw, baseName, true, false, "wxt");
+	writePlotScript(fw, baseName, true, false);
 	fw.close();
 	fw = new FileWriter(baseName + "-all-scr.plot");
-	writePlotScript(fw, baseName, false, false, "wxt");
+	writePlotScript(fw, baseName, false, false);
 	fw.close();
-	fw = new FileWriter(baseName + "-sep-pdf.plot");
-	writePlotScript(fw, baseName, true, true, "wxt");
+	fw = new FileWriter(baseName + "-sep-" + fileTerm + ".plot");
+	writePlotScript(fw, baseName, true, true);
 	fw.close();
-	fw = new FileWriter(baseName + "-all-pdf.plot");
-	writePlotScript(fw, baseName, false, true, "wxt");
+	fw = new FileWriter(baseName + "-all-" + fileTerm + ".plot");
+	writePlotScript(fw, baseName, false, true);
 	fw.close();
     }
     
@@ -177,7 +176,7 @@ public class LogBook
     {
 	try {
 	    FileWriter fw = new FileWriter("/dev/stdout");
-	    writePlotScript(fw, baseName, false, false, "wxt");
+	    writePlotScript(fw, baseName, false, false);
 	    fw.close();
 	}
 	catch (IOException ee) {
@@ -198,19 +197,18 @@ public class LogBook
 	}
 	System.out.println();
 	System.out.println("to view all data in one figure on screen, run this command:");
-	System.out.println("    gnuplot -p " + baseName + "-all-scr.plot");
+	System.out.println("    gnuplot -persist " + baseName + "-all-scr.plot");
 	System.out.println();
 	System.out.println("to view separate figures on screen, run this command:");
-	System.out.println("    gnuplot -p " + baseName + "-sep-scr.plot");
+	System.out.println("    gnuplot -persist " + baseName + "-sep-scr.plot");
 	System.out.println();
-	System.out.println("to create a PDF figure with all data, run this command:");
-	System.out.println("    gnuplot " + baseName + "-all-pdf.plot");
+	System.out.println("to create a " + fileTerm + " figure with all data, run this command:");
+	System.out.println("    gnuplot " + baseName + "-all-" + fileTerm + ".plot");
 	System.out.println();
-	System.out.println("to create separate PDF figures, run this command:");
-	System.out.println("    gnuplot " + baseName + "-sep-pdf.plot");
+	System.out.println("to create separate " + fileTerm + " figures, run this command:");
+	System.out.println("    gnuplot " + baseName + "-sep-" + fileTerm + ".plot");
 	System.out.println();
-	System.out.println("to view the PDFs, you can use e.g.:");
-	System.out.println("    evince " + baseName + "-*.pdf &");
+	System.out.println("to view the graphics files, you can use e.g. evince, gthumb, geeqie, or gqview");
 	System.out.println();
 	return baseName;
     }
@@ -246,5 +244,53 @@ public class LogBook
 	
 	log.createFiles(); 
     }
+    
+    //////////////////////////////////////////////////
+    // some quick and dirty code to adapt to changes between gnuplot
+    // installations
+    
+    static private final String[] scrTermChoices = { "wxt", "aqua", "x11" };
+    static private final String[] fileTermChoices = { "pdf", "png", "gif", "jpeg" };
+    static private final String scrTerm;
+    static private final String fileTerm;
+    
+    static {
+	scrTerm = qndSelectTerm(scrTermChoices);
+	fileTerm = qndSelectTerm(fileTermChoices);
+    }
+    
+    static private String qndSelectTerm(String[] choices)
+    {
+	int best = choices.length - 1;
+	try {
+	    String cmd = "bash lsterms.sh";
+	    Runtime run = Runtime.getRuntime();
+	    Process pr = run.exec(cmd);
+	    pr.waitFor();
+	    BufferedReader buf = new BufferedReader(new InputStreamReader(pr.getInputStream()));
+	    String line = buf.readLine();
+	    for (; null != line; line = buf.readLine()) {
+		StringTokenizer st = new StringTokenizer(line);
+		if ( ! st.hasMoreTokens()) {
+		    continue;
+		}
+		String token = st.nextToken();
+		for (int ii = 0; ii < choices.length; ++ii) {
+		    if (token.equals(choices[ii])) {
+			if (ii < best) {
+			    best = ii;
+			}
+		    }
+		}
+	    }
+	}
+	catch (Exception ee) {
+	    // ignore
+	}
+	return choices[best];
+    }
+    
+    // end of quick and dirty code
+    //////////////////////////////////////////////////
     
 }
