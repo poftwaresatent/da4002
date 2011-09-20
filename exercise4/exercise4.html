@@ -1,0 +1,235 @@
+<h1>ITADS Exercise 4: Complexity Analysis, Data Plotting</h1>
+
+<h2>preliminaries: summary and common errors</h2>
+
+<ul>
+  <li>
+    For nested loops, the total time is affected by the product of the loop sizes.
+    For consecutive loops, it is not.
+  </li>
+  <li>
+    Do not just blindly count the number of loops.
+    A pair of nested loops that each run from 1 to N<sup>2</sup> accounts for O(N<sup>4</sup>) time.
+  </li>
+  <li>
+    Use the logarithm to describe the running time for a problem solved by halving the size in constant time.
+    If it takes more than constant time to halve the problem, the logarithm does not apply (at least not directly).
+  </li>
+</ul>
+
+
+
+<h2>exercise 4.1: comprehension test</h2>
+
+<ol>
+  <li>
+    Programs <b>A</b> and <b>B</b> have worst-case running times no greater than <b><tt>T(N) = 150 N log N</tt></b> and <b><tt>T(N) = N<sup>2</sup></tt></b> respectively.
+    Answer the following questions, <em>if possible</em>.
+    If it is not possible to give an answer, explain why.
+    <ol>
+      <li>
+	Which program has the better guarantee on the running time for large values of <tt>N</tt> (<tt>N</tt> &gt; 10000)?
+      </li>
+      <li>
+	Which program has the better guarantee on the running time for small of <tt>N</tt> (<tt>N</tt> &lt; 100)?
+      </li>
+      <li>
+	Which program will run faster <em>on average</em> for <tt>N</tt> = 1000?
+      </li>
+      <li>
+	Can program <em>B</em> run faster than program <em>A</em> on <em>all</em> possible inputs?
+      </li>
+    </ol>
+  </li>
+  <li>
+    An algorithm takes 0.5ms for input size 100.
+    Assuming that low-order terms are negligible, how long will it take for input size 500 if the running time is
+    <ol>
+      <li>
+	linear?
+      </li>
+      <li>
+	O(N log N)?
+      </li>
+      <li>
+	quadratic?
+      </li>
+      <li>
+	exponential? <em>(this means O(2<sup>N</sup>))</em>
+      </li>
+    </ol>
+  </li>
+  <li>
+    An algorithm takes 0.5ms for input size 100.
+    Assuming that low-order terms are negligible, how large a problem can be solved in 1 minute if the running time is
+    <ol>
+      <li>
+	linear?
+      </li>
+      <li>
+	O(N log N)?
+      </li>
+      <li>
+	quadratic?
+      </li>
+      <li>
+	exponential?
+      </li>
+    </ol>
+  </li>
+</ol>
+
+
+
+<h2>exercise 4.2: measuring and plotting running times</h2>
+
+<p>
+  Start by downloading the "tarball" archive with all required files.
+  It is available here: <a href="itads/exercise4/exercise4.tar.bz2">exercise4.tar.bz2</a>
+  (<em>Windows users can download <a href="itads/exercise4/exercise4.zip">exercise4.zip</a> instead</em>).
+  Save it at the top-level of the directory where you created all the other exercise directories.
+  Then, in order to extract the files, use the following command:
+</p>
+
+<p class="command">
+  tar xfvj exercise4.tar.bz2
+</p>
+
+<p>
+  This will create a new directory called <tt>exercise4</tt>.
+  Change into that directory, build its contents, and run the <tt>SortingComplexity</tt> application.
+</p>
+
+<p class="command">
+  cd exercise4<br/>
+  make<br/>
+  java SortingComplexity
+</p>
+
+<p>
+  This produces output very similar to what you have already seen in exercise 3b.
+  The biggest change is that the running times are now also saved into a file called <tt>log.data</tt> and that the program gives suggestions for plotting the data using <a href="http://linuxmanpages.com/man1/gnuplot.1.php">gnuplot</a>.
+</p>
+
+<ol>
+  <li>
+    Open a new terminal window, change into the <tt>exercise4</tt> directory, and start the <tt>gnuplot</tt> program.
+    Then copy-paste the first two lines of the suggestions printed by <tt>SortingComplexity</tt> into the <tt>gnuplot</tt> terminal.
+    (<em>Hint:</em> under Linux, copy-pasting is as simple as selecting the text by right-dragging the mouse over the text you want to copy, then middle-clicking into the terminal where you want to pase it.)
+    This should create a figure which looks like the thumbnail shown here<br/>
+    <a href="itads/exercise4/gnuplot-screenshot.png"><img src="itads/exercise4/gnuplot-screenshot-small.png" alt="screenshot of gnuplot for the insertion sort running time"/></a><br/>
+    (Click on the thumbnail or <a href="itads/exercise4/gnuplot-screenshot.png">here</a> to see the full-scale version.)
+  </li>
+  <li>
+    What is the Big-Oh complexity of insertion sort?
+    Does the figure you just created match this?
+    Check your answer by plotting the running time of insertion sort divided by the Big-Oh function.
+    If you choose the right Big-Oh, that division will converge to a non-zero value.
+    (<em>Note:</em> you can use some of the suggestions printed by the <tt>SortingComplexity</tt> application.)
+  </li>
+  <li>
+    Repeat the last exercise also for merge sort and bubble sort.
+  </li>
+</ol>
+
+
+
+<h2>exercise 4.3: theoretical and empirical complexity</h2>
+
+<p>
+  In this exercise, you first estimate the Big-Oh complexity in theory, then implement a benchmark which logs running times for various problem sizes, and finally plot the data graphically to check whether your theoretical estimates are correct.
+<p>
+
+<ol>
+  <li>
+    Estimate the Big-Oh complexity of each of the following 9 code fragments:
+<pre>
+  // fragment 1
+  for (int ii = 0; ii &lt; N; ++ii) {
+    sum++;
+  }
+  
+  // fragment 2
+  for (int ii = 0; ii &lt; N; ii += 2) {
+    sum++;
+  }
+  
+  // fragment 3
+  for (int ii = 0; ii &lt; N; ++ii) {
+    for (int jj = 0; jj &lt; N; ++jj) {
+      sum++;
+    }
+  }
+  
+  // fragment 4
+  for (int ii = 0; ii &lt; N; ++ii) {
+    sum++;
+  }
+  for (int jj = 0; jj &lt; N; ++jj) {
+    sum++;
+  }
+  
+  // fragment 5
+  for (int ii = 0; ii &lt; N; ++ii) {
+    for (int jj = 0; jj &lt; N * N; ++jj) {
+      sum++;
+    }
+  }
+  
+  // fragment 6
+  for (int ii = 0; ii &lt; N; ++ii) {
+    for (int jj = 0; jj &lt; ii; ++jj) {
+      sum++;
+    }
+  }
+
+  // fragment 7
+  for (int ii = 0; ii &lt; N; ++ii) {
+    for (int jj = 0; jj &lt; N * N; ++jj) {
+      for (int kk = 0; kk &lt; jj; ++kk) {
+        sum++;
+      }
+    }
+  }
+  
+  // fragment 8
+  //   note: ii starts at 1, otherwise it would be an infinite loop
+  for (int ii = 1; ii &lt; N; ii *= 2) {
+    sum++;
+  }
+  
+  // fragment 9
+  //   note: ii and jj start at 1, and the kk loop is not always executed
+  for (int ii = 1; ii &lt;= N; ++ii) {
+    for (int jj = 1; jj &lt;= ii * ii; ++jj) {
+      if (0 == jj % ii) {
+        for (int kk = 0; kk &lt; jj; ++kk) {
+          sum++;
+        }
+      }
+    }
+  }
+</pre>
+  </li>
+  <li>
+    Read the <tt>SortingComplexity.java</tt> source code in order to understand:
+    <ul>
+      <li>
+	how the problem size is varied,
+      </li>
+      <li>
+	how the running time is measured,
+      </li>
+      <li>
+	and how the data log file is created.
+      </li>
+    </ul>
+  </li>
+  <li>
+    Create a new application which measures and logs the running time of the 9 code fragments you analyzed above.
+    You can start by copy-pasting the structure and logging code from <tt>SortingComplexity.java</tt>.
+  </li>
+  <li>
+    Use <tt>gnuplot</tt> to verify your theoretical analysis.
+  </li>
+</ol>
