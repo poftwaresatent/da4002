@@ -1,6 +1,7 @@
 \documentclass[a4paper,10pt]{article}
 
 \usepackage[margin=3cm]{geometry}
+\usepackage[pdftex]{graphicx}
 
 \begin{document}
 
@@ -45,5 +46,77 @@ Notify the lecturer as early as possible in order to arrange such an extension.
 \item references
 \item quotes
 \end{itemize}
+
+
+
+
+\section*{RECYCLE}
+
+
+
+
+\begin{figure}
+  \centering
+  \fbox{
+    \begin{minipage}{0.8\columnwidth}
+      \footnotesize
+      \verbatiminput{console-ExampleA.txt}
+  \end{minipage}}
+  \caption{
+    Typical console output from \texttt{ExampleA}.
+    The table with the running times gives feedback while the benchmark is being run.
+    The list of commands at the end allows to view and create figures.
+  }\label{fig:exa-console}
+\end{figure}
+  
+\begin{figure}
+  \centering
+  \includegraphics[width=0.8\columnwidth]{plot-ExampleA.pdf}
+  \caption{
+    Execution time plot produced by running example A.
+  }\label{fig:exa-plot}
+\end{figure}
+
+It produces console output similar to the one shown in figure~\ref{fig:exa-console}.
+
+Figure~\ref{fig:exa-plot} was produced by running the automatically generated ``\texttt{gnuplot log-1316350931155-all-pdf.plot}'' command.
+
+
+\begin{figure}
+  \centering
+  \fbox{
+    \begin{minipage}{0.8\columnwidth}
+      \footnotesize
+      \verbatiminput{console-ExampleB.txt}
+  \end{minipage}}
+  \caption{
+    Typical console output from \texttt{ExampleB}.
+    Similarly to figure~\ref{fig:exa-console}, the table is produced while the benchmark is being run.
+    Again, the list of commands at the end allows to view and create figures.
+  }\label{fig:exb-console}
+\end{figure}
+
+\begin{figure}
+  \centering
+  \includegraphics[width=0.8\columnwidth]{plot-ExampleB-all.pdf}\\
+  \includegraphics[width=0.8\columnwidth]{plot-ExampleB-zoom.pdf}
+  \caption{
+    Execution time plot produced by running example B.
+    The bottom figure is a zoom on the running time of merge sort.
+  }\label{fig:exb-plot}
+\end{figure}
+
+It produces console output like the one in figure~\ref{fig:exb-console}.
+
+Figure~\ref{fig:exb-plot} shows two figures based on this run, produced with the two PDF plot scripts mentioned in the console output.
+
+\cite{wikipedia:merge-sort,wikipedia:insertion-sort,wikipedia:bubble-sort}
+
+
+
+\footnotesize
+\bibliographystyle{plain}
+\bibliography{itads-bibliography}
+
 
 \end{document}
