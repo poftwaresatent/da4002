@@ -1,0 +1,21 @@
+procedure cocktailSort( A : list of sortable items ) defined as:
+do
+  swapped := false
+  for each i in 0 to length( A ) - 2 do:
+    if A[ i ] > A[ i + 1 ] then
+      swap( A[ i ], A[ i + 1 ] )
+      swapped := true
+    end if
+  end for
+  if swapped = false then
+    break do-while loop
+  end if
+  swapped := false
+  for each i in length( A ) - 2 to 0 do:
+    if A[ i ] > A[ i + 1 ] then
+      swap( A[ i ], A[ i + 1 ] )
+      swapped := true
+    end if
+  end for
+while swapped
+end procedure
