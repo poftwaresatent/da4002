@@ -1,0 +1,83 @@
+<h1>ITADS Exercise 5a: Recursion, Divie and Conquer</h1>
+
+
+
+<h2>exercise 5.1: printing numbers in any base</h2>
+
+<p>
+  Write a program that prints an integer in a given base.
+  It should take two inputs from the command line: the integer to print, and the base to use.
+  Some example output of your program should be:
+</p>
+
+<p class="command">
+  java PrintNumber 42 2   
+  in base 2, the number 42 is written 101010
+  
+  java PrintNumber 17 16
+  in base 16, the number 17 is written 11
+  
+  java PrintNumber 4002 3 
+  in base 3, the number 4002 is written 12111020
+</p>
+
+<dl>
+  <dt>
+    Hints:
+  </dt>
+  <dd>
+    The course book uses this example to explain some basic recursions in chapter 7.
+  </dd>
+  <dd>
+    Your program should check against invalid input, such as bases that are smaller than 2.
+  </dd>
+  <dd>
+    Can you handle negative numbers?
+    You don't need to go into variations of <a href="http://en.wikipedia.org/wiki/Two%27s_complement">Two's Complement</a>, just prepend a "-" sign.
+  </dd>
+  <dd>
+    If the base is bigger than 10, you should use characters from the alphabet to continue the series of digits.
+    The Wikipedia article on <a href="http://en.wikipedia.org/wiki/Hexadecimal">hexadecimal</a> explains this in (much) more detail.
+  </dd>
+</dl>
+
+  
+
+<h2>exercise 5.2: enumerate permutations</h2>
+
+<p>
+  Write a program which writes all <a href="http://en.wikipedia.org/wiki/Permutation">permutations</a> of a given string.
+  Some example output would be:
+</p>
+
+<p class="command">
+  java Permute AB
+  AB
+  BA
+  
+  java Permute 123
+  123
+  132
+  213
+  231
+  312
+  321
+</p>
+
+<dl>
+  <dt>
+    Hints:
+  </dt>
+  <dd>
+    You can use <a href="http://download.oracle.com/javase/1.5.0/docs/api/java/lang/StringBuilder.html">StringBuilder</a> to build a string which omits just a certain character position from a given string.
+    For example, to omit the 2nd character of "foo", you could write:
+    <pre>
+String foo = "foo";
+StringBuilder bar = new StringBuilder();
+for (int ii = 0; ii < foo.length(); ++ii) {
+  if (1 != ii) {
+    bar.append(foo.charAt(ii));
+  }
+}
+String fo = bar.toString();
+</pre>
