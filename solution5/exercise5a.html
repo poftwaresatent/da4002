@@ -1,8 +1,28 @@
-<h1>ITADS Exercise 5a: Recursion, Divie and Conquer</h1>
+<h1>ITADS Exercise 5a: Recursion, Divide and Conquer</h1>
 
 
 
-<h2>exercise 5.1: printing numbers in any base</h2>
+<h2>exercise 5.1: various recursion exercises</h2>
+
+<p>
+  Download <a href="itads/exercise5/RecFunctions.java">RecFunctions.java</a> and fill-in the missing implementations.
+  Please read the comments in each function to see what you have to do in each case!
+  When you run the program the output should be as follows:
+</p>
+
+<p class="command">
+  java RecFunctions<br/>
+  55<br/>
+  1155<br/>
+  16<br/>
+  1024.0<br/>
+  true
+</p>
+
+
+
+
+<h2>exercise 5.2: printing numbers in any base</h2>
 
 <p>
   Write a program that prints an integer in a given base.
@@ -11,13 +31,13 @@
 </p>
 
 <p class="command">
-  java PrintNumber 42 2   
-  in base 2, the number 42 is written 101010
-  
-  java PrintNumber 17 16
-  in base 16, the number 17 is written 11
-  
-  java PrintNumber 4002 3 
+  java PrintNumber 42 2<br/>
+  in base 2, the number 42 is written 101010<br/>
+  <br/>
+  java PrintNumber 17 16<br/>
+  in base 16, the number 17 is written 11<br/>
+  <br/>
+  java PrintNumber 4002 3 <br/>
   in base 3, the number 4002 is written 12111020
 </p>
 
@@ -43,7 +63,7 @@
 
   
 
-<h2>exercise 5.2: enumerate permutations</h2>
+<h2>exercise 5.3: enumerate permutations using divide and conquer</h2>
 
 <p>
   Write a program which writes all <a href="http://en.wikipedia.org/wiki/Permutation">permutations</a> of a given string.
@@ -51,16 +71,16 @@
 </p>
 
 <p class="command">
-  java Permute AB
-  AB
-  BA
-  
-  java Permute 123
-  123
-  132
-  213
-  231
-  312
+  java Permute AB<br/>
+  AB<br/>
+  BA<br/>
+  <br/>
+  java Permute 123<br/>
+  123<br/>
+  132<br/>
+  213<br/>
+  231<br/>
+  312<br/>
   321
 </p>
 
@@ -68,6 +88,9 @@
   <dt>
     Hints:
   </dt>
+  <dd>
+    You'll need a mixture of iteration and recursion.
+  </dd>
   <dd>
     You can use <a href="http://download.oracle.com/javase/1.5.0/docs/api/java/lang/StringBuilder.html">StringBuilder</a> to build a string which omits just a certain character position from a given string.
     For example, to omit the 2nd character of "foo", you could write:
