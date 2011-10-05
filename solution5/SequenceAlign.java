@@ -34,16 +34,6 @@ class Cell
 }
 
 
-class Pair<TT>
-{
-    public TT one, two;
-    public Pair(TT _one, TT _two) {
-	one = _one;
-	two = _two;
-    }
-}
-
-
 /**
    An CostFunction which implements the cost rules used during the lecture.
 */
