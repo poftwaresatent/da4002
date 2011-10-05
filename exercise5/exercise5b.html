@@ -18,8 +18,10 @@
   The image below (figure 1) illustrates of the type of paths produced by NF1.
 </p>
 
-<table border="1">
-  <tr><td><img src="blah"/></td></tr>
+<div id="schedule">
+
+<table>
+  <tr><td><img src="itads/exercise5/nf1_example_plan.png"/></td></tr>
   <tr><td>
       <em>Figure 1:</em>
       The NF1 is a relatively simple algorithm that constructs a discrete <a href="http://en.wikipedia.org/wiki/Scalar_potential">potential function</a> with a unique minimum at the goal location.
@@ -28,8 +30,10 @@
   </td></tr>
 </table>
 
+</div>
+
 <p>
-  The NF1 algorithm starts by assigning 0 to the goal, then iteratively assiging increasing numbers (1, 2, 3, ...) to cells that lie farther and farther away.
+  The NF1 algorithm starts by assigning 0 to the goal, then iteratively assigning increasing numbers (1, 2, 3, ...) to cells that lie farther and farther away.
   The underlying idea is rather simple:
   divide the environment into equally sized grid cells, mark all obstacle cells with a special value, then construct a monotonically increasing potential starting at the cells that are in the goal region.
   It can be implemented as a cell-labeling method which never goes into obstacles and never overwrites labels which have been written before.
@@ -37,8 +41,10 @@
   This is illustrated in figure 2.
 </p>
 
-<table border="1">
-  <tr><td><img src="blah"/></td></tr>
+<div id="schedule">
+
+<table>
+  <tr><td><img src="itads/exercise5/nf1example.png"/></td></tr>
   <tr><td>
       <em>Figure 2:</em>
       NF1 example.
@@ -49,6 +55,8 @@
       Being a true potential, you can find the goal from any cell by simply always stepping onto the neighboring cell with the smallest value.
   </td></tr>
 </table>
+
+</div>
 
 <p>
   The NF1 is a simple example of dynamic programming.
@@ -66,7 +74,7 @@
     Subproblems are only slightly smaller.
   </dt>
   <dd>
-    Finding the optimal path to a neighbor is only one step shorter than finidng the optimal path to the target cell.
+    Finding the optimal path to a neighbor is only one step shorter than finding the optimal path to the target cell.
   </dd>
   <dt>
     Optimal Structure
@@ -81,7 +89,7 @@
   The floorplan is represented as a grid, where walls are marked as obstacles.
   Open spaces and doors are marked as freely traversable.
   Apart from the method which propagates the potential function, the application in <a href="itads/exercise5/Mansion.java">Mansion.java</a> is already finished and ready to run.
-  It also needs the <a href="itads/exercise5/Pair.java">Pair.java</a> source file.
+  It also needs the <a href="itads/exercise5/Pair.java">Pair.java</a> source file, and as usual you can use the provided <a href="itads/exercise5/Makefile">Makefile</a> for automating the build process.
   In particular, the existing Mansion.java contains code for parsing command line arguments and backtracking the path for display on the console.
   The portion of code which you have to implement is clearly marked inside the <tt>propagate</tt> method.
 </p>
@@ -92,24 +100,29 @@
 </p>
 
 <p class="command">
-java Mansion<br/>
-  abcdefghijklmn<br/>
- ################<br/>
-0#     #        #0<br/>
-1#     #        #1<br/>
-2#              #2<br/>
-3#     #        #3<br/>
-4#######        #4<br/>
-5#     #        #5<br/>
-6#     #        #6<br/>
-7#     ## #### ##7<br/>
-8#     #        #8<br/>
-9#              #9<br/>
- ################<br/>
-  abcdefghijklmn<br/>
-<br/>
-Please specify start and goal coordinates, for instance `a0 n9'
+java Mansion
 </p>
+
+<p>
+  produces the following output:
+</p>
+
+<pre>
+  abcdefghijklmn
+ ################
+0#     #        #0
+1#     #        #1
+2#              #2
+3#     #        #3
+4#######        #4
+5#     #        #5
+6#     #        #6
+7#     ## #### ##7
+8#     #        #8
+9#              #9
+ ################
+  abcdefghijklmn
+</pre>
 
 <p>
   The walls of the mansion are indicated by the "<tt><b>#</b></tt>" symbols.
@@ -118,27 +131,36 @@ Please specify start and goal coordinates, for instance `a0 n9'
 </p>
 
 <p>
+  The provided code will run fine without arguments, but when you call it with arguments it fails with an exception.
+  This is because of the missing code which you are going to write.
   Once your implementation is done, you can see the plans it creates for different start and goal locations.
   For example:
 </p>
 
 <p class="command">
-java Mansion m0 e5<br/>
-  abcdefghijklmn<br/>
- ################<br/>
-0#     #      + #0<br/>
-1#     #     o  #1<br/>
-2#          o   #2<br/>
-3#     #   o    #3<br/>
-4#######  o     #4<br/>
-5#    x# o      #5<br/>
-6#    o# o      #6<br/>
-7#    o##o#### ##7<br/>
-8#    o#o       #8<br/>
-9#     o        #9<br/>
- ################<br/>
-  abcdefghijklmn
+java Mansion m0 e5
 </p>
+
+<p>
+  produces the following output:
+</p>
+
+<pre>
+  abcdefghijklmn
+ ################
+0#     #      + #0
+1#     #     o  #1
+2#          o   #2
+3#     #   o    #3
+4#######  o     #4
+5#    x# o      #5
+6#    o# o      #6
+7#    o##o#### ##7
+8#    o#o       #8
+9#     o        #9
+ ################
+  abcdefghijklmn
+</pre>
 
 <p>
   As you can see, the start is marked with a "<tt><b>+</b></tt>" sign, the goal with a "<tt><b>x</b></tt>", and all the cells which lie on the optimal path are marked as "<tt><b>o</b></tt>".
@@ -146,19 +168,26 @@ java Mansion m0 e5<br/>
 </p>
 
 <p class="command">
-java Mansion a3 a7<br/>
-  abcdefghijklmn<br/>
- ################<br/>
-0#     #        #0<br/>
-1#     #        #1<br/>
-2# ooooo        #2<br/>
-3#+    #o       #3<br/>
-4####### o      #4<br/>
-5#     # o      #5<br/>
-6#     # o      #6<br/>
-7#xooo ##o#### ##7<br/>
-8#    o#o       #8<br/>
-9#     o        #9<br/>
- ################<br/>
-  abcdefghijklmn
+java Mansion a3 a7
 </p>
+
+<p>
+  produces:
+</p>
+
+<pre>
+  abcdefghijklmn
+ ################
+0#     #        #0
+1#     #        #1
+2# ooooo        #2
+3#+    #o       #3
+4####### o      #4
+5#     # o      #5
+6#     # o      #6
+7#xooo ##o#### ##7
+8#    o#o       #8
+9#     o        #9
+ ################
+  abcdefghijklmn
+</pre>
