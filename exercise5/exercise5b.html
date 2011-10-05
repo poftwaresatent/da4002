@@ -81,9 +81,84 @@
   The floorplan is represented as a grid, where walls are marked as obstacles.
   Open spaces and doors are marked as freely traversable.
   Apart from the method which propagates the potential function, the application in <a href="itads/exercise5/Mansion.java">Mansion.java</a> is already finished and ready to run.
-  In particular, the application contains code for parsing command line arguments and backtracking the path for display on the console.
+  It also needs the <a href="itads/exercise5/Pair.java">Pair.java</a> source file.
+  In particular, the existing Mansion.java contains code for parsing command line arguments and backtracking the path for display on the console.
   The portion of code which you have to implement is clearly marked inside the <tt>propagate</tt> method.
 </p>
 
-</ul>
+<p>
+  Running the <tt>Mansion</tt> program prints the floor plan and gives instructions on how to specify the start and goal on the command line.
+  For example:
+</p>
 
+<p class="command">
+java Mansion<br/>
+  abcdefghijklmn<br/>
+ ################<br/>
+0#     #        #0<br/>
+1#     #        #1<br/>
+2#              #2<br/>
+3#     #        #3<br/>
+4#######        #4<br/>
+5#     #        #5<br/>
+6#     #        #6<br/>
+7#     ## #### ##7<br/>
+8#     #        #8<br/>
+9#              #9<br/>
+ ################<br/>
+  abcdefghijklmn<br/>
+<br/>
+Please specify start and goal coordinates, for instance `a0 n9'
+</p>
+
+<p>
+  The walls of the mansion are indicated by the "<tt><b>#</b></tt>" symbols.
+  The coordinate system along X goes from <tt>a</tt> to <tt>n</tt>, and along Y it uses numbers from <tt>0</tt> to <tt>9</tt>.
+  So, in order to specify the lower-left cell as a start location, you would pass "<tt><b>a9</b></tt>" on the command line.
+</p>
+
+<p>
+  Once your implementation is done, you can see the plans it creates for different start and goal locations.
+  For example:
+</p>
+
+<p class="command">
+java Mansion m0 e5<br/>
+  abcdefghijklmn<br/>
+ ################<br/>
+0#     #      + #0<br/>
+1#     #     o  #1<br/>
+2#          o   #2<br/>
+3#     #   o    #3<br/>
+4#######  o     #4<br/>
+5#    x# o      #5<br/>
+6#    o# o      #6<br/>
+7#    o##o#### ##7<br/>
+8#    o#o       #8<br/>
+9#     o        #9<br/>
+ ################<br/>
+  abcdefghijklmn
+</p>
+
+<p>
+  As you can see, the start is marked with a "<tt><b>+</b></tt>" sign, the goal with a "<tt><b>x</b></tt>", and all the cells which lie on the optimal path are marked as "<tt><b>o</b></tt>".
+  Or, setting a different start and goal:
+</p>
+
+<p class="command">
+java Mansion a3 a7<br/>
+  abcdefghijklmn<br/>
+ ################<br/>
+0#     #        #0<br/>
+1#     #        #1<br/>
+2# ooooo        #2<br/>
+3#+    #o       #3<br/>
+4####### o      #4<br/>
+5#     # o      #5<br/>
+6#     # o      #6<br/>
+7#xooo ##o#### ##7<br/>
+8#    o#o       #8<br/>
+9#     o        #9<br/>
+ ################<br/>
+  abcdefghijklmn
+</p>

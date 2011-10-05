@@ -1,5 +1,19 @@
 import java.util.LinkedList;
 
+//////////////////////////////////////////////////
+//////////////////////////////////////////////////
+////
+//// This is an almost-finished application.  Your assignment is to
+//// fill in the missing implementation inside method propagate of the
+//// Mansion class.
+////
+//// There are detailed instructions there, and you do not need to
+//// change any of the other code. However, you should carefully read
+//// all of the code, so that you understand the entire application.
+////
+//////////////////////////////////////////////////
+//////////////////////////////////////////////////
+
 
 class QueueElement
     implements Comparable<QueueElement>
@@ -61,6 +75,19 @@ public class Mansion
     }
     
     
+    //////////////////////////////////////////////////
+    //////////////////////////////////////////////////
+    ////
+    //// The propagate method is incomplete, you have to fill in the
+    //// missing parts as explained in the code below.
+    ////
+    //// This method receives goal coordinates and must implement the
+    //// NF1 algorithm. The initialization is already done for you:
+    //// first, the goal distance table is re-initialized, the goal
+    //// distance of the goal cell is set to zero, and the propagation
+    //// queue is initialized with the goal cell. Your task is to do
+    //// the actual propagation step inside the while loop.
+    ////
     public boolean propagate(int goalx, int goaly)
     {
 	if (map[goalx][goaly] == WALL) {
@@ -81,38 +108,95 @@ public class Mansion
 	while (0 != pq.size()) {
 	    
 	    QueueElement qe = pq.poll();
-	    int nextdist = qe.dist + 1;
-	    int xx, yy;
 	    
-	    // try to go west
-	    xx = qe.xx - 1;
-	    yy = qe.yy;
-	    if (map[xx][yy] != WALL && goaldist[xx][yy] > nextdist) {
-		goaldist[xx][yy] = nextdist;
-		pq.add(new QueueElement(nextdist, xx, yy));
-	    }
+	    //////////////////////////////////////////////////
+	    //////////////////////////////////////////////////
+	    ////
+	    //// Put your code here.
+	    ////
+	    //// The qe variable contains the currently active
+	    //// cell. You can access its coordinates by using qe.xx
+	    //// and qe.yy, which are indices for the map of the
+	    //// environment and the goal distance table (see
+	    //// below). The distance between the current cell and the
+	    //// goal can be retrieved in the qe.dist variable.
+	    ////
+	    //// The field called map is a two-dimensional array of
+	    //// characters which encode whether a cell is an obstacle
+	    //// or not. All obstacles contain the value WALL. This is
+	    //// important so that your propagation does not go into
+	    //// walls!
+	    ////
+	    //// The field called goaldist is a two-dimensional array
+	    //// of natural numbers which record the length of the
+	    //// shortest path to the goal. It is your task to compute
+	    //// and store the goaldist! Note that the goal cell's
+	    //// goaldist is already set to zero above, your task is
+	    //// to assign goaldist=1 to the 4 immediate neighbors of
+	    //// the goal, then two to their immediate neighbors,
+	    //// etc. Also note that al non-goal cells have been
+	    //// initialized to a goaldist of Integer.MAX_VALUE, which
+	    //// is a very large number. You can use this fact to
+	    //// determine if a particular goaldist entry should be
+	    //// overwritten or not: a goaldist should obly be
+	    //// overwritten by a smaller value, never a bigger one.
+	    ////
+	    //// More detailed instructions are written as comments
+	    //// further below as well.
+	    ////
+	    //// You can find more information about multi-dimensional
+	    //// arrays in Java on the official tutorial website at
+	    //// http://download.oracle.com/javase/tutorial/java/nutsandbolts/arrays.html
+	    ////
 	    
-	    // try to go east
-	    xx = qe.xx + 1;
-	    if (map[xx][yy] != WALL && goaldist[xx][yy] > nextdist) {
-		goaldist[xx][yy] = nextdist;
-		pq.add(new QueueElement(nextdist, xx, yy));
-	    }
+	    //////////////////////////////////////////////////
+	    // 1. compute the next goal distance and store it in a variable
 	    
-	    // try to go north
-	    xx = qe.xx;
-	    yy = qe.yy - 1;
-	    if (map[xx][yy] != WALL && goaldist[xx][yy] > nextdist) {
-		goaldist[xx][yy] = nextdist;
-		pq.add(new QueueElement(nextdist, xx, yy));
-	    }
+	    //////////////////////////////////////////////////
+	    // 2. attempt propagation to the WEST:
+	    //
+	    // check whether the neighbor at [qe.xx-1][qe.yy] can
+	    // be updated:
+	    //  - Make sure it is not a wall!
+	    //  - Check whether its current goaldist is higher than
+	    //    the next goal distance.
+	    //  - In case you update the neighbor's goaldist, place
+	    //    it in the queue so that later its neighbors will
+	    //    get propagated as well.
+	    //
+	    // HINT: You can add a cell to the queue by using code like this:
+	    //
+	    //    pq.add(new QueueElement(nextdist, xx, yy));
+	    //
+	    //    This is very similar to the idea of level-order
+	    //    traversal in trees. You can look at the
+	    //    StringTree class from exercise 3.1 to get further
+	    //    inspiration.
+	    
+	    //////////////////////////////////////////////////
+	    // 3. attempt propagation to the EAST:
+	    //
+	    // repeat step 2 for [qe.xx+1][qe.yy]
 
-	    // try to go south
-	    yy = qe.yy + 1;
-	    if (map[xx][yy] != WALL && goaldist[xx][yy] > nextdist) {
-		goaldist[xx][yy] = nextdist;
-		pq.add(new QueueElement(nextdist, xx, yy));
-	    }
+	    //////////////////////////////////////////////////
+	    // 4. attempt propagation to the NORTH:
+	    //
+	    // repeat step 2 for [qe.xx][qe.yy-1]
+
+	    //////////////////////////////////////////////////
+	    // 5. attempt propagation to the SOUTH:
+	    //
+	    // repeat step 2 for [qe.xx][qe.yy+1]
+	    
+	    ////
+	    //// END OF implementation to be filled in by students.
+	    ////
+	    //// It should not be necessary to touch anything below,
+	    //// but of course reading the existing code is part of
+	    //// understanding the context you have to work in.
+	    ////
+	    //////////////////////////////////////////////////
+	    //////////////////////////////////////////////////
 	    
 	}
 	
