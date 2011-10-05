@@ -1,4 +1,5 @@
 import java.util.HashSet;
+import java.util.Stack;
 
 
 /**
@@ -7,7 +8,7 @@ import java.util.HashSet;
 interface CostFunction {
     public boolean valid(char aa);
     public int gapCost();
-    public int mergeCost(char aa, char bb);
+    public int matchCost(char aa, char bb);
 }
 
 
@@ -20,7 +21,7 @@ interface CostFunction {
 */
 class Cell
 {
-    public static final int MERGE =  0x1;
+    public static final int MATCH =  0x1;
     public static final int INSERT = 0x2;
     public static final int DELETE = 0x4;
     
@@ -30,6 +31,16 @@ class Cell
     }
     
     public int bpflag, value;
+}
+
+
+class Pair<TT>
+{
+    public TT one, two;
+    public Pair(TT _one, TT _two) {
+	one = _one;
+	two = _two;
+    }
 }
 
 
@@ -68,7 +79,7 @@ class DefaultCostFunction
     }
     
     
-    public int mergeCost(char aa, char bb) {
+    public int matchCost(char aa, char bb) {
 	aa = Character.toUpperCase(aa);
 	bb = Character.toUpperCase(bb);
 	if (aa == bb) {
@@ -132,10 +143,14 @@ public class SequenceAlign
 	    table[ii] = new Cell[aa.length()];
 	    for (int jj = 0; jj < aa.length(); ++jj) {
 		table[0][jj] = new Cell(jj * cf.gapCost());
+		if (0 != jj) {
+		    table[0][jj].bpflag = Cell.INSERT;
+		}
 	    }
 	}
 	for (int ii = 1; ii < bb.length(); ++ii) {
 	    table[ii][0] = new Cell(ii * cf.gapCost());
+	    table[ii][0].bpflag = Cell.DELETE;
 	}
 	maxValue = Integer.MIN_VALUE;
 	minValue = Integer.MAX_VALUE;
@@ -147,14 +162,14 @@ public class SequenceAlign
 	for (int ii = 1; ii < bb.length(); ++ii) {
 	    for (int jj = 1; jj < aa.length(); ++jj) {
 		
-		final int mergeVal
-		    = table[ii-1][jj-1].value + cf.mergeCost(bb.charAt(ii), aa.charAt(jj));
+		final int matchVal
+		    = table[ii-1][jj-1].value + cf.matchCost(bb.charAt(ii), aa.charAt(jj));
 		final int deleteVal
 		    = table[ii-1][jj].value + cf.gapCost();
 		final int insertVal
 		    = table[ii][jj-1].value + cf.gapCost();
 		
-		int optVal = mergeVal;
+		int optVal = matchVal;
 		if (deleteVal > optVal) {
 		    optVal = deleteVal;
 		}
@@ -163,8 +178,8 @@ public class SequenceAlign
 		}
 		
 		table[ii][jj] = new Cell(optVal);
-		if (mergeVal == optVal) {
-		    table[ii][jj].bpflag |= Cell.MERGE;
+		if (matchVal == optVal) {
+		    table[ii][jj].bpflag |= Cell.MATCH;
 		}
 		if (deleteVal == optVal) {
 		    table[ii][jj].bpflag |= Cell.DELETE;
@@ -208,7 +223,7 @@ public class SequenceAlign
 	    System.out.print(' ');
 	    for (int jj = 0; jj < aa.length(); ++jj) {
 		System.out.format(chrfmt,
-				  0 != (table[ii][jj].bpflag & Cell.MERGE) ? '\\' : ' ',
+				  0 != (table[ii][jj].bpflag & Cell.MATCH) ? '\\' : ' ',
 				  0 != (table[ii][jj].bpflag & Cell.DELETE) ? '|' : ' ');
 	    }
 	    System.out.println();
@@ -220,6 +235,55 @@ public class SequenceAlign
 	    }
 	    System.out.println();
 	}
+    }
+    
+    
+    public Pair<String> backtrace(boolean debug)
+	throws RuntimeException
+    {
+	if (debug) {
+	    System.out.println("backtrace:");
+	}
+	int jj = aa.length() - 1;
+	int ii = bb.length() - 1;
+	StringBuilder sa = new StringBuilder();
+	StringBuilder sb = new StringBuilder();
+	do {
+	    if (debug) {
+		System.out.print("  [" + ii + "][" + jj + "]");
+	    }
+	    
+	    if (ii < 0 || jj < 0) {
+		throw new RuntimeException("BUG: invalid index [" + ii + "][" + jj + "]");
+	    }
+	    if (0 != (table[ii][jj].bpflag & Cell.MATCH)) {
+		if (debug) {
+		    System.out.println(" " + aa.charAt(jj) + " " + bb.charAt(ii));
+		}
+		sa.append(aa.charAt(jj--));
+		sb.append(bb.charAt(ii--));
+	    }
+	    else if (0 != (table[ii][jj].bpflag & Cell.INSERT)) {
+		if (debug) {
+		    System.out.println(" " + aa.charAt(jj) + " _");
+		}
+		sa.append(aa.charAt(jj--));
+		sb.append('_');
+	    }
+	    else if (0 != (table[ii][jj].bpflag & Cell.DELETE)) {
+		if (debug) {
+		    System.out.println(" _ " + bb.charAt(ii));
+		}
+		sa.append('_');
+		sb.append(bb.charAt(ii--));
+	    }
+	    else {
+		throw new RuntimeException("BUG: invalid bpflag at table[" + ii + "][" + jj + "]");
+	    }
+	} while ((ii >= 1 && jj >= 0) || (ii >= 0 && jj >= 1));
+	
+	return new Pair<String>(sa.reverse().toString(),
+				sb.reverse().toString());
     }
     
     
@@ -237,5 +301,16 @@ public class SequenceAlign
 	sa.init(args[0], args[1]);
 	sa.propagate();
 	sa.print();
+	
+	try {
+	    Pair<String> match = sa.backtrace(true);
+	    System.out.println();
+	    System.out.println(match.one);
+	    System.out.println(match.two);
+	}
+	catch (RuntimeException ee) {
+	    System.err.println(ee);
+	    System.exit(42);
+	}
     }
 }
