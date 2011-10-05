@@ -1,6 +1,23 @@
 import java.util.HashSet;
 
 
+/**
+   Interface for determing the cost of deleting, inserting, or changing a character.
+*/
+interface CostFunction {
+    public boolean valid(char aa);
+    public int gapCost();
+    public int mergeCost(char aa, char bb);
+}
+
+
+/**
+   Utility for storing the optimal value of a cell in the propagation
+   table, along with the backpointers. As it is possible to have up to
+   three backpointers per cell, but they always come from a
+   predetermined set of neighbors, we simply store the backpointers as
+   flags.
+*/
 class Cell
 {
     public static final int MERGE =  0x1;
@@ -16,13 +33,17 @@ class Cell
 }
 
 
-class CostFunction
+/**
+   An CostFunction which implements the cost rules used during the lecture.
+*/
+class DefaultCostFunction
+    implements CostFunction
 {
     private HashSet<Character> vowels;
     private HashSet<Character> consonants;
     
     
-    public CostFunction()
+    public DefaultCostFunction()
     {
 	vowels = new HashSet<Character>();
 	for (char aa : "AEIOUY".toCharArray()) {
@@ -67,6 +88,11 @@ class CostFunction
 }
 
 
+/**
+   Implementation of the Needleman-Wunsch algorithm. It also contains
+   supporting data structures and some utility methods, e.g. for
+   printing the table on the console.
+*/
 public class SequenceAlign
 {
     private CostFunction cf;
@@ -169,19 +195,28 @@ public class SequenceAlign
 	    fwmin = (int) Math.ceil(Math.log10(Math.abs(minValue)));
 	}
 	final int width = Math.max(fwmin, fwmax) + 1;
-	String numfmt = " %+" + width + "d";
-	String charfmt = " %" + width + "c";
+	String numfmt = "%c%+" + width + "d";
+	String chrfmt = "%c%" + width + "c";
 	
 	System.out.print(" ");
 	for (int ii = 0; ii < aa.length(); ++ii) {
-	    System.out.format(charfmt, aa.charAt(ii));
+	    System.out.format(chrfmt, ' ', aa.charAt(ii));
 	}
 	System.out.println();
-
+	
 	for (int ii = 0; ii < bb.length(); ++ii) {
+	    System.out.print(' ');
+	    for (int jj = 0; jj < aa.length(); ++jj) {
+		System.out.format(chrfmt,
+				  0 != (table[ii][jj].bpflag & Cell.MERGE) ? '\\' : ' ',
+				  0 != (table[ii][jj].bpflag & Cell.DELETE) ? '|' : ' ');
+	    }
+	    System.out.println();
 	    System.out.print(bb.charAt(ii));
 	    for (int jj = 0; jj < aa.length(); ++jj) {
-		System.out.format(numfmt, table[ii][jj].value);
+		System.out.format(numfmt,
+				  0 != (table[ii][jj].bpflag & Cell.INSERT) ? '_' : ' ',
+				  table[ii][jj].value);
 	    }
 	    System.out.println();
 	}
@@ -195,7 +230,7 @@ public class SequenceAlign
 	    System.exit(42);
 	}
 	
-	SequenceAlign sa = new SequenceAlign(new CostFunction());
+	SequenceAlign sa = new SequenceAlign(new DefaultCostFunction());
 	if ( ! sa.valid(args[0]) || ! sa.valid(args[1])) {
 	    System.exit(17);
 	}
