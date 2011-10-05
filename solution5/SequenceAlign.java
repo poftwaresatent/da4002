@@ -147,7 +147,7 @@ public class SequenceAlign
     }
     
     
-    public void propagate()
+    public int propagate()
     {
 	for (int ii = 1; ii < bb.length(); ++ii) {
 	    for (int jj = 1; jj < aa.length(); ++jj) {
@@ -186,6 +186,8 @@ public class SequenceAlign
 		}
 	    }
 	}
+	
+	return table[bb.length() - 1][aa.length() - 1].value;
     }
     
     
@@ -289,7 +291,7 @@ public class SequenceAlign
 	    System.exit(17);
 	}
 	sa.init(args[0], args[1]);
-	sa.propagate();
+	int score = sa.propagate();
 	sa.print();
 	
 	try {
@@ -297,6 +299,7 @@ public class SequenceAlign
 	    System.out.println();
 	    System.out.println(match.one);
 	    System.out.println(match.two);
+	    System.out.println("score: " + score);
 	}
 	catch (RuntimeException ee) {
 	    System.err.println(ee);
