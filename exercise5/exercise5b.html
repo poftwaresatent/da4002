@@ -2,7 +2,102 @@
 
 
 
-<h2>exercise 5.4: grid-based motion planning</h2>
+<h2>exercise 5.4: application of sequence alignment</h2>
+
+<p>
+  The <a href="itads/exercise5/SequenceAlign.java">SequenceAlign.java</a> source file is a complete application of the Needleman-Wunsch algorithm discussed during lecture 5.
+  It also needs the <a href="itads/exercise5/Pair.java">Pair.java</a> source file, and as usual you can use the provided <a href="itads/exercise5/Makefile">Makefile</a> for automating the build process.
+  Try it out with the example from the lecture:
+</p>
+
+<p class="command">
+  java SequenceAlign coffee beer
+</p>
+
+<p>
+  This produces the following output:
+</p>
+
+<pre>
+    _   c   o   f   f   e   e
+                             
+_  +0_ -5_-10_-15_-20_-25_-30
+    |\       \   \           
+b  -5  -4_ -9_-14_-19_-24_-29
+    |   |\           \   \   
+e -10  -9  -6_-11_-16  -9_-14
+    |   |\  |\  |\  |\   \   
+e -15 -14 -11_-16_-21  -6  +1
+    |\  |   |\   \      |   |
+r -20 -19 -16 -15_-20 -11  -4
+backtrace:
+  [4][6] _ r
+  [3][6] e e
+  [2][5] e e
+  [1][4] f b
+  [0][3] f _
+  [0][2] o _
+  [0][1] c _
+
+coffee_
+___beer
+score: -4
+</pre>
+
+<p>
+  Note how the table indicates backpointers, and also that the backtrace prints debug information while it progresses from the lower-right corner back to the upper-left.
+</p>
+
+<p>
+  Read the <tt>SequenceAlign.java</tt> code to understand how it works.
+  Then, write a new application from scratch which uses the <tt>SequenceAlign</tt> class in order to implement a spell checker.
+  Your spell checker should take a list of words on the command line, and for each word find the best match in the dictionary.
+</p>
+
+<p>
+  For example, let's use a <a href="http://en.wikipedia.org/wiki/Spelling_alphabet">spelling alphabet</a> as sample dictionary.
+  In order to avoid trouble with non-alphabet characters, use the following set:
+  <em> alpha, bravo, charlie, delta, echo,
+  foxtrot, golf, hotel, india, juliet, kilo, lima,
+  mike, november, oscar, papa, quebec, romeo, sierra,
+  tango, uniform, victor, whiskey, xray, yankee, zulu.</em>
+  Running your spell checker should look somewhat like this:
+</p>
+
+<p class="command">
+  java SpellCheck hello world i like algorithms
+</p>
+
+<p>
+  which produces output like the following:
+</p>
+
+<pre>
+hello: delta (score: 10)
+  hello
+  delta
+world: golf (score: 7)
+  world
+  go_lf
+i: kilo (score: -5)
+  _i__
+  kilo
+like: mike (score: 26)
+  like
+  mike
+algorithms: uniform (score: -5)
+  al_gorithms
+  unifor___m_
+</pre>
+
+<p>
+  As you can see, for each command line argument, it finds the best match from the dictionary and prints that out along with its score.
+  It also prints the optimal alignment which lead to that score.
+</p>
+
+
+  
+<h2>exercise 5.5: grid-based motion planning</h2>
 
 <p>
   Many applications require automated path planning:
