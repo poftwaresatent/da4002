@@ -11,11 +11,11 @@ import java.io.IOException;
 class FindCity
     implements IdVertexIterationCallback
 {
-    RoadMap roadmap;
+    IdRoadMap roadmap;
     IdVertex city;
     boolean verbose;
     
-    FindCity(RoadMap _roadmap, IdVertex _city, boolean _verbose)
+    FindCity(IdRoadMap _roadmap, IdVertex _city, boolean _verbose)
     {
 	roadmap = _roadmap;
 	city = _city;
@@ -32,14 +32,14 @@ class FindCity
 }
 
 
-public class RoadMap
+public class IdRoadMap
 {
     public IdGraph graph;
     public ArrayList<String> city_names;
     public HashMap<String, IdVertex> name_to_vertex_map;
     public ArrayList<Double> travel_costs;
     
-    public RoadMap()
+    public IdRoadMap()
     {
 	graph = new IdGraph();
 	city_names = new ArrayList<String>();
@@ -130,12 +130,12 @@ public class RoadMap
     
     public static void main(String[] args)
     {
-	RoadMap undirected_rm = new RoadMap();
+	IdRoadMap undirected_rm = new IdRoadMap();
 	if ( ! undirected_rm.load("city-connections-example.txt", true, false)) {
 	    System.err.println("failed to load graph");
 	    System.exit(42);
 	}
-	RoadMap directed_rm = new RoadMap();
+	IdRoadMap directed_rm = new IdRoadMap();
 	directed_rm.load("city-connections-example.txt", false, false);
 	
 	System.out.println("\ntrying visby -> goteborg in undirected road map");
