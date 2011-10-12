@@ -50,9 +50,10 @@ public class IdGraph
 	    mark[ii] = -1;
 	}
 	int counter = 0;
-	IdVertex current = start;
 	Stack<IdVertex> stack = new Stack<IdVertex>();
+	stack.push(start);
 	do {
+	    IdVertex current = stack.pop();
 	    if (0 > mark[current.id]) {
 		if (cb.processNodeIteration(current, counter)) {
 		    return true;
@@ -64,7 +65,6 @@ public class IdGraph
 		    }
 		}
 	    }
-	    current = stack.pop();
 	    ++counter;
 	} while (0 < stack.size());
 	return false;

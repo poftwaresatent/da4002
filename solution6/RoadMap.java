@@ -131,20 +131,26 @@ public class RoadMap
     public static void main(String[] args)
     {
 	RoadMap undirected_rm = new RoadMap();
-	if ( ! undirected_rm.load("city-connections-example.txt", true, true)) {
+	if ( ! undirected_rm.load("city-connections-example.txt", true, false)) {
 	    System.err.println("failed to load graph");
 	    System.exit(42);
 	}
-	System.out.println("\ntrying visby->göteborg in undirected road map");
-	undirected_rm.findPathDFS("visby", "göteborg", true);
-	System.out.println("\ntrying new_york->göteborg in undirected road map");
-	undirected_rm.findPathDFS("new_york", "göteborg", true);
-	
 	RoadMap directed_rm = new RoadMap();
 	directed_rm.load("city-connections-example.txt", false, false);
-	System.out.println("\ntrying visby->göteborg in directed road map");
-	undirected_rm.findPathDFS("visby", "göteborg", true);
-	System.out.println("\ntrying göteborg->bangkok in directed road map");
-	undirected_rm.findPathDFS("göteborg", "bangkok", true);
+	
+	System.out.println("\ntrying visby -> goteborg in undirected road map");
+	undirected_rm.findPathDFS("visby", "goteborg", true);
+	System.out.println("\ntrying visby -> goteborg in directed road map");
+	directed_rm.findPathDFS("visby", "goteborg", true);
+	
+	System.out.println("\ntrying new_york -> goteborg in undirected road map");
+	undirected_rm.findPathDFS("new_york", "goteborg", true);
+	System.out.println("\ntrying goteborg -> bangkok in directed road map");
+	directed_rm.findPathDFS("goteborg", "bangkok", true);
+	
+	System.out.println("\ntrying ystad -> ostersund in undirected road map");
+	undirected_rm.findPathDFS("ystad", "ostersund", true);
+	System.out.println("\ntrying ystad -> ostersund in directed road map");
+	directed_rm.findPathDFS("ystad", "ostersund", true);
     }
 }
