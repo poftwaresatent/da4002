@@ -1,4 +1,4 @@
-import java.util.PriorityQueue;
+import java.util.LinkedList;
 
 
 class QueueElement
@@ -74,7 +74,7 @@ public class Mansion
 	    }
 	}
 	
-	PriorityQueue<QueueElement> pq = new PriorityQueue<QueueElement>();
+	LinkedList<QueueElement> pq = new LinkedList<QueueElement>();
 	goaldist[goalx][goaly] = 0;
 	pq.add(new QueueElement(0, goalx, goaly));
 	
