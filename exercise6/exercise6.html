@@ -1,0 +1,141 @@
+<h1>ITADS Exercise 6: Graphs</h1>
+
+
+<h2>exercise 6.1: shortest path examples</h2>
+
+<p>
+  For the graph shown in the figure below, perform the following tasks with pen and paper:
+</p>
+
+<ol>
+  <li>
+
+    Find the shortest unweighted path from V<sub>3</sub> to all other vertices.
+  </li>
+  <li>
+    Find the shortest weighted path from V<sub>2</sub> to all other vertices.
+  </li>
+</ol>
+
+<img src="/r/itads/exercise6/course-book-figure-14-1.png" />
+
+
+<h2>exercise 6.2: adjacency list with internal data</h2>
+
+<p>
+  The source archive <a href="/r/itads/exercise6/exercise6.tar.bz2">exercise6.tar.bz2</a> <em>(also available as <a href="/r/itads/exercise6/exercise6.zip">exercise6.zip</a> for Windows users)</em> contains a basic graph implementation.
+  It is based on the adjacency list principle and stores "payload" data directly in the edges and vertices.
+  The class <tt>RoadMap</tt> is an example application which contains a rudimentary file parsing method, too.
+
+</p>
+
+<ol>
+
+  <li>
+    Compile and run the application.
+    Explain the output by looking at the file <tt>city-connections.txt</tt> which is used as input.
+    Make a sketch of the graph to understand why there is no path from visby to goteborg, nor from ystad to ostersund.
+  </li>
+
+  <li>
+    Extend the file parsing method <tt>RoadMap.load</tt> so that it optionally creates an undirected path.
+    <em>The easiest way to achieve this is to insert, for each parsed edge, a duplicate edge going in the opposite direction.</em>
+
+    Test the results of running <tt>RoadMap</tt> when the graph is interpreted in an undirected manner.
+    Your output should now look something like this:
+<pre>
+loading undirected graph...
+added edge ostersund <-> lulea
+added edge ostersund <-> stockholm
+added edge lulea <-> stockholm
+added edge lulea <-> malmo
+added edge goteborg <-> ostersund
+added edge goteborg <-> ystad
+added edge stockholm <-> goteborg
+added edge stockholm <-> malmo
+added edge stockholm <-> ystad
+added edge stockholm <-> visby
+added edge malmo <-> visby
+added edge visby <-> ystad
+
+loading directed graph...
+added edge ostersund --> lulea
+added edge ostersund --> stockholm
+added edge lulea --> stockholm
+added edge lulea --> malmo
+added edge goteborg --> ostersund
+added edge goteborg --> ystad
+added edge stockholm --> goteborg
+added edge stockholm --> malmo
+added edge stockholm --> ystad
+added edge stockholm --> visby
+added edge malmo --> visby
+added edge visby --> ystad
+
+trying visby -> goteborg in undirected road map
+  0: visby
+  1: ystad
+  2: stockholm
+  3: malmo
+  4: lulea
+  5: ostersund
+  6: goteborg
+yes, there is a path from visby to goteborg
+
+trying visby -> goteborg in directed road map
+  0: visby
+  1: ystad
+no, there is no path from visby to goteborg
+
+trying new_york -> goteborg in undirected road map
+source city not found: new_york
+
+trying goteborg -> bangkok in directed road map
+destination city not found: bangkok
+
+trying ystad -> ostersund in undirected road map
+  0: ystad
+  1: visby
+  2: malmo
+  3: stockholm
+  4: goteborg
+  5: ostersund
+yes, there is a path from ystad to ostersund
+
+trying ystad -> ostersund in directed road map
+  0: ystad
+no, there is no path from ystad to ostersund
+
+</pre>
+  </li>
+
+  <li>
+    Implement breadth-first search (BFS) and use that instead of depth-first search (DFS) for finding paths between cities.
+    You can start by reading the <tt>Graph.dfs</tt> method, then copying and adapting it for BFS.
+    Re-run the directed and undirected examples:
+   In what way does the traversal order change?
+  </li>
+
+  <li>
+    Add edge costs to the <tt>Edge</tt> class and change the <tt>RoadMap.load</tt> function to read them.
+    Use the provided file <tt>city-connections-with-costs.txt</tt> to load the graph now.
+    Print the edge costs while you parse the file.
+    You will also need to extend the exception handling of the <tt>load</tt> method in order to deal with number format errors.
+  </li>
+
+  <li>
+    Add a field to <tt>Vertex</tt> which allows to store the accumulated path costs.
+    Modify the BFS and DFS methods to compute the cumulative path cost for each vertex as it gets encountered.
+    Print this accumulated cost in the <tt>FindCity.visit</tt> method.
+    Re-run the directed and undirected examples:
+    Are the costs computed by DFS and BFS the same?
+    Why?
+  </li>
+
+  <li>
+    Add a field to <tt>Vertex</tt> which allows to trace back the path from the destination to the source, if such a path exists.
+    You will have to modify the DFS and BFS methods again.
+    Modify the <tt>RoadMap</tt> application to print the sequence of vertices whenever a path is found to exist.
+  </li>
+
+</ol>
