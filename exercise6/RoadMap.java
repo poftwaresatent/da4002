@@ -101,7 +101,7 @@ public class RoadMap
     public static void main(String[] args)
     {
 	RoadMap rm = new RoadMap(true);
-	if ( ! rm.load("city-connections-example.txt")) {
+	if ( ! rm.load("city-connections.txt")) {
 	    System.err.println("failed to load graph");
 	    System.exit(42);
 	}
