@@ -195,6 +195,19 @@ public class Graph
 	}
     }
     
+    public void dotPrint(String name)
+    {
+	System.out.println("digraph \"" + name + "\" {\n  graph [overlap=scale];");
+	for (Vertex vv : vertices.values()) {
+	    for (Edge ee : vv.neighbors) {
+		System.out.println("  " + vv.name + " -> " + ee.destination.name
+				   + " [label=" + ee.cost + ",len=2];");
+	    }
+	    System.out.println();
+	}
+	System.out.println("}");
+    }
+    
     public static void main(String[] args)
     {
 	if (0 == args.length) {
@@ -205,7 +218,7 @@ public class Graph
 	if ( ! gg.load(args[0], false)) {
 	    System.err.println("failed to load graph from " + args[0]);
 	}
-	gg.prettyPrint();
+	gg.dotPrint(args[0]);
     }
     
 }
