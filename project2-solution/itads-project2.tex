@@ -23,12 +23,12 @@
 
 The second project of the ITADS course focuses on more independency for the creation of an application.
 It is a rather direct continuation of exercise 6.
-The starting point is a basic implementation of a graph, some example graph definition files, and some example code fragments.
+The starting point is a skelettal implementation of a graph, some example graph definition files, and some example code fragments.
 All example graphs are planar.
-The task is to create an application that performs optimal path planning on directed and undirected graphs.
+The task is to create an application that performs optimal path planning on directed graphs.
 Each edge has a strictly positive cost, and an optimal path is one which minimizes the sum of edge costs.
 
-Similarly to the first project, students work in teams of two, and they have to hand in all source code along with a report which documents their work and the results they obtain.
+Similarly to the first project, students work in teams of two, and they have to hand in \textbf{all source code} along with \textbf{a report} which documents their work and the results they obtain.
 The deadline for handing in the source code and the report is \textbf{Friday, October 21, 2011, at 18h00}.
 
 Teams who miss the deadline will receive a penalty by lowering their grade by one.
@@ -49,20 +49,21 @@ The source archive for the second project contains the following files:
 
 \item[Edge.java]
   contains a bare-bones \texttt{Edge} class, which contains a reference to the \texttt{Vertex} which is at the end of the edge.
-  The edge class will also need to be extended with fields, for instance the cost of traversing an edge, over the course of the project.
+  The edge class will also need to be extended with fields, for instance the cost of traversing an edge.
 
 \item[Graph.java]
   is a skeleton \texttt{Graph} class, which is incomplete except for the \texttt{load} method which parses adjaceny list files.
   The methods used by the \texttt{load} method have an empty body with comments describing what needs to be filled in.
-  In particular, the provided \texttt{Graph} class contains no field for storing vertices, this is one of the first things that needs to be added in order to turn the \texttt{Graph} class into something usable.
+  In particular, the provided \texttt{Graph} class contains no field for storing vertices.
+ This` is one of the first things that needs to be added in order to turn the \texttt{Graph} class into something usable.
   Several possibilities exist for storing the vertices, from bare arrays to more flexible containers~\cite{java:linked-list,java:array-list,java:hash-set,java:tree-set,java:hash-map,java:tree-map}.
   
 \item[PriorityQueueExample.java]
-  contains some example code illustrating two different ways of using the \texttt{PriorityQueue} shipped with Java's Collection library.
+  contains code which illustrates two different ways of using the \texttt{PriorityQueue} shipped with Java's Collection library.
   Such a priority queue~\cite{wikipedia:priority-queue} is necessary in order to implement Dijkstra's algorithm for planning the shortest path through a positive-weighted graph.
   
 \item[cities.adj]
-  is a text file in adjacency-list format containing a simple example graph.
+  is a text file in adjacency-list format containing a simple example graph (see figure~\ref{fig:cities}).
   Each line of the file contains two strings and a number.
   The two strings are a source and destination city, and the number is the cost of traveling from the source to the destination.
   The \texttt{cities.adj} file defines the same graph which has been used during exercise 6.
@@ -92,11 +93,19 @@ The source archive for the second project contains the following files:
 
 \begin{figure}
   \centering
-  \fbox{\includegraphics[width=0.3\columnwidth]{zig-zag.png}}
+  \includegraphics[width=0.6\columnwidth]{cities.pdf}
+  \caption{
+    Graphical representation of the graph defined in the \texttt{cities.adj} file.
+  }\label{fig:cities}
+\end{figure}
+
+\begin{figure}
+  \centering
+  \fbox{\includegraphics[width=0.2\columnwidth]{zig-zag.png}}
   \hfill
-  \fbox{\includegraphics[width=0.3\columnwidth]{maze.png}}
+  \fbox{\includegraphics[width=0.35\columnwidth]{maze.png}}
   \hfill
-  \fbox{\includegraphics[width=0.3\columnwidth]{terrain.png}}
+  \fbox{\includegraphics[width=0.35\columnwidth]{terrain.png}}
   \caption{
     Greyscale representations of the three grid-based graph examples \texttt{zig-zag.adj}, \texttt{maze.adj}, and \texttt{terrain.adj}.
     In the images, white signifies easily traversable regions (edge costs = 1), obstacles are black (non-traversable regions: no vertices or edges exist in those areas).
@@ -186,7 +195,7 @@ The source archive for the second project contains the following files:
   The application then builds the graph, applies Dijkstra's algorithm, and prints out the shortest path from start to goal.
   Note that the vertex names in the grid-based \texttt{.adj} files are based on the grid-coordinates of the cells they are based on.
   Thus, you will get a path in grid coordinates.
-  Document you application, including how to run it and the paths it computes through the zig-zag (from lower-left to upper-right) and through the maze environment (from upper-left to lower-right).
+  Document your application, including how to run it and the paths it computes through the zig-zag (from lower-left to upper-right) and through the maze environment (from upper-left to lower-right).
   
 \end{itemize}
 
