@@ -65,7 +65,12 @@ png2txt(FILE * fp) throw(std::runtime_error)
   for (png_uint_32 irow(0); irow < height_; ++irow) {
     png_bytep row(row_p_[irow]);
     for (png_uint_32 icol(0); icol < width_; ++icol) {
-      fprintf(stdout, "%3d ", (int) row[icol]);
+      if (0 == row[icol]) {
+	fprintf(stdout, "  # ");
+      }
+      else {
+	fprintf(stdout, "%3d ", (int) 256 - row[icol]);
+      }
     }
     fprintf(stdout, "\n");
   }
