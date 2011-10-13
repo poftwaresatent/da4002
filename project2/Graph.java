@@ -107,7 +107,8 @@ public class Graph
 		ArrayList<Vertex> row = new ArrayList<Vertex>();
 		grid.add(row);
 		StringTokenizer st = new StringTokenizer(line);
-		for (String cell = st.nextToken(); null != cell; cell = st.nextToken()) {
+		while (st.hasMoreTokens()) {
+		    String cell = st.nextToken();
 		    if (cell.equals("#")) {
 			row.add(null);
 		    }
@@ -150,8 +151,7 @@ public class Graph
 	    return false;
 	}
 	catch (NoSuchElementException ee) {
-	    System.err.println("syntax error in file " + filename
-			       + "\n  (each line must have 3 entries: two strings and a double)");
+	    System.err.println("oops, you hit a bug (NoSuchElementException)");
 	    return false;
 	}
 	catch (FileNotFoundException ee) {
@@ -163,6 +163,15 @@ public class Graph
 	    return false;
 	}
 	return true;
+    }
+    
+    public void print()
+    {
+	for (Vertex vv : vertices.values()) {
+	    for (Edge ee : vv.neighbors) {
+		System.out.println(vv.name + "\t" + ee.destination.name + "\t" + ee.cost);
+	    }
+	}
     }
     
 }
