@@ -1,0 +1,7 @@
+ostersund [v: 0.0] --> lulea [c: 2.0]   stockholm [c: 1.0]  
+stockholm [v: 0.0] --> goteborg [c: 2.0]   malmo [c: 2.0]   ystad [c: 8.0]   visby [c: 4.0]  
+goteborg [v: 0.0] --> ostersund [c: 4.0]   ystad [c: 5.0]  
+visby [v: 0.0] --> ystad [c: 1.0]  
+ystad [v: 0.0] -->
+lulea [v: 0.0] --> stockholm [c: 3.0]   malmo [c: 10.0]  
+malmo [v: 0.0] --> visby [c: 6.0]  

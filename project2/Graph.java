@@ -177,10 +177,11 @@ public class Graph
     public void prettyPrint()
     {
 	for (Vertex vv : vertices.values()) {
-	    System.out.println("neighbors of " + vv.name + ":");
+	    System.out.print(vv.name + " [v: " + vv.value + "] -->");
 	    for (Edge ee : vv.neighbors) {
-		System.out.println("    " + ee.destination.name + " (cost: " + ee.cost + ")");
+		System.out.print(" " + ee.destination.name + " [c: " + ee.cost + "]  ");
 	    }
+	    System.out.println();
 	}
     }
     

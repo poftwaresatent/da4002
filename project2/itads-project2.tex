@@ -113,11 +113,13 @@ The source archive for the second project contains the following files:
   \centering
   \fbox{
     \begin{minipage}{0.4\columnwidth}
+      \footnotesize
       \verbatiminput{graph-dump-example-nocost.txt}
   \end{minipage}}
   \hfill
   \fbox{
     \begin{minipage}{0.4\columnwidth}
+      \footnotesize
       \verbatiminput{graph-dump-example-cost.txt}
   \end{minipage}}
   \caption{
@@ -127,14 +129,103 @@ The source archive for the second project contains the following files:
   }\label{fig:graph-dump-example}
 \end{figure}
 
-\begin{enumerate}
+\begin{figure}
+  \centering
+  \fbox{
+    \begin{minipage}{\columnwidth}
+      \footnotesize
+      \verbatiminput{graph-dump-example-vc.txt}
+  \end{minipage}}
+  \caption{
+    Example output for printing the graph defined in \texttt{cities.adj}.
+    Here, each vertex also has a value assigned to it.
+    After running Dijkstra's algorithm, the values will be non-zero.
+  }\label{fig:graph-dump-example-vc}
+\end{figure}
+
+\begin{itemize}
 
 \item
   Extend the provided \texttt{Graph} class such that it actually creates and stores the vertices it reads from the text file.
+  This implies extending the \texttt{Vertex} class such that it stores its name as well.
   Test your result by writing an application that reads \texttt{cities.adj} and prints the resulting graph on the console.
   Your output should look similar to the example given on the left in figure~\ref{fig:graph-dump-example}.
   
-\end{enumerate}
+\item
+  Extend the \texttt{Edge} class and the relevant methods in \texttt{Graph} such that edge costs get correctly parsed and stored.
+  Update the test application, which should now produce output similar to the one on the right in figure~\ref{fig:graph-dump-example}.
+
+\item
+  Extend the \texttt{Vertex} class and the relevant methods in \texttt{Graph} such that you can store the cumulated path costs.
+  Update the test application and its output (a more compact format is now appropriate) accoring to the example in figure~\ref{fig:graph-dump-example-vc}.
+
+\item
+  Read the information about Dijkstra's algorithm in chapter 14.3 of the course book~\cite{weiss:2005} and on Wikipedia~\cite{wikipedia:dijkstra}.
+  Then implement the algorithm in new method of the \texttt{Graph} class.
+  Some \textbf{important remarks} need to be taken into account:
+  \begin{itemize}
+  \item
+    You will need a priority queue (read the provided \texttt{PriorityQueueExample.java} file for an example).
+  \item
+    You will need to initialize the vertex values to ``infinity.''
+    For floating-point numbers, a useful substitute for infinity is \texttt{Double.MAX\_VALUE} (which is larger than any value we would expect to encounter in a normal run of Dijkstra's algorithm).
+  \item
+    You will need to further extend the \texttt{Vertex} class so that it stores a backpointer to its predecessor in the optimal path.
+    The Wikipedia pseudocode calls this ``\texttt{previous},'' the course book calls it ``\texttt{prev}.''
+  \item
+    The pseudocode given on Wikipedia relies on a priority queue which allows to re-order an item already on the queue.
+    This can be avoided with the technique presented in the course book:
+    simply create a new queue entry instead of re-ordering the old one.
+    But this means ensuring that when you later take the old one off the queue, you have to check whether it is still relevant.
+    This is explained at the beginning of page 494 in the course book.
+  \end{itemize}
+  
+\item
+  Write an application which takes three arguments:
+  the name of an \texttt{.adj} file to use as graph definition, the name of the start vertex, and the name of the goal vertex.
+  The application then builds the graph, applies Dijkstra's algorithm, and prints out the shortest path from start to goal.
+  Note that the vertex names in the grid-based \texttt{.adj} files are based on the grid-coordinates of the cells they are based on.
+  Thus, you will get a path in grid coordinates.
+  Document you application, including how to run it and the paths it computes through the zig-zag (from lower-left to upper-right) and through the maze environment (from upper-left to lower-right).
+  
+\end{itemize}
+
+
+
+\section{Bonus Tasks}
+
+\begin{itemize}
+
+\item
+  Write a method which reads a \texttt{.grid} file and creates a graph from it.
+  In order to convert a cell's value to vertices and edges, the following rules should be applied:
+  \begin{itemize}
+  \item
+    If a cell is marked as an obstacle using a ``\#'' character in the \texttt{.grid} file, no vertex should be created.
+    This of course also means that there will be no edges going towards or away from that cell.
+  \item
+    Non-obstacle cells should be connected to their four direct neighbors using edges that have a cost equal to the cell's value.
+    Direct neighbors are the ones which lie to the north, east, south, or west of a cell.
+  \item
+    Non-obstacle cells should also be connected to their four diagonal neighbors, but with an edge cost that is $\sqrt{2}$ times the cell's value.
+  \end{itemize}
+  In order to preserve the grid structure in the \texttt{Graph} class, it is most appropriate to store the \texttt{Vertex} instances in a two-dimenionsional array.
+  But it is also possible to keep a name-based lookup, with names that are generated from the cell indices.
+  Test your implementation by loading the provided \texttt{.grid} file and comparing them to the corresponding \texttt{.adj} files.
+
+\item
+  Write a grid path planning application which takes the name of the grid file as argument, along with the coordinates of the start and goal location.
+  It can also be nice to produce graphical output to show the cost map and the optimal path from start to goal.
+  A simplified ``graphical'' output could be based on characters output on the console, similar to the \texttt{Mansion} class from exercise5.
+  \emph{(Hint: saving the console output to a text file and viewing it in Firefox allows you to zoom out until the characters become so small that it looks almost like a greyscale image).}
+  
+\item
+  Extend your grid path planner with heuristic search:
+  implement A$^*$ search based on the description on Wikipedia~\cite{wikipedia:astar} or other resources you can find.
+  Make sure you test that the paths computed using A$^*$ are the same as the ones computed with Dijkstra's algorithm.
+  Compare the number of vertex expansions between A$^*$ and Dijkstra.
+  
+\end{itemize}
 
 
 
