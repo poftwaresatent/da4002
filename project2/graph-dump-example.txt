@@ -1,0 +1,19 @@
+neighbors of ostersund:
+    lulea
+    stockholm
+neighbors of stockholm:
+    goteborg
+    malmo
+    ystad
+    visby
+neighbors of goteborg:
+    ostersund
+    ystad
+neighbors of visby:
+    ystad
+neighbors of ystad:
+neighbors of lulea:
+    stockholm
+    malmo
+neighbors of malmo:
+    visby

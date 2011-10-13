@@ -174,4 +174,27 @@ public class Graph
 	}
     }
     
+    public void prettyPrint()
+    {
+	for (Vertex vv : vertices.values()) {
+	    System.out.println("neighbors of " + vv.name + ":");
+	    for (Edge ee : vv.neighbors) {
+		System.out.println("    " + ee.destination.name);// + " (cost: " + ee.cost + ")");
+	    }
+	}
+    }
+    
+    public static void main(String[] args)
+    {
+	if (0 == args.length) {
+	    System.err.println("filename expected");
+	    System.exit(42);
+	}
+	Graph gg = new Graph();
+	if ( ! gg.load(args[0], false)) {
+	    System.err.println("failed to load graph from " + args[0]);
+	}
+	gg.prettyPrint();
+    }
+    
 }
