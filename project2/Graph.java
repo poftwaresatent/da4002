@@ -174,7 +174,7 @@ public class Graph
 	}
     }
     
-    public void prettyPrint()
+    public void compactPrint()
     {
 	for (Vertex vv : vertices.values()) {
 	    System.out.print(vv.name + " [v: " + vv.value + "] -->");
@@ -182,6 +182,16 @@ public class Graph
 		System.out.print(" " + ee.destination.name + " [c: " + ee.cost + "]  ");
 	    }
 	    System.out.println();
+	}
+    }
+    
+    public void prettyPrint()
+    {
+	for (Vertex vv : vertices.values()) {
+	    System.out.println(vv.name + " [v: " + vv.value + "]");
+	    for (Edge ee : vv.neighbors) {
+		System.out.println("    --> " + ee.destination.name + " [c: " + ee.cost + "]");
+	    }
 	}
     }
     
