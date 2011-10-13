@@ -179,7 +179,7 @@ public class Graph
 	for (Vertex vv : vertices.values()) {
 	    System.out.println("neighbors of " + vv.name + ":");
 	    for (Edge ee : vv.neighbors) {
-		System.out.println("    " + ee.destination.name);// + " (cost: " + ee.cost + ")");
+		System.out.println("    " + ee.destination.name + " (cost: " + ee.cost + ")");
 	    }
 	}
     }

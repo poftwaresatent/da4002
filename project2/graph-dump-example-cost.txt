@@ -1,0 +1,19 @@
+neighbors of ostersund:
+    lulea (cost: 2.0)
+    stockholm (cost: 1.0)
+neighbors of stockholm:
+    goteborg (cost: 2.0)
+    malmo (cost: 2.0)
+    ystad (cost: 8.0)
+    visby (cost: 4.0)
+neighbors of goteborg:
+    ostersund (cost: 4.0)
+    ystad (cost: 5.0)
+neighbors of visby:
+    ystad (cost: 1.0)
+neighbors of ystad:
+neighbors of lulea:
+    stockholm (cost: 3.0)
+    malmo (cost: 10.0)
+neighbors of malmo:
+    visby (cost: 6.0)

@@ -112,11 +112,18 @@ The source archive for the second project contains the following files:
 \begin{figure}
   \centering
   \fbox{
-    \begin{minipage}{0.6\columnwidth}
-      \verbatiminput{graph-dump-example.txt}
+    \begin{minipage}{0.4\columnwidth}
+      \verbatiminput{graph-dump-example-nocost.txt}
+  \end{minipage}}
+  \hfill
+  \fbox{
+    \begin{minipage}{0.4\columnwidth}
+      \verbatiminput{graph-dump-example-cost.txt}
   \end{minipage}}
   \caption{
     Example output for printing the graph defined in \texttt{cities.adj}.
+    On the left, before edge cost parsing.
+    On the right, after adding edge cost support to the \texttt{Edge} and \texttt{Graph} classes.
   }\label{fig:graph-dump-example}
 \end{figure}
 
@@ -125,7 +132,7 @@ The source archive for the second project contains the following files:
 \item
   Extend the provided \texttt{Graph} class such that it actually creates and stores the vertices it reads from the text file.
   Test your result by writing an application that reads \texttt{cities.adj} and prints the resulting graph on the console.
-  Your output should look similar to the example given in figure~\ref{fig:graph-dump-example}.
+  Your output should look similar to the example given on the left in figure~\ref{fig:graph-dump-example}.
   
 \end{enumerate}
 
