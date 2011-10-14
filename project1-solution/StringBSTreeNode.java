@@ -21,6 +21,34 @@ public class StringBSTreeNode
     }
     
     
+    public int computeSize()
+    {
+	int size = 1;
+	if (null != smaller) {
+	    size += smaller.computeSize();
+	}
+	if (null != bigger) {
+	    size += bigger.computeSize();
+	}
+	return size;
+    }
+    
+    public int computeHeight()
+    {
+	if (null == smaller && null == bigger) {
+	    return 0;
+	}
+	int lh = 0, rh = 0;
+	if (null != smaller) {
+	    lh = smaller.computeHeight();
+	}
+	if (null != bigger) {
+	    rh = bigger.computeHeight();
+	}
+	return 1 + Math.max(lh, rh);
+    }
+    
+    
     public void printPreOrder(String prefix, String indent)
     {
         System.out.println(prefix + value);

@@ -37,6 +37,11 @@ public class LogSeries
 	return dt;
     }
     
+    public void addCustom(String xData, String yData)
+    {
+	entries.add(new LogEntry(xData, yData));
+    }
+    
     /**
        Initialize the counters for taking several measurements and
        storing the average.
