@@ -49,7 +49,7 @@ public class Graph
     
     public Edge addEdge(Vertex source, Vertex destination, double cost)
     {
-	Edge ee = new Edge(cost, destination);
+	Edge ee = new Edge(source, destination, cost);
 	source.neighbors.add(ee);
 	return ee;
     }
@@ -164,6 +164,47 @@ public class Graph
 	}
 	return true;
     }
+
+    public LinkedList<Vertex> dfs(Vertex start, Vertex goal)
+    {
+	for (Vertex vv : vertices.values()) {
+	    vv.value = -1;
+	    vv.backpointer = null;
+	}
+	
+	Stack<Edge> open = new Stack<Edge>();
+	open.push(new Edge(null, start, 0));
+	for (int counter = 0; 0 < open.size(); ++counter) {
+	    Edge current = open.pop();
+	    if (0 > current.destination.value) {
+		current.destination.value = counter;
+		current.destination.backpointer = current.source;
+		if (goal == current.destination) {
+		    LinkedList<Vertex> path = new LinkedList<Vertex>();
+		    for (Vertex vv = current.destination; null != vv; vv = vv.backpointer) {
+			path.addFirst(vv);
+		    }
+		    return path;
+		}
+		for (Edge ee : current.destination.neighbors) {
+		    if (0 > ee.destination.value) {
+			open.push(ee);
+		    }
+		}
+	    }
+	}
+	return null;
+    }
+
+    public LinkedList<Vertex> dfs(String start, String goal)
+    {
+	Vertex ss = findVertex(start);
+	Vertex gg = findVertex(goal);
+	if (null == ss || null == gg) {
+	    return null;
+	}
+	return dfs(ss, gg);
+    }
     
     public void print()
     {
@@ -200,8 +241,8 @@ public class Graph
 	System.out.println("digraph \"" + name + "\" {\n  graph [overlap=scale];");
 	for (Vertex vv : vertices.values()) {
 	    for (Edge ee : vv.neighbors) {
-		System.out.println("  " + vv.name + " -> " + ee.destination.name
-				   + " [label=" + ee.cost + ",len=2];");
+		System.out.println("  \"" + vv.name + "\" -> \"" + ee.destination.name
+				   + "\" [label=" + ee.cost + ",len=2];");
 	    }
 	    System.out.println();
 	}
@@ -219,6 +260,18 @@ public class Graph
 	    System.err.println("failed to load graph from " + args[0]);
 	}
 	gg.dotPrint(args[0]);
+	if (2 < args.length) {
+	    LinkedList<Vertex> path = gg.dfs(args[1], args[2]);
+	    if (null == path) {
+		System.out.println("\nno path from " + args[1] + " to " + args[2]);
+	    }
+	    else {
+		System.out.println("\npath from " + args[1] + " to " + args[2] + ":");
+		for (Vertex vv : path) {
+		    System.out.println("  " + vv.name);
+		}
+	    }
+	}
     }
     
 }

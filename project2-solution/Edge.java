@@ -1,11 +1,13 @@
 public class Edge
 {
-    public final double cost;
+    public final Vertex source;
     public final Vertex destination;
+    public final double cost;
     
-    public Edge(double _cost, Vertex _destination)
+    public Edge(Vertex _source, Vertex _destination, double _cost)
     {
-	cost = _cost;
+	source = _source;
 	destination = _destination;
+	cost = _cost;
     }
 }

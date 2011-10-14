@@ -4,6 +4,7 @@ public class Vertex
 {
     public final String name;
     public double value;
+    public Vertex backpointer;
     public LinkedList<Edge> neighbors;
     
     public Vertex(String _name, double _value)
