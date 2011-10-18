@@ -1,0 +1,275 @@
+<h1>ITADS Exercise 1b: Java refresher (generics and inheritance)</h1>
+
+<p>
+These exercises will make you (re-)acquainted with some features of
+object oriented programming that are extensively used in the rest of
+the course. You can find help in chapter 4 of the course book and in
+the online documentation, particularly about
+<a href="http://download.oracle.com/javase/tutorial/java/generics/index.html">generics</a> and
+<a href="http://download.oracle.com/javase/tutorial/java/IandI/index.html">interfaces and inheritance</a>.
+</p>
+
+<p>
+Create a directory for these exercises so that you can collect the files
+in one place, and start a text editor.
+
+</p>
+
+<p class="command">
+mkdir -p itads/exercise1b<br/>
+cd itads/exercise1b<br/>
+emacs &
+</p>
+
+
+
+<h2>exercise 1.12: polymorphism</h2>
+
+<p>
+
+Download <a href="/r/itads/exercise1b/PersonDemo.java">PersonDemo.java</a>,
+which is part of the material distributed with the course book. It
+defines several classes which form a simple hierarchy (<tt>Person</tt>, <tt>Student</tt>,
+<tt>Employee</tt>) and a test program in the form of
+<tt>PersonDemo</tt>. Compiling this file produces <tt>.class</tt> files for each of these classes.
+</p>
+
+<ul>
+
+  <li>
+    Consider the method <tt>printAll</tt> in
+    class <tt>PersonDemo</tt>. What is the type of <tt>arr[i]</tt> in
+    the <tt>for</tt>-loop?
+  </li>
+  <li>
+
+    The statement <tt>System.out.print( "[" + i + "] " + arr[ i ]
+    );</tt> implicitelly calls the method <tt>toString()</tt> for
+    <tt>arr[i]</tt>. Can you explain the output of the program? Look
+    at the definition of <tt>toString</tt> in all involved
+    classes. Why is the output different
+    for <tt>arr[0]</tt>, <tt>arr[1]</tt> and <tt>arr[3]</tt> if they
+    all have the same type?
+  </li>
+
+  <li>
+    Read in the book about <i>Dynamic Dispatch</i> (section 4.9, pages 146-149). Then redefine the method <tt>toString</tt> in class
+    <tt>Student</tt> so that it only includes the name of the student
+    in the result (note: you cannot use <tt>super.toString()</tt>).
+  </li>
+  <li>
+
+    Define a new class for <tt>GraduateStudent</tt>: a kind of student
+    that has also a field describing the subject they have majored
+    in. Model this as a subclass of student with one more field of
+    type <tt>String</tt> and define an adequate <tt>toString</tt>
+    method.  Test your extension by adding a graduate student to the
+    array in main.
+  </li>
+</ul>
+
+
+
+<h2>exercise 1.13: using generics</h2>
+
+<p>
+<a href="/r/itads/exercise1b/Max.java">Max.java</a> implements two
+generic methods for determining the maximum of two values.
+</p>
+
+<ul>
+  <li>
+    Add a <tt>main</tt> method and test <tt>max</tt> with two strings given as command line arguments.
+  </li>
+
+  <li>
+    Java's <tt>String</tt> class implements <tt>Comparable</tt> to
+    compare strings according to the ordinary lexicographical order.
+    If we want to compare strings according to their lengths, but
+    without changing the implementation of <tt>String</tt>, we can
+    define a custom <tt>Comparator</tt> and pass it to the second form
+    of <tt>max</tt>. Try it out: define a class that implements the
+    interface <tt>java.util.Comparator &lt; String &gt; </tt> to
+    compare strings according to their length. Modify your main so
+    that you can test this with command line arguments.
+  </li>
+
+  <li>
+    <em>(optional)</em><br/>
+    Define a generic method for finding the largest element in an
+    array. Test your method with an array of strings read from the command
+    line.
+  </li>
+</ul>
+
+
+
+<h2>exercise 1.14 <em>(optional)</em>: defining generics (exercise 4.27 from the book)</h2>
+
+<p>
+Write a generic class called <tt>SingleBuffer</tt> which can store a
+single item and supports three methods:
+</p>
+
+<dl>
+  <dt>
+    <tt>empty</tt>
+  </dt>
+  <dd>
+
+    Returns <tt>boolean</tt> indicating whether the buffer is empty.
+  </dd>
+  
+  <dt>
+    <tt>get</tt>
+  </dt>
+  <dd>
+    Returns an item and empties the buffer. <tt>get</tt> can only be applied to a non-empty buffer.
+  </dd>
+
+  
+  <dt>
+    <tt>put</tt>
+  </dt>
+  <dd>
+    Stores an item. <tt>put</tt> can only be applied to an empty buffer.
+  </dd>
+</dl>
+
+<p>
+Test your implementation of <tt>SingleBuffer</tt> with different types
+of items: <tt>int</tt>, <tt>String</tt>, and the <tt>Person</tt> class
+from exercise 1.12.
+</p>
+
+<h2>exercise 1.15: introduction to Java's <em>collections framework</em></h2>
+
+<p>
+The library of algorithms and data structures provided by Java is known
+as the <i>collections framework</i> (data structures are used to
+collect data).  This library relies heavily on generics, and it will
+repeatedly appear throughout the course.
+</p>
+
+<p>
+All collection classes support <em>iteration</em>: a principled way of
+going through all the elements stored in the collection. This is
+achieved with code which looks like this:
+</p>
+
+<pre>
+  for (<i>Type x</i> : <i>someCollection</i>) {
+    <i>do something with x</i>
+
+  }
+</pre>
+
+<p>
+Try this out with two classes from the collection framework,
+namely <tt>HashSet</tt> and <tt>TreeSet</tt>. To use them you can
+declare variables of those types, such as:
+</p>
+
+<pre>
+  java.util.HashSet &lt; String &gt; thisSet = new java.util.HashSet &lt; String &gt;();
+  java.util.TreeSet &lt; String &gt; thatSet = new java.util.TreeSet &lt; String &gt;();
+
+</pre>
+
+<p>
+Write a program which stores the command line strings in
+a <tt>HashSet</tt> and in a <tt>TreeSet</tt> (hint: use
+the <tt>add</tt> method) and then echoes each command string to
+standard output. Use adequate for loops! Also, look up the online
+documentation for the classes <tt>HashSet</tt> and <tt>TreeSet</tt>
+
+and explain the difference in how the elements are output.
+</p>
+
+<h2>exercise 1.16: counting words</h2>
+
+<p>
+In this exercise we will use some data structures without worrying
+about their implementation. This gives us an end-user perspective on
+the things we will learn later.
+</p>
+
+<p>
+Write a program that counts the number of <b>different words</b>
+occurring in a text, based on the half-finished implementation in
+<a href="/r/itads/exercise1b/CountWords.java">CountWords.java</a>.
+Whenever this program inspects a word, it needs to determine whether
+it has already been counted, so we need to store the words that have
+already occurred in some data structure. In this case,
+the <tt>java.util.Set</tt> class is just what we need:
+
+</p>
+
+<dl>
+  <dt>
+    <tt>public interface Set &lt; E &gt;  extends Collection</tt>
+  </dt>
+  <dd>
+    A collection that contains no duplicate elements. More formally, sets
+    contain no pair of elements e1 and e2 such that e1.equals(e2), and at
+    most one null element. As implied by its name, this interface models
+    the mathematical set abstraction.
+  </dd>
+
+  <dd>
+    Relevant methods in this interface are
+    <pre>
+      boolean add(E o)
+      boolean contains(E o)
+      int size()
+    </pre>
+  </dd>
+</dl>
+
+<p>
+There are two classes that implement this interface in the Java library.
+</p>
+
+<dl>
+
+  <dt>
+    <tt>java.util.HashSet &lt; E &gt;</tt>
+  </dt>
+  <dd>
+    The hash set has <i>very efficient</i> implementations of the
+    operations, but it does not support ordered retrieval of elements.
+  </dd>
+
+  <dt>
+    <tt>java.util.TreeSet &lt; E &gt;</tt>
+  </dt>
+  <dd>
+    The tree set operations are less efficient, but the elements are
+    retrieved in order.
+  </dd>
+</dl>
+
+<p>
+
+The provided
+half-finished <a href="/r/itads/exercise1b/CountWords.java">CountWords.java</a>
+just counts the <em>total</em> number of words in a text that is read
+line by line.
+</p>
+
+<ul>
+  <li>
+    Test the half-finished <tt>CountWords</tt> like this:
+    <p class="command">
+
+      java CountWords &lt; CountWords.java
+    </p>
+  </li>
+  <li>
+    Modify the program to <em>also</em> count the number of <em>different</em> words in the text and output.
+  </li>
+
+  <li>
+    Modify the program to output the different words in the text, one word per line, in alphabetical order.
+  </li>
+</ul>
