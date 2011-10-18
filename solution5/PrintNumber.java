@@ -14,7 +14,7 @@ public class PrintNumber {
 	try {
 	    number = Integer.parseInt(args[0]);
 	    base = Integer.parseInt(args[1]);
-	    if (base < 1) {
+	    if (base < 2) {
 		System.err.println("Sorry, minimum base is 2");
 		System.exit(42);
 	    }
