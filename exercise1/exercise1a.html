@@ -1,0 +1,501 @@
+<h1>ITADS Exercise 1a: Java refresher (foundations)</h1>
+
+<h2>preliminaries</h2>
+
+<p>
+Java exists for most operating systems. For the exercises and mini-projects of this course we use the OpenJDK environment under Linux. This UNIX-like operating system gives you a large choice of editors and development environments, and frequently the best way to leverage the power of Linux is to use the command line. Here is a <a href="/r/images/stories/linux-intro.pdf">tiny introduction to Linux (PDF)</a> which can help you to get started.
+</p>
+
+<h3>Linux basics</h3>
+
+<p>
+You interact with the Linux operating system by entering <em>commands</em> at a <em>terminal</em>. On the exercise web pages, commands are indicated with green-on-grey boxes, such as:
+</p>
+
+<p class="command">
+echo "hello world"
+</p>
+
+<p>
+<b>Do not confuse</b> this with example code, which you have to enter into a <em>text editor</em>.
+
+</p>
+
+<p>
+The commands that you will be using most are the following:
+</p>
+
+<dl>
+
+ <dt><tt>mkdir</tt></dt>
+ <dd><a href="http://linuxmanpages.com/man1/mkdir.1.php">make a directory</a></dd>
+ <dd>example:
+     <p class="command">mkdir -p itads/exercise1a</p>
+
+     make a directory called <tt>exercise1a</tt> inside the direcory <tt>itads</tt></dd>
+
+ <dt><tt>cd</tt></dt>
+ <dd><a href="http://linuxmanpages.com/man1/cd.1.php">change directory</a></dd>
+ <dd>example:
+     <p class="command">cd itads/exercise1a</p>
+
+     change into the directory <tt>exercise1a</tt> which is underneath the directory <tt>itads</tt></dd>
+
+ <dt><tt>pwd</tt></dt>
+ <dd><a href="http://linuxmanpages.com/man1/pwd.1.php">print working directory</a></dd>
+ <dd>example:
+     <p class="command">pwd</p>
+
+     will print something like "<tt>/home/username/itads/exercise1a</tt>" if you followed the above examples</dd>
+
+ <dt><tt>ls</tt></dt>
+ <dd><a href="http://linuxmanpages.com/man1/ls.1.php">list directory contents</a></dd>
+ <dd>example:
+     <p class="command">ls</p>
+     will write a list of filenames and directory names</dd>
+
+ <dt><tt>javac</tt></dt>
+ <dd>Run the <a href="http://linuxmanpages.com/man1/javac.1.php">Java compiler</a> on a (set of) <tt>.java</tt> files.</dd>
+ <dd>example:
+     <p class="command">javac HelloWorld.java</p>
+
+     Compile the source code contained in <tt>HelloWorld.java</tt> into Java bytecode (in this case, the output will be stored in a file called <tt>HelloWorld.class</tt>)</dd>
+
+ <dt><tt>java</tt></dt>
+ <dd>Run the <a href="http://linuxmanpages.com/man1/java.1.php">Java virtual machine</a></dd>
+ <dd>example:
+     <p class="command">java HelloWorld</p>
+
+     Runs the bytecode contained in <tt>HelloWorld.class</tt>, starting at the <tt>main</tt> method.</dd>
+
+ <dt><tt>gedit</tt></dt>
+ <dd>Launch the <a href="http://linuxmanpages.com/man1/gedit.1.php">gedit text editor</a></dd>
+ <dd>example:
+     <p class="command">gedit HelloWorld.java &</p>
+
+     Launch gedit and start editing the <tt>HelloWorld.java</tt> source file. If the file does not exist yet, gedit will create a new empty file for you.</dd>
+ <dd><b>Note:</b> when launching gedit (or any other program that opens its own window), you should append "<tt>&</tt>" to the command. This makes the program start "in the background" and gives you back the command prompt. <b>Otherwise, the terminal will not accept new commands</b> (you can still type them, but they will not be executed).</dd>
+
+</dl>
+
+
+<h3>writing, compiling, and running Java applications</h3>
+
+<p>
+Java source files are text files that have the extension <tt>.java</tt> and they are compiled by the Java <em>compiler</em> (<tt>javac</tt>) into executable bytecode. For each class in the <tt>.java</tt> file, a correspondingly named <tt>.class</tt> file is produced. The class file can then be executed by the Java virtual machine. In order to launch it, you start the <tt>java</tt> application (no "c" at the end) and give it the name of a class (but without the <tt>.class</tt> extension).
+
+</p>
+
+<p>
+So, you will first need a text editor. Some choices, all of which should already be installed on the workstations used for the exercises, are:
+</p>
+
+<dl>
+
+ <dt><a href="http://www.gedit.org/">gedit</a></dt>
+ <dd>a simple and easy to use editor</dd>
+ <dd>you launch it from a terminal window by typing "<code>gedit &</code>" (note the "<code>&</code>" which instructs the shell to launch gedit in the background: gedit will open its own separate window)</dd>
+
+ <dt><a href="http://www.gnu.org/software/emacs/">emacs</a></dt>
+ <dd>an extensible and customizable text editor</dd>
+ <dd>you launch it from a terminal window by typing "<code>emacs &</code>" (again, note the "<code>&</code>")</dd>
+
+ <dt><a href="http://www.vim.org/">vim</a></dt>
+
+ <dd>is a highly extensible modern version of the venerable <code>vi</code> editor</dd>
+ <dd>you launch it from a terminal window by typing "<code>vim</code>" (note the <em>absence</em> of "<code>&</code>" because vim launches within the terminal window)</dd>
+
+</dl>
+
+<p>
+Gedit is probably the easiest when you get started. Emacs and vim have a steeper learning curve but will vastly increase your efficiency in the long run. Another option is to use an <em>integrated development environment (IDE)</em> which lets you edit code, compile, run and debug it all within one application. IDEs will not be covered in this course, but two popular choices are:
+</p>
+
+<dl>
+
+ <dt><a href="http://eclipse.org/">Eclipse</a></dt>
+ <dd>written in Java and (originally) focused on Java development, this is probably the IDE of choice for writing Java applications</dd>
+
+ <dt><a href="http://kdevelop.org/">KDevelop</a></dt>
+ <dd>originally for C++ but now supporting many other languages, this is also a very popular choice among developers working with Linux</dd>
+
+</dl>
+
+
+
+<h2>exercise 1.1: hello world</h2>
+
+<p>
+It is <a href="http://catb.org/jargon/html/H/hello-world.html">traditional</a> to begin by writing a program that prints "hello, world". But first we have to prepare a directory to work in and launch a text editor with the appropriate filename.
+
+</p>
+
+<p class="command">
+mkdir -p itads/exercise1a<br/>
+cd itads/exercise1a<br/>
+gedit HelloWorld.java &
+</p>
+
+<p>
+Then copy the <a href="/r/itads/exercise1a/HelloWorld.java">example HelloWorld.java code</a> into the editor. After saving the file, go back to the terminal window and enter the commands to compile and run it:
+</p>
+
+<p class="command">
+javac HelloWorld.java<br/>
+java HelloWorld
+</p>
+
+<p>
+This example illustrates several fundamental aspects of developing with Java:
+</p>
+
+<ul>
+ <li>The <code>javac</code> program <em>compiles</em> the source code into a binary form which is ready for execution. You have to give it a list of .java files to process, and it produces corresponding .class files. In case of problems in the source code, it will complain with error messages that will hopefully help the programmer to fix the issue. <b>Try it out</b> by editing the HelloWorld.java file to introduce errors on purpose!</li>
+
+ <li>The <code>java</code> program launches the Java virtual machine which interprets the binaries produced by <code>javac</code>. You pass a class name to the <code>java</code> program, and it is required that the named class has a public static method called "main" (it has to return void and accept a single String[] parameter, too). Otherwise the interpreter will fail and print an error message. <b>Try it out</b> by changing the name of the main method in HelloWorld.java to something else, then re-running <code>javac</code> and <code>java</code>!</li>
+
+</ul>
+
+
+
+<h2>exercise 1.2 <em>(optional)</em>: using packages</h2>
+
+<p>
+Copy-paste or download the <a href="/r/itads/exercise1a/ChoosingColors.java">ChoosingColors.java code</a> and compile and run it.  This tiny little program gets a lot of functionality by using the classes JFrame and JColorChooser from the package <a href="http://download.oracle.com/javase/1,5.0/docs/api/javax/swing/package-summary.html">javax.swing</a>.
+</p>
+
+<p>
+<b>Note:</b> this example program is very incomplete and does not exit properly when you close the application window. In order to get the command prompt back, press <tt>Control-C</tt> in the terminal window to terminate the Java process. We will later see a method for properly quitting a graphical application.
+</p>
+
+
+
+<h2>exercise 1.3: type conversions</h2>
+
+<p>
+Download, compile and run <a href="/r/itads/exercise1a/TypeConversion.java">TypeConversion.java</a>. The result is probably not what you expected. In an assignment the expression to the right is evaluated first, in this case a division. In the division both arguments are integers so <tt>/</tt> is interpreted as integer division, the result is then converted into the type of the variable being assigned (this is done only for some compatible types).
+
+</p>
+
+<p>
+It is possible for the programmer to force type conversion by preceding the expression to be converted by the type name in parenthesis, such as "<tt>(double)</tt>". <b>Try it out!</b> Experiment with the program so that the result stored in <tt>quotient</tt> is 0.6 instead of 0.0.
+</p>
+
+
+
+<h2>exercise 1.4: for loops</h2>
+
+<p>
+Download, compile and run <a href="/r/itads/exercise1a/NestedLoops.java">NestedLoops.java</a>. The output is a list of all pairs (i,j) with 0 &lt i &le 5 and 0 &lt j &le 5.
+</p>
+
+<ul>
+ <li>Modify the program so that the pairs are such that 0 &lt j &le i &le 5</li>
+
+ <li>Modify the program so that a line is printed before each new value of i</li>
+ <li>Modify the program so that the values for the bound for i can be given as a command line argument.<br/>
+     <b>Hint</b> Command line arguments are taken in by <tt>main</tt> in its <tt>String[]</tt> argument. The first command line argument is in position 0 of that array. Also, the bound for <tt>i</tt> has to be an integer, while the command line argument is a string. There is a way of getting an integer value from a string whose characters are digits: the class <tt>Integer</tt> has a constructor that does this! See the <a href="http://download.oracle.com/javase/1.5.0/docs/api/">online documentation</a>.</li>
+
+</ul>
+
+
+
+<h2>exercise 1.5: understanding basic Java in theory</h2>
+
+<p>
+Program a class where you can test the questions 1.11, 1.12 and 1.14 of the course book. Make sure you understand the output!
+</p>
+
+<dl>
+
+ <dt>course book question 1.11</dt>
+ <dd>Let b have the value of 5 and c have the value of 8. What is the value of a, b, and c after each line of the following program fragment:<br/>
+
+     <pre>
+       a = b++ + c++;
+       a = b++ + ++c;
+       a = ++b + c++;
+       a = ++b + ++c;
+     </pre></dd>
+
+ <dt>course book question 1.12<dt>
+ <dd>What is the result of <code>true && false || true</code>?</dd>
+
+ <dt>course book question 1.14</dt>
+ <dd>For the following program, what are the possible outputs?
+     <pre>
+       public class WhatIsX
+       {
+         public static void f (int x)
+         {
+           /* body unknown */
+         }
+
+         public static void main (String [] args)
+         {
+           int x = 0;
+           f(x);
+           System.out.println(x);
+         }
+       }
+     </pre></dd>
+
+</dl>
+
+
+
+<h2>exercise 1.6: more basic Java, in practice</h2>
+
+<p>
+The <a href="/r/itads/exercise1a/First.java">First.java</a> source is an scaffolding for recalling and practicing some programming basics in Java. Don't put too much effort in finding smart solutions, understand the specifications (they are given as comments in the source code), try ideas on paper and then implement them.
+</p>
+
+<p class="command">
+javac First.java
+java First somename
+</p>
+
+<p>
+At first, the output is not very impressive because all methods have empty bodies and do nothing (except for <tt>main</tt> which tests all the methods you have to implement).  After you have correctly implemented the methods, the output should be as follows:
+</p>
+
+<pre> 
+prompt> java First Marvin
+hello to you Marvin
+
+sumBetween(1, 3) = 6
+
+           Addition Table
+   |  0 |  1 |  2 |  3 |  4 |  5 |  6 |  7 |  8 |  9 |
+------------------------------------------------------
+0  |  0    1    2    3    4    5    6    7    8    9  
+1  |  1    2    3    4    5    6    7    8    9   10  
+2  |  2    3    4    5    6    7    8    9   10   11  
+3  |  3    4    5    6    7    8    9   10   11   12  
+4  |  4    5    6    7    8    9   10   11   12   13  
+5  |  5    6    7    8    9   10   11   12   13   14  
+6  |  6    7    8    9   10   11   12   13   14   15  
+7  |  7    8    9   10   11   12   13   14   15   16  
+8  |  8    9   10   11   12   13   14   15   16   17  
+9  |  9   10   11   12   13   14   15   16   17   18  
+
+           Multiplication Table
+   |  0 |  1 |  2 |  3 |  4 |  5 |  6 |  7 |  8 |  9 |
+------------------------------------------------------
+0  |  0    0    0    0    0    0    0    0    0    0  
+1  |  0    1    2    3    4    5    6    7    8    9  
+2  |  0    2    4    6    8   10   12   14   16   18  
+3  |  0    3    6    9   12   15   18   21   24   27  
+4  |  0    4    8   12   16   20   24   28   32   36  
+5  |  0    5   10   15   20   25   30   35   40   45  
+6  |  0    6   12   18   24   30   36   42   48   54  
+7  |  0    7   14   21   28   35   42   49   56   63  
+8  |  0    8   16   24   32   40   48   56   64   72  
+9  |  0    9   18   27   36   45   54   63   72   81  
+
+max(1,2,3)= 3
+max(4,1,2,3)= 4
+1 2
+2 5
+5 13
+13 34
+34 89
+89 233
+233 610
+
+[1][2][3][4][5][6][7][8][9]
+[10][11][12][13][14][15][16]
+[17][18][19][20][21][22][23]
+[24][25][26][27][28][29][30]
+[31][32][33][34][35][36][37]
+[38][39][40][41][42][43][44]
+[45][46][47][48][49][50][51]
+[52][53][54][55][56][57][58]
+[59][60][61][62][63][64][65]
+[66][67][68][69][70][71][72]
+[73][74][75][76][77][78][79]
+[80][81][82][83][84][85][86]
+[87][88][89][90][91][92][93]
+[94][95][96][97][98][99][100]
+[101][102][103][104][105][106]
+[107][108][109][110][111][112]
+[113][114][115][116][117][118]
+[119][120]
+
+1 1 2 3 5 8 13 21 34 55 89 144 233 377 610 987 1597 2584 4181 6765 10946 
+
+1 1 2 3 5 8 13 21 34 55 89 144 233 377 610 987 1597 2584 4181 6765 
+</pre>
+
+<dl>
+ <dt>Note</dt>
+ <dd>In this exercise we used a class just to put together a number of methods, all of them private and static. In this way these methods are just like functions in C to be used locally (here locally means in the same class). In the next exercise we use one more such class to illustrate more constructs of java.</dd>
+ <dd>Classes can be used to collect functions that are meant to be reused from other programs. This is done in much the same way, except that the functions are qualified as <tt>public</tt>. Two such library classes that are usefull in this course are <a href="http://download.oracle.com/javase/1.5.0/docs/api/java/lang/Math.html">java.lang.Math</a> (many standard mathematical constants and functions) and <a href="http://download.oracle.com/javase/1.5.0/docs/api/java/util/Arrays.html">java.util.Arrays</a> (sorting and searching arrays of different types).</dd>
+
+</dl>
+
+
+
+<h2>exercise 1.7: command interpreter</h2>
+
+<p>
+Download the <a href="/r/itads/exercise1a/CommandInterpreter.java">CommandInterpreter.java</a> source. The program introduces a new type by means of "<tt>enum Command {...}</tt>" which defines the type of commands. In doing so all the <i>values</i> of this type are enumerated in the definition. This allows us among other things to use the <tt>switch</tt> statement in the <tt>execute</tt> method (instead of a length if-then else with many branches).
+
+</p>
+
+<p>
+Start by reading it to try and understand what it does. <b>Note:</b> there is a "weird looking" for loop statement on line 63 of the source file --- this is advanced iterator syntax, just ignore it for now, it will be explained later in the lecture.
+</p>
+
+<ul>
+ <li>The command <tt>RANDOM</tt> asks for the size of the random integer array to create.</li>
+ <li>The command <tt>SEARCH</tt> asks for the number to be sought in the array.</li>
+
+</ul>
+
+<p>
+Try out the following things:
+</p>
+ 
+<ul>
+ <li>What happens when you enter a non-existing command? Can you identify where in the code this is taken care of? Read section 2.5 on exceptions handling in the course book (page 48) or the <a href="http://download.oracle.com/javase/tutorial/essential/exceptions/">online documentation</a>.</li>
+ <li>Try sorting before creating a random array. What is the size of the array? What are the values stored in the array? Where in the code was this established? What is the fragment of code responsible for printing the array?</li>
+ <li>Create an array of size 5 and then search an element in the array. Does the program always find the element? Identify the fragment of code doing search. Find the online documentation for the method and read it. Can you say what you are doing wrong when you use the command for searching?</li>
+
+ <li>Remove (or comment-out) the <tt>break</tt> statements from the <tt>switch</tt> block in <tt>execute()</tt>. Compile and run. What happens? (restore the breaks afterwards!) Make sure you understand by reading more about <tt>switch</tt> statements in the book, or refer to the <a href="http://download.oracle.com/javase/tutorial/java/nutsandbolts/switch.html">online tutorial</a>.</li>
+ <li>"<tt>Command.values()</tt>" builds an array with all the values of the enumeration type in the same order they were given in the definition. This is used in a <tt>for</tt> loop in <tt>main()</tt> to print the available commands. Replace the <tt>for</tt> loop and print all the available commands by using a method from <tt>java.util.Arrays</tt> that produces a <tt>String</tt> from an array.</li>
+
+ <li>When reading commands from standard input a <tt>String</tt> is returned. The method <tt>execute</tt> expects a <tt>Command</tt> as argument. Identify the code fragment that does the conversion from <tt>String</tt> to <tt>Command</tt>.</li>
+
+</ul>
+
+
+
+<h2>interlude <em>(optional)</em>: writing and documenting code for reuse</h2>
+
+<p>
+The file <a href="/r/itads/exercise1a/Complex.java">Complex.java</a> contains a class for representing and doing math with complex numbers. It contains a <tt>main</tt> method to test some of its functionality, so you can compile and run it as usual. More importantly, it includes documentation comments that can be used to automatically generate HTML pages that describe the class and the methods. These so-called javadoc comments begin with "<tt>/**</tt>" and contain descriptions that will end up on the generated pages. The javadoc tool is very useful for making code available to others, and also to keep an overview of one's own classes and methods. The <a href="http://www.oracle.com/technetwork/java/javase/documentation/index-137868.html">official javadoc tutorial</a> provides more details.
+
+</p>
+
+<p>
+Compile and run the Complex.java code, and then use javadoc to create documentation pages and read them with a web browser by opening the file <tt>doc/Complex.html</tt>:
+</p>
+
+<p class="command">
+javac Complex.java<br/>
+java Complex<br/>
+javadoc -d doc Complex.java
+</p>
+
+<p>
+
+Here we have used a class to define an abstract data type: other programs may now declare variables of type Complex and they may use the operations we provide in the class Complex. Notice that these are the only ways of operating with complex values and that programmers that use values of this type just need to know the signature of the public methods to be able to use these. This has important consequences: we are sure that even if we change the way of representing complex numbers all our programs will work (guaranteed by the compiler which doesn't allow other programs to access the private components.)
+</p>
+
+
+
+<h2>exercise 1.8: value versus reference types</h2>
+
+<p>
+In <a href="/r/itads/exercise1a/Second.java">Second.java</a> you find more exercises to understand the difference between primitive types and reference types while using complex numbers and other numbers. You need to also download and compile <a href="/r/itads/exercise1a/Complex.java">Complex.java</a> if you did not already do so above.
+</p>
+
+
+
+<h2>exercise 1.9: calculating circuit impedances</h2>
+
+<p>
+For circuits with alternate current, voltage is related to the current's intensity and frequency. The components that contribute to this relation are of three types (each type contributes in its own way): <i>resistors</i <i>capacitors</i> and <i>inductors</i>. These can be combined to form what is called the <i>impedance</i> of the circuit in such a way that the voltage becomes proportional to the current (read the <a href="http://en.wikipedia.org/wiki/Electrical_impedance">Wikipedia article</a> for more details). In order to achieve this quite surprising simplification we need to consider complex values for the current, the voltage, and the impedance. The definition
+of the impedance of a circuit starts then by defining what is the complex impedance of resistors capacitors and inductors. A resistor with value <i>R</i> has a complex impedance <i>R + i0</i>. A capacitor with value <i>C</i> has a complex impedance <i>0 - i/(wC)</i>. An inductor with value <i>L</i> has a complex impedance <i>0 + iwL</i>. In these definitions <i>w</i> is the frequency of the alternate current. The definition is completed by saying how the
+different ways of combining components contribute to the impedance:
+
+</p>
+
+<ul>
+ <li>Serial composition of impedances <i>z1</i> and <i>z2</i> results in impedance <i>z1 + z2</i>.</li>
+ <li>Parallel composition of impedances <i>z1</i> and <i>z2</i> results in impedance <i>z</i> where <i>1/z = 1/z1 + 1/z2</i>.</li>
+
+</ul>
+
+<p>
+Program a class called Impedance that uses complex numbers to perform such calculations, according to the following interface specification:
+<p>
+
+<div id="schedule">
+
+<TABLE>
+<TR>
+<TD COLSPAN=2><B>Method Summary</B></TD>
+</TR>
+<TR>
+<TD>
+<CODE>Complex</CODE></TD>
+
+<TD><CODE><B>C</B>(double&nbsp;c)</CODE><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;computes the complex impedance of a capacitor with value c.</TD>
+</TR>
+<TR>
+<TD>
+<CODE>Complex</CODE></TD>
+<TD><CODE><B>L</B>(double&nbsp;l)</CODE><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;computes the complex impedance of an inductor with value l.</TD>
+
+</TR>
+<TR>
+<TD>
+<CODE>static&nbsp;void</CODE></TD>
+<TD><CODE><B>main</B>(java.lang.String[]&nbsp;args)</CODE><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;define it so that you can test your methods with your favourite circuits.</TD>
+</TR>
+<TR>
+<TD>
+<CODE>Complex</CODE></TD>
+
+<TD><CODE><B>parallel</B>(Complex[]&nbsp;impedances)</CODE><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;computes the impedance of the parallel composition of an array of complex impedances.</TD>
+</TR>
+<TR>
+<TD>
+<CODE>Complex</CODE></TD>
+<TD><CODE><B>R</B>(double&nbsp;r)</CODE><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;computes the complex impedance of a resistor with value r.</TD>
+
+</TR>
+<TR>
+<TD>
+<CODE>Complex</CODE></TD>
+<TD><CODE><B>serial</B>(Complex[]&nbsp;impedances)</CODE><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;computes the impedance of the serial compostion of an array of complex impedances.</TD>
+</TR>
+</TABLE>
+
+</div>
+
+<p>
+
+Let the frequency be a private component of the class, so that all impedances are computed with respect to the same frequency. This is why the constructor has an argument for the frequency: different objects of type Impedance can be declared with different frequencies. Define the method main so that you can test your program with you favorite circuits!
+</p>
+
+<h2>exercise 1.10: rational numbers</h2>
+
+<p>
+Another type of numbers that are not provided by Java are <a href="http://en.wikipedia.org/wiki/Rational_numbers">rational numbers</a> which are pairs of integers (a <i>numerator</i> and a strictly positive <i>denominator</i>).
+</p>
+
+<p>
+Design and implement a class for rational numbers in Java. Similarly to complex numbers, we do not want to have
+methods changing the value of a rational number, we say that rational numbers are <i>inmutable</i>. Also notice that many fractions stand for <i>the same number</i> (such as 1/2, 2/4, 3/6, 4/8, etc), and this has consequences for the definition of equality.
+</p>
+
+<h2>exercise 1.11 <em>(optional)</em>: mutable objects and a glimpse of GUI programming</h2>
+
+<p>
+Classes can also be used to define <i>mutable objects</i>. An example is given in the <a href="/r/itads/exercise1a/Ball.java">Ball.java</a> code. The console application <a href="/r/itads/exercise1a/Reports.java">Reports.java</a> creates two balls, moves them around, and prints their state. The GUI application <a href="/r/itads/exercise1a/VisualReports.java">VisualReports.java</a> creates two balls and draws them in a window. It also provides three buttons to move the balls and quit the program.
+
+</p>
+
+<ul>
+ <li>Modify the program in <tt>Reports</tt> so that the two balls are moved ten times each.</li>
+ <li>Modify the class <tt>Ball</tt> by adding a method "<tt>public void move(int xx, int yy)</tt>" that moves the ball <tt>xx</tt> units along the X-axis and <tt>yy</tt> units along the Y-axis. Test this using <tt>VisualReports</tt>.</li>
+</ul>
