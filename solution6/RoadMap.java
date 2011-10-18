@@ -21,7 +21,13 @@ class FindCity
     public boolean visit(Vertex vertex, int counter)
     {
 	if (verbose) {
-	    System.out.println("  count: " + counter + "  value: " + vertex.value + "  name: " + vertex.name);
+	    System.out.print("  [" + counter + "] " + vertex.value + ": " + vertex.name);
+	    if (null != vertex.backpointer) {
+		System.out.println(" <-- " + vertex.backpointer.name);
+	    }
+	    else {
+		System.out.println(" (no backpointer)");
+	    }
 	}
 	return vertex == city;
     }
@@ -84,16 +90,17 @@ public class RoadMap
 	if (null == sv) {
 	    if (verbose) {
 		System.out.println("source city not found: " + source);
-		return false;
 	    }
+	    return false;
 	}
 	Vertex dv = graph.findVertex(destination);
 	if (null == dv) {
 	    if (verbose) {
 		System.out.println("destination city not found: " + destination);
-		return false;
 	    }
+	    return false;
 	}
+	
 	boolean found = false;
 	switch (sm) {
 	case DFS:
@@ -106,6 +113,7 @@ public class RoadMap
 	    System.err.println("BUG: the search method " + sm + " is not handled in RoadMap.findPath");
 	    return false;
 	}
+	
 	if (verbose) {
 	    if (found) {
 		System.out.println("yes, " + sm + " found a path from " + source + " to " + destination);
@@ -114,13 +122,23 @@ public class RoadMap
 		System.out.println("no, " + sm + " did not find a path from " + source + " to " + destination);
 	    }
 	}
+	
+	if (found) {
+	    System.out.println("Backtrace (" + sm + "):");
+	    for (Vertex vv = dv; vv != null; vv = vv.backpointer) {
+		System.out.println("  " + vv.name + "\tvalue: " + vv.value);
+	    }
+	}
+	
 	return found;
     }
     
     public static void main(String[] args)
     {
+	boolean verbose = false;
+	
 	RoadMap undirected_rm = new RoadMap();
-	if ( ! undirected_rm.load("city-connections-example.txt", true, true)) {
+	if ( ! undirected_rm.load("city-connections-example.txt", true, verbose)) {
 	    System.err.println("failed to load graph");
 	    System.exit(42);
 	}
@@ -128,24 +146,24 @@ public class RoadMap
 	directed_rm.load("city-connections-example.txt", false, false);
 	
 	System.out.println("\ntrying visby -> goteborg in undirected road map");
-	undirected_rm.findPath(SearchMethod.DFS, "visby", "goteborg", true);
-	undirected_rm.findPath(SearchMethod.BFS, "visby", "goteborg", true);
+	undirected_rm.findPath(SearchMethod.DFS, "visby", "goteborg", verbose);
+	undirected_rm.findPath(SearchMethod.BFS, "visby", "goteborg", verbose);
 	System.out.println("\ntrying visby -> goteborg in directed road map");
-	directed_rm.findPath(SearchMethod.DFS, "visby", "goteborg", true);
-	directed_rm.findPath(SearchMethod.BFS, "visby", "goteborg", true);
+	directed_rm.findPath(SearchMethod.DFS, "visby", "goteborg", verbose);
+	directed_rm.findPath(SearchMethod.BFS, "visby", "goteborg", verbose);
 	
 	System.out.println("\ntrying new_york -> goteborg in undirected road map");
-	undirected_rm.findPath(SearchMethod.DFS, "new_york", "goteborg", true);
-	undirected_rm.findPath(SearchMethod.BFS, "new_york", "goteborg", true);
+	undirected_rm.findPath(SearchMethod.DFS, "new_york", "goteborg", verbose);
+	undirected_rm.findPath(SearchMethod.BFS, "new_york", "goteborg", verbose);
 	System.out.println("\ntrying goteborg -> bangkok in directed road map");
-	directed_rm.findPath(SearchMethod.DFS, "goteborg", "bangkok", true);
-	directed_rm.findPath(SearchMethod.BFS, "goteborg", "bangkok", true);
+	directed_rm.findPath(SearchMethod.DFS, "goteborg", "bangkok", verbose);
+	directed_rm.findPath(SearchMethod.BFS, "goteborg", "bangkok", verbose);
 	
 	System.out.println("\ntrying ystad -> ostersund in undirected road map");
-	undirected_rm.findPath(SearchMethod.DFS, "ystad", "ostersund", true);
-	undirected_rm.findPath(SearchMethod.BFS, "ystad", "ostersund", true);
+	undirected_rm.findPath(SearchMethod.DFS, "ystad", "ostersund", verbose);
+	undirected_rm.findPath(SearchMethod.BFS, "ystad", "ostersund", verbose);
 	System.out.println("\ntrying ystad -> ostersund in directed road map");
-	directed_rm.findPath(SearchMethod.DFS, "ystad", "ostersund", true);
-	directed_rm.findPath(SearchMethod.BFS, "ystad", "ostersund", true);
+	directed_rm.findPath(SearchMethod.DFS, "ystad", "ostersund", verbose);
+	directed_rm.findPath(SearchMethod.BFS, "ystad", "ostersund", verbose);
     }
 }

@@ -45,6 +45,7 @@ public class Graph
 	Stack<Vertex> open = new Stack<Vertex>();
 	for (Vertex vv : vertices.values()) {
 	    vv.value = -1.0;
+	    vv.backpointer = null;
 	}
 	start.value = 0.0;
 	open.push(start);
@@ -58,6 +59,7 @@ public class Graph
 		for (Edge ee : current.neighbors) {
 		    if ( ! closed.contains(ee.destination)) {
 			ee.destination.value = current.value + ee.cost;
+			ee.destination.backpointer = current;
 			open.push(ee.destination);
 		    }
 		}
@@ -72,6 +74,7 @@ public class Graph
 	LinkedList<Vertex> open = new LinkedList<Vertex>();
 	for (Vertex vv : vertices.values()) {
 	    vv.value = -1.0;
+	    vv.backpointer = null;
 	}
 	start.value = 0.0;
 	open.offer(start);
@@ -85,6 +88,7 @@ public class Graph
 		for (Edge ee : current.neighbors) {
 		    if ( ! closed.contains(ee.destination)) {
 			ee.destination.value = current.value + ee.cost;
+			ee.destination.backpointer = current;
 			open.offer(ee.destination);
 		    }
 		}
