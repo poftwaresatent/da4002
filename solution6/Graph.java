@@ -60,4 +60,26 @@ public class Graph
 	}
 	return false;
     }
+    
+    public boolean bfs(Vertex start, ProcessVertex pv)
+    {
+	HashSet<Vertex> closed = new HashSet<Vertex>();
+	LinkedList<Vertex> open = new LinkedList<Vertex>();
+	open.offer(start);
+	for (int counter = 0; 0 < open.size(); ++counter) {
+	    Vertex current = open.poll();
+	    if ( ! closed.contains(current)) {
+		if (pv.visit(current, counter)) {
+		    return true;
+		}
+		closed.add(current);
+		for (Edge ee : current.neighbors) {
+		    if ( ! closed.contains(ee.destination)) {
+			open.offer(ee.destination);
+		    }
+		}
+	    }
+	}
+	return false;
+    }
 }

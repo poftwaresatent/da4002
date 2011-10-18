@@ -1,5 +1,3 @@
-// import java.util.ArrayList;
-// import java.util.HashMap;
 import java.util.StringTokenizer;
 import java.util.NoSuchElementException;
 import java.io.BufferedReader;
@@ -32,6 +30,7 @@ class FindCity
 
 public class RoadMap
 {
+    public enum SearchMethod { DFS, BFS };
     public Graph graph;
     
     public RoadMap()
@@ -79,7 +78,7 @@ public class RoadMap
 	return true;
     }
     
-    public boolean findPathDFS(String source, String destination, boolean verbose)
+    public boolean findPath(SearchMethod sm, String source, String destination, boolean verbose)
     {
 	Vertex sv = graph.findVertex(source);
 	if (null == sv) {
@@ -95,13 +94,24 @@ public class RoadMap
 		return false;
 	    }
 	}
-	boolean found = graph.dfs(sv, new FindCity(dv, verbose));
+	boolean found = false;
+	switch (sm) {
+	case DFS:
+	    found = graph.dfs(sv, new FindCity(dv, verbose));
+	    break;
+	case BFS:
+	    found = graph.bfs(sv, new FindCity(dv, verbose));
+	    break;
+	default:
+	    System.err.println("BUG: the search method " + sm + " is not handled in RoadMap.findPath");
+	    return false;
+	}
 	if (verbose) {
 	    if (found) {
-		System.out.println("yes, there is a path from " + source + " to " + destination);
+		System.out.println("yes, " + sm + " found a path from " + source + " to " + destination);
 	    }
 	    else {
-		System.out.println("no, there is no path from " + source + " to " + destination);
+		System.out.println("no, " + sm + " did not find a path from " + source + " to " + destination);
 	    }
 	}
 	return found;
@@ -118,18 +128,24 @@ public class RoadMap
 	directed_rm.load("city-connections-example.txt", false, false);
 	
 	System.out.println("\ntrying visby -> goteborg in undirected road map");
-	undirected_rm.findPathDFS("visby", "goteborg", true);
+	undirected_rm.findPath(SearchMethod.DFS, "visby", "goteborg", true);
+	undirected_rm.findPath(SearchMethod.BFS, "visby", "goteborg", true);
 	System.out.println("\ntrying visby -> goteborg in directed road map");
-	directed_rm.findPathDFS("visby", "goteborg", true);
+	directed_rm.findPath(SearchMethod.DFS, "visby", "goteborg", true);
+	directed_rm.findPath(SearchMethod.BFS, "visby", "goteborg", true);
 	
 	System.out.println("\ntrying new_york -> goteborg in undirected road map");
-	undirected_rm.findPathDFS("new_york", "goteborg", true);
+	undirected_rm.findPath(SearchMethod.DFS, "new_york", "goteborg", true);
+	undirected_rm.findPath(SearchMethod.BFS, "new_york", "goteborg", true);
 	System.out.println("\ntrying goteborg -> bangkok in directed road map");
-	directed_rm.findPathDFS("goteborg", "bangkok", true);
+	directed_rm.findPath(SearchMethod.DFS, "goteborg", "bangkok", true);
+	directed_rm.findPath(SearchMethod.BFS, "goteborg", "bangkok", true);
 	
 	System.out.println("\ntrying ystad -> ostersund in undirected road map");
-	undirected_rm.findPathDFS("ystad", "ostersund", true);
+	undirected_rm.findPath(SearchMethod.DFS, "ystad", "ostersund", true);
+	undirected_rm.findPath(SearchMethod.BFS, "ystad", "ostersund", true);
 	System.out.println("\ntrying ystad -> ostersund in directed road map");
-	directed_rm.findPathDFS("ystad", "ostersund", true);
+	directed_rm.findPath(SearchMethod.DFS, "ystad", "ostersund", true);
+	directed_rm.findPath(SearchMethod.BFS, "ystad", "ostersund", true);
     }
 }
