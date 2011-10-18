@@ -43,6 +43,10 @@ public class Graph
     {
 	HashSet<Vertex> closed = new HashSet<Vertex>();
 	Stack<Vertex> open = new Stack<Vertex>();
+	for (Vertex vv : vertices.values()) {
+	    vv.value = -1.0;
+	}
+	start.value = 0.0;
 	open.push(start);
 	for (int counter = 0; 0 < open.size(); ++counter) {
 	    Vertex current = open.pop();
@@ -53,6 +57,7 @@ public class Graph
 		closed.add(current);
 		for (Edge ee : current.neighbors) {
 		    if ( ! closed.contains(ee.destination)) {
+			ee.destination.value = current.value + ee.cost;
 			open.push(ee.destination);
 		    }
 		}
@@ -65,6 +70,10 @@ public class Graph
     {
 	HashSet<Vertex> closed = new HashSet<Vertex>();
 	LinkedList<Vertex> open = new LinkedList<Vertex>();
+	for (Vertex vv : vertices.values()) {
+	    vv.value = -1.0;
+	}
+	start.value = 0.0;
 	open.offer(start);
 	for (int counter = 0; 0 < open.size(); ++counter) {
 	    Vertex current = open.poll();
@@ -75,6 +84,7 @@ public class Graph
 		closed.add(current);
 		for (Edge ee : current.neighbors) {
 		    if ( ! closed.contains(ee.destination)) {
+			ee.destination.value = current.value + ee.cost;
 			open.offer(ee.destination);
 		    }
 		}

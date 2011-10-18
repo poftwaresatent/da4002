@@ -21,7 +21,7 @@ class FindCity
     public boolean visit(Vertex vertex, int counter)
     {
 	if (verbose) {
-	    System.out.println("  " + counter + ": " + vertex.name);
+	    System.out.println("  count: " + counter + "  value: " + vertex.value + "  name: " + vertex.name);
 	}
 	return vertex == city;
     }
@@ -120,7 +120,7 @@ public class RoadMap
     public static void main(String[] args)
     {
 	RoadMap undirected_rm = new RoadMap();
-	if ( ! undirected_rm.load("city-connections-example.txt", true, false)) {
+	if ( ! undirected_rm.load("city-connections-example.txt", true, true)) {
 	    System.err.println("failed to load graph");
 	    System.exit(42);
 	}
