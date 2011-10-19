@@ -4,6 +4,12 @@
 \usepackage[margin=3cm]{geometry}
 \usepackage{verbatim,url}
 
+
+\newcounter{question}
+\newcommand{\question}{\refstepcounter{question} \noindent\textbf{Question~\thequestion} ---}
+\renewcommand*\thequestion{\arabic{question}}
+
+
 \begin{document}
 
 \pagestyle{empty}
@@ -51,8 +57,8 @@ Aside from the obvious rules of conduct exams (e.g.\ no chatting):
   You can solve the problems in any order you want, but later problems may be easier to solve after you have answered the preceding questions.
 \item
   \textbf{Write clearly} and draw clear diagrams.
-  If you need to correct a mistake, clearly and cleanly cross out the wrong answer.
-  If the correction does not fit close to the crossed-out mistake, place it somewhere else and clearly indicate where the correction can be found.
+  Clearly indicate the question number for each of your answers.
+  If you need to correct a mistake, then cleanly cross out the wrong answer and clearly indicate where the correction can be found.
 \end{itemize}
 
 
@@ -64,8 +70,58 @@ Aside from the obvious rules of conduct exams (e.g.\ no chatting):
 
 
 
-\section*{Question 1}
+\section*{Containers}
 
-Blah.
+\question
+\label{q:container-structures-a}
+Figure~\ref{f:container-structures} shows four examples of data structures.
+They are labelled with the letters \textbf{(A)}, \textbf{(B)}, \textbf{(C)}, and \textbf{(D)}.
+Table~\ref{t:container-structures} lists names of data structure types.
+For each type listed in the table, determine whether it is represented by one of the diagrams in the figure.
+Write the corresponding diagram letter into the second column of the table, or write a big \textbf{X} if there is no diagram for the given type.
+
+\question
+\label{q:container-structures-b}
+Two of the types in table~\ref{t:container-structures} are missing from figure~\ref{f:container-structures}.
+Draw a diagram for each of them, clearly indicating which diagram is for which container type.
+
+\begin{figure}[B]
+  \emph{list, k-ary tree, undirected graph, directed \emph{cyclic} graph}
+  \caption{
+    Diagrams of container structures for question~\ref{q:container-structures-a}.
+  }\label{f:container-structures}
+\end{figure}
+
+\begin{table}[B]
+  \centering
+  \begin{tabular}{|l|p{0.3\columnwidth}|}
+    \hline
+    \emph{container type} & \emph{letter from figure~\ref{f:container-structures}} \\
+    \hline
+    & \\
+    list & \\
+    & \\
+    \hline
+    & \\
+    k-ary tree & \\
+    & \\
+    \hline
+    & \\
+    binary tree & \\
+    & \\
+    \hline
+    & \\
+    undirected graph & \\
+    & \\
+    \hline
+    & \\
+    directed acyclic graph & \\
+    & \\
+    \hline
+  \end{tabular}
+  \caption{
+    Container types to match with figure~\ref{f:container-structures} for question~\ref{q:container-structures-a}.
+  }\label{t:container-structures}
+\end{table}
 
 \end{document}
