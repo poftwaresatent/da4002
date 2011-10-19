@@ -6,7 +6,7 @@
 
 
 \newcounter{question}
-\newcommand{\question}{\refstepcounter{question} \noindent\textbf{Question~\thequestion} ---}
+\newcommand{\question}{\refstepcounter{question}\section*{Question~\thequestion}}
 \renewcommand*\thequestion{\arabic{question}}
 
 
@@ -70,33 +70,21 @@ Aside from the obvious rules of conduct exams (e.g.\ no chatting):
 
 
 
-\section*{Containers}
+\question\label{q:container-structures-a}
 
-\question
-\label{q:container-structures-a}
-Figure~\ref{f:container-structures} shows four examples of data structures.
+The following figure shows four examples of data structures.
 They are labelled with the letters \textbf{(A)}, \textbf{(B)}, \textbf{(C)}, and \textbf{(D)}.
-Table~\ref{t:container-structures} lists names of data structure types.
+The table below the diagrams lists names of data structure types.
+
 For each type listed in the table, determine whether it is represented by one of the diagrams in the figure.
 Write the corresponding diagram letter into the second column of the table, or write a big \textbf{X} if there is no diagram for the given type.
 
-\question
-\label{q:container-structures-b}
-Two of the types in table~\ref{t:container-structures} are missing from figure~\ref{f:container-structures}.
-Draw a diagram for each of them, clearly indicating which diagram is for which container type.
+\fbox{make sketches of list, k-ary tree, undirected graph, and directed \textbf{cyclic} graph.}
 
-\begin{figure}[B]
-  \emph{list, k-ary tree, undirected graph, directed \emph{cyclic} graph}
-  \caption{
-    Diagrams of container structures for question~\ref{q:container-structures-a}.
-  }\label{f:container-structures}
-\end{figure}
-
-\begin{table}[B]
-  \centering
+\begin{center}
   \begin{tabular}{|l|p{0.3\columnwidth}|}
     \hline
-    \emph{container type} & \emph{letter from figure~\ref{f:container-structures}} \\
+    \emph{container type} & \emph{letter from the above figure} \\
     \hline
     & \\
     list & \\
@@ -119,9 +107,13 @@ Draw a diagram for each of them, clearly indicating which diagram is for which c
     & \\
     \hline
   \end{tabular}
-  \caption{
-    Container types to match with figure~\ref{f:container-structures} for question~\ref{q:container-structures-a}.
-  }\label{t:container-structures}
-\end{table}
+\end{center}
+
+\clearpage
+
+\question
+\label{q:container-structures-b}
+In question~\ref{q:container-structures-a}, two of the types listed in the table are missing from figure.
+Draw a diagram for each of them, clearly indicating which diagram is for which container type.
 
 \end{document}
