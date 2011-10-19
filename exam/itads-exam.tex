@@ -2,7 +2,7 @@
 
 \usepackage[pdftex]{graphicx}
 \usepackage[margin=3cm]{geometry}
-\usepackage{verbatim,url}
+\usepackage{verbatim,moreverb}
 
 
 \newcounter{question}
@@ -57,8 +57,11 @@ Aside from the obvious rules of conduct exams (e.g.\ no chatting):
   You can solve the problems in any order you want, but later problems may be easier to solve after you have answered the preceding questions.
 \item
   \textbf{Write clearly} and draw clear diagrams.
-  Clearly indicate the question number for each of your answers.
   If you need to correct a mistake, then cleanly cross out the wrong answer and clearly indicate where the correction can be found.
+\item
+  If you use separate sheets for your answers, \textbf{indicate the question number} for each of your answers.
+  If a question has sub-questions, indicate the sub-question number after the main question number, separated by a dot.
+  For example, question 3 has 3 subquestions, and their answers should be numbered 3.1, 3.2, and 3.3.
 \end{itemize}
 
 
@@ -126,9 +129,44 @@ Mark structure types which are not shown in any diagram with a big \textbf{X}.\\
 
 \question
 \label{q:container-structures-b}
+
 In question~\ref{q:container-structures-a}, three of the types listed in the table are missing from figures.
 Draw a diagram for each missing type.
 Clearly indicate which diagram is for which container type.
 Make each diagram as similar as possible to one of the figures from question~\ref{q:container-structures-a}.
+
+\clearpage
+
+\question
+\label{q:container-implementations}
+
+The following Java code implements two data structures called \texttt{ContainerOne} and \texttt{ContainerTwo}.
+Answer the following questions.
+You can write the answers as annotations on the source code, or on a separate sheet of paper if you need more space.
+
+\begin{enumerate}
+\item
+  Which container types are implemented by \texttt{ContainerOne} and \texttt{ContainerTwo}?
+  Suggest better names for each of them.
+  \emph{Hint: they both appear in question~\ref{q:container-structures-a}.}
+\item
+  In \texttt{ContainerOne}:
+  what is the role of \texttt{ContainerOne.handle}, \texttt{Node.foo}, and \texttt{Node.bar}?
+  Suggest better names for these three fields.
+\item
+  In \texttt{ContainerTwo}:
+  what is the role of \texttt{ContainerTwo.alpha}, \texttt{ContainerTwo.beta}, \texttt{Node.foo}, and \texttt{Node.bar}?
+  Suggest better names for these four fields.
+\end{enumerate}
+
+\noindent\hrule\vspace{\baselineskip}
+
+\noindent
+\begin{minipage}{0.95\columnwidth}
+  \small
+  \verbatimtabinput{BSTreeSnips.java}
+\end{minipage}
+
+
 
 \end{document}

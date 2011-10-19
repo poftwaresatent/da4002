@@ -31,3 +31,5 @@ clean:
 
 .tex.pdf:
 	$(RUBBER) -d $<
+
+itads-exam.pdf: $(SRCS)
