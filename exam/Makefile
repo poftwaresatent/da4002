@@ -9,7 +9,10 @@ JCFLAGS=
 
 RUBBER= rubber
 
-all: $(OBJS) $(PDFS)
+all: figs $(OBJS) $(PDFS)
+
+figs:
+	$(MAKE) -C fig
 
 re: clean
 	touch $(SRCS)

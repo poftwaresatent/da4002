@@ -1,0 +1,11 @@
+digraph directedcyclicgraph {
+	graph [layout=circo];
+	node [label="",shape=circle];
+	b -> a;
+	b -> c;
+	e -> b;
+	c -> d;
+	d -> e;
+	d -> f;
+	e -> f;
+}

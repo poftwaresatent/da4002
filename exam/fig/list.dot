@@ -1,0 +1,5 @@
+digraph list {
+	rankdir=LR;
+	node [label="",shape=circle];
+	a -> b -> c -> d -> e;
+}
