@@ -1,8 +1,8 @@
 class Node {
-    double value;
+    long value;
     Node foo, bar;
     
-    Node(double _value) {
+    Node(long _value) {
 	value = _value;
     }
 }
@@ -10,7 +10,7 @@ class Node {
 class ContainerOne {
     Node handle;
     
-    static Node helper(double value, Node node) {
+    static Node helper(long value, Node node) {
 	if (null == node) {
 	    return new Node(value);
 	}
@@ -23,7 +23,7 @@ class ContainerOne {
 	return node;
     }
     
-    void insert(double value) {
+    void insert(long value) {
 	handle = helper(value, handle);
     }
 }
@@ -32,7 +32,7 @@ class ContainerTwo {
     Node alpha;
     Node beta;
     
-    void insert(double value) {
+    void insert(long value) {
 	Node node = new Node(value);
 	if (null == beta) {
 	    alpha = node;
