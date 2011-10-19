@@ -7,3 +7,6 @@ all: $(PDFS)
 
 .dot.pdf:
 	dot -Tpdf -o $@ $<
+
+clean:
+	rm -f *~ $(PDFS)
