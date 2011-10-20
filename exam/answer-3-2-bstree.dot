@@ -1,0 +1,11 @@
+digraph bstree {
+  graph [overlap=scale];
+  5 -> 3 [len=2];
+  5 -> 13 [len=2];
+  3 -> -7 [len=2];
+  13 -> 7 [len=2];
+  13 -> 42 [len=2];
+  7 -> 6 [len=2];
+  7 -> 12 [len=2];
+  12 -> 11 [len=2];
+}

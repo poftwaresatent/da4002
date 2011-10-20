@@ -159,9 +159,9 @@ You can write the answers as annotations on the source code, or on a separate sh
 \begin{enumerate}
 \item
   Which container types are implemented by \texttt{ContainerOne} and \texttt{ContainerTwo}?
-  \emph{Hint: they both appear in question~\ref{q:container-structures-a}.}
 \item
-  Describe what the \texttt{insert} method does for each of the two container implementations.
+  Draw a diagram of what each container looks like after \texttt{insert} has been called with the following sequence of values:
+  5, 3, 13, -7, 3, 7, 42, 3, 6, 12, 11.
 \item
   In \texttt{ContainerOne}:
   what is the role of \texttt{ContainerOne.handle}, \texttt{Node.foo}, and \texttt{Node.bar}?
@@ -290,7 +290,7 @@ Answer the following questions:
 
 \begin{enumerate}
 \item
-  Trace the \texttt{gRec} method call for \texttt{n=5}.
+  Trace the \texttt{gRec} method call for \texttt{n=6}.
   Write it down as a table that follows the same format as the table above.
 \item
   Your friend notices that his implementation is really slow for \texttt{n} larger than 20 or so:
@@ -301,25 +301,22 @@ Answer the following questions:
   There are two problem solving techniques which can avoid the rapid growth of execution time in this case.
   Briefly explain each technique \emph{(you should not need more than two or three  sentences for each)}.
 \item
-  Pick one of the problem solving techniques and apply them to solve your friend's problem.
-  You can write your solution as Java code or as pseudo-code.
+  Apply both of these two problem solving techniques to solve your friend's problem.
+  Write separate code segments for each of them.
+  You can use Java syntax or pseudo-code, as long as it is clear what is done in which order.
 \end{enumerate}
 
 \clearpage
 
 \question
-\label{q:sequence-alignment}
-
-\emph{something with sequence alignment\ldots}
-
-\question
 \label{q:graph-search}
 
-\emph{something with dfs, bfs, and dijkstra, maybe throw in an adjacency matrix for good measure\ldots}
+\emph{something with topological order and detection of cycles in directed graphs\ldots}
 
 \question
 \label{q:tree-exercises}
 
-\emph{various little things about trees and search trees, e.g.\ draw diagram of binary search tree after a series of insertions and deletion, list the node visitation order for the various traversal methods, find formula for max number of nodes in a ternary tree (proof by induction)\ldots}
+\emph{give an example bstree, let them remove a node from the middle
+  of it, let them write pseudo code for removing any node\ldots}
 
 \end{document}
