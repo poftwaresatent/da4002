@@ -5,22 +5,12 @@
 \begin{document}
 
 \begin{align*}
-  T_\text{VPM}(N) &= c_1 \frac{N(N+1)}{4} \\
-  T_\text{CTO}(N) &= c_2\log(N/5) + c_3\frac{N}{5} + c_4N\log(N/5)
+  T_\text{VPM}(N) &= t_1 \left( \frac{N(N-1) - 2}{4} + 1 \right) \\
+  &\text{with } \; t_1 = 0.4s \\
+  T_\text{VPM} &\in O(N^2) \\
+  T_\text{CTO}(N) &= t_2\frac{N}{5} + t_3N\log(N/5) \\
+  &\text{with } \; t_2 = 5s \; \text{and } t_3 = 0.5s \\
+  T_\text{CTO} &\in O(N\log N)
 \end{align*}
-
-\begin{tabular}{l|c|c|c|c}
-  $N$            & 10    & 20   & 40  & 80  \\
-  \hline
-  \multicolumn{5}{l}{$c_1=0.5,c_2=2,c_3=3,c_4=0.5$} \\
-  \hline
-  $T_\text{VPM}$ & 13.75 & 52.5 & 205 & 810 \\
-  $T_\text{CTO}$ & 86    & 88   &  90 &  92 \\
-  \hline
-  \multicolumn{5}{l}{$c_1=0.4,c_2=2,c_3=3,c_4=0.5$} \\
-  \hline
-  $T_\text{VPM}$ & 11    & 42   & 164 & 648 \\
-  $T_\text{CTO}$ & 86    & 88   &  90 &  92
-\end{tabular}
 
 \end{document}
