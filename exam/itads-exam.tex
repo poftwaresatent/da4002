@@ -2,7 +2,7 @@
 
 \usepackage[pdftex]{graphicx}
 \usepackage[margin=3cm]{geometry}
-\usepackage{verbatim,moreverb}
+\usepackage{verbatim,moreverb,amssymb,amsmath}
 
 
 \newcounter{question}
@@ -168,6 +168,69 @@ You can write the answers as annotations on the source code, or on a separate sh
   \verbatimtabinput{BSTreeSnips.java}
 \end{minipage}
 
+\clearpage
+
+\question
+\label{q:sorting-complexity}
+
+A company sends their vice president for marketing (VPM) and their chief technology officer (CTO) to a big trade show.
+Each of them collects business cards from the many people they meet.
+Sitting down at the desks in their hotel rooms in the evening, each of them alphabetically sorts the received business cards.
+However, they employ different strategies:
+
+\begin{description}
+\item[The VPM]
+  proceeds as follows:
+  \begin{itemize}
+  \item
+    He places the pile of unsorted cards onto the desk to his right.
+  \item
+    He picks the top card from the unsorted pile and places it to his left.
+  \item
+    Then, he picks the next card from the unsorted pile, and places it either underneath or on top of the card on the left depending on whether the name on the new card comes before or after the name on the old card.
+  \item
+    He then repeatedly does the following, until the unsorted pile has vanished:
+    he picks one card after another from the right, scans for its place in sorted pile, and inserts it there.
+  \end{itemize}
+\item[The CTO]
+  does it differently:
+  \begin{itemize}
+  \item
+    He divides the unsorted pile in two, with roughly the same amount of cards in each sub-pile, and places them side-by-side on the desk.
+  \item
+    He then repeatedly halves each unsorted sub-pile in the same manner, until he has a row of small unsorted piles, with approximately 5 cards in each of them.
+  \item
+    Then, he picks up each small pile in turn, sorts it in his hand by rearranging cards as needed, and places the sorted piles back on the desk.
+  \item
+    Now that he has many small sorted piles, he proceeds to merge pairs of them by picking cards either from the one or the other --- such that the alphabetical order is maintained --- and places them on a bigger pile.
+  \item
+    Each time he has built a bigger pile out of two small ones, he places the big pile onto the desk and merges the next pair of small piles.
+    Whenever he runs out of small piles, he repeats the process with the big piles, merging them into even bigger piles, until he has only one pile left.
+  \end{itemize}
+\end{description}
+
+Assume that it takes
+0.4 seconds to compare two individual cards,
+2 seconds to divide a pile into two halves,
+3 seconds to sort 5 cards ``in hand,''
+and 0.5 seconds to pick cards during the merging of two piles.
+Assume that all other delays can be ignored.
+Answer the following questions:
+
+\begin{enumerate}
+\item
+  Develop a formula for $T_\text{VPM}(N)$ which allows to estimate the amount of time required by the VPM to sort $N$ business cards.
+\item
+  Give the \emph{Big-Oh} complexity for $T_\text{VPM}(N)$.
+\item
+  Develop a formula for $T_\text{CTO}(N)$ which allows to estimate the amount of time required by the CTO to sort $N$ business cards.
+\item
+  Give the \emph{Big-Oh} complexity for $T_\text{CTO}(N)$.
+\item
+  Who will take longer to sort small amounts of business cards ($N<20$ or so)?
+  Who will take longer to sort large amounts of cards ($N>40$ or so)?
+  Explain your answers!
+\end{enumerate}
 
 
 \end{document}

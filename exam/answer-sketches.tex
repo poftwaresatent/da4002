@@ -1,0 +1,26 @@
+\documentclass[a4paper]{article}
+
+\usepackage{amssymb,amsmath}
+
+\begin{document}
+
+\begin{align*}
+  T_\text{VPM}(N) &= c_1 \frac{N(N+1)}{4} \\
+  T_\text{CTO}(N) &= c_2\log(N/5) + c_3\frac{N}{5} + c_4N\log(N/5)
+\end{align*}
+
+\begin{tabular}{l|c|c|c|c}
+  $N$            & 10    & 20   & 40  & 80  \\
+  \hline
+  \multicolumn{5}{l}{$c_1=0.5,c_2=2,c_3=3,c_4=0.5$} \\
+  \hline
+  $T_\text{VPM}$ & 13.75 & 52.5 & 205 & 810 \\
+  $T_\text{CTO}$ & 86    & 88   &  90 &  92 \\
+  \hline
+  \multicolumn{5}{l}{$c_1=0.4,c_2=2,c_3=3,c_4=0.5$} \\
+  \hline
+  $T_\text{VPM}$ & 11    & 42   & 164 & 648 \\
+  $T_\text{CTO}$ & 86    & 88   &  90 &  92
+\end{tabular}
+
+\end{document}
