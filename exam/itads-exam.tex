@@ -99,27 +99,27 @@ Mark structure types which are not shown in any diagram with a big \textbf{X}.\\
     \emph{container type} & \emph{A, B, C, D, or X} \\
     \hline
     & \\
-    simply linked list & \\
+    \textbf{simply} linked list & \\
     & \\
     \hline
     & \\
-    doubly linked list & \\
+    \textbf{doubly} linked list & \\
     & \\
     \hline
     & \\
-    binary tree & \\
+    \textbf{binary} tree & \\
     & \\
     \hline
     & \\
-    k-ary tree & \\
+    \textbf{k-ary} tree & \\
     & \\
     \hline
     & \\
-    undirected graph & \\
+    \textbf{undirected} graph & \\
     & \\
     \hline
     & \\
-    directed acyclic graph & \\
+    directed \textbf{acyclic} graph & \\
     & \\
     \hline
   \end{tabular}
@@ -228,5 +228,69 @@ Answer the following questions:
   Explain your answers!
 \end{enumerate}
 
+\clearpage
+
+\question
+\label{q:recursion-and-dp}
+
+The number sequence $\{G_n\}$ is defined for all natural numbers $n>0$ by the following recursion.
+In order to compute $G_n$, one of your friends implemented the \texttt{gRec} Java method shown in the box below the equation.
+There are three \texttt{return} statements in that method, and they are labelled with the letters \textbf{(A)}, \textbf{(B)}, and \textbf{(C)}.
+
+\begin{equation*}
+  G_n =
+  \begin{cases}
+    0 &\text{for } n \le 2 \\
+    1 &\text{for } n = 3 \\
+    2G_{n-3} - G_{n-2} + G_{n-1} &\text{for } n \ge 4
+  \end{cases}
+\end{equation*}
+
+\begin{center}
+  \fbox{
+    \begin{minipage}{0.7\columnwidth}
+      \small
+      \verbatimtabinput{GRec.java}
+  \end{minipage}}
+\end{center}
+
+In order to validate that the \texttt{gRec} method works correctly, your friend has traced which \texttt{return} statements are encountered when \texttt{gRec} is called with \texttt{n=4}.
+This execution trace is given in the table shown below:
+the first column lists the value of the method argument \texttt{n},
+the second column lists the label of the \texttt{return} statement which gets executed,
+and the third column shows which value gets returned.
+For the statement marked \textbf{(C)}, your friend helpfully also wrote down how the value gets computed.
+
+\begin{center}
+  \begin{tabular}{|c|c|l|}
+    \hline
+    n & label & value \\
+    \hline
+    1  & A & 0 \\
+    2  & A & 0 \\
+    3  & B & 1 \\
+    4  & C & 2* 0 - 0 + 1 = 1 \\
+    \hline
+  \end{tabular}
+\end{center}
+
+Answer the following questions:
+
+\begin{enumerate}
+\item
+  Trace the \texttt{gRec} method call for \texttt{n=5}.
+  Write it down as a table that follows the same format as the table above.
+\item
+  Your friend notices that his implementation is really slow for \texttt{n} larger than 20 or so:
+  with \texttt{n=20} it takes 0.3 seconds, but with \texttt{n=40} it takes almost 1 minute!
+  Explain why this happens.
+  If you can draw a diagram to illustrate the root cause, even better!
+\item
+  There are two problem solving techniques which can avoid the rapid growth of execution time in this case.
+  Briefly explain each technique \emph{(you should not need more than two or three  sentences for each)}.
+\item
+  Pick one of the problem solving techniques and apply them to solve your friend's problem.
+  You can write your solution as Java code or as pseudo-code.
+\end{enumerate}
 
 \end{document}
