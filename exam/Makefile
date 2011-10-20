@@ -32,4 +32,4 @@ clean:
 .tex.pdf:
 	$(RUBBER) -d $<
 
-itads-exam.pdf: $(SRCS)
+itads-exam.pdf: $(SRCS) $(wildcard fig/*.dot)

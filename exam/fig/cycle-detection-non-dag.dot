@@ -1,0 +1,13 @@
+digraph cycledetectionnondag {
+	graph [layout=circo];
+	node [label="",shape=circle];
+	b -> c;
+	d -> b;
+	b -> e;
+	d -> c;
+	c -> e;
+	d -> e;
+	a -> b;
+	c -> a;
+	a -> e;
+}

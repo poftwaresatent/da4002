@@ -1,0 +1,9 @@
+digraph dagsmall {
+	rankdir=LR;
+	node [shape=circle];
+	C -> A;
+	C -> D;
+	A -> B;
+	A -> D;
+	D -> B;
+}

@@ -311,7 +311,69 @@ Answer the following questions:
 \question
 \label{q:graph-search}
 
-\emph{something with topological order and detection of cycles in directed graphs\ldots}
+\paragraph{Definition:}
+A \textbf{topological ordering} of a directed graph is a sequence of its vertices such that, for every \emph{edge} $(U,V)$, $U$ appears before $V$ in the sequence.
+Note that for any \emph{path} from $U$ to $V$, this also implies that $U$ comes before $V$ in the ordering.
+In the example graph shown below, the sequence $(C,A,D,B)$ is a topological ordering.
+
+\begin{center}
+  \fbox{\includegraphics[width=0.3\columnwidth,trim=1cm 1cm 1cm 1cm]{fig/dag-small.pdf}}
+\end{center}
+
+\paragraph{Theorem:}
+A topological ordering is possible if and only if the graph has no cycles.
+In other words, a graph has to be a \textbf{directed acyclic graph} (DAG) in order to have a topological ordering.
+And also, every DAG has at least one topological ordering.
+
+\vspace{\baselineskip}
+\noindent\hrule
+\vspace{\baselineskip}
+
+\noindent
+Answer the following questions:
+
+\begin{enumerate}
+\item
+  Prove the theorem.
+\item
+  Develop and describe an algorithm to detect whether a given directed graph has a cycle.\\
+  \textbf{Hints:}
+  \begin{itemize}
+  \item
+    The \emph{indegree} of a vertex $V$ is the number of incoming edges.
+    In the above example, the indegree of $D$ is two.
+    %%    Thus, if there is some vertex $U$ that connects to $V$, then the indegree of $V$ is at least one.
+  \item
+    If $V$ has an indegree equal to zero, then it can only have \emph{outgoing} paths.
+    This means that $V$ cannot be on a cycle.
+    In the above example, $C$ is such a vertex.
+  \item
+    If we remove an edge $(V,W)$, then the indegree of $W$ decreases by one.
+    If $V$ is \emph{not} on a cycle, and the removal of $(V,W)$ makes the indegree of $W$ drop to zero, then $W$ also cannot be on a cycle.
+  \end{itemize}
+\item
+  Apply your algorithm to the two graphs shown below.
+  Illustrate each step of your algorithm with a little diagram.
+  Annotate each diagram with a short sentence about what has changed since the previous diagram.
+  At the end of each sequence of diagrams, clearly state whether the graph has a cycle, and how this is determined by looking at the last diagram.
+\end{enumerate}
+
+\begin{center}
+  \fbox{
+    \begin{minipage}{0.35\columnwidth}
+      \centering
+      \includegraphics[width=\columnwidth,trim=1cm 1cm 1cm 1cm]{fig/cycle-detection-dag.pdf}
+      \textbf{graph A}
+    \end{minipage}}
+  \fbox{
+    \begin{minipage}{0.35\columnwidth}
+      \centering
+      \includegraphics[width=\columnwidth,trim=1cm 1cm 1cm 1cm]{fig/cycle-detection-non-dag.pdf}
+      \textbf{graph B}
+    \end{minipage}}
+\end{center}
+
+\clearpage
 
 \question
 \label{q:tree-exercises}
