@@ -52,4 +52,19 @@ class GRec {
 	return gg;
     }
     
+    //////////////////////////////////////////////////
+    // wrong alternative B.2
+    
+    static long gRecIterWrong2(long n) {
+	long fn1 = 0;
+	long fn2 = 0;
+	long fn3 = 1;
+	while (n-- > 0) {
+	    fn1 = fn1 + fn2;
+	    fn2 = fn1 - fn2;
+	    fn3 = fn1 + fn2 + fn3;
+	}
+	return fn1;
+    }
+    
 }
