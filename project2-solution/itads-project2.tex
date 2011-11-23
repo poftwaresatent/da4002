@@ -55,7 +55,7 @@ The source archive for the second project contains the following files:
   is a skeleton \texttt{Graph} class, which is incomplete except for the \texttt{load} method which parses adjaceny list files.
   The methods used by the \texttt{load} method have an empty body with comments describing what needs to be filled in.
   In particular, the provided \texttt{Graph} class contains no field for storing vertices.
- This` is one of the first things that needs to be added in order to turn the \texttt{Graph} class into something usable.
+ This is one of the first things that needs to be added in order to turn the \texttt{Graph} class into something usable.
   Several possibilities exist for storing the vertices, from bare arrays to more flexible containers~\cite{java:linked-list,java:array-list,java:hash-set,java:tree-set,java:hash-map,java:tree-map}.
   
 \item[PriorityQueueExample.java]
@@ -85,8 +85,8 @@ The source archive for the second project contains the following files:
   
 \item[zig-zag.grid, maze.grid, and terrain.grid]
   are meant to serve as input files for one of the bonus tasks.
-  They are textual representations of the images in \texttt{zig-zag.adj}, \texttt{maze.adj}, and \texttt{terrain.adj}.
-  Each line of a \texttt{.grid} file corresponds to a row of pixels in the images, but the axis has been inverted and obstacles are handled specially:
+  They are textual representations of the images in \texttt{zig-zag.png}, \texttt{maze.png}, and \texttt{terrain.png}.
+  Each line of a \texttt{.grid} file corresponds to a row of pixels in the images, but the grey scale value has been inverted and obstacles are handled specially:
   white pixels are represented with a grid value of 1, obstacles are stored as the character ``\#'', and darker tones of grey receive higher grid values.
   
 \end{description}
@@ -171,7 +171,8 @@ The source archive for the second project contains the following files:
 
 \item
   Read the information about Dijkstra's algorithm in chapter 14.3 of the course book~\cite{weiss:2005} and on Wikipedia~\cite{wikipedia:dijkstra}.
-  Then implement the algorithm in new method of the \texttt{Graph} class.
+  Then implement the algorithm in a new method of the \texttt{Graph} class.
+  Choose an appropriate name for this new method.
   Some \textbf{important remarks} need to be taken into account:
   \begin{itemize}
   \item
@@ -186,7 +187,7 @@ The source archive for the second project contains the following files:
     The pseudocode given on Wikipedia relies on a priority queue which allows to re-order an item already on the queue.
     This can be avoided with the technique presented in the course book:
     simply create a new queue entry instead of re-ordering the old one.
-    But this means ensuring that when you later take the old one off the queue, you have to check whether it is still relevant.
+    But this means that when you later take the old one off the queue, you have to check whether it is still relevant.
     This is explained at the beginning of page 494 in the course book.
   \end{itemize}
   
