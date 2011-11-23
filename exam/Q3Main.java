@@ -1,4 +1,4 @@
-public class TestBSTreeSnips {
+public class Q3Main {
     static void printInOrder(Node node) {
 	if (null != node.foo) {
             printInOrder(node.foo);
@@ -28,7 +28,7 @@ public class TestBSTreeSnips {
     }
     
     public static void main(String[] args) {
-	long[] values = { 5, 3, 13, -7, 3, 7, 42, 4, 3 };
+	long[] values = { 5, 3, 13, -7, 3, 7, 42, 3, 6, 12, 11 };
 	boolean verbose = true;
 	
 	if (0 < args.length) {
