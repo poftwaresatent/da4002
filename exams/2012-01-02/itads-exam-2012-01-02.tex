@@ -151,7 +151,8 @@ All other operation delays can be neglected.
     \verbatimtabinput{q2b.txt}
   \end{minipage}
 \item
-  fragment 3:\\
+  fragment 3:
+  \emph{(important: compute the runtime of the \texttt{for} loop, not just the \texttt{foo} function)}\\
   \begin{minipage}[t]{0.4\columnwidth}
     \footnotesize
     \verbatimtabinput{q2c.txt}
@@ -177,17 +178,17 @@ There are many ways of defining and storing such graphs, for example the three p
 \fbox{%
   \begin{minipage}[t]{0.3\columnwidth}
     definition \textbf{D1}\\
-    \emph{adjacency lists}\\[1.1\baselineskip]
-    \includegraphics[width=\columnwidth]{q3-adjlist-diagrams.pdf}
+    \emph{source code}
+    \footnotesize
+    \verbatimtabinput{Q3.java}
   \end{minipage}%
 }
 \hfill
 \fbox{%
   \begin{minipage}[t]{0.3\columnwidth}
     definition \textbf{D2}\\
-    \emph{source code}
-    \footnotesize
-    \verbatimtabinput{Q3.java}
+    \emph{adjacency lists}\\[1.1\baselineskip]
+    \includegraphics[width=\columnwidth]{q3-adjlist-diagrams.pdf}
   \end{minipage}%
 }
 \hfill
@@ -322,18 +323,18 @@ You are asked to fix the following broken code fragments:\\[1.2\baselineskip]
 \begin{enumerate}
 \item
   An intern is trying to compute the Fibonacci sequence using dynamic programming.
-  But the output of his method \texttt{fibonacci} is ``1, 1, 2, 4, 8, 16, 32, \ldots'' instead of ``1, 1, 2, 3, 5, 8, 13, \ldots''
+  But the output of his method \textbf{\texttt{fibonacci}} is ``1, 1, 2, 4, 8, 16, 32, \ldots'' instead of ``1, 1, 2, 3, 5, 8, 13, \ldots''
   What is the problem?
   How can it be fixed?
 \item
   An analyst is trying to speed up lookups on sorted data by using binary search instead of linear search.
-  However, when given the test data ``\texttt{\{ 1, 23, 25, 66, 102 \}}'' his \texttt{binsearch} method fails to find the number 66, although it does find the number 25.
+  However, when given the test data ``\texttt{\{ 1, 23, 25, 66, 102 \}}'' his \textbf{\texttt{binsearch}} method fails to find the number 66, although it does find the number 25.
   What is the problem?
   How can it be fixed?
 \item
   A call center technician is trying to use a linked list to manage queues of incoming phone calls.
   His implementation of the \texttt{Queue} class has a method \texttt{enqueue} to add items to the waiting list, and \texttt{dequeue} to remove the oldest item from the list.
-  However, the \texttt{dequeue} method always returns \texttt{null} after it has returned one item, no matter how many items have been added using \texttt{enqueue}.
+  However, the \textbf{\texttt{dequeue}} method always returns \texttt{null} after it has returned one item, no matter how many items have been added using \texttt{\texttt{enqueue}}.
   What is the problem?
   How can it be fixed?
 \end{enumerate}

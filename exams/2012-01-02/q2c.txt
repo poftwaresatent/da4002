@@ -11,6 +11,5 @@ void foo (int N) {
   
 // FRAGMENT 3
 for (int ii = 0; ii < N; ++ii) {
-  f_1ms ();
   foo (N);
 }
