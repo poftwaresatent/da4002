@@ -1,0 +1,17 @@
+int binsearch (int [] data, int item) {
+  int low = 0;
+  int high = data.length - 1;
+  while (low <= high) {
+    int mid = (low + high) / 2;
+    if (data[mid] < item) {
+      high = mid - 1;
+    }
+    else if (data[mid] > item) {
+      low = mid + 1;
+    }
+    else {
+      return mid;
+    }
+  }
+  return -1;
+}

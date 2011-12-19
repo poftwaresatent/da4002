@@ -1,0 +1,33 @@
+class QueueNode {
+  String item;
+  QueueNode next;
+  
+  QueueNode (String _item) {
+  item = _item;
+  }
+}
+
+class Queue {
+  QueueNode head, tail;
+  
+  void enqueue (String item) {
+    QueueNode node = new QueueNode(item);
+    if (null == head) {
+      head = node;
+      tail = node;
+    }
+    else {
+      node.next = tail;
+      tail = node;
+    }
+  }
+  
+  String dequeue () {
+    if (null == head) {
+      return null;
+    }
+    String item = head.item;
+    head = head.next;
+    return item;
+  }
+}

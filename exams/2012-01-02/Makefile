@@ -16,6 +16,8 @@ RUBBER= rubber
 
 all: $(PDFS)
 
+jj: $(OBJS)
+
 #figs:
 #	$(MAKE) -C fig
 

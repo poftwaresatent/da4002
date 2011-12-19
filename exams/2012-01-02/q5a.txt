@@ -1,0 +1,14 @@
+int fibonacci (int nn) {
+  if (nn <= 2) {
+    return 1;
+  }
+  int f1 = 1;
+  int f2 = 1;
+  int ff = 0;
+  for (int ii = 2; ii < nn; ++ii) {
+    ff = f1 + f2;
+    f2 = ff;
+    f1 = f2;
+  }
+  return ff;
+}

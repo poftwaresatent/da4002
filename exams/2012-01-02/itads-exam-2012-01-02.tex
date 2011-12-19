@@ -168,13 +168,10 @@ All other operation delays can be neglected.
 
 \question
 
-The following four diagrams define the directed graphs \textbf{G1}, \textbf{G2}, \textbf{G3}, and \textbf{G4}.\\
-
-\centerline{\includegraphics[width=0.6\columnwidth]{q3-graphs.pdf}}
-
+The following four diagrams define the directed graphs \textbf{G1}, \textbf{G2}, \textbf{G3}, and \textbf{G4}.\\[1.2\baselineskip]
+\centerline{\includegraphics[width=0.6\columnwidth]{q3-graphs.pdf}}\\[1.2\baselineskip]
 \noindent
-There are many ways of defining and storing such graphs.
-Below, there are three different examples of such graph definitions, labeled \textbf{D1}, \textbf{D2}, and \textbf{D3}.\\
+There are many ways of defining and storing such graphs, for example the three possibilities labeled \textbf{D1}, \textbf{D2}, and \textbf{D3} in the three boxes below:\\
 
 \noindent
 \fbox{%
@@ -236,18 +233,11 @@ A \emph{spanning tree} is a tree which is embedded in a graph in such a way that
 In other words, a spanning tree is composed of all the vertices and some of the edges of the graph.
 It is possible to compute a spanning tree by tracing the execution of depth-first search (DFS):
 whenever a non-visited vertex is encountered, the edge connecting to it is added to the spanning tree.
-This technique also works for breadth-first search (BFS).
+This technique also works with breadth-first search (BFS), usually giving a different result.
 
 \emph{%
-For example, assume that you are in the middle of DFS and the current vertex is \textbf{C}.
-You would now check whether \textbf{A}, \textbf{B}, or \textbf{F} are already visited.
-If now, for example, \textbf{F} is not yet visited, mark the edge connecting \textbf{C} to \textbf{F} as belonging to the spanning tree.}
-
-For a given graph, there usually is more than one spanning tree.
-In this question, you are asked to perform DFS and BFS on the graph shown below.
-The adjacency matrix is also given, in order to define the iteration order of outgoing edges:
-simply read from left to right along the appropriate row of the adjacency matrix.
-For example, the order of out-edges from vertex \textbf{C} is: \textbf{A}, \textbf{B}, \textbf{F}.
+For example, assume that you are in the middle of DFS and the current vertex is \textbf{V}.
+Its neighbor \textbf{W} has not yet been visited, so the edge \textbf{(V,W)} is marked as belonging to the spanning tree before proceeding with the ongoing DFS.}
 
 \begin{center}
   \fbox{%
@@ -284,15 +274,68 @@ For example, the order of out-edges from vertex \textbf{C} is: \textbf{A}, \text
   }
 \end{center}
 
+The above diagram shows a directed graph.
+Its adjacency matrix representation is also given, to define an iteration order for the edges.
+This is important because it determines the vertex visitation order for the following questions.
+The order is given by reading from left to right along the appropriate row of the adjacency matrix.
+\emph{For example, the order of edges emanating from vertex \textbf{C} is: \textbf{A}, \textbf{B}, \textbf{F}.}
+
 \begin{enumerate}
 \item
-  Perform DFS starting at vertex \textbf{A} and write down the order in which the vertices are visited.
+  Perform DFS starting at vertex \textbf{D}.
+  Write down the order in which the vertices are visited.
 \item
-  Perform BFS, also starting at vertex \textbf{A}, and also writing down the visitation order.
+  Perform BFS, also starting at vertex \textbf{D}, and also writing down the visitation order.
 \item
   Draw a diagram of the spanning tree rooted at \textbf{A} using depth-first search.
 \item
   Draw a diagram of the spanning tree rooted at \textbf{A} using breadth-first search.
+\end{enumerate}
+
+\clearpage
+
+\question
+
+Imagine that you have been hired by a company to help them with software development.
+You are asked to fix the following broken code fragments:\\[1.2\baselineskip]
+
+\noindent
+\begin{minipage}{0.45\columnwidth}
+  \fbox{%
+    \begin{minipage}{\columnwidth}
+      \footnotesize
+      \verbatimtabinput{q5a.txt}
+  \end{minipage}}\\[1.2\baselineskip]
+  \fbox{%
+    \begin{minipage}{\columnwidth}
+      \footnotesize
+      \verbatimtabinput{q5b.txt}
+  \end{minipage}}
+\end{minipage}
+\hfill
+\fbox{%
+  \begin{minipage}{0.45\columnwidth}
+    \footnotesize
+    \verbatimtabinput{q5c.txt}
+\end{minipage}}
+
+\begin{enumerate}
+\item
+  An intern is trying to compute the Fibonacci sequence using dynamic programming.
+  But the output of his method \texttt{fibonacci} is ``1, 1, 2, 4, 8, 16, 32, \ldots'' instead of ``1, 1, 2, 3, 5, 8, 13, \ldots''
+  What is the problem?
+  How can it be fixed?
+\item
+  An analyst is trying to speed up lookups on sorted data by using binary search instead of linear search.
+  However, when given the test data ``\texttt{\{ 1, 23, 25, 66, 102 \}}'' his \texttt{binsearch} method fails to find the number 66, although it does find the number 25.
+  What is the problem?
+  How can it be fixed?
+\item
+  A call center technician is trying to use a linked list to manage queues of incoming phone calls.
+  His implementation of the \texttt{Queue} class has a method \texttt{enqueue} to add items to the waiting list, and \texttt{dequeue} to remove the oldest item from the list.
+  However, the \texttt{dequeue} method always returns \texttt{null} after it has returned one item, no matter how many items have been added using \texttt{enqueue}.
+  What is the problem?
+  How can it be fixed?
 \end{enumerate}
 
 \end{document}
