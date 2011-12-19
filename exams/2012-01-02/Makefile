@@ -14,7 +14,7 @@ JCFLAGS=
 
 RUBBER= rubber
 
-all: $(OBJS) $(PDFS)
+all: $(PDFS)
 
 #figs:
 #	$(MAKE) -C fig
@@ -40,4 +40,4 @@ clean:
 .dot.pdf:
 	dot -Tpdf -o $@ $<
 
-itads-exam-2012-01-02.pdf: $(SRCS) $(TEX_SRCS) $(DOT_PDFS) $(PDF_SRCS)
+itads-exam-2012-01-02.pdf: $(TEX_SRCS) $(DOT_PDFS) $(PDF_SRCS) $(wildcard *.txt)

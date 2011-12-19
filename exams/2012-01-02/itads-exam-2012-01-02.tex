@@ -24,10 +24,9 @@
   DA4002 (HT11) Halmstad University\\
   Introduction to Algorithms, Data Structures, and Problem Solving\\[3\baselineskip]
   \Huge
-  Written Exam (Repeat)\\
+  Written Exam\\
   \Large
-  Monday, January 2, 2012\\
-  \emph{exact time and location to be defined}\\[2\baselineskip]
+  Monday, January 2, 2012\\[2\baselineskip]
   Examiner: Roland Philippsen
 \end{minipage}
 
@@ -87,19 +86,19 @@ Aside from the obvious rules of conduct exams (e.g.\ no chatting):
 
 \question
 
-For each of the following data storage examples, choose the most appropriate data structure types from the list in the box.
-Then draw a small diagram to illustrate the chosen data structure.
+For each of the following data storage examples, choose the most appropriate data structure types from the ones listed in the box.
+Also, briefly explain your choice in writing, and draw a diagram to illustrate the chosen data structure.
 
 \begin{center}
   \fbox{%
     \begin{minipage}{0.7\columnwidth}
       List of data structures to choose from:
       \begin{itemize}
-      \item undirected graph
-      \item binary search tree
       \item linked list
-      \item directed acyclic graph
+      \item undirected graph
+      \item directed graph
       \item k-ary tree
+      \item binary search tree
       \end{itemize}
     \end{minipage}%
   }
@@ -108,7 +107,7 @@ Then draw a small diagram to illustrate the chosen data structure.
 
 \begin{enumerate}
 \item
-  Storing a log of meteorological data, such as temperature, atmospheric pressure, wind speed and direction.
+  Storing a log (time series) of meteorological data containing temperature, atmospheric pressure, wind speed, and wind direction.
   The purpose of the log is to later display graphs of the evolution over time of these data.
 \item
   Keeping an inventory of electronical components in a workshop, such as various resistors, capacitors, transistors, etc.
@@ -126,13 +125,44 @@ Then draw a small diagram to illustrate the chosen data structure.
 
 \question
 
-Determine the Big-Oh running time complexity for each of the methods whose name begins with \texttt{question\_} in the code below.
+For each of the following code fragments,
+\begin{itemize}
+\item
+  develop a formula allowing to estimate the running time depending on the parameter $N$,
+\item
+  and then determine its Big-Oh runtime complexity.
+\end{itemize}
 
 \noindent
-\begin{minipage}{0.95\columnwidth}
-  \footnotesize
-  \verbatimtabinput{Q2.java}
-\end{minipage}
+Note that the method \texttt{f\_1ms} requires 1 ms to run, and the method \texttt{f\_3ms} needs 3 ms.
+All other operation delays can be neglected.
+
+\begin{itemize}
+\item
+  fragment 1:\\
+  \begin{minipage}[t]{0.4\columnwidth}
+    \footnotesize
+    \verbatimtabinput{q2a.txt}
+  \end{minipage}
+\item
+  fragment 2:\\
+  \begin{minipage}[t]{0.4\columnwidth}
+    \footnotesize
+    \verbatimtabinput{q2b.txt}
+  \end{minipage}
+\item
+  fragment 3:\\
+  \begin{minipage}[t]{0.4\columnwidth}
+    \footnotesize
+    \verbatimtabinput{q2c.txt}
+  \end{minipage}
+\item
+  fragment 4:\\
+  \begin{minipage}[t]{0.4\columnwidth}
+    \footnotesize
+    \verbatimtabinput{q2d.txt}
+  \end{minipage}
+\end{itemize}
 
 \clearpage
 
