@@ -7,6 +7,8 @@ PDFS= $(TEX_SRCS:.tex=.pdf)
 DOT_SRCS= $(wildcard *.dot)
 DOT_PDFS= $(DOT_SRCS:.dot=.pdf)
 
+PDF_SRCS= q4-graph-diagram.pdf
+
 JC= javac
 JCFLAGS=
 
@@ -38,4 +40,4 @@ clean:
 .dot.pdf:
 	dot -Tpdf -o $@ $<
 
-itads-exam-2012-01-02.pdf: $(SRCS) $(TEX_SRCS) $(DOT_SRCS)
+itads-exam-2012-01-02.pdf: $(SRCS) $(TEX_SRCS) $(DOT_PDFS) $(PDF_SRCS)
