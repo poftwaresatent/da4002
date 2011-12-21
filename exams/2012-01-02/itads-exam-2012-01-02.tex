@@ -107,18 +107,22 @@ Also, briefly explain your choice in writing, and draw a diagram to illustrate t
 
 \begin{enumerate}
 \item
-  Storing a log (time series) of meteorological data containing temperature, atmospheric pressure, wind speed, and wind direction.
-  The purpose of the log is to later display graphs of the evolution over time of these data.
+  Storing a record (time series) of meteorological data containing temperature, atmospheric pressure, wind speed, and wind direction.
+  The purpose of the record is to later display graphs of the evolution over time of these data.
 \item
   Keeping an inventory of electronical components in a workshop, such as various resistors, capacitors, transistors, etc.
   The purpose is to look up components by part number to see how many are in stock.
 \item
-  Tracking the prerequisite dependencies between courses at a University.
-  The purpose is to help students plan their curriculum and allow professors to check for inconsistencies in study programmes.
+  Modeling the transportation network in a city, complete with one-way streets, pedestrian zones, bus routes, subway lines, etc.
+  The purpose is to allow visitors to plan trips, choosing different transportation modes such as walking or driving their car.
+%  Tracking the prerequisite dependencies between courses at a University.
+%  The purpose is to help students plan their curriculum and allow professors to check for inconsistencies in study programmes.
 \item
   Storing information about animals and plants that are on display in a museum of natural history.
   The purpose is to present visitors with an interface where they can explore the collection according to biological classification.
-  For example, animal are grouped into species, which are parts of a genus, which are grouped into families.
+  \emph{Note: biological classification corresponds approximately to evolutionary heritage.
+    It is a hierarchical way of grouping animals.
+    For example, a poodle belongs to the \emph{species} dog, which is part of the Canidae \emph{family}, which in turn belongs to the the \emph{order} Carnivora.}
 \end{enumerate}
 
 \clearpage
@@ -134,7 +138,7 @@ For each of the following code fragments,
 \end{itemize}
 
 \noindent
-Note that the method \texttt{f\_1ms} requires 1 ms to run, and the method \texttt{f\_3ms} needs 3 ms.
+Note that the method \texttt{f\_1ms} always requires 1 ms to run, and the method \texttt{f\_3ms} always takes 3 ms.
 All other operation delays can be neglected.
 
 \begin{itemize}
@@ -172,7 +176,7 @@ All other operation delays can be neglected.
 The following four diagrams define the directed graphs \textbf{G1}, \textbf{G2}, \textbf{G3}, and \textbf{G4}.\\[1.2\baselineskip]
 \centerline{\includegraphics[width=0.6\columnwidth]{q3-graphs.pdf}}\\[1.2\baselineskip]
 \noindent
-There are many ways of defining and storing such graphs, for example the three possibilities labeled \textbf{D1}, \textbf{D2}, and \textbf{D3} in the three boxes below:\\
+There are many ways of defining and representing such graphs, for example the three possibilities labeled \textbf{D1}, \textbf{D2}, and \textbf{D3} in the three boxes below:\\
 
 \noindent
 \fbox{%
@@ -217,11 +221,14 @@ There are many ways of defining and storing such graphs, for example the three p
 
 \begin{enumerate}
 \item
-  For each of the definitions \textbf{D1}, \textbf{D2}, and \textbf{D3}, find out which of the graphs \textbf{G1}, \textbf{G2}, \textbf{G3}, and \textbf{G4} is created or represented.
+  For each of the definitions \textbf{D1}, \textbf{D2}, and \textbf{D3}, write down which of the graphs \textbf{G1}, \textbf{G2}, \textbf{G3}, and \textbf{G4} is created or represented.
 \item
   One of the graphs is not represented by any of the definitions.
   Which one is it?
   Choose one of the definition styles and use that to describe the graph that was not covered by \textbf{D1}, \textbf{D2}, and \textbf{D3}.
+\item
+  Describe the trade-off between adjacency lists and adjacency matrices.
+  Under what circumstances is one better than the other?
 \end{enumerate}
 
 \clearpage
