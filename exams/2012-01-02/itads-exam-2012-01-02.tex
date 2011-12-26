@@ -6,7 +6,7 @@
 
 
 \newcounter{question}
-\newcommand{\question}{\refstepcounter{question}\section*{Question~\thequestion}}
+\newcommand{\question}[1]{\refstepcounter{question}\section*{Question~\thequestion~~~\small\emph{(#1)}}}
 \renewcommand*\thequestion{\arabic{question}}
 
 
@@ -84,7 +84,7 @@ Aside from the obvious rules of conduct exams (e.g.\ no chatting):
 
 
 
-\question
+\question{4 points}
 
 For each of the following data storage examples, choose the most appropriate data structure types from the ones listed in the box.
 Also, briefly explain your choice in writing, and draw a diagram to illustrate the chosen data structure.
@@ -127,7 +127,7 @@ Also, briefly explain your choice in writing, and draw a diagram to illustrate t
 
 \clearpage
 
-\question
+\question{4 points}
 
 For each of the following code fragments,
 \begin{itemize}
@@ -171,7 +171,7 @@ All other operation delays can be neglected.
 
 \clearpage
 
-\question
+\question{4 points}
 
 The following four diagrams define the directed graphs \textbf{G1}, \textbf{G2}, \textbf{G3}, and \textbf{G4}.\\[1.2\baselineskip]
 \centerline{\includegraphics[width=0.6\columnwidth]{q3-graphs.pdf}}\\[1.2\baselineskip]
@@ -233,7 +233,7 @@ There are many ways of defining and representing such graphs, for example the th
 
 \clearpage
 
-\question
+\question{6 points}
 
 A \emph{spanning tree} is a tree which is embedded in a graph in such a way that
 (1) all the vertices of the graph appear in the tree, and
@@ -302,7 +302,7 @@ The order is given by reading from left to right along the appropriate row of th
 
 \clearpage
 
-\question
+\question{7 points}
 
 Imagine that you have been hired by a company to help them with software development.
 You are asked to fix the following broken code fragments:\\[1.2\baselineskip]
