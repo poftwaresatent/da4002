@@ -14,7 +14,7 @@ JCFLAGS=
 
 RUBBER= rubber
 
-all: $(PDFS)
+all: jj $(PDFS)
 
 jj: $(OBJS)
 
