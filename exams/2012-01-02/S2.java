@@ -81,11 +81,14 @@ class S2 {
     }
     
     static double answer4(long N) {
-	final double lceil = Math.ceil(lb(N));
-	// I cannot figure out where the factor of 2 comes from, but
-	// this formula matches rather well... will need to swing it
-	// by someone else.
-	return 2.0 * (3.0 * lceil + N * Math.pow(2.0, lceil - 1));
+	final boolean exact = false;
+	if (exact) {
+	    final double A = Math.ceil(lb(N));
+	    return 3.0 * A + N * (Math.pow(2.0, A) - 1.0);
+	}
+	else {
+	    return 3.0 * lb(N) + N * (N - 1.0);
+	}
     }
     
     public static void main(String[] args) {
