@@ -1,6 +1,6 @@
 CC       = gcc
 CFLAGS   = -Wall -O0 -g -pipe
-PROGRAMS = ex1-1-hello-world
+PROGRAMS = $(shell ls *.c | sed 's:\.c$$::')
 
 all:
 	for prg in $(PROGRAMS); \
