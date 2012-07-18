@@ -1,0 +1,245 @@
+\documentclass[a4paper,twoculumn,10pt]{article}
+
+\usepackage[margin=3cm]{geometry}
+\usepackage{multirow}
+
+
+\begin{document}
+
+\title{{\normalsize Course Guide DA4002 (HT11) Halmstad University}\\
+  Introduction to Algorithms, Data Structures,\\ and Problem Solving}
+\author{Roland Philippsen}
+\maketitle
+
+
+
+\section{Discussion of the Syllabus}
+
+The course syllabus states the prerequisites, objectives, and other details of the course.
+Here is a summary of the most important points, with some additional explanations.
+
+\begin{description}
+
+\item[Prerequisites and Conditions of Admission:]
+  \emph{Basic course in programming techniques}
+
+\item[Course Objectives:]
+  \emph{
+    The course aims at providing knowledge on algorithm complexity, algorithm design and classical data structures.
+    The aim of the course is also to improve programming abilities in a modern programming language, currently Java.
+  }
+  
+  \emph{
+    The course builds on basic programming knowledge and practice and prepares the student to participate in larger programming projects.
+    It introduces currently accepted techniques to solve frequently occurring problems and prepares the student to make informed choices from several alternative solutions.
+    The course also illustrates how some more advanced programming language constructs can be used.
+  }
+  
+\item[Primary Contents:]
+  \emph{
+    An introduction to Java with emphasis on inheritance and polymorphism as a way of organizing reusable programming libraries.
+    Abstract data types, stacks, queues, lists.
+    Algorithm analysis and design.
+    Asymptotic execution time.
+    Recursion, dynamic programming, divide and conquer.
+  }
+  
+\item[Course Literature:]
+  \emph{
+    Weiss, M. \emph{Data Structures and Problem Solving using Java}. Addison Wesley, 3rd edition, 2005.
+  }
+  
+\end{description}
+
+The syllabus does not further specify what is meant by ``basic programming techniques,'' so it can be difficult to understand whether a student fulfills the conditions.
+A limited amount of time (approximately 3-4 weeks) is available for students who need to catch up (see below).
+
+To clarify this questions: participants must have followed and passed an introductory programming course, or picked up an equivalent skill level through other activities.
+More specifically, this means they are able to solve (relatively simple) programming tasks independently and from scratch in a general-purpose procedural or object-oriented language, such as C, Fortran, Pascal, C++, C\#, Objective-C, or Java.
+Some specialized languages are also okay, such as Matlab or Mathematica.
+Domain-specific languages such as PHP, JavScript, LabVIEW, or Visual Basic do not really count.
+
+This means \emph{at the very least} the following:
+
+\begin{itemize}
+\item Participants understand fundamentals about how the operating system launches and interacts with applications.
+\item They understand the concept of project directory, source and executable files, and compilation (or interpretation, in case of scripting languages).
+\item They can apply basic programming constructs and principles such as: types, variables, functions, as well as input and output to and from files and terminals.
+\item They know how to edit source code, and use compiler and other failure messages to locate errors in the code.
+\end{itemize}
+
+It is acknowledged that it may have been a while since those programming skills were last used, which is why the first half of the course provides opportunities to catch up.
+Nevertheless, the introduction to Java relies heavily on the prerequisite that students already have basic programming skills.
+Object-oriented aspects such as inheritance and polymorphism are presented in a way that assumes familiarity with procedural programming.
+The objective is to highlight some principal advantages of object-oriented programming, but the course does not rely on advanced object orientation.
+
+The course is very hands-on in order to achieve two objectives:
+students should gain a deep understanding of data structures and algorithms by applying them in real programming situations;
+and after the course students are expected to be able to work independently and in teams on programming projects where they apply what they have learnt.
+However, the concepts behind the algorithms, data structures, and problem solving techniques are just as important.
+These concepts and methods are independent of the programming language.
+The written exam test whether the students have assimilated the concepts and can use them to analyze problems and devise solutions with pen and paper.
+
+The course book forms an integral part of the course.
+More recent editions of the same book should work just as well.
+The exam will cover only material of the 3rd edition, but (by far) not all of it.
+If required, additional material that may be tested in the exam but which is not covered in the book will be handed out to students.
+
+
+
+\section{Schedule}
+
+\begin{table}
+  \centering
+  \begin{tabular}{c|ll}
+    \emph{week} & \multicolumn{2}{l}{\emph{lecture (L) / exercises (E) / project (P)}} \\
+    \hline
+    1 &
+    L1 &
+    overview, introduction to Java
+    \\
+    & E1 &
+    introduction to the development environment, Java basics
+    \\
+    2 &
+    L2 &
+    review of programming foundations, sequence containers
+    \\
+    & E2 &
+    inheritance and basic generics in Java, arrays and lists
+    \\
+    3 &
+    L3 &
+    associative containers, searching, and sorting
+    \\
+    & E3 &
+    trees, basic sorting (insertion, shell, merge, quick)
+    \\
+    4 &
+    L4 &
+    computational complexity, introduction of mini-projects
+    \\
+    & E4 &
+    complexity analysis, data plotting
+    \\
+    & P1 &
+    comparing containers, searching, and sorting
+    \\
+    5 & &
+    \emph{guest lecture}
+    \\
+    & &
+    continue with P1
+    \\
+    6 &
+    L5 &
+    discussion of complexity analysis, problem solving techniques
+    \\
+    & E5 &
+    recursion, divide and conquer, dynamic programming
+    \\
+    7 &
+    L6 &
+    graphs, advanced containers
+    \\
+    & E6 &
+    hash tables, binary heaps, unweighted shortest-path
+    \\
+    & P2 &
+    positive-weighted shortest-path (Dijkstra)
+    \\
+    8 &
+    L7 &
+    a taste of advanced containers and algorithms
+    \\
+    & &
+    continue with P2
+    \\
+    \hline
+  \end{tabular}
+  \caption{Schedule overview.}\label{tab:schedule}
+\end{table}
+
+Table~\ref{tab:schedule} shows the schedule for lectures, exercises, and project work.
+There is one lecture per week, and each lecture lasts $2\times 90$ minutes (with a $15$ minute break in the middle).
+Lectures include a short discussion of the exercises from the previous week.
+Depending on the number of students, exercises are split into groups to accommodate the capacity of the \textsc{Unix} room.
+Each week, there are two separate time slots ($105$ minutes each) for supervised exercises and project work.
+For the projects, participants work in teams of 2 (or 3 in case of an odd total number of students).
+
+
+
+\section{Reading Guide}
+
+Below is a list of the required and optional sections that the students should study from the course book.
+This means reading and digesting the material, for instance with the help of the exercises provided in the book.
+An approximate indication of when each part should have been assimilated is also given.
+
+The course website has links to further resources in the form of books and other websites (such as the official Java tutorial).
+Students are expected learn how to self-evaluate, and they will be guided during exercises to acquire this skill.
+Afterward, they should be able to study independently when they need more practice in particular areas.
+
+\paragraph{Chapter 1 \emph{Primitive Java}} should be trivial review material for anyone who passed a basic programming course.
+Students are thus assumed to have (re-) learned this material by the middle of the first week.
+However, it is possible to catch up until the end of the second week.
+
+\paragraph{Chapter 2 \emph{Reference Types},} is also (mostly) considered a review of concepts that students should already be familiar with.
+For students without experience of object-oriented programming, the material may take longer to digest, until the middle of the second week.
+For students catching up with basic programming, it should be okay to have digested chapter 2 by the end of the third week.
+However, strings and arrays (sections 2.3 and 2.4) are used heavily from the very beginning of the course, and students will have to understand them by the middle of the first week.
+The course will not rely heavily on exception handling (section 2.5), but students need to be aware of this mechanisms because it is very commonly used in the Java library.
+It is always possible to re-visit this topic at a later stage, for instance during the first mini-project in the fourth and fifth week.
+
+\paragraph{Chapter 3 \emph{Objects and Classes}} is rather fundamental for understanding Java.
+Students who have not yet been exposed to object-oriented programming may find this material more difficult than chapters 1 and 2.
+Assimilating this material is not so urgent:
+most of the course relies on concepts rather than programming paradigms, and the more traditional procedural style is usually sufficient.
+Thus, at the beginning teaching will not rely heavily on chapter 3, \textbf{except} for the following, which are used from the very beginning:
+constructors (section 3.4.1), \texttt{main} (section 3.4.5), and \texttt{import} (section 3.6.1).
+In order to get a good grade for the mini-projects (i.e.\ by week four), students are expected to use \emph{javadoc} (section 3.3) to document their code.
+The entirety of chapter 3 is assumed to be known for the final exam.
+
+\paragraph{Chapter 4 \emph{Inheritance}} lays the foundation for object-oriented programming in Java.
+Genericity via inheritance (section 4.6) will be used from the second week, but can at first be approximately understood as a simple type-cast.
+Java 5 generics (section 4.7) are introduced early in the course as a clean way of implementing type-independent data structures.
+Some of the examples and exercises will use generics, but they are not required for the mini-projects.
+Functors (section 4.8) are similarly introduced as a very useful but optional technique.
+Note however, that while it is possible to pass the course without a thorough understanding of chapter 4, all of it is definitely required in order to achieve a good grade.
+
+\paragraph{Chapter 5 \emph{Algorithm Analysis}} will be treated just before the first mini-project.
+In fact, the first project is aimed at giving students an empirical understanding of computational complexity.
+The lecture will lay the theoretical foundations in week four, and students will have almost two weeks to gain a deep practical understanding based on this.
+In order to pass the exam, it will not be necessary to deal with mathematical proofs for algorithm analysis.
+Instead, the focus is on distinguishing classes of upper bounds using \emph{Big-Oh} notation: $O(N^3)$, $O(N^2)$, $O(N\log N)$, and $O(N)$.
+Similarly, students are expected to gain a qualitative assessment of the advantages and drawbacks of \emph{Big-Oh} notation, and the difference between worst-case and average-case complexity.
+
+\paragraph{Chapter 6 \emph{The Collections API}} will not be treated during the lectures, but isolated parts of it appear during exercises.
+It will not be tested during the exam, but a familiarity with chapter 6 wil definitely help to grasp the similarities and differences between the various generic data structures.
+Java's \emph{Collection API} provides a large number of generic data structures.
+In most applied programming tasks, it is advantageous to use those instead of re-implementing the functionality they provide.
+However, a central objective of this course is to teach the foundations of all such generic data structures, regardless of programming language.
+Once the students have passed the course, the material of chapter 6 will be trivial, and they will find it easy to use it for daily programming tasks in Java.
+
+\paragraph{Chapter 7 \emph{Recursion}} is a very important problem solving technique.
+It will be taught in depth during the sixth week of the course, after the first mini-project.
+However, the core principle will be introduced earlier, because it is required for explaining trees and sorting.
+Participants should study this chapter after the lecture in week six, which will expand on the core principle by discussing divide and conquer as well as dynamic programming.
+
+\paragraph{Chapter 8 \emph{Sorting Algorithms}} are not only an important subject, but also serve as excellent examples for algorithm analysis.
+Thus, and contrary to the course book, the lecture will introduce them early on, namely in the third week (just before complexity analysis).
+This allows the first mini-project (weeks four and five) to use basic containers and sorting algorithms to let the participants gain practical experience of computational complexity.
+Thus, the material of chapter 8 must be assimilated by week five, except for the more technical references to recursion (whose in-depth treatment comes in week six).
+
+\paragraph{Chapter 9-13} can be skipped.
+
+\paragraph{Chapter 14 \emph{Graphs and Paths}} serve as an outlook on slightly more advanced data structures and algorithms.
+In week seven, among other things, the lecture will discuss graphs as a model for many problem domains, and discuss path planning in more depth.
+The second mini-project (weeks seven and eight) involves solving the positive-weighted shortest-path problem (the unweighted problem serves as an exercise).
+By providing students with indications about relevant material in the book and online, the second mini-project focuses on the ability to find, understand, and implement solutions from third-party sources.
+
+\paragraph{Part 4 \emph{Implementations} (Chapters 15-21)} will be discussed as relevant during the lectures.
+During the second half of the course, students are expected to use it independently and as needed for reference material to solve exercises and during the mini-projects.
+
+\paragraph{Part 5 \emph{Advanced Data Structures} (Chapters 22-24)} can be skipped.
+
+\end{document}
