@@ -2,3 +2,4 @@ ex1-1-hello-world
 *.dSYM
 ex1-2-builtin-types
 ex1-3-pointers-arrays-strings
+ex1-4-bubble-sort
