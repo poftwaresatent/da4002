@@ -12,4 +12,4 @@ recurse: $(PRG).c Makefile
 	$(CC) $(CFLAGS) -o $(PRG) $(PRG).c
 
 clean:
-	rm -f *~ *.o $(PROGRAMS)
+	rm -fr *~ *.o *.dSYM $(PROGRAMS)
