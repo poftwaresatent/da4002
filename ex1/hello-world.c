@@ -1,13 +1,13 @@
 /* 
  * This file can be compiled using:
  *
- *   gcc -o ex1-1-hello-world ex1-1-hello-world.c
+ *   gcc -o hello-world hello-world.c
  *
  * In order to run the resulting executable, type ./ followed by the
  * executable file name (you have to be in the directory where the
  * file is stored for this to work):
  *
- *   ./ex1-1-hello-world
+ *   ./hello-world
  */
 
 

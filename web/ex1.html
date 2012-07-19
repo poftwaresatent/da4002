@@ -1,0 +1,158 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-gb" lang="en-gb">
+<head>
+  <meta http-equiv="content-type" content="text/html">
+  <title>itads / exercise 1a</title>
+  <link rel="stylesheet" href="style.css" type="text/css">
+</head>
+
+<body>
+<h2>exercise 1.1: hello world</h2>
+
+<p>
+It is
+<a href="http://catb.org/jargon/html/H/hello-world.html">traditional</a>
+to begin by writing a program that prints "hello, world".  But first
+we have to prepare a directory to work in and launch a text editor
+with the appropriate filename.
+</p>
+
+<pre class="command">
+mkdir -p itads/ex1a
+cd itads/ex1a
+gedit hello-world.c &amp;
+</pre>
+
+<p>
+The source code for the <tt>hello-world</tt> application is very
+short, type or copy-paste it from here into the <tt>gedit</tt> window:
+</p>
+
+<pre class="sourcecode">
+#include &lt;stdio.h&gt;
+
+int main(int argc, char ** argv)
+{
+  printf("hello, world\n");
+  return 0;
+}
+</pre>
+
+<p>
+  After saving the file, go back to the terminal window and enter the
+  commands to compile and run it:
+</p>
+
+<pre class="command">
+gcc -o hello-world hello-world.c
+./hello-world
+</pre>
+
+<p>
+This example illustrates several fundamental aspects of developing with C under UNIX:
+</p>
+
+<ul>
+  <li>
+    The <tt>gcc</tt> program <em>compiles</em> the source code into a
+    binary form which is ready for execution. There are many options
+    available that influence what <tt>gcc</tt> does. In this case
+    "<tt>-o hello-world</tt>" tells it to save the result of the
+    compilation in a file called <tt>hello-world</tt> (notice that
+    there is not suffix) and "<tt>hello-world.c</tt>" specifies the
+    name of the source file. In case of problems in the source
+    file, <tt>gcc</tt> will print error messages.
+  </li>
+  <li>
+    The <tt>hello-world</tt> application is launched by entering
+    "<tt>./hello-world</tt>" in the terminal. In fact, the
+    "<tt>./</tt>" simply tells the shell that the application is to be
+    found in the current working directory. There is no fundamental
+    difference between the <tt>hello-world</tt> application and ---
+    for example --- <tt>gcc</tt> or <tt>gedit</tt>, except that you
+    can launch those by name (without the <tt>./</tt>) because the
+    shell will automatically look for applications in a
+    customizable <em>search path</em>.
+  </li>
+  <li>
+    
+  </li>
+</ul>
+
+<p>
+Look at the <a href="hello-world.c">annotated version</a> of the
+source code for more information about each line. Then do the
+following:
+</p>
+
+<ol>
+  <li>
+    Modify the <tt>hello-world</tt> program so that it prints some
+    other message instead.
+  </li>
+  <li>
+    What happens when you erase the return statement from the source
+    code and run <tt>gcc</tt> again? Put the statement back before
+    continuing with this exercise...
+  </li>
+  <li>
+    What happens if you erase the semicolon (the ; character) and
+    re-run <tt>gcc</tt>? Try to understand the compiler messages, and
+    put the semicolon back before continuing with the next task...
+  </li>
+  <li>
+    What happens when you change "<tt>main</tt>" to something else,
+    for example "<tt>blah</tt>"? Can you still compile the
+    application? Try to explain the message you get.
+  </li>
+</ol>
+
+
+
+<h2>exercise 1.2: type conversions</h2>
+
+<p>
+Create a file called <tt>type-conversion</tt> and copy the following C source into it:
+</p>
+
+<pre class="sourcecode">
+#include <stdio.h>
+
+int main (int argc, char ** argv)
+{
+  int x, y;
+  double q;
+  
+  x = 6;
+  y = 10;
+  q = x / y;
+  printf ("x/y is %f\n", q);
+  
+  return 0;
+}
+</pre>
+
+<p>
+Compile and run the <tt>type-conversion</tt> application by modifying
+the command that you used for <tt>hello-world</tt>. The result is
+probably not what you expected. Try to explain why before reading on...
+</p>
+
+<p>
+<b>Answer:</b> in an assignment the expression to the right is
+evaluated first, in this case a division. In the division both
+arguments are integers so <tt>/</tt> is interpreted as integer
+division, the result is then converted into the type of the variable
+being assigned, in this case a double-precision floating point.
+</p>
+
+<p>
+It is possible for the programmer to force type conversion by
+preceding the expression to be converted by the type name in
+parenthesis, such as "<tt>(double)</tt>". <b>Try it out!</b>
+Experiment with the program so that the result stored
+in the variable <tt>q</tt> is 0.6 instead of 0.0.
+</p>
+
+</body>
+</html>
