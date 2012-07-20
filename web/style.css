@@ -5,10 +5,14 @@ body {
   color: #ccc;
   font-family: Helvetica, sans-serif;
   font-size: 14px;
+  max-width: 50em;
 }
 
 dt {
   font-style: italic;
+}
+li {
+  margin-top: 1ex;
 }
 
 a {
@@ -29,18 +33,18 @@ a img {
 
 .command {
   font-family: courier, fixed, monospace;
-  margin-left: 3em;
+  margin-left: 2em;
   padding: 1ex;
   background-color: #333;
-  color: #9f9;
-  max-width: 60em;
+  color: #cfc;
+  max-width: 46em;
 }
 
 .sourcecode {
   font-family: courier, fixed, monospace;
-  margin-left: 3em;
+  margin-left: 2em;
   padding: 1ex;
   background-color: #333;
-  color: #99f;
-  max-width: 60em;
+  color: #ccf;
+  max-width: 46em;
 }

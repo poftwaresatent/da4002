@@ -1,5 +1,5 @@
-ex1-1-hello-world
+hello-world
 *.dSYM
-ex1-2-builtin-types
-ex1-3-pointers-arrays-strings
-ex1-4-bubble-sort
+builtin-types
+pointers-arrays-strings
+bubble-sort

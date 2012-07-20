@@ -74,9 +74,6 @@ This example illustrates several fundamental aspects of developing with C under 
     shell will automatically look for applications in a
     customizable <em>search path</em>.
   </li>
-  <li>
-    
-  </li>
 </ul>
 
 <p>
@@ -109,10 +106,54 @@ following:
 
 
 
-<h2>exercise 1.2: type conversions</h2>
+<h2>exercise 1.2: builtin types</h2>
 
 <p>
-Create a file called <tt>type-conversion</tt> and copy the following C source into it:
+Read the source file <a href="builtin-types.c">builtin-types.c</a>
+which explains some fundamentals about builtin variable types and how
+to print values stored in various formats.
+</p>
+
+<ol>
+  <li>
+    Try to predict what the <tt>builtin-types</tt> application prints
+    when you run it. Then compile and run it, to check your
+    prediction. <em>(Hint: modify the command that you used for
+    compiling and the running <tt>hello-world</tt> application. In the
+    terminal, you can use the arrow-up key to reuse old commands, and
+    edit them using the arrow and delete/backspace keys.)</em>
+  </li>
+  <li>
+    The variable <tt>cc</tt> gets initialized using a single-character
+    constant <tt>'Q'</tt>. What happens when you initialize it with an
+    integer constant instead? Try it out by setting <tt>cc =
+    81</tt>. Read the manual page about ASCII codes (issue the command
+    "<tt>man ascii</tt>" on the command line) and find out what number
+    you have to use in order to get the letter <tt>'z'</tt>. Check
+    your answer by modifying and running the <tt>builtin-types</tt>
+    application.
+  </li>
+  <li>
+    What is the largest value that can be stored in a variable of
+    type <tt>int</tt>, assuming that it is represented with 4 bytes
+    (32 bits)? What happens when you try to initialize an <tt>int</tt>
+    variable with a value that is larger than that? Try it out by
+    modifying the <tt>builtin-types.c</tt> source code and
+    recompiling. How about using an <tt>unsigned int</tt> instead,
+    does that influence the largest value that can be stored? How
+    about the smallest value for <tt>int</tt> and <tt>unsigned
+    int</tt>?
+  </li>
+</ol>
+
+<p>
+The various types can store values of differing ranges. When an
+expression involves more than one type, the C compiler tries to
+automatically convert everything to the type that has the largest
+range. However, this does not always result in something that the
+programmer intended. To understand this, create a file
+called <tt>type-conversion</tt> and copy the following C source into
+it:
 </p>
 
 <pre class="sourcecode">
@@ -133,9 +174,9 @@ int main (int argc, char ** argv)
 </pre>
 
 <p>
-Compile and run the <tt>type-conversion</tt> application by modifying
-the command that you used for <tt>hello-world</tt>. The result is
-probably not what you expected. Try to explain why before reading on...
+Compile and run the <tt>type-conversion</tt> application. The result
+is probably not what you expected. Try to explain why before reading
+on...
 </p>
 
 <p>
