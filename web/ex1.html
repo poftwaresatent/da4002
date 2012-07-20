@@ -195,5 +195,204 @@ Experiment with the program so that the result stored
 in the variable <tt>q</tt> is 0.6 instead of 0.0.
 </p>
 
+
+
+<h2>exercise 1.3: operators and control flow</h2>
+
+<p>
+Assume we have three integer variables called <tt>a</tt>, <tt>b</tt>,
+and <tt>c</tt>, with initial values <tt>b=5</tt>
+and <tt>c=8</tt>. What is the value of a, b, and c after each line of
+the following program fragment? First find the answer by hand, then
+write a program to verify your reply.
+</p>
+
+<pre class="sourcecode">
+a = b++ + c++;
+a = b++ + ++c;
+a = ++b + c++;
+a = ++b + ++c;
+</pre>
+
+<p>
+What is the result of the following expression? Write a program to
+verify your answer. <em>(Hint: place the expression into
+an <tt>if-else</tt> construct which prints different messages
+depending on the result of the expression.)</em>
+</p>
+
+<pre class="sourcecode">
+1 &amp;&amp; 0 || 1
+</pre>
+
+<p>
+The following program is called <tt>nested-loops</tt>. It prints a
+list of all pairs <em>(i,j)</em> such that <em>0 &lt; i &lt; 6</em>
+and <em>0 &lt; j &lt; 6</em>.
+</p>
+
+<pre class="sourcecode">
+#include <stdio.h>
+
+int main (int argc, char ** argv)
+{
+  int ii, jj;
+
+  for (ii = 1; ii <= 5; ii++) {
+    for (jj = 1; jj <= 5; jj++) {
+      printf ("(%d, %d)\n", ii, jj);
+    }
+  }
+
+  return 0;
+}
+</pre>
+
+<ol>
+  <li>
+    Modify the program so that the pairs are such
+    that <em>0 &lt; j &lt;= i &lt; 6</em>.
+  </li>
+  <li>
+    Modify the program so that a line is printed before each new value
+    of <em>i</em>.
+  </li>
+</ol>
+
+<p>
+The <tt>any-base.c</tt> program shown below implements one method of
+representing a number in
+any <a href="http://en.wikipedia.org/wiki/Positional_notation">positional
+notation</a> system. It also illustrates a few other things:
+</p>
+
+<ul>
+  <li>
+    C allows to declare and initialize variables in one line, which is
+    sometimes convenient.
+  </li>
+  <li>
+    The printf function allows to specify a minimum field width by
+    placing a digit between the `<tt>%</tt>' and the number format
+    specifier. For example, `<tt>%4d</tt>' results in an integer than
+    at least 4 digits are used. If the integer is smaller than
+    required, blank spaces are used to pad the field.
+  </li>
+  <li>
+    The `<tt>%</tt>' operator <em>(not to be confused with the same
+    character when used inside a format string for the printf
+    function)</em> computes
+    the <a href="http://en.wikipedia.org/wiki/Remainder">remainder</a>
+    of an integer division.
+  </li>
+  <li>
+    <a href="http://en.wikipedia.org/wiki/Augmented_assignment">Compound
+    assignments</a> such as `<tt>factor *= base</tt>' are frequently
+    used shorthands, in this example for `<tt>factor = factor *
+    base</tt>'.
+  </li>
+</ul>
+
+<pre class="sourcecode">
+#include <stdio.h>
+
+int main (int argc, char ** argv)
+{
+  unsigned short number = 6245;
+  unsigned short base = 3;
+  unsigned short factor = 1;
+  
+  printf ("%u is the sum of:\n", number);
+  while (number >= base) {
+    printf ("  %u * %4u\n", number % base, factor);
+    number /= base;
+    factor *= base;
+  }
+  printf ("  %u * %u\n", number, factor);
+  
+  return 0;
+}
+</pre>
+
+<p>
+What happens when you set <tt>number = -1</tt> and <tt>base = 2</tt>?
+How does this compare to <tt>number = 65535</tt> (which is
+2<sup>16</sup>-1). Can you explain what you observe?
+</p>
+
+<p>
+Perform the following tasks, based on what you have learned so far,
+possibly with the help
+of <a href="http://en.wikipedia.org/wiki/The_C_Programming_Language">K+R</a>
+(chapter 2).
+</p>
+
+<ol>
+  <li>
+    Write a program that prints out the addition and multiplication
+    tables for single-digit numbers. The result should be nicely
+    formatted, such as follows:
+    <pre class="command">
+           Addition Table
+   |  0 |  1 |  2 |  3 |  4 |  5 |  6 |  7 |  8 |  9 |
+------------------------------------------------------
+0  |  0    1    2    3    4    5    6    7    8    9  
+1  |  1    2    3    4    5    6    7    8    9   10  
+2  |  2    3    4    5    6    7    8    9   10   11  
+3  |  3    4    5    6    7    8    9   10   11   12  
+4  |  4    5    6    7    8    9   10   11   12   13  
+5  |  5    6    7    8    9   10   11   12   13   14  
+6  |  6    7    8    9   10   11   12   13   14   15  
+7  |  7    8    9   10   11   12   13   14   15   16  
+8  |  8    9   10   11   12   13   14   15   16   17  
+9  |  9   10   11   12   13   14   15   16   17   18  
+
+           Multiplication Table
+   |  0 |  1 |  2 |  3 |  4 |  5 |  6 |  7 |  8 |  9 |
+------------------------------------------------------
+0  |  0    0    0    0    0    0    0    0    0    0  
+1  |  0    1    2    3    4    5    6    7    8    9  
+2  |  0    2    4    6    8   10   12   14   16   18  
+3  |  0    3    6    9   12   15   18   21   24   27  
+4  |  0    4    8   12   16   20   24   28   32   36  
+5  |  0    5   10   15   20   25   30   35   40   45  
+6  |  0    6   12   18   24   30   36   42   48   54  
+7  |  0    7   14   21   28   35   42   49   56   63  
+8  |  0    8   16   24   32   40   48   56   64   72  
+9  |  0    9   18   27   36   45   54   63   72   81  
+    </pre>
+  </li>
+  <li>
+    Write a program that lists all pairs of positive integers (a,b)
+    satisfying the following two conditions:
+    <ul>
+      <li>
+	<tt>a &lt; b &lt; 1000</tt>
+      </li>
+      <li>
+        <tt>(a*a + b*b + 1) / (a*b)</tt> is an integer
+      </li>
+    </ul>
+    The output should be:
+    <pre class="command">
+1 2
+2 5
+5 13
+13 34
+34 89
+89 233
+233 610
+    </pre>
+  </li>
+  <li>
+    Write a program that prints out the first 20 numbers in
+    the <a href="http://en.wikipedia.org/wiki/Fibonacci_number">Fibonacci
+    sequence</a>. The output should thus be:
+    <pre>
+1 1 2 3 5 8 13 21 34 55 89 144 233 377 610 987 1597 2584 4181 6765
+    </pre>
+  </li>
+</ol>
+
 </body>
 </html>
