@@ -334,11 +334,11 @@
 <node CREATED="1342691929685" ID="ID_1579756062" MODIFIED="1342691940152" TEXT="Linux tutorial"/>
 </node>
 <node CREATED="1342691913781" ID="ID_469279263" MODIFIED="1342691922149" TEXT="exercise 1a">
-<node CREATED="1342691922150" ID="ID_1172185193" MODIFIED="1342691961618" TEXT="data types, variables, pointers and arrays, control flow"/>
+<node CREATED="1342691922150" ID="ID_1172185193" MODIFIED="1342798686220" TEXT="data types, variables, operators, control flow"/>
 <node CREATED="1342691962531" ID="ID_1941752428" MODIFIED="1342691985921" TEXT="edit, compile, debug cycle using the lInux command line"/>
 </node>
 <node CREATED="1342691990274" ID="ID_1651735284" MODIFIED="1342692000173" TEXT="exercise 1b">
-<node CREATED="1342692000174" ID="ID_1655049661" MODIFIED="1342692040232" TEXT="bubble sort on user input"/>
+<node CREATED="1342692000174" ID="ID_1655049661" MODIFIED="1342798674939" TEXT="arrays, pointers, strings, bubble sort on user input"/>
 <node CREATED="1342692040729" ID="ID_1186354485" MODIFIED="1342692097350" TEXT="practice with program args, exposure to stdlib and first simplistic DS+algo"/>
 </node>
 </node>

@@ -7,6 +7,9 @@
 </head>
 
 <body>
+
+<h1>exercise session 1(a): types, variables, operators, control flow</h1>
+
 <h2>exercise 1.1: hello world</h2>
 
 <p>
@@ -393,6 +396,89 @@ of <a href="http://en.wikipedia.org/wiki/The_C_Programming_Language">K+R</a>
     </pre>
   </li>
 </ol>
+
+
+
+<h1>exercise session 1(b): arrays, pointers, and strings</h1>
+
+
+
+<h2>exercise 1.4: arrays</h2>
+
+<p>
+The <tt>prime.c</tt> program shown below uses an array as a convenient
+way to keep track of numbers that are not prime.
+</p>
+
+<pre class="sourcecode">
+#include <stdio.h>
+
+#define MAXNUM 100
+
+int main (int argc, char ** argv)
+{
+  char is_prime[MAXNUM - 1];
+  int ii, num;
+  
+  for (ii = 0; ii < MAXNUM - 2; ++ii) {
+    is_prime[ii] = 1;
+  }
+  
+  for (num = 2; num <= MAXNUM; ++num) {
+    for (ii = num*2 - 2; ii <= MAXNUM - 2; ii += num) {
+      is_prime[ii] = 0;
+    }
+  }
+  
+  printf ("prime numbers up to %d:\n ", MAXNUM);
+  for (ii = 0; ii < MAXNUM - 2; ++ii) {
+    if (is_prime[ii]) {
+      printf (" %d", ii + 2);
+    }
+  }
+  printf ("\n");
+  
+  return 0;
+}
+</pre>
+
+<ol>
+  <li>
+    Try to understand how it operates <em>(Hint: it is based on an
+      ancient method of finding prime numbers)</em> and verify that it
+      prints the correct result by compiling and running it. Can you
+      explain why it sometimes adds or removes 1 or 2 to the indices
+      and output?
+  </li>
+  <li>
+    Modify the program to produce a histogram the number of integer
+    divisors except 1 and itself, for every number from 2 to 20. The
+    output of the program should be:
+    <pre class="command">
+number of integer divisors:
+  2 
+  3 
+  4 *
+  5 
+  6 **
+  7 
+  8 **
+  9 *
+ 10 **
+ 11 
+ 12 ****
+ 13 
+ 14 **
+ 15 **
+ 16 ***
+ 17 
+ 18 ****
+ 19 
+ 20 ****
+    </pre>
+  </li>
+</p>
+
 
 </body>
 </html>
