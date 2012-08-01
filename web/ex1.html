@@ -8,7 +8,8 @@
 
 <body>
 
-<h1>exercise session 1(a): types, variables, operators, control flow</h1>
+<h1>exercise session 1(a):<br/>
+<em>types, variables, operators, control flow</em></h1>
 
 <h2>exercise 1.1: hello world</h2>
 
@@ -69,7 +70,7 @@ This example illustrates several fundamental aspects of developing with C under 
   <li>
     The <tt>hello-world</tt> application is launched by entering
     "<tt>./hello-world</tt>" in the terminal. In fact, the
-    "<tt>./</tt>" simply tells the shell that the application is to be
+    "<tt>./</tt>" simply tells the <a href="http://en.wikipedia.org/wiki/Shell_%28computing%29">shell</a> that the application is to be
     found in the current working directory. There is no fundamental
     difference between the <tt>hello-world</tt> application and ---
     for example --- <tt>gcc</tt> or <tt>gedit</tt>, except that you
@@ -130,8 +131,8 @@ to print values stored in various formats.
     The variable <tt>cc</tt> gets initialized using a single-character
     constant <tt>'Q'</tt>. What happens when you initialize it with an
     integer constant instead? Try it out by setting <tt>cc =
-    81</tt>. Read the manual page about ASCII codes (issue the command
-    "<tt>man ascii</tt>" on the command line) and find out what number
+    81</tt>. Read the manual page about <a href="http://www.linuxmanpages.com/man7/ascii.7.php">ASCII</a> codes (also available in the terminal by giving the command
+    "<tt>man ascii</tt>") and find out what number
     you have to use in order to get the letter <tt>'z'</tt>. Check
     your answer by modifying and running the <tt>builtin-types</tt>
     application.
@@ -362,8 +363,7 @@ of <a href="http://en.wikipedia.org/wiki/The_C_Programming_Language">K+R</a>
 6  |  0    6   12   18   24   30   36   42   48   54  
 7  |  0    7   14   21   28   35   42   49   56   63  
 8  |  0    8   16   24   32   40   48   56   64   72  
-9  |  0    9   18   27   36   45   54   63   72   81  
-    </pre>
+9  |  0    9   18   27   36   45   54   63   72   81  </pre>
   </li>
   <li>
     Write a program that lists all pairs of positive integers (a,b)
@@ -384,22 +384,22 @@ of <a href="http://en.wikipedia.org/wiki/The_C_Programming_Language">K+R</a>
 13 34
 34 89
 89 233
-233 610
-    </pre>
+233 610</pre>
   </li>
   <li>
     Write a program that prints out the first 20 numbers in
     the <a href="http://en.wikipedia.org/wiki/Fibonacci_number">Fibonacci
     sequence</a>. The output should thus be:
-    <pre>
-1 1 2 3 5 8 13 21 34 55 89 144 233 377 610 987 1597 2584 4181 6765
-    </pre>
+    <pre class="command">
+1 1 2 3 5 8 13 21 34 55 89 144 233 377 610 987 1597 2584 4181 6765</pre>
   </li>
 </ol>
 
 
+<hr>
 
-<h1>exercise session 1(b): arrays, pointers, and strings</h1>
+<h1>exercise session 1(b):<br/>
+<em>arrays, pointers, and strings</em></h1>
 
 
 
@@ -420,18 +420,18 @@ int main (int argc, char ** argv)
   char is_prime[MAXNUM - 1];
   int ii, num;
   
-  for (ii = 0; ii < MAXNUM - 2; ++ii) {
+  for (ii = 0; ii < MAXNUM - 1; ++ii) {
     is_prime[ii] = 1;
   }
   
-  for (num = 2; num <= MAXNUM; ++num) {
-    for (ii = num*2 - 2; ii <= MAXNUM - 2; ii += num) {
+  for (num = 2; num <= MAXNUM / 2; ++num) {
+    for (ii = num * 2 - 2; ii <= MAXNUM - 2; ii += num) {
       is_prime[ii] = 0;
     }
   }
   
   printf ("prime numbers up to %d:\n ", MAXNUM);
-  for (ii = 0; ii < MAXNUM - 2; ++ii) {
+  for (ii = 0; ii < MAXNUM - 1; ++ii) {
     if (is_prime[ii]) {
       printf (" %d", ii + 2);
     }
@@ -455,7 +455,7 @@ int main (int argc, char ** argv)
     divisors except 1 and itself, for every number from 2 to 20. The
     output of the program should be:
     <pre class="command">
-number of integer divisors:
+NUMBER OF INTEGER DIVISORS other than 1 or itself:
   2 
   3 
   4 *
@@ -474,8 +474,7 @@ number of integer divisors:
  17 
  18 ****
  19 
- 20 ****
-    </pre>
+ 20 ****</pre>
   </li>
 </p>
 

@@ -12,13 +12,13 @@
  * - %ld prints a long integer
  * - %lu prints an unsigned long integer
  * - %zu prints an unsigned size (usually, this is the same as %lu)
+ * - %% writes a single % character
  *
- * Special characters are specified using so-called escape sequences,
- * which start with a backslash `\'. In this program, we use three
- * escape sequences:
+ * Special characters contained in C strings are specified using
+ * so-called escape sequences, which start with a backslash `\'. In
+ * this program, we use three escape sequences:
  * - \n finishes the current line and starts a new one
  * - \t inserts a tab
- * - %% writes a single %
  */
 
 int main(int argc, char ** argv)
@@ -26,13 +26,13 @@ int main(int argc, char ** argv)
   int aa;
   double bb;
   char cc;
-  unsigned long dd;
+  unsigned long long dd;
   unsigned int ee;
   
   aa = 42;
   bb = 17.9;
   cc = 'Q';
-  dd = 1234567890123456789;
+  dd = 1234567890123456789LL;
   
   printf("FORMATTED OUTPUT\n");
   printf("int:\n\t%%d format\t%d\n", aa);
@@ -40,13 +40,13 @@ int main(int argc, char ** argv)
   printf("\t%%e format\t%e\n", bb);
   printf("char:\n\t%%c format\t%c\n", cc);
   printf("\t%%d format\t%d\n", (int) cc);
-  printf("unsigned long:\n\t%%lu format\t%lu\n", dd);
+  printf("unsigned long long:\n\t%%llu format\t%llu\n", dd);
   
   printf("\nMEMORY SIZES\n");
-  printf("int:\t%zu bytes\n", sizeof(aa));
-  printf("double:\t%zu bytes\n", sizeof(bb));
-  printf("char:\t %zu byte\n", sizeof(cc));
-  printf("long:\t%zu bytes\n", sizeof(dd));
+  printf("int:\t\t%zu bytes\n", sizeof(aa));
+  printf("double:\t\t%zu bytes\n", sizeof(bb));
+  printf("char:\t\t%zu byte\n", sizeof(cc));
+  printf("long long:\t%zu bytes\n", sizeof(dd));
   
   printf("\nSIGNED and UNSIGNED\n");
   printf("the size does not change:\n\t%zu is %zu\n",

@@ -7,25 +7,24 @@
  * - arr[2] is the third element of an array called arr
  * - arr itself is nothing but a pointer to the first element
  *
- * We also use two more format specifiers, and another escape
- * sequence, for printf:
+ * We also use two more format specifiers for printf:
  * - %p prints an address in hexadecimal
  *      (this is used to show where pointers point)
  * - %s prints a string stored at a certain address.
+ *
+ * ...and another escape sequence for strings:
  * - \" prints a quote character
- *      (actually, escape sequences are interpreted by the compiler,
- *      not printf)
  *
  * And we use the fact that the C compiler simply concatenates string
  * literals to split lines to print into separate lines in the
- * sourcecode, to make it more readable and reduce the number of calls
+ * sourcecode. This improves readability and reduce the number of calls
  * to printf.
  */
 
 int main(int argc, char ** argv)
 {
   int ix, iy;
-  int *iptr, *iptr2;
+  int *iptr;
   int ia[3];
   
   double *dptr;
@@ -74,11 +73,10 @@ int main(int argc, char ** argv)
 	 "\n"
 	 "An array is a block of values of identical type.\n"
 	 "Its elements are accessed using an offset within brackets.\n"
-	 "\tia contains three values:\n"
-	 "\t\t ia[0] = %d\n"
-	 "\t\t ia[1] = %d\n"
-	 "\t\t ia[2] = %d\n",
-	 ia[0], ia[1], ia[2]);
+	 "\tia contains three values:\n");
+  for (ix = 0; ix < 3; ++ix) {
+    printf("\t\t ia[%d] = %d\n", ix, ia[ix]);
+  }
   
   printf("\n"
 	 "An array variable simply points to the beginning of the block.\n"
@@ -92,8 +90,6 @@ int main(int argc, char ** argv)
   iptr = ia + 2;
   printf("\tthe value at %p is %d\n", iptr, *iptr);
 
-  iptr = ia;
-  iptr2 = ia + 1;
   printf("\n"
 	 "The C compiler USUALLY multiplies by the typesize automatically.\n"
 	 "\tthe difference between the addresses printed above\n"

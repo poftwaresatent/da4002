@@ -2,8 +2,8 @@
 
 int main (int argc, char ** argv)
 {
-  unsigned short number = -1;//6245;
-  unsigned short base = 2;//3;
+  unsigned short number = 6245;
+  unsigned short base = 3;
   unsigned short factor = 1;
   
   printf ("%u is the sum of:\n", number);
@@ -12,7 +12,7 @@ int main (int argc, char ** argv)
     number /= base;
     factor *= base;
   }
-  printf ("  %u * %u\n", number, factor);
+  printf ("  %u * %5u\n", number, factor);
   
   return 0;
 }
