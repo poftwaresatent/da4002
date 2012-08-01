@@ -547,9 +547,75 @@ argv[0] (length 11):    `./printargs'</pre>
     Type a command that produces the following output:
     <pre class="command">
 argv[0] (length 11):    `./printargs'
-argv[1] (length 1):     `"'</pre>
+argv[1] (length 1):     `&quot;'</pre>
   </li>
 </ol>
+
+
+
+<h2>exercise 1.x: bubble sort</h2>
+
+<p>
+Sorting is one of the most fundamental tasks that programs have to
+perform under all kinds of circumstances, and many algorithms have
+been developed to sort various kinds of data under different
+circumstances. A very simple example
+is <a href="http://en.wikipedia.org/wiki/Bubble_sort">Bubble Sort</a>
+which is based on the idea of repeatedly scanning through the data,
+and swapping any two neighboring items that are in the wrong
+order. The following code shows how it works in principle, but this is
+a quite inefficient implementation. <em>(This code also uses some
+convenient C syntax for initializing and sizing static arrays, and a
+way to <tt>printf</tt> floating point numbers with a given precision
+as well as reserving space for the optionally leading minus
+sign.)</em>
+</p>
+
+<pre class="sourcecode">
+#include <stdio.h>
+
+int main (int argc, char ** argv)
+{
+  int ii, jj, length;
+  double data[] = { 351.354, 21.02, -3544.2, 152.999 };
+  double tmp;
+  
+  length = sizeof(data) / sizeof(double);
+  
+  for (ii = 0; ii < length; ++ii) {
+    for (jj = 1; jj < length; ++jj) {
+      if (data[jj] < data[jj - 1]) {
+	tmp = data[jj];
+	data[jj] = data[jj - 1];
+	data[jj - 1] = tmp;
+      }
+    }
+  }
+  
+  for (ii = 0; ii < length; ++ii) {
+    printf ("% 8.2f\n", data[ii]);
+  }
+  
+  return 0;
+}
+</pre>
+
+<p>
+Based on this example implementation of bubble-sort and what you've
+learned above about command line arguments, write a program
+called <tt>args-bubble-sort</tt> that takes each argument string and
+sorts it character-by-character. The output of the program should be
+(depending on the arguments that you give it):
+</p>
+
+<pre class="command">
+./args-bubble-sort 743 oiufObIwUWBF
+
+in:  743
+out: 347
+
+in:  oiufObIwUWBF
+out: BFIOUWbfiouw</pre>
 
 </body>
 </html>
