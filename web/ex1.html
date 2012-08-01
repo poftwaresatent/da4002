@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-gb" lang="en-gb">
 <head>
   <meta http-equiv="content-type" content="text/html">
-  <title>itads / exercise 1a</title>
+  <title>itads / exercise 1</title>
   <link rel="stylesheet" href="style.css" type="text/css">
 </head>
 
@@ -478,6 +478,78 @@ NUMBER OF INTEGER DIVISORS other than 1 or itself:
   </li>
 </p>
 
+
+
+<h2>exercise 1.x: command line arguments</h2>
+
+<p>
+We have now covered enough basics to understand the two arguments of
+the <tt>main</tt> function that is required for every C program: the
+shell (which interprets the commands you type into the terminal) cuts
+the command line into tokens that are separated by spaces, uses the
+first token to find the program to run, and places all the tokens into
+an <b>array of C strings</b>. The size of this array (i.e. the number
+of arguments including the name of the program) gets passed
+to <tt>main</tt> as its first argument, commonly named <tt>argc</tt>
+(for "argument count"), and the pointer to the first element in this
+array gets passed as the second argument to <tt>main</tt>, and that is
+commonly called <tt>argv</tt> (for "argument vector"). The declaration
+of <tt>argv</tt> can look weird at first, because it is a pointer to a
+pointer (indicated by <b>two <tt>*</tt> characters</b>), but this is
+explained b ythat fact that <tt>argv</tt> is an array (which is
+equivalent to a pointer), and the elements of that array are strings
+(which is also equivalent to a pointer).
+</p>
+
+<p>
+<b>Try it out</b> by creating the following simple program which
+simply prints the contents of the argument array. It also introduces
+the <tt>strlen</tt> function, which is useful in case you need to find
+out the length of a string.
+</p>
+
+<pre class="sourcecode">
+#include <stdio.h>
+#include <string.h>
+
+int main (int argc, char ** argv)
+{
+  int ii;
+  for (ii = 0; ii < argc; ++ii) {
+    size_t len = strlen (argv[ii]);
+    printf ("argv[%d] (length %zu):\t`%s'\n", ii, len, argv[ii]);
+  }
+  return 0;
+}
+</pre>
+
+<ol>
+  <li>
+    Copy the above sourcecode into a file called <tt>printargs.c</tt>,
+    compile it, and run it. It should produce the following output:
+    <pre class="command">
+argv[0] (length 11):    `./printargs'</pre>
+  </li>
+  <li>
+    Run the <tt>printargs</tt> command with some simple parameters:
+    <pre class="command">
+./printargs some arguments   and some   spaces</pre>
+    Explain the resulting output.
+  </li>
+  <li>
+    Try some more complicated looking arguments:
+    <pre class="command">
+./printargs bravo \\ "" "something with spaces"</pre>
+    This illustrates some possibilities for passing all kinds of
+    strings as arguments into a C program.
+  </li>
+  <li>
+    Type a command that produces the following output:
+    <pre class="command">
+argv[0] (length 11):    `./printargs'
+argv[1] (length 1):     `"'</pre>
+  </li>
+</ol>
 
 </body>
 </html>
