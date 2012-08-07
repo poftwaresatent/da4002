@@ -1,0 +1,8 @@
+Gabrio:Zandona:Italy:Sailing 470:35:168:65:M
+Pietro:Zucchetti:Italy:Sailing 470:31:188:76:M
+Stuart:Bithell:Great Britain:Sailing 470:25:186:80:M
+Luke:Patience:Great Britain:Sailing 470:26:167:59:M
+Fernanda:Silva:Brazil:Handball:22:176:68:F
+Maja:Zebic:Croatia:Handball:30:178:62:F
+Eduarda:Amorim:Brazil:Handball:25:186:84:F
+Anita:Gace:Croatia:Handball:29:177:69:F
