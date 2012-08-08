@@ -1,0 +1,5 @@
+*.dSYM
+cfuncs
+functions
+structs
+olympics
