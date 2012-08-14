@@ -107,6 +107,14 @@ match ds diagrams with java code (and maybe usage scenarios?)
 
 
 
+\question{2 points ?}
+
+\emph{from Vero:}\\
+I like the question related to the naive implementation of search trees using binary trees without any extra information: Say that you have a balanced tree (and then operations are order log N), then you save the contents into a file and to do so you traverse the tree in in-order (the elements get sorted). Then when you build the tree again by reading the elements from the file you will get a completely non balanced tree (the operations are order N!). So one can present the situation and then ask them how they would traverse the tree for stoing the elements.
+
+
+
+
 \question{3 points}
 
 manually run sequence alignment with two different cost tables, make them enumerate all alignments that have the same cost (make sure one of the examples has more than one minimum)
@@ -124,12 +132,30 @@ big-oh analysis of several iterative and recursive functions, or variations ther
 
 
 
-\question{2 points}
+\question{5 points?}
 
-someone uses binary search tree to speed up searches, and after writing to file and re-reading, everything gets slower. why, and how to avoid?
+\emph{from Vero:}\\
+I also like, as one of the initial questions, to warm up, to make an algorithm better by first sorting the elements:
 
-
-
+An array contains \emph{N} numbers, and you want to determine
+whether two numbers sum to a given number \emph{K}. For instance, if
+the input array contains numbers 8, 4, 1, 6 and \emph{K} is 10, then
+the answer is yes (4 and 6).
+\begin{enumerate}
+\item \textbf{(2 pts.)} Program a method
+\begin{verbatim}
+boolean sum2ToK (int [] a, int k)
+\end{verbatim}
+to do what you want.
+\item \textbf{(2 pts.)} Give an execution time analysis of your method.
+\item \textbf{(2 pts.)} Recall that there are algorithms for sorting arrays that are
+  ${\cal O}(N \text{log}(N))$. Use this fact to write a new version of
+  your program that is ${\cal O}(N \text{log}(N))$, proceed by first
+  sorting the array \texttt{a} and then doing some linear extra work.
+  \newline
+  \underline{\textbf{Notice:}} You do NOT need to implement sort, you
+  can assume that it is already programmed.
+\end{enumerate}
 
 
 
