@@ -194,13 +194,12 @@ Mark algorithms which are not shown in any pseudo-code with a big \textbf{X}.
   \end{tabular}
 \end{center}
 
+
 \clearpage
-
-
-
 
 \question{4 points}
 
+DRAFT!\\
 match ds diagrams with java code (and maybe usage scenarios?)
 \begin{itemize}
 \item circular linked list (task scheduling?)
@@ -209,55 +208,97 @@ match ds diagrams with java code (and maybe usage scenarios?)
 \end{itemize}
 
 
+\clearpage
 
-\question{2 points ?}
+\question{4 points}
 
-\emph{from Vero:}\\
-I like the question related to the naive implementation of search trees using binary trees without any extra information: Say that you have a balanced tree (and then operations are order log N), then you save the contents into a file and to do so you traverse the tree in in-order (the elements get sorted). Then when you build the tree again by reading the elements from the file you will get a completely non balanced tree (the operations are order N!). So one can present the situation and then ask them how they would traverse the tree for stoing the elements.
+One of your friends is writing an application that frequently has to find out if a number has been encountered before.
+Your friend decided to use a binary search tree to store the set of numbers, because of its fast element lookup.
+Then a function for saving the set to a file was added, which your friend implemented via in-order tree traversal.
+But now, after loading the file, the application runs much slower.
+
+What is going wrong, and how can it be corrected?
+Answer the following questions to explain the problem and the solution:
+\begin{enumerate}
+\item
+  Draw a diagram of the binary search tree after the following sequence of numbers has been added to an initially empty tree: 5, 3, 8, 1, 4, 7, 9, 2, 6.
+\item
+  Write down the sequence of numbers resulting from in-order traversal of that tree.
+  Then, draw a diagram of the tree that results when this sequence is added to an initially empty tree.
+\item
+  Explain why lookups are now slower, and propose a solution to the problem.
+\item
+  Write down the crucial part of your solution in pseudo-code (you can choose to imitate the style of code used in question 1, or provide something closer to Java).
+\end{enumerate}
 
 
-
+\clearpage
 
 \question{3 points}
 
+DRAFT!\\
 manually run sequence alignment with two different cost tables, make them enumerate all alignments that have the same cost (make sure one of the examples has more than one minimum)
 
 
+\clearpage
 
 \question{6 points}
 
-big-oh analysis of several iterative and recursive functions, or variations thereof:
-\begin{itemize}
-\item let them match program snippets with plots of (fake) runtime measurements
-\item match relative runtime-changes with complexity classes
-\item how big of a problem can be solved in X minutes for each of the algos, given that a problem of size N takes Y minutes?
-\end{itemize}
+Answer the following questions about the computational complexity of various algorithms, where $N$ denotes the problem size.\\
+\emph{
+  You do not need a calculator.
+  And there is a convenient lookup table for powers of $2$ at the bottom of this page.}
 
-
-
-\question{5 points?}
-
-\emph{from Vero:}\\
-I also like, as one of the initial questions, to warm up, to make an algorithm better by first sorting the elements:
-
-An array contains \emph{N} numbers, and you want to determine
-whether two numbers sum to a given number \emph{K}. For instance, if
-the input array contains numbers 8, 4, 1, 6 and \emph{K} is 10, then
-the answer is yes (4 and 6).
 \begin{enumerate}
-\item \textbf{(2 pts.)} Program a method
-\begin{verbatim}
-boolean sum2ToK (int [] a, int k)
-\end{verbatim}
-to do what you want.
-\item \textbf{(2 pts.)} Give an execution time analysis of your method.
-\item \textbf{(2 pts.)} Recall that there are algorithms for sorting arrays that are
-  ${\cal O}(N \text{log}(N))$. Use this fact to write a new version of
-  your program that is ${\cal O}(N \text{log}(N))$, proceed by first
-  sorting the array \texttt{a} and then doing some linear extra work.
-  \newline
-  \underline{\textbf{Notice:}} You do NOT need to implement sort, you
-  can assume that it is already programmed.
+\item
+  Algorithm 1 is known to have a runtime of $T_1(N) = 2 \times N + 0.1 \times N^3 + 50 \times \log(N)$.
+  What is its Big-Oh runtime complexity?
+\item
+  Algorithm 2 is known to be $T_2 \in O(N \log N)$.
+  For a sample problem, its runtime has been measured to be $T_2(N=16) = 6.4s$.
+  What runtime should be expected for $N=32$?
+\item
+  Algorithm 3 has exponential runtime complexity.
+  For a sample problem of size $5$ it requires $0.32s$ to complete.
+  How big of a problem can be expected to be completed in $10.24s$?
+\item
+  What is the runtime $T_4(N)$ and the Big-Oh complexity of \texttt{function4} in the following Java code fragment?
+  Note that the method \texttt{f\_1ms} always requires $1ms$ to run, and the method \texttt{f\_3ms} always takes $3ms$.
+  \small
+  \verbatimtabinput{function4.txt}
+  \normalsize
+\end{enumerate}
+
+\vfill
+
+\begin{tabular}{|l|r|r|r|r|r|r|r|r|r|r|r|r|r|r|r|}
+  \hline
+  $x=$   & 0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & 11 & 12 & 13 & 14 \\
+  \hline
+  $2^x=$ & 1 & 2 & 4 & 8 & 16 & 32 & 64 & 128 & 256 & 512 & 1024 & 2048 & 4096 & 8192 & 16384 \\
+  \hline
+\end{tabular}
+
+
+\clearpage
+
+\question{6 points}
+
+An array contains \emph{N} numbers, and you want to determine whether two numbers sum to a given number \emph{K}.
+For instance, if the input array contains numbers \{8, 4, 1, 6\} and $K = 10$, then the answer is yes (becuase $4 + 6 = 10$).
+
+\begin{enumerate}
+\item
+  Write the code for a function that performs this task.
+\item
+  Give an execution time analysis of your method.
+\item
+  Recall that there are algorithms for sorting arrays that are $O(N \log N)$.
+  Use this fact to write a new version of your program that is $O(N \log N)$.
+  Proceed by first sorting the array and then doing some linear extra work.
+  
+  \textbf{Notice:} You do \textbf{not} need to implement sort, assume that it is already implemented.
+  Your updated code can simply call a function called \texttt{sort(a)}, where \texttt{a} holds the array.
 \end{enumerate}
 
 
