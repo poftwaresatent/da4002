@@ -86,7 +86,7 @@ Aside from the obvious rules of conduct exams (e.g.\ no chatting):
 
 \question{4 points}
 
-Consider the following four pseudo-code fragments A, B, C, and D:\\[\baselineskip]
+Consider the following four pseudo-code fragments A, B, C, and D:\\
 
 \small
 \noindent
@@ -115,15 +115,15 @@ Consider the following four pseudo-code fragments A, B, C, and D:\\[\baselineski
     \>// - \emph{open} is a queue of nodes\\
     \>// - \emph{closed} is a set of nodes\\
     \>// - \emph{it} and \emph{nb} are nodes\\
-    \>\emph{open}.enqueue(\emph{start})\\
+    \>\emph{open}.push(\emph{start})\\
     \>while \emph{open} is not empty:\\
-    \>\>\emph{it} = \emph{open}.dequeue()\\
+    \>\>\emph{it} = \emph{open}.pop()\\
     \>\>if \emph{closed} does not contain \emph{it} then\\
     \>\>\>\emph{closed}.add(\emph{it})\\
     \>\>\>for \emph{nb} in \emph{it}.neighbors:\\
     \>\>\>\>if \emph{closed} does not contain \emph{nb} then\\
     \>\>\>\>\>\emph{nb}.predecessor = \emph{it}\\
-    \>\>\>\>\>\emph{open}.enqueue(\emph{nb})\\
+    \>\>\>\>\>\emph{open}.push(\emph{nb})\\
     \>\>\>\>end if\\
     \>\>\>end for\\
     \>\>end if\\
@@ -155,8 +155,9 @@ Consider the following four pseudo-code fragments A, B, C, and D:\\[\baselineski
     function \textbf{fragmentD} (\emph{start})\\
     \>// - \emph{start} is a node\\
     \>// NOTE:\\
-    \>// \quad someFunction() can be assumed to be given,\\
-    \>// \quad it does not matter what that function does.\\
+    \>// \quad someFunction() can be assumed to be given.\\
+    \>// \quad It does not matter what that function does,\\
+    \>// \quad and it does not modify its argument.\\
     \>someFunction(\emph{start})\\
     \>if \emph{start}.left is not null then\\
     \>\>fragmentD(\emph{start}.left)\\
@@ -188,7 +189,7 @@ Mark algorithms which are not shown in any pseudo-code with a big \textbf{X}.
     \hline
     level-order tree traversal & \\
     \hline
-    breadth-first search & \\
+    breadth-first graph search & \\
     \hline
   \end{tabular}
 \end{center}
