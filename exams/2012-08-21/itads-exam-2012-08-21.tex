@@ -86,13 +86,115 @@ Aside from the obvious rules of conduct exams (e.g.\ no chatting):
 
 \question{4 points}
 
-identifying algorithms by analysing pseudocode
-\begin{itemize}
-\item linear search
-\item sort (e.g.\ bubble sort, keep it very simple)
-\item tree traversal (e.g.\ in-order, nicely recursive)
-\item bfs (needs queue, is a bit more complex)
-\end{itemize}
+Consider the following four pseudo-code fragments A, B, C, and D:\\[\baselineskip]
+
+\small
+\noindent
+\begin{minipage}[t]{0.44\columnwidth}
+  
+  \begin{tabbing}
+    \quad\=\quad\=\quad\=\quad\=\quad\=\kill
+    function \textbf{fragmentA} (\emph{arr}, \emph{len}):\\
+    \>// \emph{arr} is an array of numbers\\
+    \>// \emph{len} is the length of the array\\
+    \>for \emph{i} in 0\ldots\emph{len}-1:\\
+    \>\>for \emph{j} in 1\ldots\emph{len}-1:\\
+    \>\>\>if \emph{arr}[\emph{j}] $<$ \emph{arr}[\emph{j-1}] then\\
+    \>\>\>\>swap \emph{arr}[\emph{j}] with \emph{arr}[\emph{j-1}]\\
+    \>\>\>end if\\
+    \>\>end for\\
+    \>end for\\
+    end function
+  \end{tabbing}
+  
+  \begin{tabbing}
+    \quad\=\quad\=\quad\=\quad\=\quad\=\kill
+    function \textbf{fragmentC} (\emph{start})\\
+    \>// - \emph{start} is a node\\
+    \>// variables:\\
+    \>// - \emph{open} is a queue of nodes\\
+    \>// - \emph{closed} is a set of nodes\\
+    \>// - \emph{it} and \emph{nb} are nodes\\
+    \>\emph{open}.enqueue(\emph{start})\\
+    \>while \emph{open} is not empty:\\
+    \>\>\emph{it} = \emph{open}.dequeue()\\
+    \>\>if \emph{closed} does not contain \emph{it} then\\
+    \>\>\>\emph{closed}.add(\emph{it})\\
+    \>\>\>for \emph{nb} in \emph{it}.neighbors:\\
+    \>\>\>\>if \emph{closed} does not contain \emph{nb} then\\
+    \>\>\>\>\>\emph{nb}.predecessor = \emph{it}\\
+    \>\>\>\>\>\emph{open}.enqueue(\emph{nb})\\
+    \>\>\>\>end if\\
+    \>\>\>end for\\
+    \>\>end if\\
+    \>end while\\
+    end function
+  \end{tabbing}
+  
+\end{minipage}%
+\hfill%
+\begin{minipage}[t]{0.44\columnwidth}
+  
+  \begin{tabbing}
+    \quad\=\quad\=\quad\=\quad\=\quad\=\kill
+    function \textbf{fragmentB} (\emph{arr}, \emph{len}, \emph{num}):\\
+    \>// - \emph{arr} is an array of numbers\\
+    \>// - \emph{len} is the length of the array\\
+    \>// - \emph{num} is a number\\
+    \>for \emph{i} in 0\ldots\emph{len}-1:\\
+    \>\>if \emph{arr}[\emph{i}] $=$ \emph{num} then\\
+    \>\>\>return \emph{i}\\
+    \>\>end if\\
+    \>end for\\
+    \>return -1\\
+    end function
+  \end{tabbing}
+  
+  \begin{tabbing}
+    \quad\=\quad\=\quad\=\quad\=\quad\=\kill
+    function \textbf{fragmentD} (\emph{start})\\
+    \>// - \emph{start} is a node\\
+    \>// NOTE:\\
+    \>// \quad someFunction() can be assumed to be given,\\
+    \>// \quad it does not matter what that function does.\\
+    \>someFunction(\emph{start})\\
+    \>if \emph{start}.left is not null then\\
+    \>\>fragmentD(\emph{start}.left)\\
+    \>end if\\
+    \>if \emph{start}.right is not null then\\
+    \>\>fragmentD(\emph{start}.right)\\
+    \>end if\\
+    end function
+  \end{tabbing}
+\end{minipage}
+\normalsize
+\vspace{\baselineskip}
+
+For each of those code fragments, choose which algorithm name from the table below best corresponds to what the fragment does, and mark its letter \emph{(A, B, C, or D)} in the space on the right.
+Mark algorithms which are not shown in any pseudo-code with a big \textbf{X}.
+
+\begin{center}
+  \begin{tabular}{|l|p{0.3\columnwidth}|}
+    \hline
+    \emph{algorithm} & \emph{A, B, C, D, or X} \\
+    \hline
+    linear search & \\
+    \hline
+    binary search & \\
+    \hline
+    sort & \\
+    \hline
+    pre-order tree traversal & \\
+    \hline
+    level-order tree traversal & \\
+    \hline
+    breadth-first search & \\
+    \hline
+  \end{tabular}
+\end{center}
+
+\clearpage
+
 
 
 
