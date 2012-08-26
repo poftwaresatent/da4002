@@ -1,0 +1,15 @@
+void recurse (int N) {
+  if (N <= 1) {
+    f_3ms ();
+  }
+  else {
+    f_1ms ();
+    recurse (N / 2);
+  }
+}
+  
+void function4 () {
+  for (int ii = 0; ii < N; ++ii) {
+    recurse (N);
+  }
+}
