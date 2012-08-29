@@ -8,7 +8,7 @@
 
 <body>
 
-<h1>ITADS 2011 exercise session 1<br/>
+<h1>ITADS 2011 exercise 1<br/>
 <em>types, variables, operators, control flow</em></h1>
 
 <h2>exercise 1.1: hello world</h2>
@@ -93,11 +93,23 @@ following:
   </li>
   <li>
     What happens when you erase the return statement from the source
-    code and run <tt>gcc</tt> again? Put the statement back before
-    continuing with this exercise...
+    code and run <tt>gcc</tt> again? Did you expect that?
   </li>
   <li>
-    What happens if you erase the semicolon (the ; character) and
+    One of the most useful options for <tt>gcc</tt> is to enable warning messages.
+    This is done by adding "<tt>-Wall</tt>" to the command line.
+    Compiler warnings are a very good way of catching potential bugs very early, before even running the program.
+    To try this out, compile the hello-world program (without the return statement) using the following command:
+<pre class="command">
+gcc -Wall -o hello-world hello-world.c
+</pre>
+    How does the output of gcc change?
+    What does the new message mean?
+    It is good practice to always pass <tt>-Wall</tt> to the compiler and eliminate all warnings.
+    <em>Now, put the statement back before continuing...</em>
+  </li>
+  <li>
+    What happens if you erase the semicolon (the ; character) after the <tt>printf()</tt> and
     re-run <tt>gcc</tt>? Try to understand the compiler messages, and
     put the semicolon back before continuing with the next task...
   </li>
