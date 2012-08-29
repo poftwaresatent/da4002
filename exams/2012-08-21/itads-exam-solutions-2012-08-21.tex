@@ -394,35 +394,28 @@ Substituting these into the general formula above yields $t = d_1 \times 3^1 + d
 \answer
 \begin{enumerate}
 \item
-  \emph{(2 points)} the essential insights is to first move $N-1$ disks to the other rod, then move the $N^\text{th}$ disk to the desired rod, then move $N-1$ disks from the other rod to the desired rod.
+  \emph{(2 points)} the essential insights is to first move $N-1$ disks to the other rod, then move the $N^\text{th}$ disk to the desired rod, then move $N-1$ disks from the other rod to the desired rod.\\
   \fbox{\begin{minipage}[t]{0.4\columnwidth}
       \small
       \begin{tabbing}
         \quad\=\quad\=\quad\=\quad\=\quad\=\kill
-        char other (char src, char dst) \{\\
-        \>switch (src) \{\\
-        \>case 'A':\\
-        \>\>return dst == 'B' ? 'C' : 'B';\\
-        \>case 'B':\\
-        \>\>return dst == 'A' ? 'C' : 'A';\\
-        \>\}\\
-        \>return dst == 'A' ? 'B' : 'A';\\
-        \}\\
-        \\
-        void move (int size, char src, char dst) \{\\
+        void move (int size, char src, char tmp, char dst) \{\\
         \>if (1 $>$= size) \{\\
         \>\>System.out.println ("disk 1 from " + src + " to " + dst);\\
         \>\>return;\\
         \>\}\\
-        \>move(size-1, src, other(src, dst));\\
+        \>move(size-1, src, tmp);\\
         \>System.out.println ("disk " + size + " from " + src + " to " + dst);\\
-        \>move(size-1, other(src, dst), dst);\\
+        \>move(size-1, tmp, dst);\\
         \}
       \end{tabbing}
-  \end{minipage}}
+  \end{minipage}}\\
+  It is also possible to pass two \texttt{char} arguments to the recursive function, but then some sort of utility function is needed to determine the temporary rod.
 \item
-  \emph{(1 point)} for step $i$ and/or stack size $i$: $N_i = 2N_{i-1}+1$ with $N_1=1$.
+  \emph{(1 point)} recursive definition: for step $i$ and/or stack size $i$: $N_i = 2N_{i-1}+1$ with $N_1=1$.
   It is crucial to specify the $N_1$ case explicitly, because it terminates the recursion!
+  This recursion can be solved and leads to the nice and simple $N_i = 2^N-1,$ but students get full points even if they only give the recursive formula, as long as they give the terminating condition.
+  Providing the full proof (by induction) deserves a bonus point.
 \end{enumerate}
 
 
