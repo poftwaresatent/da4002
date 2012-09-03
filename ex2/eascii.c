@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <ctype.h>
 
 int main (int argc, char ** argv)
 {
@@ -11,7 +12,7 @@ int main (int argc, char ** argv)
 	printf (" '%c'", *cc);
       }
       else {
-	printf ("  . ", *cc);
+	printf ("  . ");
       }
     }
     printf ("\n  dec:");
