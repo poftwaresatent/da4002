@@ -10,6 +10,9 @@
  * We also use two more format specifiers for printf:
  * - %p prints an address in hexadecimal
  *      (this is used to show where pointers point)
+ * - %x prints an unsigned int in hexadecimal
+ *      (often written %02x for example to print at least two
+ *       hexadecimal digits and left-pad the value with zeros)
  * - %s prints a string stored at a certain address.
  *
  * ...and another escape sequence for strings:
@@ -120,7 +123,7 @@ int main(int argc, char ** argv)
 	 "\tthe string at %p is \"%s\"\n",
 	 cptr, cptr);
   for (ix = 0; ix < 6; ++ix) {
-    printf("\tthe ASCII code at %p is %d\n", cptr, *cptr);
+    printf("\tthe ASCII code at %p is %3d (hex %02x)\n", cptr, *cptr, *cptr);
     cptr += 1;
   }
   
