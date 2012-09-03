@@ -1,8 +1,11 @@
 \documentclass[a4paper]{article}
 
 \usepackage[margin=3cm]{geometry}
-%\usepackage{multirow}
+\usepackage{xspace}
 \usepackage[nooneline,hang,it]{caption2}
+
+\newcommand{\refl}{\textbf{[L]}\xspace}
+\newcommand{\refkr}{\textbf{[K+R]}\xspace}
 
 \begin{document}
 
@@ -58,9 +61,10 @@ Here is a summary of the most important points, with some additional explanation
   
   \begin{itemize}
     
-  \item \emph{
-    Loudon, Kyle. \textbf{Mastering Algorithms with C}. O'Reilly \& Associates, 1999.
-  }
+  \item \refl
+    \emph{
+      Loudon, Kyle. \textbf{Mastering Algorithms with C}. O'Reilly \& Associates, 1999.
+    }
     
   This book forms an integral part of the course.
   It covers fundamental concepts required to understand the treated data structures and algorithms.
@@ -70,7 +74,7 @@ Here is a summary of the most important points, with some additional explanation
   Many of the more advanced algorithms presented in this book are not taught in the course (see the reading guide below for details).
   However, participants are likely to encounter some of them in subsequent programming tasks, making this book a valuable resource for every programmer's bookshelf.
   
-  \item
+  \item \refkr
     \emph{
       Kernighan, Brian W., Ritchie, Dennis M. \textbf{The C Programming Language}. Prentice Hall, 1989.
     }
@@ -92,7 +96,7 @@ Here is a summary of the most important points, with some additional explanation
   \centering
   \begin{tabular}{|cll|}
     \hline
-    \emph{week} & \multicolumn{2}{l}{\emph{lecture (L) / exercises (E) / project (P)}} \\
+    \emph{week} & \multicolumn{2}{l|}{\emph{lecture (L) / exercises (E) / project (P)}} \\
     \hline
     36 & L1 & overview, C tutorial \\
        & E1 & types, variables, operators, control flow \\
@@ -140,28 +144,24 @@ For the projects, participants work in teams of 2 (or 3 in case of an odd total 
 
 \begin{table}
   \footnotesize
-  \centering
+  \begin{minipage}[t]{0.5\columnwidth}
   \begin{tabular}{|l|c|c|c|c|}
     \hline
-    \multicolumn{5}{|c|}{Kernighan \& Ritchie} \\
+    \multicolumn{5}{|c|}{\refkr Kernighan \& Ritchie} \\
     \multicolumn{5}{|c|}{\emph{The C Programming Language}} \\
     \hline
                        & \multicolumn{4}{|c|}{\emph{week}} \\
-    section            & 1       & 2       & 3       & 4 \\
+    section            & 36      & 37      & 38      & 39 \\
     \hline
-%%    \multicolumn{6}{l}{\textbf{1.\ A Tutorial Example}} \\
     1.1--10            & $\circ$ & $\star$ &         & \\
     \hline
-%%    \multicolumn{6}{l}{\textbf{2.\ Types, Operators, and Expressions}} \\
     2.1--8, 2.10       & $\star$ &         &         & \\
     2.11--12           &         &         &         & $\star$ \\
     \hline
-%%    \multicolumn{6}{l}{\textbf{3.\ Control Flow}} \\
     3.1--5             & $\star$ &         &         & \\
     3.6                &         &         &         & $\star$ \\
     3.7                & $\star$ &         &         & \\
     \hline
-%%    \multicolumn{6}{l}{\textbf{4.\ Functions and Program Structure}} \\
     4.1                & $\circ$ & $\star$ &         & \\
     4.2                &         & $\star$ &         & \\
     4.4--6             &         &         & $\star$ & \\
@@ -170,20 +170,60 @@ For the projects, participants work in teams of 2 (or 3 in case of an odd total 
     4.10               &         & $\star$ &         & \\
     4.11               & $\circ$ &         & $\star$ & \\
     \hline
-%%    \multicolumn{6}{l}{\textbf{5.\ Pointers and Arrays}} \\
     5.1                & $\star$ &         &         & \\
     5.2                &         & $\star$ &         & \\
     5.3--4             & $\star$ &         &         & \\
     5.6, 5.8, 5.10--11 &         &         &         & $\star$ \\
     \hline
-%%    \multicolumn{6}{l}{\textbf{6.\ Structures}} \\
     6.1--4, 6.7        &         & $\star$ &         & \\
     \hline
-%%    \multicolumn{6}{l}{\textbf{7.\ Input and Output}} \\
     7.1--2             & $\star$ &         &         & \\
     7.4--6             &         &         & $\star$ & \\
     \hline
   \end{tabular}
+  \end{minipage}
+  \hfill
+  \begin{minipage}[t]{0.5\columnwidth}
+  \begin{tabular}{|l|c|c|c|c|c|c|}
+    \hline
+    \multicolumn{7}{|c|}{\refl Kyle Loudon} \\
+    \multicolumn{7}{|c|}{\emph{Mastering Algorithms with C}} \\
+    \hline
+                       & \multicolumn{6}{|c|}{\emph{week}} \\
+    section            & 37      & 38      & 39      & \ldots  & 42      & 43      \\
+    \hline
+    2.1-4              & $\star$ &         &         &         &         &         \\
+    2.5-6              &         & $\star$ &         &         &         &         \\
+    \hline
+    3.1                &         & $\star$ &         &         &         &         \\
+    \hline
+    4.1-4              &         &         & $\star$ &         &         &         \\
+    \hline
+    5.1,5,8            & $\star$ &         &         &         &         &         \\
+    5.2-4,6-7,9-10     & $\circ$ &         &         &         &         &         \\
+    \hline
+    6.1,4              & $\star$ &         &         &         &         &         \\
+    6.2-3,5-7          & $\circ$ &         &         &         &         &         \\
+    \hline
+    9.1,5              &         & $\star$ &         &         &         &         \\
+    9.2-4,6-7          &         & $\circ$ &         &         &         &         \\
+    \hline
+    10.1,4             &         & $\star$ &         &         &         &         \\
+    10.2-3,5-7         &         & $\circ$ &         &         &         &         \\
+    \hline
+    11.1,4-5           &         &         &         &         & $\circ$ & $\star$ \\
+    11.2-3             &         &         &         &         &         & $\circ$ \\
+    \hline
+    12.1,4,8           &         & $\circ$ & $\star$ &         &         &         \\
+    12.2-3,5-7,9-10    &         &         & $\circ$ &         &         &         \\
+    12.17              &         & $\star$ &         &         &         &         \\
+    12.18-20           &         & $\circ$ &         &         &         &         \\
+    \hline
+    16.1,4             &         &         &         &         & $\circ$ & $\star$ \\
+    16.2-3,5-6         &         &         &         &         &         & $\circ$ \\
+    \hline
+  \end{tabular}
+  \end{minipage}
   \caption{
     Course book reading order.
     Any sections or chapters that are not explicitly listed can be skipped.
@@ -193,6 +233,7 @@ For the projects, participants work in teams of 2 (or 3 in case of an odd total 
 \end{table}
 
 Below is an approximately chronological list of the sections that the students should study from the course books.
+\refkr refers to Kernighan \& Ritchie \emph{The C Programming Language}, and \refl refers to Loudon \emph{Mastering Algorithms with C}.
 Table~\ref{tab:reading-guide} summarizes which section will be treated in which week, and to what extent.
 The course website provides resources in form of exercises and links to books and other websites.
 
@@ -200,38 +241,38 @@ Students are expected learn how to self-evaluate, and they will be guided during
 Afterward, they should be able to study independently when they need more practice in particular areas.
 
 
-\subsection*{Week One (by Sep 4, 2012)}
-
-\paragraph{Kernighan \& Ritchie \emph{The C Programming Language}:}
-Chapter 1 \emph{A Tutorial Introduction} will be closely followed during the lecture.
-Most of chapters 2 \emph{Types, Operators, and Expressions} and 3 \emph{Control Flow}, parts of chapter 5 \emph{Pointers and Arrays}, and a few items from chapter 7 \emph{Input and Output} will be the subject of exercises 1a and 1b.
-
-
-\subsection*{Week Two (by Sep 11, 2012)}
-
-\paragraph{Kernighan \& Ritchie \emph{The C Programming Language}:}
-Most of chapters 4 \emph{Functions and Program Structure} and 6 \emph{Structures}, and some remaining parts of chapter 5 \emph{Pointers and Arrays}, form the basis for lecture 2 and exercises 2a and 2b.
-
-
-\subsection*{Week Three (by Sep 18, 2012)}
-
-\paragraph{Kernighan \& Ritchie \emph{The C Programming Language}:}
-Remaining sections from chapter 4 \emph{Functions and Program Structure} will be discussed in the context of splitting programs into multiple files.
-Much of chapter 7 \emph{Input and Output} will be presented to round off the knowledge of the C language with a glimpse of the standard library.
-
-
-\subsection*{Week Four (by Sep 25, 2012)}
-
-\paragraph{Kernighan \& Ritchie \emph{The C Programming Language}:}
-Some items from chapters 2, 3, 4, and 5 that were left out for didactic reasons earlier will be presented now, as they become relevant for implementing reusable data structures and algorithms.
-
-\subsection*{Week Five (by Oct 2, 2012)}
-
-\subsection*{Week Six (by Oct 9, 2012)}
-
-\subsection*{Week Seven (by Oct 16, 2012)}
-
-\subsection*{Week Eight (by Oct 23, 2012)}
+%%no time to spell this out%% \subsection*{Week One (by Sep 4, 2012)}
+%%no time to spell this out%% 
+%%no time to spell this out%% \refkr
+%%no time to spell this out%% Chapter 1 \emph{A Tutorial Introduction} will be closely followed during the first lecture.
+%%no time to spell this out%% Most of chapters 2 \emph{Types, Operators, and Expressions} and 3 \emph{Control Flow}, parts of chapter 5 \emph{Pointers and Arrays}, and a few items from chapter 7 \emph{Input and Output} will be the subject of exercises 1 and 2.
+%%no time to spell this out%% 
+%%no time to spell this out%% 
+%%no time to spell this out%% \subsection*{Week Two (by Sep 11, 2012)}
+%%no time to spell this out%% 
+%%no time to spell this out%% \refkr
+%%no time to spell this out%% Most of chapters 4 \emph{Functions and Program Structure} and 6 \emph{Structures}, and some remaining parts of chapter 5 \emph{Pointers and Arrays}, form the basis for lecture 2 and exercises 3 and 4.
+%%no time to spell this out%% 
+%%no time to spell this out%% 
+%%no time to spell this out%% \subsection*{Week Three (by Sep 18, 2012)}
+%%no time to spell this out%% 
+%%no time to spell this out%% \refkr
+%%no time to spell this out%% Remaining sections from chapter 4 \emph{Functions and Program Structure} will be discussed in the context of splitting programs into multiple files.
+%%no time to spell this out%% Much of chapter 7 \emph{Input and Output} will be presented to round off the knowledge of the C language with a glimpse of the standard library.
+%%no time to spell this out%% 
+%%no time to spell this out%% 
+%%no time to spell this out%% \subsection*{Week Four (by Sep 25, 2012)}
+%%no time to spell this out%% 
+%%no time to spell this out%% \refkr
+%%no time to spell this out%% Some items from chapters 2, 3, 4, and 5 that were left out for didactic reasons earlier will be presented now, as they become relevant for implementing reusable data structures and algorithms.
+%%no time to spell this out%% 
+%%no time to spell this out%% \subsection*{Week Five (by Oct 2, 2012)}
+%%no time to spell this out%% 
+%%no time to spell this out%% \subsection*{Week Six (by Oct 9, 2012)}
+%%no time to spell this out%% 
+%%no time to spell this out%% \subsection*{Week Seven (by Oct 16, 2012)}
+%%no time to spell this out%% 
+%%no time to spell this out%% \subsection*{Week Eight (by Oct 23, 2012)}
 
 
 \end{document}
