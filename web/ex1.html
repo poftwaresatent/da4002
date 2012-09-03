@@ -8,7 +8,7 @@
 
 <body>
 
-<h1>exercise session 1(a):<br/>
+<h1>ITADS 2011 exercise 1<br/>
 <em>types, variables, operators, control flow</em></h1>
 
 <h2>exercise 1.1: hello world</h2>
@@ -22,8 +22,8 @@ with the appropriate filename.
 </p>
 
 <pre class="command">
-mkdir -p itads/ex1a
-cd itads/ex1a
+mkdir -p itads/ex1
+cd itads/ex1
 gedit hello-world.c &amp;
 </pre>
 
@@ -81,7 +81,7 @@ This example illustrates several fundamental aspects of developing with C under 
 </ul>
 
 <p>
-Look at the <a href="hello-world.c">annotated version</a> of the
+Look at the <a href="itads2012/ex1/hello-world.c">annotated version</a> of the
 source code for more information about each line. Then do the
 following:
 </p>
@@ -93,11 +93,23 @@ following:
   </li>
   <li>
     What happens when you erase the return statement from the source
-    code and run <tt>gcc</tt> again? Put the statement back before
-    continuing with this exercise...
+    code and run <tt>gcc</tt> again? Did you expect that?
   </li>
   <li>
-    What happens if you erase the semicolon (the ; character) and
+    One of the most useful options for <tt>gcc</tt> is to enable warning messages.
+    This is done by adding "<tt>-Wall</tt>" to the command line.
+    Compiler warnings are a very good way of catching potential bugs very early, before even running the program.
+    To try this out, compile the hello-world program (without the return statement) using the following command:
+<pre class="command">
+gcc -Wall -o hello-world hello-world.c
+</pre>
+    How does the output of gcc change?
+    What does the new message mean?
+    It is good practice to always pass <tt>-Wall</tt> to the compiler and eliminate all warnings.
+    <em>Now, put the statement back before continuing...</em>
+  </li>
+  <li>
+    What happens if you erase the semicolon (the ; character) after the <tt>printf()</tt> and
     re-run <tt>gcc</tt>? Try to understand the compiler messages, and
     put the semicolon back before continuing with the next task...
   </li>
@@ -113,7 +125,7 @@ following:
 <h2>exercise 1.2: builtin types</h2>
 
 <p>
-Read the source file <a href="builtin-types.c">builtin-types.c</a>
+Read the source file <a href="itads2012/ex1/builtin-types.c">builtin-types.c</a>
 which explains some fundamentals about builtin variable types and how
 to print values stored in various formats.
 </p>
@@ -161,7 +173,7 @@ it:
 </p>
 
 <pre class="sourcecode">
-#include <stdio.h>
+#include &lt;stdio.h&gt;
 
 int main (int argc, char ** argv)
 {
@@ -236,7 +248,7 @@ and <em>0 &lt; j &lt; 6</em>.
 </p>
 
 <pre class="sourcecode">
-#include <stdio.h>
+#include &lt;stdio.h&gt;
 
 int main (int argc, char ** argv)
 {
@@ -298,7 +310,7 @@ notation</a> system. It also illustrates a few other things:
 </ul>
 
 <pre class="sourcecode">
-#include <stdio.h>
+#include &lt;stdio.h&gt;
 
 int main (int argc, char ** argv)
 {
@@ -327,8 +339,8 @@ How does this compare to <tt>number = 65535</tt> (which is
 <p>
 Perform the following tasks, based on what you have learned so far,
 possibly with the help
-of <a href="http://en.wikipedia.org/wiki/The_C_Programming_Language">K+R</a>
-(chapter 2).
+of <a href="http://en.wikipedia.org/wiki/The_C_Programming_Language">[K+R]</a>
+chapter 2.
 </p>
 
 <ol>
@@ -394,228 +406,6 @@ of <a href="http://en.wikipedia.org/wiki/The_C_Programming_Language">K+R</a>
 1 1 2 3 5 8 13 21 34 55 89 144 233 377 610 987 1597 2584 4181 6765</pre>
   </li>
 </ol>
-
-
-<hr>
-
-<h1>exercise session 1(b):<br/>
-<em>arrays, pointers, and strings</em></h1>
-
-
-
-<h2>exercise 1.4: arrays</h2>
-
-<p>
-The <tt>prime.c</tt> program shown below uses an array as a convenient
-way to keep track of numbers that are not prime.
-</p>
-
-<pre class="sourcecode">
-#include <stdio.h>
-
-#define MAXNUM 100
-
-int main (int argc, char ** argv)
-{
-  char is_prime[MAXNUM - 1];
-  int ii, num;
-  
-  for (ii = 0; ii < MAXNUM - 1; ++ii) {
-    is_prime[ii] = 1;
-  }
-  
-  for (num = 2; num <= MAXNUM / 2; ++num) {
-    for (ii = num * 2 - 2; ii <= MAXNUM - 2; ii += num) {
-      is_prime[ii] = 0;
-    }
-  }
-  
-  printf ("prime numbers up to %d:\n ", MAXNUM);
-  for (ii = 0; ii < MAXNUM - 1; ++ii) {
-    if (is_prime[ii]) {
-      printf (" %d", ii + 2);
-    }
-  }
-  printf ("\n");
-  
-  return 0;
-}
-</pre>
-
-<ol>
-  <li>
-    Try to understand how it operates <em>(Hint: it is based on an
-      ancient method of finding prime numbers)</em> and verify that it
-      prints the correct result by compiling and running it. Can you
-      explain why it sometimes adds or removes 1 or 2 to the indices
-      and output?
-  </li>
-  <li>
-    Modify the program to produce a histogram the number of integer
-    divisors except 1 and itself, for every number from 2 to 20. The
-    output of the program should be:
-    <pre class="command">
-NUMBER OF INTEGER DIVISORS other than 1 or itself:
-  2 
-  3 
-  4 *
-  5 
-  6 **
-  7 
-  8 **
-  9 *
- 10 **
- 11 
- 12 ****
- 13 
- 14 **
- 15 **
- 16 ***
- 17 
- 18 ****
- 19 
- 20 ****</pre>
-  </li>
-</ol>
-
-
-
-<h2>exercise 1.5: command line arguments</h2>
-
-<p>
-We have now covered enough basics to understand the two arguments of
-the <tt>main</tt> function that is required for every C program: the
-shell (which interprets the commands you type into the terminal) cuts
-the command line into tokens that are separated by spaces, uses the
-first token to find the program to run, and places all the tokens into
-an <b>array of C strings</b>. The size of this array (i.e. the number
-of arguments including the name of the program) gets passed
-to <tt>main</tt> as its first argument, commonly named <tt>argc</tt>
-(for "argument count"), and the pointer to the first element in this
-array gets passed as the second argument to <tt>main</tt>, and that is
-commonly called <tt>argv</tt> (for "argument vector"). The declaration
-of <tt>argv</tt> can look weird at first, because it is a pointer to a
-pointer (indicated by <b>two <tt>*</tt> characters</b>), but this is
-explained b ythat fact that <tt>argv</tt> is an array (which is
-equivalent to a pointer), and the elements of that array are strings
-(which is also equivalent to a pointer).
-</p>
-
-<p>
-<b>Try it out</b> by creating the following simple program which
-simply prints the contents of the argument array. It also introduces
-the <tt>strlen</tt> function, which is useful in case you need to find
-out the length of a string.
-</p>
-
-<pre class="sourcecode">
-#include <stdio.h>
-#include <string.h>
-
-int main (int argc, char ** argv)
-{
-  int ii;
-  for (ii = 0; ii < argc; ++ii) {
-    size_t len = strlen (argv[ii]);
-    printf ("argv[%d] (length %zu):\t`%s'\n", ii, len, argv[ii]);
-  }
-  return 0;
-}
-</pre>
-
-<ol>
-  <li>
-    Copy the above sourcecode into a file called <tt>printargs.c</tt>,
-    compile it, and run it. It should produce the following output:
-    <pre class="command">
-argv[0] (length 11):    `./printargs'</pre>
-  </li>
-  <li>
-    Run the <tt>printargs</tt> command with some simple parameters:
-    <pre class="command">
-./printargs some arguments   and some   spaces</pre>
-    Explain the resulting output.
-  </li>
-  <li>
-    Try some more complicated looking arguments:
-    <pre class="command">
-./printargs bravo \\ "" "something with spaces"</pre>
-    This illustrates some possibilities for passing all kinds of
-    strings as arguments into a C program.
-  </li>
-  <li>
-    Type a command that produces the following output:
-    <pre class="command">
-argv[0] (length 11):    `./printargs'
-argv[1] (length 1):     `&quot;'</pre>
-  </li>
-</ol>
-
-
-
-<h2>exercise 1.6: bubble sort</h2>
-
-<p>
-Sorting is one of the most fundamental tasks that programs have to
-perform under all kinds of circumstances, and many algorithms have
-been developed to sort various kinds of data under different
-circumstances. A very simple example
-is <a href="http://en.wikipedia.org/wiki/Bubble_sort">Bubble Sort</a>
-which is based on the idea of repeatedly scanning through the data,
-and swapping any two neighboring items that are in the wrong
-order. The following code shows how it works in principle, but this is
-a quite inefficient implementation. <em>(This code also uses some
-convenient C syntax for initializing and sizing static arrays, and a
-way to <tt>printf</tt> floating point numbers with a given precision
-as well as reserving space for the optionally leading minus
-sign.)</em>
-</p>
-
-<pre class="sourcecode">
-#include <stdio.h>
-
-int main (int argc, char ** argv)
-{
-  int ii, jj, length;
-  double data[] = { 351.354, 21.02, -3544.2, 152.999 };
-  double tmp;
-  
-  length = sizeof(data) / sizeof(double);
-  
-  for (ii = 0; ii < length; ++ii) {
-    for (jj = 1; jj < length; ++jj) {
-      if (data[jj] < data[jj - 1]) {
-	tmp = data[jj];
-	data[jj] = data[jj - 1];
-	data[jj - 1] = tmp;
-      }
-    }
-  }
-  
-  for (ii = 0; ii < length; ++ii) {
-    printf ("% 8.2f\n", data[ii]);
-  }
-  
-  return 0;
-}
-</pre>
-
-<p>
-Based on this example implementation of bubble-sort and what you've
-learned above about command line arguments, write a program
-called <tt>args-bubble-sort</tt> that takes each argument string and
-sorts it character-by-character. The output of the program should be
-(depending on the arguments that you give it):
-</p>
-
-<pre class="command">
-./args-bubble-sort 743 oiufObIwUWBF
-
-in:  743
-out: 347
-
-in:  oiufObIwUWBF
-out: BFIOUWbfiouw</pre>
 
 </body>
 </html>
