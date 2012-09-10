@@ -1,16 +1,17 @@
 #include <stdio.h>
 
-struct complex {
+struct complex_s {
   double re;			/* real part */
   double im;			/* imaginary part */
 };
 
+
 int main (int argc, char ** argv)
 {
-  struct complex cc;		/* a single complex number */
-  struct complex *cptr;		/* a pointer to a complex number */
-  struct complex arr[3];	/* an array of three complex numbers */
-  struct complex *aptr[3];	/* an array of three pointers to complex numbers */
+  struct complex_s cc;		/* a single complex number */
+  struct complex_s *cptr;		/* a pointer to a complex number */
+  struct complex_s arr[3];	/* an array of three complex numbers */
+  struct complex_s *aptr[3];	/* an array of three pointers to complex numbers */
   int ii;
   
   /* field access on simple variables happens with dot notation */
