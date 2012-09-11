@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <err.h>
 
 #define BUFSIZE        1024
 
@@ -100,7 +101,7 @@ int stack_push (Stack * stack, char * str)
     HINT: This is essentially the same as vector_append() from the
     previous exercise.
   */
-  printf ("Please implement stack_grow!\n");
+  printf ("Please implement stack_push!\n");
   return -100;
 }
 
@@ -124,8 +125,8 @@ char * stack_pop (Stack * stack)
     previous exercise, except that you always remove the last element,
     and you have to return it at the end of the function.
   */
-  printf ("Please implement stack_grow!\n");
-  return -100;
+  printf ("Please implement stack_pop!\n");
+  return NULL;
 }
 
 

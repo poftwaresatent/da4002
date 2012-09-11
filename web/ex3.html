@@ -12,6 +12,46 @@
 
 
 
+<h2>exercise 3.1: structs</h2>
+
+<p>
+The <a href="itads2012/ex3/interval.c"><tt>interval.c</tt></a> source file contains a sketch of what an <a href="http://en.wikipedia.org/wiki/Interval_arithmetic">interval arithmetic</a> package might contain in C.
+There is a type called <tt>Interval</tt> which stores a lower and an upper bound, and functions to <tt>create</tt>, <tt>add</tt>, and <tt>print</tt> intervals.
+When you compile and run this program, it simply prints two intervals and their sum.
+</p>
+
+<ol>
+  <li>
+    Change the <tt>Interval</tt> declaration so that it stores the bounds in <tt>double</tt> format instead of integers.
+    Make sure to change all the other functions and variables accordingly.
+    A good way to catch potential errors is to use the "<tt>-Wall</tt>" option of gcc:
+    <pre class="command">gcc -Wall -o interval interval.c</pre>
+  </li>
+  <li>
+    None of the functions currently verify that <tt>low &lt;= high</tt> but this is a fundamental property required of intervals.
+    Write a <tt>normalize</tt> function which takes an interval and, if necessary, modifies it in-place such that it respects that property.<br/>
+    <em><u>Hint</u>: you will need to pass a pointer to the <tt>normalize</tt> function.</em><br/>
+    Check your implementation by changing the initialization of <tt>aa</tt> to "<tt>aa = create(3,&nbsp;2)</tt>" and then immediately normalizing it.
+  </li>
+  <li>
+    Change the initialization of <tt>bb</tt> to "<tt>bb = create(50,&nbsp;-10)</tt>" <em>but do <b>not</b> call <tt>normalize</tt> on it</em>.
+    This should produce an erroneous result in the additon (try it out: <tt>cc</tt> should now become the incorrect <tt>[52,&nbsp;-7]</tt> instead of the correct <tt>[-8,&nbsp;53]</tt>).
+  </li>
+  <li>
+    Now make the <tt>add</tt> function robust to non-normalized inputs, by adding two calls to <tt>normalize</tt> as the first two lines in its implementation.
+    Verify that you get the correct answer again.
+    However, as can be seen by the program output, <tt>bb</tt> will remain non-normalized.
+  </li>
+  <li>
+    Modify the <tt>add</tt> function so that the effects of normalization remain after it has returned.
+    But make sure that your improved <tt>add</tt> function has no adverse side effects, such as changing the value of an outside variable (apart from the desired normalization)!<br/>
+    <em><u>Hint</u>: you will need to pass pointers instead of values for <tt>lhs</tt> and <tt>rhs</tt>, but that's only half the story...</em><br/>
+    Again, check your results by running the program, this time paying particular attention also to the printed values of <tt>aa</tt> (should be <tt>[2,&nbsp;3]</tt>) and <tt>bb</tt> (should be <tt>[-10,&nbsp;50]</tt>).
+  </li>
+</ol>
+
+
+
 <h2>exercise 3.x: vectors</h2>
 
 <p>
@@ -60,13 +100,13 @@ Three of the required stack operations have not been implemented yet, but the so
 
 <ol>
   <li>
-    Implement the function <tt>stack_grow</tt> (line 73).
+    Implement the function <tt>stack_grow</tt> (line 74).
   </li>
   <li>
-    Implement the function <tt>stack_push</tt> (line 97).
+    Implement the function <tt>stack_push</tt> (line 98).
   </li>
   <li>
-    Implement the function <tt>stack_pop</tt> (line 120).
+    Implement the function <tt>stack_pop</tt> (line 121).
   </li>
 </ol>
 
