@@ -72,6 +72,10 @@ void stack_destroy (Stack * stack)
  */
 int stack_grow (Stack * stack)
 {
+  /*
+    HINT: This is essentially the same as vector_grow() from the
+    previous exercise.
+  */
   printf ("Please implement stack_grow!\n");
   return -100;
 }
@@ -81,8 +85,7 @@ int stack_grow (Stack * stack)
  * * FILL IN THIS FUNCTION **************************
  * **************************************************
  *
- * User function to place a string onto the top of the stack. This is
- * essentially the same as vector_append() from the previous exercise.
+ * User function to place a string onto the top of the stack.
  *
  * \note This function does not make a separate copy of the string,
  * assuming that the user will manage their memory separately.  But if
@@ -93,6 +96,10 @@ int stack_grow (Stack * stack)
  */
 int stack_push (Stack * stack, char * str)
 {
+  /*
+    HINT: This is essentially the same as vector_append() from the
+    previous exercise.
+  */
   printf ("Please implement stack_grow!\n");
   return -100;
 }
@@ -103,8 +110,7 @@ int stack_push (Stack * stack, char * str)
  * **************************************************
  *
  * User function to retrieve the string which is currently on top of
- * the stack. This is basically a combination of array lookup with
- * vector_remove of the last element.
+ * the stack.
  *
  * \note It is up to the user to free the returned string at the
  * appropriate moment.
@@ -113,6 +119,11 @@ int stack_push (Stack * stack, char * str)
  */
 char * stack_pop (Stack * stack)
 {
+  /*
+    HINT: This is essentially the same as vector_remove() from the
+    previous exercise, except that you always remove the last element,
+    and you have to return it at the end of the function.
+  */
   printf ("Please implement stack_grow!\n");
   return -100;
 }
