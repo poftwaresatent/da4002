@@ -38,13 +38,14 @@ void stack_init (Stack * stack)
  * in the previous exercise, except that here WE FREE MEMORY allocated
  * by the strings stored in the stack.
  *
- * Notice that this means strings stored in this stack should not be
- * shared with other parts of the program, because it may happen that
- * the stack gets destroyed (thus freeing all those strings) while
- * other parts might still want to use them later. This is referred to
- * as the issue of ownership, and it can frequently cause problems in
- * languages such as C or C++ which require the programmer to do their
- * own memory management.
+ * \note The fact that all remaining strings are passed to free means
+ * that strings stored in this stack should not be shared with other
+ * parts of the program, because it may happen that the stack gets
+ * destroyed (thus freeing all those strings) while other parts might
+ * still want to use them later. This is referred to as the issue of
+ * ownership, and it can frequently cause problems in languages such
+ * as C or C++ which require the programmer to do their own memory
+ * management.
  */
 void stack_destroy (Stack * stack)
 {
@@ -60,6 +61,8 @@ void stack_destroy (Stack * stack)
 /*
  * Utility function used internally by the stack when more memory is
  * required.
+ *
+ * \return zero on success.
  */
 int stack_grow (Stack * stack)
 {
@@ -78,21 +81,27 @@ int stack_grow (Stack * stack)
   }
   
   newcap = 2 * stack->cap;
-  
   newarr = realloc (stack->arr, newcap * sizeof(*stack->arr));
   if (NULL == newarr)
     return -1;
-  
-  if (stack->arr != newarr) {
-    memcpy (newarr, stack->arr, stack->len * sizeof(*stack->arr));
-    stack->arr = newarr;
-  }
+  stack->arr = newarr;
   stack->cap = newcap;
   
   return 0;
 }
 
 
+/*
+ * User function to place a string onto the top of the stack. This is
+ * essentially the same as vector_append() from the previous exercise.
+ *
+ * \note This function does not make a separate copy of the string,
+ * assuming that the user will manage their memory separately.  But if
+ * stack_destroy is called while the stack still contains this string,
+ * then free will be called on it.
+ *
+ * \return zero on success.
+ */
 int stack_push (Stack * stack, char * str)
 {
   if (stack->len >= stack->cap) {
@@ -104,6 +113,16 @@ int stack_push (Stack * stack, char * str)
 }
 
 
+/*
+ * User function to retrieve the string which is currently on top of
+ * the stack. This is basically a combination of array lookup with
+ * vector_remove of the last element.
+ *
+ * \note It is up to the user to free the returned string at the
+ * appropriate moment.
+ *
+ * \return The topmost string, or NULL if the stack is empty.
+ */
 char * stack_pop (Stack * stack)
 {
   if (stack->len > 0)
@@ -112,16 +131,32 @@ char * stack_pop (Stack * stack)
 }
 
 
+/*
+ * This program reads lines from a file given on the command line (or
+ * standard input if no argument is given). It makes a duplicate of
+ * each line, and places the duplicate on a stack. After end of input,
+ * it simply pops them all off the stack, prints them, and frees
+ * them. This ends up printing the lines of a file in reverse.
+ */
 int main (int argc, char ** argv)
 {
   char readbuf[BUFSIZE];
   Stack stack;
   char * msg;
+  FILE * input;
+  
+  if (1 >= argc)
+    input = stdin;
+  else {
+    input = fopen(argv[1], "r");
+    if (NULL == input)
+      err (EXIT_FAILURE, "%s", argv[1]);
+  }
   
   stack_init (&stack);
   
   msg = NULL;
-  while (NULL != fgets(readbuf, BUFSIZE, stdin)) {
+  while (NULL != fgets(readbuf, BUFSIZE, input)) {
     char * str = strdup(readbuf);
     if (NULL == str) {
       msg = "strdup failed";
@@ -132,7 +167,7 @@ int main (int argc, char ** argv)
       break;
     }
   }
-  if (ferror(stdin)) {
+  if (ferror(input)) {
     msg = "input error";
   }
   
