@@ -11,6 +11,9 @@
 <h1>ITADS 2012 exercise 2:<br/>
 <em>arrays, pointers, strings</em></h1>
 
+<p>
+<em>Hint: read the <a href="http://poftwaresatent.net/r/index.php?option=com_content&view=article&id=75&Itemid=84">Linux intro</a> if you forgot some details about developing C programs under Linux...</em>
+</p>
 
 
 <h2>exercise 2.1: arrays</h2>
@@ -90,7 +93,16 @@ NUMBER OF INTEGER DIVISORS other than 1 or itself:
 
 
 
-<h2>exercise 2.2: command line arguments</h2>
+<h2>exercise 2.2: a first look at pointers</h2>
+
+<p>
+The annotated source code <a href="itads2012/ex2/pointers-arrays-strings.c"><tt>pointers-arrays-strings.c</tt></a> reviews some of the explanations about pointers and arrays that were part of lecture 1.
+Compile and run <tt>pointers-arrays-strings</tt> and make sure you understand how the output relates to the source code.
+</p>
+
+
+
+<h2>exercise 2.3: command line arguments</h2>
 
 <p>
 We have now covered enough basics to understand the two arguments of
@@ -163,7 +175,37 @@ argv[1] (length 1):     `&quot;'</pre>
 
 
 
-<h2>exercise 2.3: bubble sort</h2>
+<h2>exercise 2.4: strings are character arrays</h2>
+
+<p>
+Write a program called <tt>eascii</tt> that takes a string as command-line argument and prints a table with three lines:
+</p>
+
+<dl>
+  <dt>first line</dt>
+  <dd>Each printable character between single quotes.</dd>
+  <dd><em>Hint:</em> use the <a href="http://www.linuxmanpages.com/man3/isprint.3.php"><tt>isprint()</tt> function</a> from the <tt>ctype.h</tt> header.</dd>
+
+  <dt>second line</dt>
+  <dd>Each character's ASCII code in decimal</dd>
+
+  <dt>third line</dt>
+  <dd>Each character's ASCII code in <a href="http://en.wikipedia.org/wiki/Hexadecimal">hexadecimal</a></dd>
+  <dd><em>Hint:</em> the <tt>pointers-arrays-strings.c</tt> code from exercise 2.2 contains explanations about printing values in hexadecimal.</dd>
+</dl>
+
+<p>
+For example, the output of your program for "hello" should be:
+</p>
+
+<pre class="command">
+ 'h' 'e' 'l' 'l' 'o'
+104 101 108 108 111
+ 68  65  6c  6c  6f</pre>
+
+
+
+<h2>exercise 2.5: bubble sort</h2>
 
 <p>
 Sorting is one of the most fundamental tasks that programs have to
