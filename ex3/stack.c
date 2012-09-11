@@ -2,7 +2,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define START_CAPACITY    4
 #define BUFSIZE        1024
 
 
@@ -50,10 +49,10 @@ void stack_init (Stack * stack)
 void stack_destroy (Stack * stack)
 {
   char *str;
-  
+
   if (NULL == stack->arr)
     return;
-  
+
   for (str = *stack->arr; 0 < stack->len; --stack->len, ++str)
     free (str);
   free (stack->arr);
@@ -62,7 +61,10 @@ void stack_destroy (Stack * stack)
 }
 
 
-/*
+/* **************************************************
+ * * FILL IN THIS FUNCTION **************************
+ * **************************************************
+ *
  * Utility function used internally by the stack when more memory is
  * required.
  *
@@ -70,32 +72,15 @@ void stack_destroy (Stack * stack)
  */
 int stack_grow (Stack * stack)
 {
-  unsigned long newcap;
-  char ** newarr;
-  
-  if (0 == stack->cap) {
-    
-    stack->arr = malloc (START_CAPACITY * sizeof(*stack->arr));
-    if (NULL == stack->arr)
-      return -1;
-    
-    stack->cap = START_CAPACITY;
-    
-    return 0;
-  }
-  
-  newcap = 2 * stack->cap;
-  newarr = realloc (stack->arr, newcap * sizeof(*stack->arr));
-  if (NULL == newarr)
-    return -1;
-  stack->arr = newarr;
-  stack->cap = newcap;
-  
-  return 0;
+  printf ("Please implement stack_grow!\n");
+  return -100;
 }
 
 
-/*
+/* **************************************************
+ * * FILL IN THIS FUNCTION **************************
+ * **************************************************
+ *
  * User function to place a string onto the top of the stack. This is
  * essentially the same as vector_append() from the previous exercise.
  *
@@ -108,16 +93,15 @@ int stack_grow (Stack * stack)
  */
 int stack_push (Stack * stack, char * str)
 {
-  if (stack->len >= stack->cap) {
-    if (0 != stack_grow (stack))
-      return -1;
-  }
-  stack->arr[stack->len++] = str;
-  return 0;
+  printf ("Please implement stack_grow!\n");
+  return -100;
 }
 
 
-/*
+/* **************************************************
+ * * FILL IN THIS FUNCTION **************************
+ * **************************************************
+ *
  * User function to retrieve the string which is currently on top of
  * the stack. This is basically a combination of array lookup with
  * vector_remove of the last element.
@@ -129,9 +113,8 @@ int stack_push (Stack * stack, char * str)
  */
 char * stack_pop (Stack * stack)
 {
-  if (stack->len > 0)
-    return stack->arr[--(stack->len)];
-  return NULL;
+  printf ("Please implement stack_grow!\n");
+  return -100;
 }
 
 
