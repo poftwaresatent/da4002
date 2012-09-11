@@ -43,7 +43,8 @@ There are several functions that still need to be filled in, but the source alre
   <li>
     <em>Optional (advanced)</em><br/>
     The <tt>vector_grow</tt> utility function can be improved by using <tt>realloc</tt> instead of <tt>malloc</tt>.
-    Read the <tt>malloc(3)</tt> manual page, in particular the section describing <tt>realloc</tt>, and modify the <tt>vector_grow</tt> code to take advantage of it.
+    Read the <tt>realloc(3)</tt> manual page (either by typing "<tt>man realloc</tt>" into the terminal or looking at the <a href="http://www.linuxmanpages.com/man3/realloc.3.php">online version</a>) to find out how it works.
+    Then, modify the <tt>vector_grow</tt> code to take advantage of it (you won't need <tt>memcpy</tt> anymore).
   </li>
 </ol>
 
@@ -52,8 +53,30 @@ There are several functions that still need to be filled in, but the source alre
 <h2>exercise 3.x: a vector-based stack</h2>
 
 <p>
-Write a program that 
+The source file <a href="itads2012/ex3/stack.c"><tt>stack.c</tt></a> is a partial implementation of a program that prints the lines of a given file in reverse order.
+The idea is simple: push all the lines onto a stack, then pop and print until the stack is empty.
+Three of the required stack operations have not been implemented yet, but the source code contains instructions and hints.
 </p>
+
+<ol>
+  <li>
+    Implement the function <tt>stack_grow</tt> (line 73).
+  </li>
+  <li>
+    Implement the function <tt>stack_push</tt> (line 97).
+  </li>
+  <li>
+    Implement the function <tt>stack_pop</tt> (line 120).
+  </li>
+</ol>
+
+<p>
+Test your implementation by passing a text file, for example the source code itself, to the program, such as:
+</p>
+
+<pre class="command">
+./stack stack.c
+</pre>
 
 </body>
 </html>
