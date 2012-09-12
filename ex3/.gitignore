@@ -1,10 +1,7 @@
 *.dSYM
-cfuncs
-functions
-structs
-olympics
-hello-again
-list
+interval
+interval-solution
 vector
 vector-solution
+stack
 stack-solution
