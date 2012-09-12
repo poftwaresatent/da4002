@@ -88,17 +88,16 @@ int list_ins_next (List * list, Item * pos, Person * data)
 }
 
 
-int list_rem_next (List * list, Item * pos, Person ** data)
+int list_rem (List * list, Item * pos)
 {
-  printf ("Please implement list_rem_next.\n");
-  *data = NULL;
+  printf ("Please implement list_rem.\n");
   return -1;
 }
 
 
 void person_print (Person * person)
 {
-  printf ("%s is %u year%s old\n",
+  printf ("  %-15s is %2u year%-1s old\n",
 	  person->name,
 	  person->age,
 	  person->age > 1 ? "s" : "");
@@ -110,7 +109,7 @@ void list_dump (List * list)
   Item * item;
   
   if (NULL == list->head) {
-    printf ("[empty]\n");
+    printf ("  [empty]\n");
     return;
   }
   
@@ -119,41 +118,61 @@ void list_dump (List * list)
 }
 
 
-int main (int argc, char ** argv)
+int populate (List * list)
 {
-  Person inittab[] = {
+  static Person const population[] = {
     { "Alice Doe",   28 },
     { "Bob Doe",     31 },
     { "Charlie Doe",  1 },
+    { "Doris Doe",    5 },
+    { "Arnold Fox",  42 },
+    { "Barbara Fox", 43 },
+    { "Cindy Fox",   19 },
+    { "Daniel Fox",  17 },
+    { "Eric Fox",    15 },
     { NULL,           0 }};
+  Person const * ip;
   
-  List list;
-  Person * ip;
-  char * msg;
-  
-  list_init (&list);
-  printf ("initialized: ");
-  list_dump (&list);
-  
-  msg = NULL;
-  for (ip = inittab; NULL != ip->name; ++ip) {
+  for (ip = population; NULL != ip->name; ++ip) {
     Person * pp = person_create (ip->name, ip->age);
     if (NULL == pp) {
-      msg = "failed to create person";
-      break;
+      printf ("failed to create %s\n", ip->name);
+      return -1;
     }
-    if (0 != list_ins_next (&list, list.tail, pp)) {
-      msg = "failed to insert next item";
-      break;
+    if (0 != list_ins_next (list, list->tail, pp)) {
+      printf ("failed to insert %s\n", ip->name);
+      return -2;
     }
   }
   
-  if (NULL != msg) {
-    printf ("ERROR: %s\n", msg);
+  return 0;
+}
+
+
+int main (int argc, char ** argv)
+{
+  List list;
+  Item * it;
+  
+  list_init (&list);
+  
+  if (0 != populate (&list)) {
     list_destroy (&list);
     return 1;
   }
   
+  printf ("population:\n");
+  list_dump (&list);
+  
+  for (it = list.head; it != NULL; it = it->next)
+    if ((18 > it->data->age)
+	&& (0 != list_rem (&list, it))) {
+      printf ("failed to remove %s\n", it->data->name);
+      list_destroy (&list);
+      return 1;
+    }
+  
+  printf ("\npersons allowed to vote:\n");
   list_dump (&list);
   
   list_destroy (&list);
