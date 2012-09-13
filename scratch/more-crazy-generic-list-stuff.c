@@ -102,12 +102,66 @@ int list_rem_next (List * list, Item * pos)
 }
 
 
+typedef void (*list_apply_fct_t)(void*);
+
+void list_apply (List * list, void (*fct)(void*))
+{
+  Item * item;
+  for (item = list->head; NULL != item; item = item->next)
+    fct (item->data);
+}
+
+
+void int_print (int * number)
+{
+  printf ("  %d\n", *number);
+}
+
+
+void str_print (char ** string)
+{
+  printf ("  %s\n", *string);
+}
+
+
+int list_remove_if (List * list,
+		    int (*condition)(void*, void*),
+		    void * condarg)
+{
+  Item * it;
+  while ((NULL != list->head) && condition (list->head->data, condarg))
+    if (0 != list_rem_next (list, NULL))
+      return -1;
+  for (it = list->head; NULL != it->next; /* nop */)
+    if (condition (it->next->data, condarg)) {
+      if (0 != list_rem_next (list, it))
+	return -2;
+    }
+    else {
+      it = it->next;
+    }
+  return 0;
+}
+
+
+int int_less_than (int * lhs, int * rhs)
+{
+  return (*lhs) < (*rhs) ? 1 : 0;
+}
+
+
+int str_starts_with (char ** str, char * letter)
+{
+  return **str == *letter ? 1 : 0;
+}
+
+
 int main (int argc, char ** argv)
 {
   int intarr[] = { 2, 3, 5, 7, 11, 13, 17, 19, 23, 29 };
   int ii;
+  char aa;
   List list;
-  Item *item;
   
   /*
    * Let's store some integers in our generic list. We'll set the
@@ -119,50 +173,44 @@ int main (int argc, char ** argv)
   
   list_init (&list, NULL);
   for (ii = 0; ii < sizeof(intarr)/sizeof(*intarr); ++ii)
-    if (0 != list_ins_next (&list, list.tail, intarr + ii)) {
+    if (0 != list_ins_next (&list, list.head, intarr + ii)) {
       printf ("failed to insert %d into list of integers\n", intarr[ii]);
       list_destroy (&list);
       return 1;
     }
-  
   printf ("list of integers after initialization:\n");
-  for (item = list.head; NULL != item; item = item->next)
-    printf ("  %d", *(int*)item->data);
-  printf ("\n");
+  list_apply (&list, int_print);
   
   /*
-    Let's remove items 3 items starting after the first one...
+    Let's remove some items based on the generic list_remove_if algorithm.
   */
   
-  item = list.head;
-  for (ii = 0; ii < 3; ++ii) {
-    if (0 != list_rem_next (&list, item)) {
-      printf ("list_rem_next failed on list of integers\n");
-      list_destroy (&list);
-      return 1;
-    }
+  ii = 10;
+  if (0 != list_remove_if (&list, int_less_than, &ii)) {
+    printf ("list_remove_if failed on list of integers\n");
+    list_destroy (&list);
+    return 1;
   }
-  
-  printf ("list of integers after removing some:\n");
-  for (item = list.head; NULL != item; item = item->next)
-    printf ("  %d", *(int*)item->data);
-  printf ("\n");
+  printf ("list of integers after removing those that are smaller than 10:\n");
+  list_apply (&list, int_print);
   
   /*
-    We're done with the list of integers, clear its contents so that
-    we can reuse it for other things...
+    We're done with the list of ints, make sure we give back all
+    memory and clear its contents so that we can reuse it for other
+    things...
   */
   
   list_destroy (&list);
   
   /*
    * Now, let's store a list of strings, reusing THE SAME generic list
-   * instance. Notice that now we set the free_data function to the
-   * standard free function, because we will place duplicates of our
-   * program arguments into the list. We'll also insert at the head,
-   * so that this ends up reversing the order of our arguments.
+   * instance. Notice that we properly destroy it first, to make sure
+   * we do not mix integers with character-arrays. Also notice that
+   * now we set the free_data function to the standard free function,
+   * because we will place duplicates of our program arguments into
+   * the list.
    */
-  
+
   list_init (&list, free);
   for (ii = 1; ii < argc; ++ii) {
     char * str = strdup (argv[ii]);
@@ -171,7 +219,7 @@ int main (int argc, char ** argv)
       list_destroy (&list);
       return 1;
     }
-    if (0 != list_ins_next (&list, NULL, str)) {
+    if (0 != list_ins_next (&list, list.head, str)) {
       printf ("failed to insert %s into list of strings\n", str);
       free (str);
       list_destroy (&list);
@@ -179,17 +227,21 @@ int main (int argc, char ** argv)
     }
   }
   
-  printf ("list of strings:\n");
-  for (item = list.head; NULL != item; item = item->next)
-    printf ("  %s\n", (char*)item->data);
+  printf ("list of strings after initialization:\n");
+  list_apply (&list, str_print);
   
   /*
-    Again, clear the contents. This time, list_destroy will end up
-    calling free on each of the strings we duplicated above, because
-    we passed free as the free_data argument in list_init.
+    Let's remove all items that start with the letter 'a'.
   */
+  aa = 'a';
+  if (0 != list_remove_if (&list, str_starts_with, &aa)) {
+    printf ("list_remove_if failed on list of strings\n");
+    list_destroy (&list);
+    return 1;
+  }
+  printf ("list of strings after removing those that start with 'a':\n");
+  list_apply (&list, str_print);
   
   list_destroy (&list);
-  
   return 0;
 }
