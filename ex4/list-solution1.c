@@ -40,6 +40,15 @@ void person_destroy (Person * person)
 }
 
 
+void person_print (Person * person)
+{
+  printf ("  %-15s is %2u year%-1s old\n",
+	  person->name,
+	  person->age,
+	  person->age > 1 ? "s" : "");
+}
+
+
 void list_init (List * list)
 {
   list->size = 0;
@@ -117,15 +126,6 @@ int list_rem_next (List * list, Item * pos)
   
   --(list->size);
   return 0;
-}
-
-
-void person_print (Person * person)
-{
-  printf ("  %-15s is %2u year%-1s old\n",
-	  person->name,
-	  person->age,
-	  person->age > 1 ? "s" : "");
 }
 
 
