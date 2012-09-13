@@ -40,9 +40,9 @@ int main (int argc, char ** argv)
 	      which means: take the value stored at an address
 	      in this case, due to the cast, it knows the value is an int
 	      
-	    Notice that "(int)*ptr1" would not have work, because
-	    *ptr1 has type void, which can never be used (it
-	    essentially means "nothing").
+	    Notice that "(int)*ptr1" would not work, because *ptr1 has
+	    type void, which can never be used (it essentially means
+	    "nothing").
 	  */
 	  * (int*) ptr1);
   

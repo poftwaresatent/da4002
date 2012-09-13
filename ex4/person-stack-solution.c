@@ -209,8 +209,10 @@ int main (int argc, char ** argv)
   stack_push (&stack, person_create ("Richard The Third", 2012 - 1452));
   stack_push (&stack, person_create ("Richard The First", 2012 - 1157));
   
-  while (NULL != (person = stack_pop (&stack)))
+  while (NULL != (person = stack_pop (&stack))) {
     person_print (person);
+    person_destroy (person);
+  }
   
   list_destroy (&stack);
   return 0;
