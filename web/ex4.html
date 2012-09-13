@@ -1,0 +1,20 @@
+idea:
+0. follow names used in [Loudon]
+1. linked list with pointer to struct values
+   ./ - give them most functions but let them write list_rem_next()
+   xx - ownership and memory management: let them check with valgrind?
+   xx - optional: maybe create a situation where a freed pointer gets dereferenced later?
+   xx - optional: have them fill-in more functions
+2. make it generic
+   - warm-up exercise about void* and pointer casts
+     ./ . first just builtin types, e.g. with arithmetic
+     ./ . then a short example (with structs and) passing pointers into functions
+   - have them adapt the linked list to it
+     guided by a main() which maintains two lists, one of int and one of char*
+     needs to separate list_dump() functions (for now)
+   - warm-up exercise about function pointers
+     . apply a function to each value in an array
+     . store a function pointer in a struct along with some value
+   - make a generic list_visit() which calls a function for each item->data
+   - set a custom item destructor (i.e. person_destroy) in the list
+     constructor
