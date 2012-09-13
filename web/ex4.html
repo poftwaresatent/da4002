@@ -1,3 +1,167 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-gb" lang="en-gb">
+<head>
+  <meta http-equiv="content-type" content="text/html">
+  <title>itads 2012 / exercise 3</title>
+  <link rel="stylesheet" href="style.css" type="text/css">
+</head>
+
+<body>
+
+<h1>ITADS 2012 exercise 4<br/>lists, stacks, queues</h1>
+
+
+
+<h2>exercise 4.1: singly-linked lists</h2>
+
+<p>
+The source file <a href="itads2012/ex4/person-list.c">person-list.c</a> is a partial implementation of a singly-linked list that stores information about persons.
+A person is represented using the <tt>Person</tt> struct.
+The list item type, which contains a pointer to a person and a pointer to the next item, are defined in the <tt>Item</tt> struct.
+The list itself is defined in the <tt>List</tt> struct, which maintains a pointer to the first and last items (called <tt>head</tt> and <tt>tail</tt>) as well as a counter called <tt>size</tt> for keeping track of the number of items in the list.
+</p>
+
+<p>
+Several functions are provided in the pertial implementation:
+</p>
+
+<dl>
+  <dt>
+    <tt>person_create</tt>
+  </dt>
+  <dd>
+    takes a string and an integer, allocates memory for a new person, duplicates the string, and returns the freshly allocated <tt>Person</tt>.
+    In case of error, it returns <tt>NULL</tt>
+  </dd>
+  <dt>
+    <tt>person_destroy</tt>
+  </dt>
+  <dd>
+    takes a pointer to a person, and frees the memory used by it.
+    Notice that it has to free two separate memory regions: the one taken up by the name, and the one taken up by the <tt>Person</tt> struct itself.
+  </dd>
+  <dt>
+    <tt>person_print</tt>
+  </dt>
+  <dd>
+    takes a pointer to a person and prints it on a single line to the terminal.
+  </dd>
+  <dt>
+    <tt>list_init</tt>
+  </dt>
+  <dd>
+    takes a pointer to a list and initializes it.
+    This is necessary before using the list to store items.
+  </dd>
+  <dt>
+    <tt>list_destroy</tt>
+  </dt>
+  <dd>
+    takes a pointer to a list, frees all the memory allocated by its items, and re-initializes it.
+    Notice that it uses the <tt>person_destroy</tt> function to make sure all that memory gets properly freed, and calls <tt>free</tt> on the items after that.
+  </dd>
+  <dt>
+    <tt>list_ins_next</tt>
+  </dt>
+  <dd>
+    inserts a new item into a list, such that the new item will come after the specified position.
+    Takes a list pointer, an item pointer (which is the position after which the insertion should happen), and a pointer to a person.
+    As a special case, when you pass <tt>pos=NULL</tt> to this function, then the new item will be inserted at the head of the list.
+    The <tt>list_ins_next</tt> function allocates memory for the new item, but does not duplicate the given person.
+    It returns zero on success.
+  </dd>
+  <dt>
+    <tt>list_rem_next</tt>
+  </dt>
+  <dd>
+    is just a placeholder to be filled in by you (see the first task of this exercise).
+    It is responsible for removing the item that comes after the given position.
+    Notice that it has to properly free all the memory used by the removed item.
+    As a special case, when you pass <tt>pos=NULL</tt>, the head of the list should be removed.
+    This function also should return zero on success.
+  </dd>
+  <dt>
+    <tt>list_dump</tt>
+  </dt>
+  <dd>
+    is a utility function that iterates over all items of the list and calls <tt>person_print</tt> on the data stored in each of them.
+  </dd>
+  <dt>
+    <tt>populate</tt>
+  </dt>
+  <dd>
+    is a utility function which inserts some example persons into a list.
+  </dd>
+  <dt>
+    <tt>main</tt>
+  </dt>
+  <dd>
+    populates a list with some example people, prints the list, then removes everyone who is younger than 18, and prints the resulting shorter list.
+    This is meant as a test for the first task, which is to implement <tt>list_rem_next</tt>
+  </dd>
+</dl>
+
+<p>
+Based on this program and the description of the functions, perform the following tasks:
+</p>
+
+<ol>
+  <li>
+    Implement <tt>list_rem_next</tt>.
+    Check your implementation by compiling and running <tt>person-list</tt>.
+    At the end, your output should look like this:
+    <pre class="command">
+population:
+  Alice Doe       is 28 years old
+  Bob Doe         is 31 years old
+  Charlie Doe     is  1 year  old
+  Doris Doe       is  5 years old
+  Arnold Fox      is 42 years old
+  Barbara Fox     is 43 years old
+  Cindy Fox       is 19 years old
+  Daniel Fox      is 17 years old
+  Eric Fox        is 15 years old
+
+removing Charlie Doe
+removing Doris Doe
+removing Daniel Fox
+removing Eric Fox
+
+persons allowed to vote:
+  Alice Doe       is 28 years old
+  Bob Doe         is 31 years old
+  Arnold Fox      is 42 years old
+  Barbara Fox     is 43 years old
+  Cindy Fox       is 19 years old</pre>
+  </li>
+  <li>
+    Implement a stack by using the list implementation you just completed.
+    It should have the following interface:
+    <dl>
+      <dt>
+	<tt>stack_push</tt>
+      </dt>
+      <dd>
+	takes a stack and a person as argument, places the person on the top of the stack, and returns zero on success.
+      </dd>
+      <dt>
+	<tt>stack_pop</tt>
+      </dt>
+      <dd>
+	takes a stack as argument, removes the topmost element, and returns the person stored there.
+	In case <tt>stack_pop</tt> is called on an empty stack, it should return <tt>NULL</tt>.
+	Take care to free the memory used by the item, <b>but not</b> the memory used by the person.
+      </dd>
+    </dl>
+    test your implementation by replacing the <tt>main</tt> function with the following:
+    
+    Hint: this task is really very quick, you just have to call the appropriate list operations in the correct order and pass them the approriate arguments.
+    
+
+    </dl>
+  </li>
+</ol>
+
 idea:
 0. follow names used in [Loudon]
 1. linked list with pointer to struct values
@@ -21,3 +185,6 @@ idea:
      needs to separate list_dump() functions (for now)
    - set a custom item destructor (i.e. person_destroy) in the list
      constructor
+
+</body>
+</html>

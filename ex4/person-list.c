@@ -97,10 +97,10 @@ int list_ins_next (List * list, Item * pos, Person * data)
 }
 
 
-int list_rem (List * list, Item * pos)
+int list_rem_next (List * list, Item * pos)
 {
-  printf ("Please implement list_rem.\n");
-  return -1;
+  printf ("Please implement list_rem_next!\n");
+  return -123;
 }
 
 
@@ -164,13 +164,28 @@ int main (int argc, char ** argv)
   printf ("population:\n");
   list_dump (&list);
   
-  for (it = list.head; it != NULL; it = it->next)
-    if ((18 > it->data->age)
-	&& (0 != list_rem (&list, it))) {
-      printf ("failed to remove %s\n", it->data->name);
+  printf ("\n");
+  while ((NULL != list.head) && (18 > list.head->data->age )) {
+    printf ("removing %s from head\n", list.head->data->name);
+    if (0 != list_rem_next (&list, NULL)) {
+      printf ("failed to remove head %s\n", list.head->data->name);
       list_destroy (&list);
       return 1;
     }
+  }
+  for (it = list.head; NULL != it->next; /* nop */) {
+    if (18 > it->next->data->age) {
+      printf ("removing %s\n", it->next->data->name);
+      if (0 != list_rem_next (&list, it)) {
+	printf ("failed to remove %s\n", it->next->data->name);
+	list_destroy (&list);
+	return 1;
+      }
+    }
+    else {
+      it = it->next;
+    }
+  }
   
   printf ("\npersons allowed to vote:\n");
   list_dump (&list);
