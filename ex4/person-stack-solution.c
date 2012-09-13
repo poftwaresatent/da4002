@@ -198,29 +198,20 @@ Person * stack_pop (List * list)
 int main (int argc, char ** argv)
 {
   List stack;
-  Person *p1, *p2;
+  Person *person;
   
+  /*
+    Quick'n'dirty code without error checking, please don't get in the
+    habit of doing this...
+  */
   list_init (&stack);
-  if (NULL == (p1 = person_create ("Richard Feynman", 2012 - 1918)))
-    goto fail1;
-  if (NULL == (p2 = person_create ("Richard The Third", 2012 - 1452)))
-    goto fail2;  
-  if (0 != stack_push (&stack, p1))
-    goto fail3;
-  if (0 != stack_push (&stack, p2))
-    goto fail3;
+  stack_push (&stack, person_create ("Richard Feynman", 2012 - 1918));
+  stack_push (&stack, person_create ("Richard The Third", 2012 - 1452));
+  stack_push (&stack, person_create ("Richard The First", 2012 - 1157));
   
-  while (NULL != (p1 = stack_pop (&stack)))
-    person_print (p1);
+  while (NULL != (person = stack_pop (&stack)))
+    person_print (person);
   
   list_destroy (&stack);
   return 0;
-  
- fail3:
-  person_destroy (p2);
- fail2:
-  person_destroy (p1);
- fail1:
-  list_destroy (&stack);
-  return 1;
 }
