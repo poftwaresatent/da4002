@@ -133,69 +133,10 @@ int main (int argc, char ** argv)
       return 1;
     }
   
-  printf ("list of integers after initialization:\n");
+  printf ("list of integers:\n");
   for (item = list.head; NULL != item; item = item->next)
     printf ("  %d", *(int*)item->data);
   printf ("\n");
-  
-  /*
-    Let's remove items 3 items starting after the first one...
-  */
-  
-  item = list.head;
-  for (ii = 0; ii < 3; ++ii) {
-    if (0 != list_rem_next (&list, item, NULL)) {
-      printf ("list_rem_next failed on list of integers\n");
-      list_destroy (&list);
-      return 1;
-    }
-  }
-  
-  printf ("list of integers after removing some:\n");
-  for (item = list.head; NULL != item; item = item->next)
-    printf ("  %d", *(int*)item->data);
-  printf ("\n");
-  
-  /*
-    We're done with the list of integers, clear its contents so that
-    we can reuse it for other things...
-  */
-  
-  list_destroy (&list);
-  
-  /*
-   * Now, let's store a list of strings, reusing THE SAME generic list
-   * instance. Notice that now we set the free_data function to the
-   * standard free function, because we will place duplicates of our
-   * program arguments into the list. We'll also insert at the head,
-   * so that this ends up reversing the order of our arguments.
-   */
-  
-  list_init (&list, free);
-  for (ii = 1; ii < argc; ++ii) {
-    char * str = strdup (argv[ii]);
-    if (NULL == str) {
-      printf ("failed to duplicate argument %s\n", argv[ii]);
-      list_destroy (&list);
-      return 1;
-    }
-    if (0 != list_ins_next (&list, NULL, str)) {
-      printf ("failed to insert %s into list of strings\n", str);
-      free (str);
-      list_destroy (&list);
-      return 1;
-    }
-  }
-  
-  printf ("list of strings:\n");
-  for (item = list.head; NULL != item; item = item->next)
-    printf ("  %s\n", (char*)item->data);
-  
-  /*
-    Again, clear the contents. This time, list_destroy will end up
-    calling free on each of the strings we duplicated above, because
-    we passed free as the free_data argument in list_init.
-  */
   
   list_destroy (&list);
   

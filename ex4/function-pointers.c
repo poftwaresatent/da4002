@@ -65,7 +65,7 @@ void apply_fct (double * arr, int len, void (*fct)(double*))
 
 
 /*
- * A variation of the apply_fct used for exercise 4.2.3
+ * A variation of the apply_fct used for exercise 4.2.4
  */
 void apply_fct2 (double * arr, int len, void (*fct)(double*, double*))
 {
