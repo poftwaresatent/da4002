@@ -180,47 +180,47 @@ int populate (List * list)
 }
 
 
+int stack_push (List * list, Person * person)
+{
+  return list_ins_next (list, NULL, person);
+}
+
+
+Person * stack_pop (List * list)
+{
+  Person * person;
+  if (0 != list_rem_next (list, NULL, &person))
+    return NULL;
+  return person;
+}
+
+
 int main (int argc, char ** argv)
 {
-  List list;
-  Item * it;
+  List stack;
+  Person *p1, *p2;
   
-  list_init (&list);
+  list_init (&stack);
+  if (NULL == (p1 = person_create ("Richard Feynman", 2012 - 1918)))
+    goto fail1;
+  if (NULL == (p2 = person_create ("Richard The Third", 2012 - 1452)))
+    goto fail2;  
+  if (0 != stack_push (&stack, p1))
+    goto fail3;
+  if (0 != stack_push (&stack, p2))
+    goto fail3;
   
-  if (0 != populate (&list)) {
-    list_destroy (&list);
-    return 1;
-  }
+  while (NULL != (p1 = stack_pop (&stack)))
+    person_print (p1);
   
-  printf ("population:\n");
-  list_dump (&list);
-  
-  printf ("\n");
-  while ((NULL != list.head) && (18 > list.head->data->age )) {
-    printf ("removing %s from head\n", list.head->data->name);
-    if (0 != list_rem_next (&list, NULL, NULL)) {
-      printf ("failed to remove head %s\n", list.head->data->name);
-      list_destroy (&list);
-      return 1;
-    }
-  }
-  for (it = list.head; NULL != it->next; /* nop */) {
-    if (18 > it->next->data->age) {
-      printf ("removing %s\n", it->next->data->name);
-      if (0 != list_rem_next (&list, it, NULL)) {
-	printf ("failed to remove %s\n", it->next->data->name);
-	list_destroy (&list);
-	return 1;
-      }
-    }
-    else {
-      it = it->next;
-    }
-  }
-  
-  printf ("\npersons allowed to vote:\n");
-  list_dump (&list);
-  
-  list_destroy (&list);
+  list_destroy (&stack);
   return 0;
+  
+ fail3:
+  person_destroy (p2);
+ fail2:
+  person_destroy (p1);
+ fail1:
+  list_destroy (&stack);
+  return 1;
 }

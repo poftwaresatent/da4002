@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-gb" lang="en-gb">
 <head>
   <meta http-equiv="content-type" content="text/html">
-  <title>itads 2012 / exercise 3</title>
+  <title>itads 2012 / exercise 4</title>
   <link rel="stylesheet" href="style.css" type="text/css">
 </head>
 
@@ -135,40 +135,137 @@ persons allowed to vote:
   Cindy Fox       is 19 years old</pre>
   </li>
   <li>
-    Implement a stack by using the list implementation you just completed.
-    It should have the following interface:
-    <dl>
-      <dt>
-	<tt>stack_push</tt>
-      </dt>
-      <dd>
-	takes a stack and a person as argument, places the person on the top of the stack, and returns zero on success.
-      </dd>
-      <dt>
-	<tt>stack_pop</tt>
-      </dt>
-      <dd>
-	takes a stack as argument, removes the topmost element, and returns the person stored there.
-	In case <tt>stack_pop</tt> is called on an empty stack, it should return <tt>NULL</tt>.
-	Take care to free the memory used by the item, <b>but not</b> the memory used by the person.
-      </dd>
-    </dl>
-    test your implementation by replacing the <tt>main</tt> function with the following:
-    
-    Hint: this task is really very quick, you just have to call the appropriate list operations in the correct order and pass them the approriate arguments.
-    
-
-    </dl>
+    Modify <tt>list_rem_next</tt> such that it can return the person that was stored in the removed element via a third argument.
+    This third argument is a pointer to a person-pointer, so the new function signature should look exactly like this:
+    <pre class="sourcecode">
+int list_rem_next (List * list, Item * pos, Person ** data)</pre>
+    As a special case, when <tt>data=NULL</tt>, the memory where the person data is stored in the item should be freed, as before.
+	But when <tt>data</tt> points to a person-pointer, the person data stored in the item should be placed there.
+	Notice that this interface change will require you to adapt the code in <tt>main</tt> as well, but your change should not modify the behavior of the program.
   </li>
 </ol>
 
-idea:
-0. follow names used in [Loudon]
-1. linked list with pointer to struct values
-   ./ - give them most functions but let them write list_rem_next()
-   xx - ownership and memory management: let them check with valgrind?
-   xx - optional: maybe create a situation where a freed pointer gets dereferenced later?
-   xx - optional: have them fill-in more functions
+
+
+<h2>exercise 4.2: a list-based stack</h2>
+
+<p>
+Implement a stack by using the list implementation you just completed, with the extended <tt>list_rem_next</tt> function.
+The stack should have the following interface:
+</p>
+
+<dl>
+  <dt>
+    <tt>stack_push</tt>
+  </dt>
+  <dd>
+    takes a stack and a person as argument, places the person on the top of the stack, and returns zero on success.
+  </dd>
+  <dt>
+    <tt>stack_pop</tt>
+  </dt>
+  <dd>
+    takes a stack as argument, removes the topmost element, and returns the person stored there.
+    In case <tt>stack_pop</tt> is called on an empty stack, it should return <tt>NULL</tt>.
+    Take care to free the memory used by the item, <b>but not</b> the memory used by the person.
+  </dd>
+</dl>
+
+<p>
+<em><u>Hint</u>: this task is really very quick.
+You "just" have to call the appropriate list operations in the correct order and pass them the approriate arguments.
+The body of <tt>stack_push</tt> can be done in a single line of code, and <tt>stack_pop</tt> can be done in 4 lines.</em>
+</p>
+
+<p>
+Test your implementation by replacing the <tt>main</tt> function with the following:
+</p>
+
+<pre class="sourcecode">
+int main (int argc, char ** argv)
+{
+  List stack;
+  Person *p1, *p2;
+  
+  list_init (&stack);
+  if (NULL == (p1 = person_create ("Richard Feynman", 2012 - 1918)))
+    goto fail1;
+  if (NULL == (p2 = person_create ("Richard The Third", 2012 - 1452)))
+    goto fail2;  
+  if (0 != stack_push (&stack, p1))
+    goto fail3;
+  if (0 != stack_push (&stack, p2))
+    goto fail3;
+  
+  while (NULL != (p1 = stack_pop (&stack)))
+    person_print (p1);
+  
+  list_destroy (&stack);
+  return 0;
+  
+ fail3:
+  person_destroy (p2);
+ fail2:
+  person_destroy (p1);
+ fail1:
+  list_destroy (&stack);
+  return 1;
+}</pre>
+
+<p>
+When running this program, you should see the following output:
+</p>
+
+<pre class="command">
+  Richard The Third is 560 years old
+  Richard Feynman is 94 years old</pre>
+
+<p>
+Notice that the two are printed in the opposite order from their assigment.
+</p>
+
+
+<h2>exercise 4.3: <tt>void*</tt>, pointer casts, and function pointers</h2>
+
+
+<ol>
+  <li>
+    Download <a href="itads2012/ex4/pointer-casts-explicit.c">pointer-casts-explicit.c</a> and study the heavily documented code.
+    Then compile and run it, and use the program output to make sure you understand the explanations about generic pointers that are given in the code.
+  </li>
+  <li>
+    Do the same with <a href="itads2012/ex4/pointer-casts-implicit.c">pointer-casts-implicit.c</a>.
+  </li>
+  <li>
+    Download <a href="itads2012/ex4/function-pointers.c">function-pointers.c</a> and study the heavily documented code.
+    Then compile and run it, and use the program output to make sure you understand the explanations about generic pointers that are given in the code.
+  </li>
+  <li>
+    Add a function "<tt>product</tt>" to the <tt>function-pointers.c</tt> program.
+    The <tt>product</tt> function should take <b>two</b> pointers to double, compute the product of the values they point to, and store the result in the first of the two.
+    Then, at the end of <tt>main</tt>, call the "<tt>apply_fct2</tt>" in order to apply the <tt>product</tt> function to the array.
+    Print the resulting array, the result should look like this:
+    <pre class="command">
+after the product function:
+  144.000000
+  36.000000
+  4.000000
+  0.000000
+  0.000000
+  4.000000
+  36.000000
+  144.000000
+  400.000000
+  25.000000</pre>
+  </li>
+</ol>
+
+
+
+<h2>exercise 4.4: a generic doubly-linked list</h2>
+
+
+
 2. make it generic
    - warm-up exercise about void* and pointer casts
      ./ . first just builtin types, e.g. with arithmetic

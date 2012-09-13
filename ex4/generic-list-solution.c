@@ -68,7 +68,7 @@ int list_ins_next (List * list, Item * pos, void * data)
 }
 
 
-int list_rem_next (List * list, Item * pos)
+int list_rem_next (List * list, Item * pos, void ** data)
 {
   Item * tmp;
   if (0 == list->size)
@@ -76,8 +76,12 @@ int list_rem_next (List * list, Item * pos)
   
   if (NULL == pos) {
     /* remove the head */
-    if (NULL != list->free_data)
-      list->free_data (list->head->data);
+    if (NULL == data) {
+      if (NULL != list->free_data)
+	list->free_data (list->head->data);
+    }
+    else
+      *data = list->head->data;
     tmp = list->head->next;
     free (list->head);
     list->head = tmp;
@@ -90,8 +94,12 @@ int list_rem_next (List * list, Item * pos)
     if (NULL == tmp)
       return -2;
     pos->next = tmp->next;
-    if (NULL != list->free_data)
-      list->free_data (tmp->data);
+    if (NULL == data) {
+      if (NULL != list->free_data)
+	list->free_data (tmp->data);
+    }
+    else
+      *data = tmp->data;
     free (tmp);
     if (NULL == pos->next)
       list->tail = pos;
@@ -136,7 +144,7 @@ int main (int argc, char ** argv)
   
   item = list.head;
   for (ii = 0; ii < 3; ++ii) {
-    if (0 != list_rem_next (&list, item)) {
+    if (0 != list_rem_next (&list, item, NULL)) {
       printf ("list_rem_next failed on list of integers\n");
       list_destroy (&list);
       return 1;

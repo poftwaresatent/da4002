@@ -21,6 +21,12 @@ void square (double * value)
 }
 
 
+void product (double *lhs, double *rhs)
+{
+  *lhs = *lhs * *rhs;
+}
+
+
 /*
  * A function that looks weird at first, but does something quite
  * powerful: it receives an array of doubles, and applies a function
@@ -64,9 +70,6 @@ void apply_fct (double * arr, int len, void (*fct)(double*))
 }
 
 
-/*
- * A variation of the apply_fct used for exercise 4.2.3
- */
 void apply_fct2 (double * arr, int len, void (*fct)(double*, double*))
 {
   double * next = arr + 1;
@@ -110,6 +113,10 @@ int main (int argc, char ** argv)
   printf ("\napplying the print function, using an explicit pointer variable:\n");
   fct = print;
   apply_fct (num, 10, fct);
+  
+  apply_fct2 (num, 10, product);
+  printf ("\nafter the product function:\n");  
+  apply_fct (num, 10, print);
   
   return 0;
 }

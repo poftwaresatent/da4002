@@ -39,20 +39,20 @@ int main (int argc, char ** argv)
 	  /*
 	    IMPORTANT to notice: there is no need to say (int*)ptr1
 	  */
-	  sum_of_int(ptr1, ptr2));
+	  sum_of_int (ptr1, ptr2));
   
   ptr1 = &xx;
   ptr2 = &yy;
   printf ("sum_of_int using incorrect pointers:    %d\n",
-	  sum_of_int(ptr1, ptr2));
+	  sum_of_int (ptr1, ptr2));
   
   printf ("sum_of_double using correct pointers:   %f\n",
-	  sum_of_double(ptr1, ptr2));
+	  sum_of_double (ptr1, ptr2));
   
   ptr1 = &aa;
   ptr2 = &bb;
   printf ("sum_of_double using incorrect pointers: %f\n",
-	  sum_of_double(ptr1, ptr2));
+	  sum_of_double (ptr1, ptr2));
   
   return 0;
 }
