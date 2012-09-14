@@ -30,10 +30,26 @@ When you compile and run this program, it simply prints two intervals and their 
 
   </li>  <li>
     None of the functions currently verify that <tt>low &lt;= high</tt> but this is a fundamental property required of intervals.
-    Write a <tt>normalize</tt> function which takes an interval and, if necessary, modifies it in-place such that it respects that property.<br/>
-    <em><u>Hint</u>: you will need to pass a pointer to the <tt>normalize</tt> function.</em><br/>
+    Write a <tt>normalize</tt> function which takes an interval and, if necessary, modifies it in-place such that it respects that property.
+    This means that you have to add the following function definition to your source file (place it after the <tt>create</tt> function):
+    <pre class="sourcecode">
+void normalize (Interval * ii)
+{
+  /* function body to be filled in by you.
+      1. check if ii->low is bigger than ii->high
+      2. if that is true, then swap ii->low with ii->high
+          HINT: you need a temporary variable */
+}</pre>
 
+    Notice that we <b>pass a pointer</b> to the <tt>normalize</tt> function.
+    That function should swap <tt>ii->low</tt> with <tt>ii->high</tt> if they are in the wrong order.<br/>
     Check your implementation by changing the initialization of <tt>aa</tt> to "<tt>aa = create(3,&nbsp;2)</tt>" and then immediately normalizing it.
+    In other words, the creation and normalization of <tt>aa</tt> will take two lines in the <tt>main</tt> function, like this:
+
+<pre class="sourcecode">
+  aa = create (3, 2);
+  normalize ( /* the address of aa */ );</pre>
+    <b>In the above, you have to eplace "<tt>/* the address of aa */</tt>" with the C language construct that actually gets the address of <tt>aa</tt></b>.
   </li>
   <li>
     Change the initialization of <tt>bb</tt> to "<tt>bb = create(50,&nbsp;-10)</tt>" <em>but do <b>not</b> call <tt>normalize</tt> on it</em>.
@@ -41,12 +57,20 @@ When you compile and run this program, it simply prints two intervals and their 
   </li>
 
   <li>
-    Now make the <tt>add</tt> function robust to non-normalized inputs, by adding two calls to <tt>normalize</tt> as the first two lines in its implementation.
+    Now make the <tt>add</tt> function robust to non-normalized inputs, by adding two calls to <tt>normalize</tt> as the first two lines in its implementation, like this:
+    <pre class="sourcecode">
+Interval add (Interval lhs, Interval rhs)
+{
+  normalize (&lhs);
+  normalize (&rhs);
+  /* ... the rest of the add function remains the same */
+}</pre>
     Verify that you get the correct answer again.
     However, as can be seen by the program output, <tt>bb</tt> will remain non-normalized.
   </li>
-  <li>
 
+  <li>
+    <em>Optional (advanced):</em><br/>
     Modify the <tt>add</tt> function so that the effects of normalization remain after it has returned.
     But make sure that your improved <tt>add</tt> function has no adverse side effects, such as changing the value of an outside variable (apart from the desired normalization)!<br/>
 
@@ -57,6 +81,8 @@ When you compile and run this program, it simply prints two intervals and their 
 
 </ol>
 
+<h3>solution 3.1: <a href="/r/itads2012/ex3/EYeek3oW/interval-solution.c">interval-solution.c</a></h3>
+
 
 
 <h2>exercise 3.2: vectors</h2>
@@ -65,6 +91,7 @@ When you compile and run this program, it simply prints two intervals and their 
 The source file <a href="/r/itads2012/ex3/vector.c"><tt>vector.c</tt></a> is a partial implementation of a dynamic array.
 It closely follows the example presented in lecture 2 (<a href="/r/itads2012/slides/02-vectors-and-lists-print.pdf">handout</a>).
 There are several functions that still need to be filled in, but the source already provides an application that is ready to run.
+
 </p>
 
 <ol>
@@ -101,6 +128,8 @@ There are several functions that still need to be filled in, but the source alre
 
 </ol>
 
+<h3>solution 3.2: <a href="/r/itads2012/ex3/EYeek3oW/vector-solution.c">vector-solution.c</a></h3>
+
 
 
 <h2>exercise 3.3: a vector-based stack</h2>
@@ -109,6 +138,7 @@ There are several functions that still need to be filled in, but the source alre
 The source file <a href="/r/itads2012/ex3/stack.c"><tt>stack.c</tt></a> is a partial implementation of a program that prints the lines of a given file in reverse order.
 The idea is simple: push all the lines onto a stack, then pop and print until the stack is empty.
 Three of the required stack operations have not been implemented yet, but the source code contains instructions and hints.
+
 </p>
 
 <ol>
@@ -119,8 +149,8 @@ Three of the required stack operations have not been implemented yet, but the so
   <li>
     Implement the function <tt>stack_push</tt> (line 98).
   </li>
-  <li>
 
+  <li>
     Implement the function <tt>stack_pop</tt> (line 121).
   </li>
 
@@ -132,7 +162,10 @@ Test your implementation by passing a text file, for example the source code its
 
 <pre class="command">
 ./stack stack.c
+
 </pre>
+
+<h3>solution 3.3: <a href="/r/itads2012/ex3/EYeek3oW/stack-solution.c">stack-solution.c</a></h3>
 
 </body>
 </html>
