@@ -17,4 +17,5 @@ int main (int argc, char ** argv)
     printf ("guess = %d   pointer = %p   value = %f\n", guess, ptr, *ptr);
   else
     printf ("it's not at %d...\n", guess);
+  return 0;
 }
