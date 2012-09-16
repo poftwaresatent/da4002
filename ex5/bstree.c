@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <err.h>
 #include <stdlib.h>
+#include <ctype.h>
 
 
 /* ==================================================
@@ -10,8 +11,8 @@
 
 typedef struct bsitem_s {
   void * data;
-  struct bsitem_s * smaller;
-  struct bsitem_s * bigger;
+  struct bsitem_s * left;
+  struct bsitem_s * right;
 } BSItem;
 
 
@@ -29,8 +30,8 @@ void bsitem_delete_rec (BSItem * item, void (*data_delete)(void*))
 {
   if (NULL == item)
     return;
-  bsitem_delete_rec (item->smaller, data_delete);
-  bsitem_delete_rec (item->bigger, data_delete);
+  bsitem_delete_rec (item->left, data_delete);
+  bsitem_delete_rec (item->right, data_delete);
   if (NULL != data_delete)
     data_delete (item->data);
   free (item);
@@ -41,9 +42,9 @@ void bsitem_app_io_rec (BSItem * item, void (*fct)(BSItem*))
 {
   if (NULL == item)
     return;
-  bsitem_app_io_rec (item->smaller, fct);
+  bsitem_app_io_rec (item->left, fct);
   fct (item);
-  bsitem_app_io_rec (item->bigger, fct);
+  bsitem_app_io_rec (item->right, fct);
 }
 
 
@@ -90,9 +91,9 @@ BSItem * bstree_ins_rec (BSTree * tree, BSItem * root, void * data)
   
   cmp = tree->data_cmp(data, root->data);
   if (0 > cmp)			/* it's smaller than our data */
-    root->smaller = bstree_ins_rec (tree, root->smaller, data);
+    root->left = bstree_ins_rec (tree, root->left, data);
   else if (0 < cmp)		/* it's bigger than our data */
-    root->bigger = bstree_ins_rec (tree, root->bigger, data);
+    root->right = bstree_ins_rec (tree, root->right, data);
   else {			/* it's equal to our data */
     if (NULL != tree->data_delete)
       tree->data_delete (root->data);
@@ -119,12 +120,12 @@ BSItem * bstree_rem_rec (BSTree * tree, BSItem * root, void * data)
   cmp = tree->data_cmp(data, root->data);
   if (0 > cmp) {
     /* remove it from the smaller subtree */
-    root->smaller = bstree_rem_rec (tree, root->smaller, data);
+    root->left = bstree_rem_rec (tree, root->left, data);
     return root;
   }
   if (0 < cmp) {
     /* remove it from the bigger subtree */
-    root->bigger = bstree_rem_rec (tree, root->bigger, data);
+    root->right = bstree_rem_rec (tree, root->right, data);
     return root;
   }
   
@@ -137,19 +138,19 @@ BSItem * bstree_rem_rec (BSTree * tree, BSItem * root, void * data)
     tree->data_delete (root->data);
   }
   
-  if (NULL == root->smaller) {
+  if (NULL == root->left) {
     /* easy: there is no smaller subtree, use the "parent
        re-attachment trick" (replace this root with its bigger
        subtree, which may be NULL here by the way) */
     BSItem *tmp;
-    tmp = root->bigger;
+    tmp = root->right;
     free (root);
     return tmp;
   }
-  if (NULL == root->bigger) {
+  if (NULL == root->right) {
     /* the other way around is just as easy... */
     BSItem *tmp;
-    tmp = root->smaller;
+    tmp = root->left;
     free (root);
     return tmp;
   }
@@ -162,20 +163,20 @@ BSItem * bstree_rem_rec (BSTree * tree, BSItem * root, void * data)
   */
   BSItem *child, *parent;
   parent = root;
-  child = root->bigger;
-  while (NULL != child->smaller) {
+  child = root->right;
+  while (NULL != child->left) {
     parent = child;
-    child = child->smaller;
+    child = child->left;
   }
   root->data = child->data;
   
-  /* one final potential issue: if root->bigger has no smaller
-     subtree, we have to reattach it's bigger subtree as
-     root->bigger  */
+  /* one final potential issue: if root->right has no smaller subtree,
+     we have to reattach it's bigger subtree as root->right (same as
+     parent->right in this case) */
   if (parent == root)
-    parent->bigger = child->bigger;
+    parent->right = child->right;
   else
-    parent->smaller = child->bigger;
+    parent->left = child->right;
   
   free (child);
   
@@ -208,29 +209,53 @@ int int_cmp (void * lhs, void * rhs)
 
 void int_item_print_dot (BSItem * item)
 {
-  if (NULL != item->smaller)
-    printf ("  \"%d\" -> \"%d\";\n", *(int*)item->data, *(int*)item->smaller->data);
-  if (NULL != item->bigger)
-    printf ("  \"%d\" -> \"%d\";\n", *(int*)item->data, *(int*)item->bigger->data);
+  if (NULL != item->left)
+    printf ("  \"%d\" -> \"%d\" [label=\"l\"];\n", *(int*)item->data, *(int*)item->left->data);
+  if (NULL != item->right)
+    printf ("  \"%d\" -> \"%d\" [label=\"r\"];\n", *(int*)item->data, *(int*)item->right->data);
 }
+
+
+typedef enum {
+  INSERT,
+  REMOVE
+} pstate_t;
 
 
 int main (int argc, char ** argv)
 {
-  int foo[] = { 1, 2, 9, 4, 6, 3, 3, 7, 0, 2 };
   int ii;
+  pstate_t ps;
   BSTree * tree;
-
+  
+  if (2 > argc)
+    errx (EXIT_FAILURE, "Please provide a sequence of insertions and removals.");
+  
   tree = bstree_new (int_cmp, free);
-  for (ii = 0; ii < sizeof(foo)/sizeof(*foo); ++ii) {
-    int *dup;
-    if (NULL == (dup = malloc (sizeof(*dup))))
-      err (EXIT_FAILURE, "main: malloc");
-    *dup = foo[ii];
-    bstree_ins (tree, dup);
+  
+  ps = INSERT;
+  for (ii = 1; ii < argc; ++ii) {
+    if ('I' == toupper(argv[ii][0]))
+      ps = INSERT;
+    else if ('R' == toupper(argv[ii][0]))
+      ps = REMOVE;
+    else {
+      int *num;
+      if (NULL == (num = malloc (sizeof(*num))))
+	err (EXIT_FAILURE, "failed to allocate integer");
+      if (1 != sscanf (argv[ii], "%d", num))
+	errx (EXIT_FAILURE, "failed to parse integer from argument %d `%s'", ii, argv[ii]);
+      if (INSERT == ps)
+	bstree_ins (tree, num);
+      else
+	bstree_rem (tree, num);
+    }
   }
   
-  printf ("digraph \"BSTree\" {\n  graph [overlap=scale];\n");
+  printf ("digraph \"BSTree\" {\n  graph [label=\"%s", argv[1]);
+  for (ii = 2; ii < argc; ++ii)
+    printf (" %s", argv[ii]);
+  printf ("\",overlap=scale];\n");
   bstree_app_io (tree, int_item_print_dot);
   printf ("}\n");
   
