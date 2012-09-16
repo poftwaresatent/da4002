@@ -48,7 +48,6 @@ void list_ins_next (List * list, Item * pos, int data)
 
 int list_rem_next (List * list, Item * pos)
 {
-  //  errx (EXIT_FAILURE, "Please implement list_rem_next.");
   int result;
   
   if (NULL == list->head)
@@ -72,7 +71,6 @@ int list_rem_next (List * list, Item * pos)
   }
   
   return result;
-  ////
 }
 
 
@@ -138,17 +136,13 @@ typedef List Stack;
 
 void stack_push (Stack * stack, int data)
 {
-  //  errx (EXIT_FAILURE, "Please implement stack_push.");
   list_ins_next (stack, NULL, data);
-  ////
 }
 
 
 int stack_pop (Stack * stack)
 {
-  //  errx (EXIT_FAILURE, "Please implement stack_pop.");
   return list_rem_next (stack, NULL);
-  ////
 }
 
 
