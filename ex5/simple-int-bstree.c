@@ -118,7 +118,19 @@ void bstree_ins (BSTree * tree, int data)
 /*
  * Helper function for removing an item from the tree. Users will
  * simply call the bstree_rem function instead (without the "_rec"
- * suffix). This function does one of the following:
+ * suffix).
+ *
+ * This function takes the root of a subtree as argument, and returns
+ * the item which should replace that subtree. It is intended to be
+ * called as follows:
+ * \code
+ *   tree->root = bstree_rem_rec (tree, tree->root, data);
+ * \endcode
+ *
+ * In most cases, the returned item will be just the root passed in as
+ * argument. But if the given root matches the data and one or both of
+ * its subtrees are NULL, then something else is returned.  This
+ * function does one of the following:
  *
  *  1. If the data is smaller than what is stored in this root,
  *     recurse into the left subtree.
