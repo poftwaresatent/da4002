@@ -12,17 +12,58 @@
 
 
 
-<h2>exercise 4.1: singly-linked list</h2>
+<h2>introduction</h2>
 
 <p>
-The source file <a href="itads2012/ex4/person-list.c">person-list.c</a> is a partial implementation of a singly-linked list that stores information about persons.
-A person is represented using the <tt>Person</tt> struct.
-The list item type, which contains a pointer to a person and a pointer to the next item, are defined in the <tt>Item</tt> struct.
-The list itself is defined in the <tt>List</tt> struct, which maintains a pointer to the first and last items (called <tt>head</tt> and <tt>tail</tt>) as well as a counter called <tt>size</tt> for keeping track of the number of items in the list.
+The source file <a href="/r/itads2012/ex4/person-list.c">person-list.c</a> is a partial implementation of a singly-linked list that stores information about persons.
+
 </p>
 
+<ul>
+  <li>
+    A person is represented using the <tt>Person</tt> struct, which is defined like this:
+    <pre class="sourcecode">
+typedef struct {
+  char * name;
+  unsigned int age;
+} Person;</pre>
+    So, if you have a variable <tt>pval</tt> which stores a <tt>Person</tt> as a value, you can access their age by writing <tt>pval.age</tt>.
+    And if you have a pointer <tt>pptr</tt> to a <tt>Person</tt> struct, then you would access their age by writing <tt>pptr->age</tt>.
+  </li>
+
+  <li>
+    The list item type, which contains a pointer to a person and a pointer to the next item, are defined in the <tt>Item</tt> struct:
+    <pre class="sourcecode">
+typedef struct item_s {
+  Person * data;
+  struct item_s * next;
+} Item;</pre>
+    So, if you have a pointer <tt>iptr</tt> to a list item, you can access the person it stores by writing <tt>iptr->data</tt>.
+    And for example to get the person's name, you would write <tt>iptr->data->name</tt>.
+    The member called <tt>next</tt> is a pointer to the next item in the list.
+    So, to go from some item pointer <tt>current_ptr</tt> to the next item <tt>next_ptr</tt>, you would write <tt>next_ptr=current_ptr->next</tt>.
+  </li>
+
+  <li>
+    The list itself is defined in the <tt>List</tt> struct, which maintains a pointer to the first and last items (called <tt>head</tt> and <tt>tail</tt>) as well as a counter called <tt>size</tt> for keeping track of the number of items in the list:
+    <pre class="sourcecode">
+
+typedef struct list_s {
+  unsigned int size;
+  Item * head;
+  Item * tail;
+} List;</pre>
+
+    So, assume you have a list pointer called <tt>lptr</tt>, and you want to find out how many items are stored in that list, then you have to write <tt>lptr->size</tt>.
+    In order to get a pointer to the first item in the list, you write <tt>lptr->head</tt>.
+    As another example, if you need to find the age of the last person on the list, you have to write <tt>lptr->tail->data->age</tt>.
+    But be aware that <tt>head</tt> and <tt>tail</tt> are <tt>NULL</tt> when the list is empty, and in that case your program would crash if you try to access the first or last element.
+  </li>
+
+</ul>
+
 <p>
-Several functions are provided in the pertial implementation:
+After these data type definitions, several functions are provided in the partial implementation:
 </p>
 
 <dl>
@@ -30,24 +71,30 @@ Several functions are provided in the pertial implementation:
     <tt>person_create</tt>
   </dt>
   <dd>
+
     takes a string and an integer, allocates memory for a new person, duplicates the string, and returns the freshly allocated <tt>Person</tt>.
     In case of error, it returns <tt>NULL</tt>
+
   </dd>
   <dt>
     <tt>person_destroy</tt>
   </dt>
   <dd>
+
     takes a pointer to a person, and frees the memory used by it.
     Notice that it has to free two separate memory regions: the one taken up by the name, and the one taken up by the <tt>Person</tt> struct itself.
   </dd>
+
   <dt>
     <tt>person_print</tt>
   </dt>
   <dd>
     takes a pointer to a person and prints it on a single line to the terminal.
   </dd>
+
   <dt>
     <tt>list_init</tt>
+
   </dt>
   <dd>
     takes a pointer to a list and initializes it.
@@ -55,13 +102,16 @@ Several functions are provided in the pertial implementation:
   </dd>
   <dt>
     <tt>list_destroy</tt>
+
   </dt>
   <dd>
     takes a pointer to a list, frees all the memory allocated by its items, and re-initializes it.
     Notice that it uses the <tt>person_destroy</tt> function to make sure all that memory gets properly freed, and calls <tt>free</tt> on the items after that.
   </dd>
+
   <dt>
     <tt>list_ins_next</tt>
+
   </dt>
   <dd>
     inserts a new item into a list, such that the new item will come after the specified position.
@@ -70,8 +120,10 @@ Several functions are provided in the pertial implementation:
     The <tt>list_ins_next</tt> function allocates memory for the new item, but does not duplicate the given person.
     It returns zero on success.
   </dd>
+
   <dt>
     <tt>list_rem_next</tt>
+
   </dt>
   <dd>
     is just a placeholder to be filled in by you (see the first task of this exercise).
@@ -82,14 +134,18 @@ Several functions are provided in the pertial implementation:
   </dd>
   <dt>
     <tt>list_dump</tt>
+
   </dt>
+
   <dd>
     is a utility function that iterates over all items of the list and calls <tt>person_print</tt> on the data stored in each of them.
   </dd>
   <dt>
     <tt>populate</tt>
   </dt>
+
   <dd>
+
     is a utility function which inserts some example persons into a list.
   </dd>
   <dt>
@@ -98,19 +154,26 @@ Several functions are provided in the pertial implementation:
   <dd>
     populates a list with some example people, prints the list, then removes everyone who is younger than 18, and prints the resulting shorter list.
     This is meant as a test for the first task, which is to implement <tt>list_rem_next</tt>
+
   </dd>
 </dl>
 
+
+
+<h2>exercise 4.1: removing elements from a singly linked list</h2>
+
 <p>
-Based on this program and the description of the functions, perform the following tasks:
+Based on <a href="/r/itads2012/ex4/person-list.c">person-list.c</a> and the above description of the functions, implement <tt>list_rem_next</tt>.
+Check your implementation by compiling and running <tt>person-list</tt>.
+
 </p>
 
-<ol>
-  <li>
-    Implement <tt>list_rem_next</tt>.
-    Check your implementation by compiling and running <tt>person-list</tt>.
-    At the end, your output should look like this:
-    <pre class="command">
+<p>
+<b>You don't need to change any code outside of <tt>list_rem_next</tt>: just fill that with the proper implementation.</b>
+After you have finished this task, your output should look like this:
+</p>
+
+<pre class="command">
 population:
   Alice Doe       is 28 years old
   Bob Doe         is 31 years old
@@ -133,21 +196,157 @@ persons allowed to vote:
   Arnold Fox      is 42 years old
   Barbara Fox     is 43 years old
   Cindy Fox       is 19 years old</pre>
+
+<h3>solution 4.1: included in <a href="#sol43">solution 4.3</a> (more general <tt>list_rem_next</tt>)</h3>
+
+
+
+<h2>exercise 4.2: pointers to pointers</h2>
+
+<p>
+The idea of taking an address of a value, for example to pass it to a function which should modify it, is very general.
+In particular, a pointer is also "just a value" (which happens to be an address), so it is possible (and useful) to take the address of a pointer.
+This creates pointers to pointers.
+We've seen this before in exercise 2.3 when we used the <tt>argv</tt> argument of the <tt>main</tt> function.
+
+</p>
+
+<p>
+
+An example should clarify the situation about pointer-to-pointer.
+Assume we have the following code:
+</p>
+
+<pre class="sourcecode">
+int num;
+int * ptr;
+int ** ptrptr;
+num = 42;
+ptr = &num;
+ptrptr = &ptr;</pre>
+
+<ul>
+  <li>
+    Now, when you write for example:
+    <pre class="sourcecode">printf ("%p\n", ptrptr);</pre>
+
+    then you are "talking to" an address.
+    But at that address there is no value, it is just <b>another address</b>.
   </li>
   <li>
-    Modify <tt>list_rem_next</tt> such that it can return the person that was stored in the removed element via a third argument.
-    This third argument is a pointer to a person-pointer, so the new function signature should look exactly like this:
-    <pre class="sourcecode">
-int list_rem_next (List * list, Item * pos, Person ** data)</pre>
-    As a special case, when <tt>data=NULL</tt>, the memory where the person data is stored in the item should be freed, as before.
-    But when <tt>data</tt> points to a person-pointer, the person data stored in the item should be placed there.
-    Notice that this interface change will require you to adapt the code in <tt>main</tt> as well, but your change should not modify the behavior of the program.
+    Thus, when you write <b>(notice the star in front of ptrptr!)</b>:
+    <pre class="sourcecode">printf ("%p\n", *ptrptr);</pre>
+    then you are still "talking to" an address, but a different one.
+    By writing a star in front of <tt>ptrptr</tt> we are "dereferencing" it, which gives us whatever is stored at the address <tt>ptrptr</tt>.
+    But at that address we find not a value, but yet another address.
   </li>
-</ol>
+
+  <li>
+    Finally, when you write <b>(notice the TWO stars in front of ptrptr!)</b>:
+    <pre class="sourcecode">printf ("%d\n", **ptrptr);</pre>
+    then you are finally "talking to" a value.
+    Also notice that we changed the format string from "%p" (which prints an address) to "%d" (which prints an integer).
+  </li>
+</ul>
+
+<p>
+You are probably wondering why this is useful.
+The reason why you need to know this is that it allows you to retrieve pointers through functions whose return value are needed for something else.
+That sounds very abstract again. so let's look at another example:
+</p>
+
+<pre class="sourcecode">
+#include &lt;stdio.h&gt;
+
+int getptr (int guess, double ** data)
+{
+  static double value = 42.0;
+  if (42 != guess)
+    return -1;
+  *data = &value;
+  return 0;
+}
+
+int main (int argc, char ** argv)
+{
+  double * ptr;
+  int myguess = 17;
+  if (0 == getptr (myguess, &ptr))
+    printf ("myguess = %d   pointer = %p   value = %f\n", myguess, ptr, *ptr);
+  else
+    printf ("it's not at %d...\n", myguess);
+}
+</pre>
+
+<p>
+The <tt>getptr</tt> function in this example has to tell the caller two different kinds of things:
+
+
+</p>
+
+<ul>
+  <li>
+    An indication of whether they guessed right.
+  </li>
+  <li>
+    A pointer to double, but only if <tt>guess</tt> actually is 42.
+  </li>
+</ul>
+
+<p>
+This example is rather contrived, of course, but the point is that the function return value can only be used for one of these two pieces of information.
+It is customary to indicate success using the return value, which in this case is an integer: when <tt>guess==42</tt>, then we return 0, otherwise we return -1.
+So, how can we at the same time "return" the pointer to double?
+We do this by asking the caller to provide a pointer where this piece of information should be placed.
+The piece of information is a pointer to double, so the thing provided by the caller must be a pointer to a pointer of double.
+This is illustrated in the <tt>main</tt> function above.
+</p>
+
+<p>
+<b>Try it out</b> by changing <tt>myguess</tt> to 42, recompiling, and re-running.
+How does the output change?
+Why?
+
+
+</p>
+
+<p>
+The next exercise will use this method for something more useful:
+retrieving the data that is stored in a list element that is about to be removed from a list...
+</p>
 
 
 
-<h2>exercise 4.2: list-based stack</h2>
+<h2>exercise 4.3: a more useful <tt>list_rem_next</tt></h2>
+
+<p>
+Modify <tt>list_rem_next</tt> such that it can return the person that was stored in the removed element via a third argument.
+This third argument is a pointer to a person-pointer, so the new function signature should look exactly like this:
+
+
+</p>
+
+<pre class="sourcecode">
+int list_rem_next (List * list, Item * pos, Person ** data)</pre>
+
+<p>
+This looks weird at first because of the <b>two stars</b> in "<tt>Person ** data</tt>": it is a <b>pointer to a pointer</b> to a person.
+There are thus <b>two indirections</b> involved, as explained in the interlude above.
+
+
+</p>
+
+<p>
+As a special case, when <tt>data=NULL</tt>, the memory where the person data is stored in the item should be freed, as before.
+But when <tt>data</tt> points to a person-pointer, the person data stored in the item should be placed there.
+Notice that this interface change will require you to adapt the code in <tt>main</tt> as well, but your change should not modify the behavior of the program.
+</p>
+
+<h3>solution 4.3: <a name="sol43" href="/r/itads2012/ex4/Jaiw7Bah/person-list-solution.c">person-list-solution.c</a></h3>
+
+
+
+<h2>exercise 4.4: list-based stack</h2>
 
 <p>
 Implement a stack by using the list implementation you just completed, with the extended <tt>list_rem_next</tt> function.
@@ -157,14 +356,17 @@ The stack should have the following interface:
 <dl>
   <dt>
     <tt>stack_push</tt>
+
   </dt>
   <dd>
+
     takes a stack and a person as argument, places the person on the top of the stack, and returns zero on success.
   </dd>
   <dt>
     <tt>stack_pop</tt>
   </dt>
   <dd>
+
     takes a stack as argument, removes the topmost element, and returns the person stored there.
     In case <tt>stack_pop</tt> is called on an empty stack, it should return <tt>NULL</tt>.
     Take care to free the memory used by the item, <b>but not</b> the memory used by the person.
@@ -175,10 +377,12 @@ The stack should have the following interface:
 <em><u>Hint</u>: this task is really very quick.
 You "just" have to call the appropriate list operations in the correct order and pass them the approriate arguments.
 The body of <tt>stack_push</tt> can be done in a single line of code, and <tt>stack_pop</tt> can be done in 4 lines.</em>
+
 </p>
 
 <p>
 Test your implementation by replacing the <tt>main</tt> function with the following:
+
 </p>
 
 <pre class="sourcecode">
@@ -218,21 +422,28 @@ When running this program, you should see the following output:
 Notice that they are printed in the opposite order of assigment (LIFO: last-in first-out).
 </p>
 
+<h3>solution 4.4: <a href="/r/itads2012/ex4/Jaiw7Bah/person-stack-solution.c">person-stack-solution.c</a></h3>
 
-<h2>exercise 4.3: <tt>void*</tt>, pointer casts, and function pointers</h2>
 
+
+<h2>exercise 4.5: <tt>void*</tt>, pointer casts, and function pointers</h2>
 
 <ol>
   <li>
-    Download <a href="itads2012/ex4/pointer-casts-explicit.c">pointer-casts-explicit.c</a> and study the heavily documented code.
+    Download <a href="/r/itads2012/ex4/pointer-casts-explicit.c">pointer-casts-explicit.c</a> and study the heavily documented code.
     Then compile and run it, and use the program output to make sure you understand the explanations about generic pointers that are given in the code.
   </li>
+
   <li>
-    Do the same with <a href="itads2012/ex4/pointer-casts-implicit.c">pointer-casts-implicit.c</a>.
+    Do the same with <a href="/r/itads2012/ex4/pointer-casts-implicit.c">pointer-casts-implicit.c</a>.
   </li>
   <li>
-    Download <a href="itads2012/ex4/function-pointers.c">function-pointers.c</a> and study the comments, especially the explanations for function <tt>apply_fct</tt>.
-    Then compile and run it, and use the program output to make sure you understand what's going on.
+    Download <a href="/r/itads2012/ex4/function-pointers.c">function-pointers.c</a> and study the comments, especially the explanations for function <tt>apply_fct</tt>.<br/>
+
+    <b><u>NOTE</u>: to compile this program, you need to tell gcc to use the math library by adding "-lm" to the compilation command, like this:</b>
+    <pre class="command">
+gcc -Wall -o function-pointers function-pointers.c -lm</pre>
+     Run it, and use the program output to make sure you understand what's going on.
   </li>
   <li>
     Add a function "<tt>product</tt>" to the <tt>function-pointers.c</tt> program.
@@ -240,6 +451,7 @@ Notice that they are printed in the opposite order of assigment (LIFO: last-in f
     Then, at the end of <tt>main</tt>, call the "<tt>apply_fct2</tt>" in order to apply the <tt>product</tt> function to the array.
     Print the resulting array, the result should look like this:
     <pre class="command">
+
 after the product function:
   144.000000
   36.000000
@@ -254,13 +466,17 @@ after the product function:
   </li>
 </ol>
 
+<h3>solution 4.5: <a href="/r/itads2012/ex4/Jaiw7Bah/function-pointers-solution.c">function-pointers-solution.c</a></h3>
 
 
-<h2>exercise 4.4: generic singly-linked list</h2>
+
+<h2>exercise 4.6: generic singly-linked list</h2>
 
 <p>
-The source file <a href="itads2012/ex4/generic-list.c">generic-list.c</a> is an implementation of a list using <tt>void*</tt> to store generic data, and using a function pointer to customize the way it frees that generic data.
+The source file <a href="/r/itads2012/ex4/generic-list.c">generic-list.c</a> is an implementation of a list using <tt>void*</tt> to store generic data, and using a function pointer to customize the way it frees that generic data.
 Compile and run the program, it should give the following output:
+
+
 </p>
 
 <pre class="command">
@@ -272,6 +488,7 @@ list of integers:
     Read the source code, looking in particular at the usage of the <tt>free_data</tt> function pointer.
     Then, in the main function change the initialization of the list (on line 128) to:
     <pre class="sourcecode">list_init (&list, free);</pre>
+
     Recompile and re-run... what happens?
     Why?
     Change the initialization back to the way it was (<tt>NULL</tt> instead of <tt>free</tt>) before proceeding to the next task.
@@ -283,6 +500,7 @@ list of integers:
     And you also have to change the format string and the pointer cast in the code that prints the list.
     When you're done, your program should produce the following output:
     <pre class="command">
+
 list of doubles:
    2.0   3.0   5.0   7.0  11.0  13.0  17.0  19.0  23.0  29.0</pre>
   </li>
@@ -290,7 +508,11 @@ list of doubles:
     <em>Optional (advanced)</em><br/>
     Write a function <tt>list_apply</tt> inspired by <tt>apply_fct</tt> from exercise 4.3.3.
     The second argument of <tt>list_apply</tt> should be a pointer to a function which takes a single <tt>void*</tt> and returns nothing, and <tt>list_apply</tt> should pass each item's data to that function.
-    Then, copy-paste the <tt>square</tt> function from exercise 4.3.3, and apply it to the list of doubles <em>(you'll also need to <tt>#include &lt;math.h&gt;</tt>, and for now you can disregard the compiler warnings about incompatible pointer types)</em>.
+    Then, copy-paste the <tt>square</tt> function from exercise 4.3.3, and apply it to the list of doubles <em>(you'll also need to <tt>#include &lt;math.h&gt;</tt>, and for now you can disregard the compiler warnings about incompatible pointer types)</em>.<br/>
+
+    <b><u>NOTE</u>: to compile this program, you need to tell gcc to use the math library by adding "-lm" to the compilation command, like this:</b>
+    <pre class="command">
+gcc -Wall -o generic-list generic-list.c -lm</pre>
     Print out the result of applying <tt>square</tt> to the list.
     The output of your program should be:
     <pre class="command">
@@ -299,7 +521,10 @@ list of doubles:
 applying the square function...
    4.0   9.0  25.0  49.0  121.0  169.0  289.0  361.0  529.0  841.0</pre>
   </li>
+
 </ol>
+
+<h3>solution 4.6: <a href="/r/itads2012/ex4/Jaiw7Bah/generic-list-solution.c">generic-list-solution.c</a></h3>
 
 </body>
 </html>
