@@ -247,8 +247,10 @@ int main (int argc, char ** argv)
 	errx (EXIT_FAILURE, "failed to parse integer from argument %d `%s'", ii, argv[ii]);
       if (INSERT == ps)
 	bstree_ins (tree, num);
-      else
+      else {
 	bstree_rem (tree, num);
+	free (num);
+      }
     }
   }
   
