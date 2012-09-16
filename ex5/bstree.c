@@ -3,6 +3,11 @@
 #include <stdlib.h>
 
 
+/* ==================================================
+   Binary Search Tree Item
+   ================================================== */
+
+
 typedef struct bsitem_s {
   void * data;
   struct bsitem_s * smaller;
@@ -30,6 +35,11 @@ void bsitem_delete_rec (BSItem * item, void (*data_delete)(void*))
     data_delete (item->data);
   free (item);
 }
+
+
+/* ==================================================
+   Binary Search Tree
+   ================================================== */
 
 
 typedef struct bstree_s {
@@ -64,9 +74,10 @@ void bstree_delete (BSTree * tree)
 BSItem * bstree_ins_rec (BSTree * tree, BSItem * root, void * data)
 {
   int cmp;
-  if (NULL == root) {
+  
+  if (NULL == root)
     return bsitem_new (data);
-  }
+  
   cmp = tree->data_cmp(data, root->data);
   if (0 > cmp)			/* it's smaller than our data */
     root->smaller = bstree_ins_rec (tree, root->smaller, data);
@@ -77,6 +88,7 @@ BSItem * bstree_ins_rec (BSTree * tree, BSItem * root, void * data)
       tree->data_delete (root->data);
     root->data = data;
   }
+  
   return root;
 }
 
@@ -86,6 +98,84 @@ void bstree_ins (BSTree * tree, void * data)
   tree->root = bstree_ins_rec (tree, tree->root, data);
 }
 
+
+BSItem * bstree_rem_rec (BSTree * tree, BSItem * root, void * data)
+{
+  int cmp;
+  
+  if (NULL == root)
+    return NULL;
+  
+  cmp = tree->data_cmp(data, root->data);
+  if (0 > cmp) {
+    /* remove it from the smaller subtree */
+    root->smaller = bstree_rem_rec (tree, root->smaller, data);
+    return root;
+  }
+  if (0 < cmp) {
+    /* remove it from the bigger subtree */
+    root->bigger = bstree_rem_rec (tree, root->bigger, data);
+    return root;
+  }
+  
+  /*
+    root matches the data, thus remove "this" item (we may end up
+    replacing our data and removing another one, depending on context)
+  */
+  
+  if (NULL != tree->data_delete) {
+    tree->data_delete (root->data);
+  }
+  
+  if (NULL == root->smaller) {
+    /* easy: there is no smaller subtree, use the "parent
+       re-attachment trick" (replace this root with its bigger
+       subtree, which may be NULL here by the way) */
+    BSItem *tmp;
+    tmp = root->bigger;
+    free (root);
+    return tmp;
+  }
+  if (NULL == root->bigger) {
+    /* the other way around is just as easy... */
+    BSItem *tmp;
+    tmp = root->smaller;
+    free (root);
+    return tmp;
+  }
+  
+  /*
+    this root has two subtrees, which is trickier... we replace its
+    data with the smallest child of its bigger subtree, and remove
+    that smallest child instead (the other way around would work as
+    well, using the biggest child of the smaller subtree).
+  */
+  BSItem *child, *parent;
+  parent = root;
+  child = root->bigger;
+  while (NULL != child->smaller) {
+    parent = child;
+    child = child->smaller;
+  }
+  root->data = child->data;
+  
+  /* one final potential issue: if root->bigger has no smaller
+     subtree, we have to reattach it's bigger subtree as
+     root->bigger  */
+  if (parent == root)
+    parent->bigger = child->bigger;
+  else
+    parent->smaller = child->bigger;
+  
+  free (child);
+  
+  return root;
+}
+
+
+/* ==================================================
+   Test and Debug
+   ================================================== */
 
 
 int int_cmp (void * lhs, void * rhs)
