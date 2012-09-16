@@ -37,6 +37,16 @@ void bsitem_delete_rec (BSItem * item, void (*data_delete)(void*))
 }
 
 
+void bsitem_app_io_rec (BSItem * item, void (*fct)(void*))
+{
+  if (NULL == item)
+    return;
+  bsitem_app_io_rec (item->smaller, fct);
+  fct (item->data);
+  bsitem_app_io_rec (item->bigger, fct);
+}
+
+
 /* ==================================================
    Binary Search Tree
    ================================================== */
@@ -173,6 +183,18 @@ BSItem * bstree_rem_rec (BSTree * tree, BSItem * root, void * data)
 }
 
 
+void bstree_rem (BSTree * tree, void * data)
+{
+  tree->root = bstree_rem_rec (tree, tree->root, data);
+}
+
+
+void bstree_app_io (BSTree * tree, void (*fct)(void*))
+{
+  bsitem_app_io_rec (tree->root, fct);
+}
+
+
 /* ==================================================
    Test and Debug
    ================================================== */
@@ -181,6 +203,12 @@ BSItem * bstree_rem_rec (BSTree * tree, BSItem * root, void * data)
 int int_cmp (void * lhs, void * rhs)
 {
   return *(int*)lhs - *(int*)rhs;
+}
+
+
+void int_print (void * data)
+{
+  printf ("%d\n", *(int*)data);
 }
 
 
@@ -198,6 +226,8 @@ int main (int argc, char ** argv)
     *dup = foo[ii];
     bstree_ins (tree, dup);
   }
+  
+  bstree_app_io (tree, int_print);
   
   bstree_delete (tree);
   return 0;
