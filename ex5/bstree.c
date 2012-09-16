@@ -16,23 +16,16 @@ BSItem * bsitem_new (void * data)
   if (NULL == (item = calloc (sizeof(*item), 1)))
     err (EXIT_FAILURE, "bsitem_new: malloc");
   item->data = data;
-  
-  fprintf (stderr, "bsitem_new         i: %p  d: %p  (%d)\n", item, data, *(int*)data);
-  
   return item;
 }
 
 
 void bsitem_delete_rec (BSItem * item, void (*data_delete)(void*))
 {
-  if (item->smaller)
-    bsitem_delete_rec (item->smaller, data_delete);
-  if (item->smaller)
-    bsitem_delete_rec (item->smaller, data_delete);
-  
-  fprintf (stderr, "bsitem_delete_rec  i: %p  d: %p  (%d)\n",
-	   item, item->data, *(int*)(item->data));
-  
+  if (NULL == item)
+    return;
+  bsitem_delete_rec (item->smaller, data_delete);
+  bsitem_delete_rec (item->bigger, data_delete);
   if (NULL != data_delete)
     data_delete (item->data);
   free (item);
@@ -101,19 +94,21 @@ int int_cmp (void * lhs, void * rhs)
 }
 
 
-void int_fake_delete (void * ptr)
-{
-  fprintf (stderr, "would free                         d: %p   %d\n", ptr, *(int*)ptr);
-}
-
-
 int main (int argc, char ** argv)
 {
-  int foo[] = { 1, 2 };//, 9 };//, 4, 6, 3, 3, 7, 0, 2 };
+  int foo[] = { 1, 2, 9, 4, 6, 3, 3, 7, 0, 2 };
   int ii;
-  BSTree * tree = bstree_new (int_cmp, int_fake_delete);
-  for (ii = 0; ii < sizeof(foo)/sizeof(*foo); ++ii)
-    bstree_ins (tree, foo+ii);
+  BSTree * tree;
+
+  tree = bstree_new (int_cmp, free);
+  for (ii = 0; ii < sizeof(foo)/sizeof(*foo); ++ii) {
+    int *dup;
+    if (NULL == (dup = malloc (sizeof(*dup))))
+      err (EXIT_FAILURE, "main: malloc");
+    *dup = foo[ii];
+    bstree_ins (tree, dup);
+  }
+  
   bstree_delete (tree);
   return 0;
 }
