@@ -54,7 +54,6 @@ void bsitem_app_io_rec (BSItem * item, void (*fct)(BSItem*))
 
 
 typedef struct bstree_s {
-  unsigned int size;
   BSItem * root;
   int (*data_cmp)(void*, void*);
   void (*data_delete)(void*);
@@ -65,7 +64,7 @@ BSTree * bstree_new (int (*data_cmp)(void*, void*), void (*data_delete)(void*))
 {
   BSTree * tree;
   if (NULL == (tree = calloc (sizeof(*tree), 1)))
-    err (EXIT_FAILURE, "bstree_new: malloc");
+    err (EXIT_FAILURE, "bstree_new: calloc");
   tree->data_cmp = data_cmp;
   tree->data_delete = data_delete;
   return tree;
