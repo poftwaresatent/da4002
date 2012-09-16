@@ -87,8 +87,8 @@ void dump (Heap * heap)
     (one), instead of the usual 0 (zero).
   */
   for (ii = 1; ii <= heap->len; ++ii)
-    printf (" %3d", heap->num[ii]);
-  printf ("\n");
+    fprintf (stderr, " %3d", heap->num[ii]);
+  fprintf (stderr, "\n");
 }
 
 
@@ -103,14 +103,27 @@ int main (int argc, char ** argv)
     if (1 != sscanf (argv[ii], "%d", &num))
       errx (EXIT_FAILURE, "failed to parse integer from argument %d `%s'", ii, argv[ii]);
     insert (&heap, num);
-    printf ("inserted %d\n  ", num);
+    fprintf (stderr, "inserted %d\n  ", num);
     dump (&heap);
   }
   
-  printf ("--------------------------------------------------\n");
+  printf ("digraph \"Heap\" {\n  graph [label=\"%s", argv[1]);
+  for (ii = 2; ii < argc; ++ii)
+    printf (" %s", argv[ii]);
+  printf ("\",overlap=scale];\n");
+  for (ii = 1; ii <= heap.len; ++ii) {
+    printf ("  %d [label=\"%d\"];\n", ii, heap.num[ii]);
+    if (ii * 2 > heap.len)
+      continue;
+    printf ("  %d -> %d;\n", ii, ii * 2);
+    printf ("  %d -> %d;\n", ii, ii * 2 + 1);
+  }
+  printf ("}\n");
+  
+  fprintf (stderr,"--------------------------------------------------\n");
   while (0 < heap.len) {
     int num = pop (&heap);
-    printf ("popped %d\n  ", num);
+    fprintf (stderr, "popped %d\n  ", num);
     dump (&heap);
   }
 
