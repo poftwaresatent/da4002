@@ -37,12 +37,12 @@ void bsitem_delete_rec (BSItem * item, void (*data_delete)(void*))
 }
 
 
-void bsitem_app_io_rec (BSItem * item, void (*fct)(void*))
+void bsitem_app_io_rec (BSItem * item, void (*fct)(BSItem*))
 {
   if (NULL == item)
     return;
   bsitem_app_io_rec (item->smaller, fct);
-  fct (item->data);
+  fct (item);
   bsitem_app_io_rec (item->bigger, fct);
 }
 
@@ -189,7 +189,7 @@ void bstree_rem (BSTree * tree, void * data)
 }
 
 
-void bstree_app_io (BSTree * tree, void (*fct)(void*))
+void bstree_app_io (BSTree * tree, void (*fct)(BSItem*))
 {
   bsitem_app_io_rec (tree->root, fct);
 }
@@ -206,9 +206,12 @@ int int_cmp (void * lhs, void * rhs)
 }
 
 
-void int_print (void * data)
+void int_item_print_dot (BSItem * item)
 {
-  printf ("%d\n", *(int*)data);
+  if (NULL != item->smaller)
+    printf ("  \"%d\" -> \"%d\";\n", *(int*)item->data, *(int*)item->smaller->data);
+  if (NULL != item->bigger)
+    printf ("  \"%d\" -> \"%d\";\n", *(int*)item->data, *(int*)item->bigger->data);
 }
 
 
@@ -227,7 +230,9 @@ int main (int argc, char ** argv)
     bstree_ins (tree, dup);
   }
   
-  bstree_app_io (tree, int_print);
+  printf ("digraph \"BSTree\" {\n  graph [overlap=scale];\n");
+  bstree_app_io (tree, int_item_print_dot);
+  printf ("}\n");
   
   bstree_delete (tree);
   return 0;
