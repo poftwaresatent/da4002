@@ -1,3 +1,4 @@
 *.dot
 *.pdf
 simple-int-heap
+str-min-heap

@@ -73,7 +73,7 @@ void bubble_up (Heap * heap, size_t index)
   char buf[BUFSIZE];
   
   parent = index / 2;
-  while ((parent > 0) && 0 < strcmp (heap->str[index], heap->str[parent])) {
+  while ((parent > 0) && 0 > strcmp (heap->str[index], heap->str[parent])) {
     char * tmp;
     tmp = heap->str[index];
     heap->str[index] = heap->str[parent];
@@ -99,9 +99,9 @@ void bubble_down (Heap * heap, size_t index)
     char * tmp;
     left = 2 * index;
     right = left + 1;
-    if (left <= heap->len && 0 < strcmp (heap->str[left], heap->str[target]))
+    if (left <= heap->len && 0 > strcmp (heap->str[left], heap->str[target]))
       target = left;
-    if (right <= heap->len && 0 < strcmp (heap->str[right], heap->str[target]))
+    if (right <= heap->len && 0 > strcmp (heap->str[right], heap->str[target]))
       target = right;
     if (target == index)
       return;
@@ -196,6 +196,8 @@ int main (int argc, char ** argv)
     dump (&heap, stderr);
     free (str);
   }
+  
+  delete (&heap);
   
   return 0;
 }
