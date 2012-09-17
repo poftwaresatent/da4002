@@ -8,6 +8,7 @@
   This simple implementation has a fixed capacity.
 */
 #define CAPACITY  100
+
 #define BUFSIZE  1024
 
 
@@ -126,27 +127,27 @@ void insert (Heap * heap, int num)
 }
 
 
-int pop (Heap * heap)
+int extract (Heap * heap)
 {
   int num;
   char buf[BUFSIZE];
   
   if (0 == heap->len)
-    errx (EXIT_FAILURE, "ERROR: pop called on empty heap");
+    errx (EXIT_FAILURE, "ERROR: extract called on empty heap");
   num = heap->num[1];		/* remember, we start at [1] instead of [0] */
   heap->num[1] = heap->num[heap->len--];
   
   if (0 < heap->len) {
-    if (BUFSIZE <= snprintf (buf, BUFSIZE, "popped %d (replaced by %d)", num, heap->num[1]))
-      errx (EXIT_FAILURE, "pop: insufficient BUFSIZE");
-    dump_dot_file (heap, "pop", buf);
+    if (BUFSIZE <= snprintf (buf, BUFSIZE, "extracted %d (replaced by %d)", num, heap->num[1]))
+      errx (EXIT_FAILURE, "extract: insufficient BUFSIZE");
+    dump_dot_file (heap, "extract", buf);
     
     bubble_down (heap, 1);
   }
   else {
-    if (BUFSIZE <= snprintf (buf, BUFSIZE, "popped %d (last item)", num))
-      errx (EXIT_FAILURE, "pop: insufficient BUFSIZE");
-    dump_dot_file (heap, "pop", buf);
+    if (BUFSIZE <= snprintf (buf, BUFSIZE, "extracted %d (last item)", num))
+      errx (EXIT_FAILURE, "extract: insufficient BUFSIZE");
+    dump_dot_file (heap, "extract", buf);
   }
   
   return num;
@@ -185,8 +186,8 @@ int main (int argc, char ** argv)
   
   fprintf (stderr,"--------------------------------------------------\n");
   while (0 < heap.len) {
-    int num = pop (&heap);
-    fprintf (stderr, "popped %d\n  ", num);
+    int num = extract (&heap);
+    fprintf (stderr, "extracted %d\n  ", num);
     dump (&heap, stderr);
   }
 
