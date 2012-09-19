@@ -1,18 +1,23 @@
-#include "str-min-heap.h"
+#include "strheap.h"
 
 /* #include <stdio.h> */
-/* #include <err.h> */
-/* #include <stdlib.h> */
-/* #include <string.h> */
+#include <err.h>
+#include <stdlib.h>
+#include <string.h>
 
 
-#define CAPACITY  100
 #define BUFSIZE  1024
 
 
-void strheap_new (StrHeap * heap)
+static const char const * debug_prefix = NULL;
+
+
+StrHeap * strheap_new ()
 {
-  memset (heap, 0, sizeof(*heap));
+  StrHeap * heap;
+  if (NULL == (heap = calloc (1, sizeof(*heap))))
+    err (EXIT_FAILURE, __FILE__": %s: calloc", __func__);
+  return heap;
 }
 
 
@@ -24,7 +29,7 @@ void strheap_delete (StrHeap * heap)
 }
 
 
-static void strheap_dump_dot (StrHeap * heap, FILE * of, char * label)
+static void dump_dot (StrHeap * heap, FILE * of, const char * label)
 {
   int ii;
   fprintf (of, "digraph \"StrHeap\" {\n  graph [label=\"%s\",overlap=scale];\n", label);
@@ -41,29 +46,27 @@ static void strheap_dump_dot (StrHeap * heap, FILE * of, char * label)
 }
 
 
-void strheap_strheap_dump_dot (StrHeap * heap, char * post, char * label)
+void strheap_dump_dot (StrHeap * heap, const char * pre, const char * post, const char * label)
 {
-  static char const * pre = "strheap_dump";
   static size_t count = 0;
   FILE * of;
   char buf[BUFSIZE];
   
   if (BUFSIZE <= snprintf (buf, BUFSIZE, "%s-%03lu-%s.dot", pre, count++, post))
-    errx (EXIT_FAILURE, "strheap_strheap_dump_dot: insufficient BUFSIZE");
+    errx (EXIT_FAILURE, __FILE__": %s: insufficient BUFSIZE", __func__);
   if (NULL == (of = fopen (buf, "w")))
-    err (EXIT_FAILURE, "strheap_strheap_dump_dot: fopen %s", buf);
+    err (EXIT_FAILURE, __FILE__": %s: fopen %s", __func__, buf);
   
-  strheap_dump_dot (heap, of, label);
-
+  dump_dot (heap, of, label);
+  
   if (EOF == fclose (of))
-    err (EXIT_FAILURE, "strheap_strheap_dump_dot: fclose %s", buf);
+    err (EXIT_FAILURE, __FILE__": %s: fclose %s", __func__, buf);
 }
 
 
 static void bubble_up (StrHeap * heap, size_t index)
 {
   size_t parent;
-  char buf[BUFSIZE];
   
   parent = index / 2;
   while ((parent > 0) && 0 > strcmp (heap->str[index], heap->str[parent])) {
@@ -72,9 +75,12 @@ static void bubble_up (StrHeap * heap, size_t index)
     heap->str[index] = heap->str[parent];
     heap->str[parent] = tmp;
     
-    if (BUFSIZE <= snprintf (buf, BUFSIZE, "up %s (index %lu <-> %lu)", tmp, index, parent))
-      errx (EXIT_FAILURE, "bubble_up: insufficient BUFSIZE");
-    strheap_strheap_dump_dot (heap, "up", buf);
+    if (NULL != debug_prefix) {
+      char buf[BUFSIZE];
+      if (BUFSIZE <= snprintf (buf, BUFSIZE, "up %s (index %lu <-> %lu)", tmp, index, parent))
+	errx (EXIT_FAILURE, __FILE__": %s: insufficient BUFSIZE", __func__);
+      strheap_dump_dot (heap, debug_prefix, "up", buf);
+    }
     
     index = parent;
     parent = index / 2;
@@ -85,7 +91,6 @@ static void bubble_up (StrHeap * heap, size_t index)
 static void bubble_down (StrHeap * heap, size_t index)
 {
   size_t left, right, target;
-  char buf[BUFSIZE];
   
   target = index;
   for (;;) {
@@ -102,9 +107,12 @@ static void bubble_down (StrHeap * heap, size_t index)
     heap->str[index] = heap->str[target];
     heap->str[target] = tmp;
     
-    if (BUFSIZE <= snprintf (buf, BUFSIZE, "down %s (index %lu <-> %lu)", tmp, index, target))
-      errx (EXIT_FAILURE, "bubble_up: insufficient BUFSIZE");
-    strheap_strheap_dump_dot (heap, "up", buf);
+    if (NULL != debug_prefix) {
+      char buf[BUFSIZE];
+      if (BUFSIZE <= snprintf (buf, BUFSIZE, "down %s (index %lu <-> %lu)", tmp, index, target))
+	errx (EXIT_FAILURE, __FILE__": %s: insufficient BUFSIZE", __func__);
+      strheap_dump_dot (heap, debug_prefix, "up", buf);
+    }
     
     index = target;
   }
@@ -113,15 +121,16 @@ static void bubble_down (StrHeap * heap, size_t index)
 
 void strheap_insert (StrHeap * heap, char * str)
 {
-  char buf[BUFSIZE];
-  
-  if (CAPACITY <= heap->len)
-    errx (EXIT_FAILURE, "ERROR: heap is full");
+  if (STRHEAP_CAPACITY <= heap->len)
+    errx (EXIT_FAILURE, __FILE__": %s: heap is full", __func__);
   heap->str[++heap->len] = str; /* pre-increment because num starts at [1] */
   
-  if (BUFSIZE <= snprintf (buf, BUFSIZE, "strheap_inserted %s (at %lu)", str, heap->len))
-    errx (EXIT_FAILURE, "strheap_insert: insufficient BUFSIZE");
-  strheap_strheap_dump_dot (heap, "ins", buf);
+  if (NULL != debug_prefix) {
+    char buf[BUFSIZE];
+    if (BUFSIZE <= snprintf (buf, BUFSIZE, "inserted %s (at %lu)", str, heap->len))
+      errx (EXIT_FAILURE, __FILE__": %s: insufficient BUFSIZE", __func__);
+    strheap_dump_dot (heap, debug_prefix, "ins", buf);
+  }
   
   bubble_up (heap, heap->len);
 }
@@ -130,24 +139,30 @@ void strheap_insert (StrHeap * heap, char * str)
 char * strheap_extract (StrHeap * heap)
 {
   char * str;
-  char buf[BUFSIZE];
   
   if (0 == heap->len)
-    errx (EXIT_FAILURE, "ERROR: strheap_extract called on empty heap");
+    errx (EXIT_FAILURE, __FILE__": %s: empty heap (violated precondition)", __func__);
+  
   str = heap->str[1];		/* remember, we start at [1] instead of [0] */
   heap->str[1] = heap->str[heap->len--];
   
   if (0 < heap->len) {
-    if (BUFSIZE <= snprintf (buf, BUFSIZE, "strheap_extracted %s (replaced by %s)", str, heap->str[1]))
-      errx (EXIT_FAILURE, "strheap_extract: insufficient BUFSIZE");
-    strheap_strheap_dump_dot (heap, "strheap_extract", buf);
+    if (NULL != debug_prefix) {
+      char buf[BUFSIZE];
+      if (BUFSIZE <= snprintf (buf, BUFSIZE, "extracted %s (replaced by %s)", str, heap->str[1]))
+	errx (EXIT_FAILURE, __FILE__": %s: insufficient BUFSIZE", __func__);
+      strheap_dump_dot (heap, debug_prefix, "ext", buf);
+    }
     
     bubble_down (heap, 1);
   }
   else {
-    if (BUFSIZE <= snprintf (buf, BUFSIZE, "strheap_extracted %s (last item)", str))
-      errx (EXIT_FAILURE, "strheap_extract: insufficient BUFSIZE");
-    strheap_strheap_dump_dot (heap, "strheap_extract", buf);
+    if (NULL != debug_prefix) {
+      char buf[BUFSIZE];
+      if (BUFSIZE <= snprintf (buf, BUFSIZE, "extracted %s (last item)", str))
+	errx (EXIT_FAILURE, __FILE__": %s: insufficient BUFSIZE", __func__);
+      strheap_dump_dot (heap, debug_prefix, "ext", buf);
+    }
   }
   
   return str;
@@ -164,4 +179,16 @@ void strheap_dump (StrHeap * heap, FILE * of)
   for (ii = 1; ii <= heap->len; ++ii)
     fprintf (of, " %s", heap->str[ii]);
   fprintf (of, "\n");
+}
+
+
+void strheap_debug_on (void)
+{
+  debug_prefix = "strheap";
+}
+
+
+void strheap_debug_off (void)
+{
+  debug_prefix = NULL;
 }
