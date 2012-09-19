@@ -64,6 +64,30 @@ BSTree * bstree_new ()
 
 
 /*
+ * Helper function to recursively free all items
+ */
+void bstree_free_rec (BSItem * item)
+{
+  if (NULL == item)
+    return;
+  bstree_free_rec (item->left);
+  bstree_free_rec (item->right);
+  free (item);
+}
+
+
+/*
+ * User function to delete all the memory used by a tree and the items
+ * it stores.
+ */
+void bstree_free (BSTree * tree)
+{
+  bstree_free_rec (tree->root);
+  free (tree);
+}
+
+
+/*
  * **************************************************
  * * IMPLEMENT THIS FUNCTION ************************
  * **************************************************
@@ -188,11 +212,15 @@ BSItem * bstree_rem_rec (BSItem * root, int data)
     /* there is no left subtree: use the "parent re-attachment trick"
        to replace this root with its right subtree (which may be NULL,
        in which case this root was a leaf node) */
-    return root->right;
+    BSItem *tmp = root->right;
+    free (root);
+    return tmp;
   }
   if (NULL == root->right) {
     /* the other way around is just as easy... */
-    return root->left;
+    BSItem *tmp = root->left;
+    free (root);
+    return tmp;
   }
   
   /*
@@ -219,6 +247,7 @@ BSItem * bstree_rem_rec (BSItem * root, int data)
     parent->right = child->right;
   else
     parent->left = child->right;
+  free (child);
   
   return root;
 }
@@ -337,5 +366,6 @@ int main (int argc, char ** argv)
   
   bstree_print_dot (tree, "diag.dot", argc, argv);
   
+  bstree_free (tree);
   return 0;
 }
