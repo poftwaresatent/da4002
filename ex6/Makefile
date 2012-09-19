@@ -14,4 +14,4 @@ recurse: $(PRG).c Makefile $(HEADERS) $(OBJECTS)
 	$(CC) $(CFLAGS) -o $(PRG) $(PRG).c $(OBJECTS)
 
 clean:
-	rm -fr *~ *.o *.dSYM $(PROGRAMS)
+	rm -fr *~ *.o *.dSYM $(PROGRAMS) *.dot
