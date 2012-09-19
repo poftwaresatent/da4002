@@ -341,7 +341,7 @@ void bstree_print_dot (BSTree * tree, const char * filename, int argc, char ** a
 	  "  to view the diagram, enter the command:\n"
 	  "    dot -Tx11 %s\n"
 	  "  to create a PDF diagram, enter the command:\n"
-	  "    dot -Tpdf diag.pdf %s\n",
+	  "    dot -Tpdf -o diag.pdf %s\n",
 	  filename, filename, filename);
 }
 
