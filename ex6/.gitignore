@@ -2,3 +2,7 @@
 *.pdf
 simple-int-heap
 str-min-heap
+*.o
+test-intheap
+test-pqueues
+test-strheap
