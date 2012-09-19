@@ -128,19 +128,6 @@ void bstree_free (BSTree * tree)
  */
 BSItem * bstree_ins_rec (BSTree * tree, BSItem * root, int data)
 {
-  if (NULL == root)
-    return bsitem_new (data);
-  
-  if (data < root->data)
-    root->left = bstree_ins_rec (tree, root->left, data);
-  else if (data > root->data)
-    root->right = bstree_ins_rec (tree, root->right, data);
-  /*
-    else ignore: we already have this data
-  */
-  
-  return root;
-  /////
   printf ("*** Please implement bstree_ins_rec\n");
   return NULL;
 }
@@ -230,13 +217,6 @@ void bstree_rem (BSTree * tree, int data)
  */
 void bstree_in_order_rec (BSItem * root)
 {
-  if (NULL == root)
-    return;
-  bstree_in_order_rec (root->left);
-  printf ("  %d", root->data);
-  bstree_in_order_rec (root->right);
-  return;
-  ////
   printf ("*** Please implement bstree_in_order_rec\n");
 }
 
