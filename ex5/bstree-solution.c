@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <err.h>
 #include <stdlib.h>
-#include <ctype.h>
 
 
 /* ==================================================
@@ -41,7 +40,8 @@ typedef struct bstree_s {
   /*
     It's a bit silly to have a struct which contains just one pointer,
     but a more general implementation of binary search trees will have
-    more structure members.
+    more structure members, such as the total number of items and a
+    cleanup function pointer.
   */
   BSItem * root;
 } BSTree;
@@ -64,6 +64,10 @@ BSTree * bstree_new ()
 
 
 /*
+ * **************************************************
+ * * IMPLEMENT THIS FUNCTION ************************
+ * **************************************************
+ *
  * Helper function for inserting an item into a tree. Users will
  * simply call the bstree_ins function instead (without the "_rec"
  * suffix). This function does one of four things:
@@ -116,6 +120,10 @@ void bstree_ins (BSTree * tree, int data)
 
 
 /*
+ * **************************************************
+ * * IMPLEMENT THIS FUNCTION ************************
+ * **************************************************
+ *
  * Helper function for removing an item from the tree. Users will
  * simply call the bstree_rem function instead (without the "_rec"
  * suffix).
@@ -124,7 +132,7 @@ void bstree_ins (BSTree * tree, int data)
  * the item which should replace that subtree. It is intended to be
  * called as follows:
  * \code
- *   tree->root = bstree_rem_rec (tree, tree->root, data);
+ *   tree->root = bstree_rem_rec (tree->root, data);
  * \endcode
  *
  * In most cases, the returned item will be just the root passed in as
@@ -155,7 +163,7 @@ void bstree_ins (BSTree * tree, int data)
  * function to give back the memory used by the, and free the item
  * which gets removed from the tree.
  */
-BSItem * bstree_rem_rec (BSTree * tree, BSItem * root, int data)
+BSItem * bstree_rem_rec (BSItem * root, int data)
 {
   BSItem *child, *parent;
   
@@ -163,11 +171,11 @@ BSItem * bstree_rem_rec (BSTree * tree, BSItem * root, int data)
     return NULL;
   
   if (data < root->data) {
-    root->left = bstree_rem_rec (tree, root->left, data);
+    root->left = bstree_rem_rec (root->left, data);
     return root;
   }
   if (data > root->data) {
-    root->right = bstree_rem_rec (tree, root->right, data);
+    root->right = bstree_rem_rec (root->right, data);
     return root;
   }
   
@@ -222,7 +230,29 @@ BSItem * bstree_rem_rec (BSTree * tree, BSItem * root, int data)
  */
 void bstree_rem (BSTree * tree, int data)
 {
-  tree->root = bstree_rem_rec (tree, tree->root, data);
+  tree->root = bstree_rem_rec (tree->root, data);
+}
+
+
+void bstree_in_order_rec (BSItem * root)
+{
+  if (NULL == root)
+    return;
+  bstree_in_order_rec (root->left);
+  printf ("  %d", root->data);
+  bstree_in_order_rec (root->right);
+}
+
+
+/*
+ * User function to start the in-order traversal at the root of the
+ * tree. It simply calls the recursive in-order traversal function and
+ * appends a newline.
+ */
+void bstree_in_order (BSTree * tree)
+{
+  bstree_in_order_rec (tree->root);
+  printf ("\n");
 }
 
 
@@ -237,16 +267,43 @@ typedef enum {
 } pstate_t;
 
 
-void print_dot (BSItem * item)
+void bstree_print_dot_rec (BSItem * item, FILE * of)
 {
   if (NULL != item->left) {
-    print_dot (item->left);
-    printf ("  \"%d\" -> \"%d\" [label=\"l\"];\n", item->data, item->left->data);
+    bstree_print_dot_rec (item->left, of);
+    fprintf (of, "  \"%d\" -> \"%d\" [label=\"l\"];\n", item->data, item->left->data);
   }
   if (NULL != item->right) {
-    printf ("  \"%d\" -> \"%d\" [label=\"r\"];\n", item->data, item->right->data);
-    print_dot (item->right);
+    fprintf (of, "  \"%d\" -> \"%d\" [label=\"r\"];\n", item->data, item->right->data);
+    bstree_print_dot_rec (item->right, of);
   }
+}
+
+
+void bstree_print_dot (BSTree * tree, const char * filename, int argc, char ** argv)
+{
+  int ii;
+  FILE * of;
+  
+  if (NULL == (of = fopen (filename, "w")))
+    err (EXIT_FAILURE, "bstree_print_dot: fopen %s", filename);
+  
+  fprintf (of, "digraph \"BSTree\" {\n  graph [label=\"BSTree '%s", argv[1]);
+  for (ii = 2; ii < argc; ++ii)
+    fprintf (of, " %s", argv[ii]);
+  fprintf (of, "'\",overlap=scale];\n");
+  
+  bstree_print_dot_rec (tree->root, of);
+  
+  fprintf (of, "}\n");
+  
+  fclose (of);
+  printf ("Graphviz file written to %s.\n"
+	  "  to view the diagram, enter the command:\n"
+	  "    dot -Tx11 %s\n"
+	  "  to create a PDF diagram, enter the command:\n"
+	  "    dot -Tpdf diag.pdf %s\n",
+	  filename, filename, filename);
 }
 
 
@@ -263,9 +320,9 @@ int main (int argc, char ** argv)
   
   ps = INSERT;
   for (ii = 1; ii < argc; ++ii) {
-    if ('I' == toupper(argv[ii][0]))
+    if ('i' == argv[ii][0])
       ps = INSERT;
-    else if ('R' == toupper(argv[ii][0]))
+    else if ('r' == argv[ii][0])
       ps = REMOVE;
     else {
       int num;
@@ -278,12 +335,7 @@ int main (int argc, char ** argv)
     }
   }
   
-  printf ("digraph \"BSTree\" {\n  graph [label=\"%s", argv[1]);
-  for (ii = 2; ii < argc; ++ii)
-    printf (" %s", argv[ii]);
-  printf ("\",overlap=scale];\n");
-  print_dot (tree->root);
-  printf ("}\n");
+  bstree_print_dot (tree, "diag.dot", argc, argv);
   
   return 0;
 }
