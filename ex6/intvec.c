@@ -1,4 +1,4 @@
-#include "intvector.h"
+#include "intvec.h"
 
 #include <stdlib.h>
 #include <err.h>
@@ -7,23 +7,23 @@
 #define START_CAPACITY 4
 
 
-IntVector * intvector_new ()
+IntVec * intvec_new ()
 {
-  IntVector * vec;
+  IntVec * vec;
   if (NULL == (vec = calloc (1, sizeof (*vec))))
     err (EXIT_FAILURE, __FILE__": %s: calloc", __func__);
   return vec;
 }
 
 
-void intvector_delete (IntVector * vec)
+void intvec_delete (IntVec * vec)
 {
   free (vec->arr);
   free (vec);
 }
 
 
-static void grow (IntVector * vec)
+static void grow (IntVec * vec)
 {
   size_t newcap;
   int * newarr;
@@ -43,7 +43,7 @@ static void grow (IntVector * vec)
 }
 
 
-void intvector_ins (IntVector * vec, size_t pos, int value)
+void intvec_ins (IntVec * vec, size_t pos, int value)
 {
   if (pos > vec->len)
     pos = vec->len;
@@ -65,7 +65,7 @@ void intvector_ins (IntVector * vec, size_t pos, int value)
 }
 
 
-int intvector_rem (IntVector * vec, size_t pos)
+int intvec_rem (IntVec * vec, size_t pos)
 {
   int result;
   int *dst;
@@ -92,29 +92,29 @@ int intvector_rem (IntVector * vec, size_t pos)
 }
 
 
-size_t intvector_ins_asc (IntVector * vec, int num)
+size_t intvec_ins_asc (IntVec * vec, int num)
 {
   size_t pos;
   for (pos = 0; pos < vec->len; ++pos)
     if (vec->arr[pos] > num)
       break;
-  intvector_ins (vec, pos, num);
+  intvec_ins (vec, pos, num);
   return pos;
 }
 
 
-size_t intvector_ins_desc (IntVector * vec, int num)
+size_t intvec_ins_desc (IntVec * vec, int num)
 {
   size_t pos;
   for (pos = 0; pos < vec->len; ++pos)
     if (vec->arr[pos] < num)
       break;
-  intvector_ins (vec, pos, num);
+  intvec_ins (vec, pos, num);
   return pos;
 }
 
 
-int intvector_linsearch (IntVector * vec, int num, size_t * pos)
+int intvec_linsearch (IntVec * vec, int num, size_t * pos)
 {
   size_t ii;
   for (ii = 0; ii < vec->len; ++ii)
@@ -126,7 +126,7 @@ int intvector_linsearch (IntVector * vec, int num, size_t * pos)
 }
 
 
-int intvector_findmin (IntVector * vec, size_t * pos)
+int intvec_findmin (IntVec * vec, size_t * pos)
 {
   int min_so_far;
   size_t ii;
@@ -143,7 +143,7 @@ int intvector_findmin (IntVector * vec, size_t * pos)
 }
 
 
-int intvector_findmax (IntVector * vec, size_t * pos)
+int intvec_findmax (IntVec * vec, size_t * pos)
 {
   int max_so_far;
   size_t ii;
@@ -160,7 +160,7 @@ int intvector_findmax (IntVector * vec, size_t * pos)
 }
 
 
-int intvector_binsearch (IntVector * vec, int num, size_t * pos)
+int intvec_binsearch (IntVec * vec, int num, size_t * pos)
 {
   size_t low = 0;
   size_t high = vec->len - 1;
@@ -179,7 +179,7 @@ int intvector_binsearch (IntVector * vec, int num, size_t * pos)
 }
 
 
-void intvector_dump (IntVector * vec, char * name, FILE * of)
+void intvec_dump (IntVec * vec, char * name, FILE * of)
 {
   size_t ii;
   fprintf (of, "%s [%2lu/%2lu]", name, vec->len, vec->cap);
