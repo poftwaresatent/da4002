@@ -1,0 +1,182 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-gb" lang="en-gb">
+<head>
+  <meta http-equiv="content-type" content="text/html">
+  <title>itads 2012 / exercise 5</title>
+  <link rel="stylesheet" href="style.css" type="text/css">
+</head>
+
+<body>
+
+<h1>ITADS 2012 exercise 5<br/>recursion and trees</h1>
+
+
+
+<h2>exercise 5.1: recursion</h2>
+
+<p>
+The source code <a href="itads2012/ex5/recursion.c">recursion.c</a> contains three different implementations of the <tt>power</tt> function, which computes <a href="http://en.wikipedia.org/wiki/Exponentiation">exponentiation</a> (for integer exponents only).
+Each implementation does the same thing, but one of them prints detailed messages about what is going on.
+</p>
+
+<ol>
+  <li>
+    Compile and run <tt>recursion</tt>.
+    Read the program output side-by-side with the source code and make sure you understand what's going on:
+    <ul>
+      <li>
+	The <tt>power_verbose</tt> function <em>calls itself</em> (with a modified argument)!
+      </li>
+      <li>
+	That is called <em>recursion</em>, and it is a very useful programming technique.
+      </li>
+      <li>
+	In this case, the recursion computes the power function for a smaller exponent.
+	Then, we simply multiply that result with the base.
+      </li>
+    </ul>
+  </li>
+  <li>
+    Download the partial code <a href="itads2012/ex5/factorial.c">factorial.c</a> and implement the <tt>factorial</tt> function such that it recursively computes the <a href="http://en.wikipedia.org/wiki/Factorial">factorial</a> of the given number.
+    There are comments in the code which explain this in more detail.
+    When you're finished, the output of the <tt>factorial</tt> program should be:
+    <pre class="command">
+ 0! =       1
+ 1! =       1
+ 2! =       2
+ 3! =       6
+ 4! =      24
+ 5! =     120
+ 6! =     720
+ 7! =    5040
+ 8! =   40320
+ 9! =  362880
+10! = 3628800</pre>
+  </li>
+</ol>
+
+<p>
+The important thing to understand about recursion is:
+</p>
+
+<ul>
+  <li>
+    There has to be a termination condition for which the result can be computed <em>without recursion</em>.
+  </li>
+  <li>
+    Recursive functions call themselves, but with modified arguments.
+  </li>
+  <li>
+    The sequence of argument modifications through the recursive calls must lead to a situation where the termination condition is fulfilled.
+    Otherwise, an infinite recursion would result (which will crash your program).
+  </li>
+</ul>
+
+
+
+<h2>exercise 5.2: child-sibling trees</h2>
+
+<p>
+The partial implementation of child-sibling trees in <a href="itads2012/ex5/cstree.c">cstree.c</a> is ready to run, but it is missing the function implementations for computing printing the items in the tree, as well the function for computing the depth of each item.
+</p>
+
+<ol>
+  <li>
+    Implement the <tt>cstree_post_order</tt> function (line 111).
+    With a correct implementation of the post-order traversal function, the program output should look like this:
+    <pre class="command">
+computing depth
+*** Please implement cstree_compute_depth.
+post-order traversal:
+1
+2
+B
+C
+3
+4
+5
+6
+D
+x
+y
+z
+7
+E
+A
+pre-order traversal:
+*** Please implement cstree_pre_order.</pre>
+  </li>
+  <li>
+    Implement the <tt>compute_depth</tt> function (line 142 in the original <tt>cstree.c</tt>).
+    After that, the output of post-order traversal should be nicely indented, like this:
+    <pre class="command">
+initializing tree
+computing depth
+post-order traversal:
+    1
+    2
+  B
+  C
+    3
+    4
+    5
+    6
+  D
+      x
+      y
+      z
+    7
+  E
+A
+pre-order traversal:
+*** Please implement cstree_pre_order.</pre>
+  </li>
+  <li>
+    Finally, implement <tt>cstree_pre_order</tt> (originally on line 157).
+    Then, your output should look like this:
+    <pre class="command">
+initializing tree
+computing depth
+post-order traversal:
+    1
+    2
+  B
+  C
+    3
+    4
+    5
+    6
+  D
+      x
+      y
+      z
+    7
+  E
+A
+pre-order traversal:
+A
+  B
+    1
+    2
+  C
+  D
+    3
+    4
+    5
+    6
+  E
+    7
+      x
+      y
+      z</pre>
+  </li>
+</ol>
+
+
+
+<h2>exercise 5.3: binary search trees</h2>
+
+
+
+</body>
+</html>

@@ -79,23 +79,23 @@ void cstree_compute_depth (CSItem * item, int parent_depth)
 }
 
 
-void cstree_preorder (CSItem * item)
+void cstree_pre_order (CSItem * item)
 {
   int ii;
   for (ii = 0; ii < item->depth; ++ii)
     printf ("  ");
   printf ("%c\n", item->data);
   for (item = item->child; NULL != item; item = item->sibling)
-    cstree_preorder (item);
+    cstree_pre_order (item);
 }
 
 
-void cstree_postorder (CSItem * item)
+void cstree_post_order (CSItem * item)
 {
   int ii;
   CSItem * child;
   for (child = item->child; NULL != child; child = child->sibling)
-    cstree_postorder (child);
+    cstree_post_order (child);
   for (ii = 0; ii < item->depth; ++ii)
     printf ("  ");
   printf ("%c\n", item->data);
@@ -122,11 +122,11 @@ int main (int argc, char ** argv)
   printf ("computing depth\n");
   cstree_compute_depth (root, -1);
   
-  printf ("pre-order traversal:\n");
-  cstree_preorder (root);
-  
   printf ("post-order traversal:\n");
-  cstree_postorder (root);
+  cstree_post_order (root);
+  
+  printf ("pre-order traversal:\n");
+  cstree_pre_order (root);
   
   cstree_free (root);
   return 0;

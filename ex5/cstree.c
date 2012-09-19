@@ -168,11 +168,11 @@ int main (int argc, char ** argv)
   printf ("initializing tree\n");
   root = cstree_parse (NULL, &spec);
   
-  printf ("post-order traversal:\n");
-  cstree_post_order (root);
-  
   printf ("computing depth\n");
   cstree_compute_depth (root, -1);
+  
+  printf ("post-order traversal:\n");
+  cstree_post_order (root);
   
   printf ("pre-order traversal:\n");
   cstree_pre_order (root);
