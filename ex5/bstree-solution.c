@@ -263,6 +263,16 @@ void bstree_rem (BSTree * tree, int data)
 }
 
 
+/*
+ * **************************************************
+ * * IMPLEMENT THIS FUNCTION ************************
+ * **************************************************
+ *
+ * In-order traversal of a binary search tree. This recursive function
+ * gets called by bstree_in_order. Every item that gets visited prints
+ * two spaces and then its data. No nweline is printed, that is done
+ * by the caller (i.e. bstree_in_order).
+ */
 void bstree_in_order_rec (BSItem * root)
 {
   if (NULL == root)
@@ -343,7 +353,11 @@ int main (int argc, char ** argv)
   BSTree * tree;
   
   if (2 > argc)
-    errx (EXIT_FAILURE, "Please provide a sequence of insertions and removals.");
+    errx (EXIT_FAILURE,
+	  "Please provide a sequence of insertions and removals.\n"
+	  "For example, give the following command:\n"
+	  "  %s 4 2 6 1 3 5 7",
+	  argv[0]);
   
   tree = bstree_new ();
   
@@ -357,10 +371,16 @@ int main (int argc, char ** argv)
       int num;
       if (1 != sscanf (argv[ii], "%d", &num))
 	errx (EXIT_FAILURE, "failed to parse integer from argument %d `%s'", ii, argv[ii]);
-      if (INSERT == ps)
+      if (INSERT == ps) {
+	printf ("inserting %d\n", num);
 	bstree_ins (tree, num);
-      else
+	bstree_in_order (tree);
+      }
+      else {
+	printf ("removing %d\n", num);
 	bstree_rem (tree, num);
+	bstree_in_order (tree);
+      }
     }
   }
   
