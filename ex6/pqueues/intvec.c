@@ -182,7 +182,7 @@ int intvec_binsearch (IntVec * vec, int num, size_t * pos)
 void intvec_dump (IntVec * vec, char * name, FILE * of)
 {
   size_t ii;
-  fprintf (of, "%s [%2lu/%2lu]", name, vec->len, vec->cap);
+  fprintf (of, "%s [%2zu/%2zu]", name, vec->len, vec->cap);
   for (ii = 0; ii < vec->len; ++ii)
     fprintf (of, " %3d", vec->arr[ii]);
   fprintf (of, "\n");
