@@ -131,6 +131,37 @@ IntBST * intbst_rem (IntBST * root, int data)
 }
 
 
+IntBST * intbst_rem_max (IntBST * root, IntBST ** maxitem)
+{
+  IntBST *parent, *child;
+  
+  if (NULL == root) {
+    if (NULL != maxitem)
+      *maxitem = NULL;
+    return NULL;
+  }
+  
+  child = root;
+  parent = NULL;
+  while (NULL != child->right) {
+    parent = child;
+    child = child->right;
+  }
+  
+  if (NULL == parent)
+    root = child->left;
+  else
+    parent->right = child->left;
+  
+  if (NULL != maxitem)
+    *maxitem = child;
+  else
+    free (child);
+  
+  return root;
+}
+
+
 void intbst_in_order (IntBST * root, intbst_visit_fct_t fct, void * arg)
 {
   if (NULL == root)

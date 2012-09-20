@@ -94,6 +94,10 @@ IntBST * intbst_ins (IntBST * root, int data);
  */
 IntBST * intbst_rem (IntBST * root, int data);
 
+
+IntBST * intbst_rem_max (IntBST * root, IntBST ** maxitem);
+
+
 /*
  * In-order traversal with a custom function to be applied for each
  * item. The given extra arg is passed to the fct for each item as
