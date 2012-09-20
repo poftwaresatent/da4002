@@ -1,8 +1,8 @@
 CC       = gcc
 CFLAGS   = -Wall -O0 -g -pipe
 HEADERS  = $(shell ls *.h)
-OBJECTS  = $(shell ls *.c | grep -v -e '^main-' -e '^test-' | sed 's:\.c$$:.o:')
-PROGRAMS = $(shell ls main-*.c test-*.c | sed 's:\.c$$::')
+OBJECTS  = $(shell ls *.c | grep -v -e '^main' -e '^test' | sed 's:\.c$$:.o:')
+PROGRAMS = $(shell ls main*.c test*.c | sed 's:\.c$$::')
 
 all:
 	for prg in $(PROGRAMS); \

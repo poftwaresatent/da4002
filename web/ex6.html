@@ -1,0 +1,208 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-gb" lang="en-gb">
+<head>
+  <meta http-equiv="content-type" content="text/html">
+  <title>itads 2012 / exercise 6</title>
+  <link rel="stylesheet" href="style.css" type="text/css">
+</head>
+
+<body>
+
+<h1>ITADS 2012 exercise 6<br/>make, priority queues, and heaps</h1>
+
+
+
+<h2>exercise 6.1: splitting your projects into multiple files</h2>
+
+<p>
+So far we have always placed all the code required for a given program into a single source file.
+For small programs, this is approach works fine, but for larger programs it becomes necessary to decompose the code into modules that can be used and composed independently of each other.
+Also, you will often start to reuse code that provides certain functionality in more than one program, and it quickly becomes tedious and error-prone to maintain separate copies of the same functions in many files.
+</p>
+
+<h3>header and source file</h3>
+
+<p>
+The key to splitting your C projects into multiple files is the distinction between <em>header</em> files and <em>source</em> files:
+</p>
+
+<dl>
+  <dt>
+    Header files
+  </dt>
+  <dd>
+    are intended to be included into other C files by using <tt>#include</tt> statements.
+    You have already used such statements in all the examples, in order to include functionality from standard libraries.
+    Headers are C source files which contain practically only <em>declarations</em> but <em>no definitions</em>, and by convention header files have the extension "<tt>.h</tt>" (for example <tt>stdio.h</tt>).
+  </dd>
+  <dt>
+    Source files
+  </dt>
+  <dd>
+    contain the actual code which <em>defines</em> how computations need to be performed in order to provide the functionality which is declared in a header.
+    Every program is a source file, or rather: every C file which defines a <tt>main</tt> function is the source for an executable program.
+    But sources do not necessarily need a <tt>main</tt> function.
+    Instead, they can "just" be a collection of functions, to be reused in many programs.
+  </dd>
+</dl>
+
+<p>
+When splitting your projects into multiple files, you will have to think about your programs on a higher level, namely in terms of modules that get integrated into an overall program.
+For example, if your project uses linked lists and binary search trees, it usually makes the most sense to create one module for the lists, one module for the trees, and a separate program module which contains the <tt>main</tt> function.
+Every module in C will have (at least) one header and (at least) one source.
+For the example above, you would probably end up with the following four files:
+</p>
+
+<dl>
+  <dt>
+    <tt>list.h</tt>
+  </dt>
+  <dd>
+    contains code that defines the list structure type and declares the list functions that are provided by the list module.
+  </dd>
+  <dt>
+    <tt>list.c</tt>
+  </dt>
+  <dd>
+    contains the code that actually implements the functions that are declared in the <tt>list.h</tt> header.
+    The <tt>list.c</tt> source can also contain some "hidden" code that may be useful for the list module, for example internal helper functions that should not be used by code outside of the list module.
+    Note that in the vast majority of cases <tt>list.c</tt> will <b>not define a <tt>main</tt> function</b>.
+    The list module provides functionality that can be used in many programs, and each program can only have one <tt>main</tt> function, so it is important to keep <tt>main</tt> out of <tt>list.c</tt>.
+  </dd>
+  <dt>
+    <tt>tree.h</tt>
+  </dt>
+  <dd>
+    like the <tt>list.h</tt> header, this will define types and declare functions required to use the functionality provided by the tree module.
+  </dd>
+  <dt>
+    <tt>tree.c</tt>
+  </dt>
+  <dd>
+    contains the code that implements the tree functions, as declared in the <tt>tree.h</tt> header.
+    Again, note that there will be <b>no <tt>main</tt> function</b> in <tt>tree.c</tt>.
+  </dd>
+  <dt>
+    <tt>test-prog.c</tt>
+  </dt>
+  <dd>
+    could be the name of the source file which contains a <tt>main</tt> function, thus making it a source file fr an executable program.
+    For example, <tt>test-prog</tt> could be a test program which uses the list and tree modules in some combination, and tests whether they are free of programming errors.
+  </dd>
+</dl>
+
+<p>
+In order to reuse the functionality from the list and tree modules, the <tt>test-prog.c</tt> source will contain <tt>#include</tt> statements that import the declarations necessary to connect <tt>test-prog</tt> with the functionality provided by the list and tree modules.
+When including such self-made modules, you normally use a different syntax for the <tt>#include</tt> statements:
+instead of the pointy brackets (&lt; and &gt;), you use a pair of double quotes (" and ") to enclose the header file name.
+This tells the compiler to search for these header files in the current working directory.
+</p>
+
+<p>
+Header files are further discussed in [K+R] section 4.5, but one thing they fail to mention there is an important mecanism to avoid "multiple definition" errors when a header gets included more than once.
+This may sound like an unusual situation, but it happens in practice because headers can include other headers.
+The solution to this problem is to use <a href="http://en.wikipedia.org/wiki/Include_guard">include guards</a> (also called header guards).
+Please read the Wikipedia article for more details.
+The take-home message is to always start your header with two lines like these, where you have to replace "<tt>UNIQUE_STRING</tt>" with a name that is unique for the header:
+</p>
+
+<pre class="sourcecode">
+#ifndef UNIQUE_STRING
+#define UNIQUE_STRING</pre>
+
+<p>
+...and to always finish your headers with the following line:
+</p>
+
+<pre class="sourcecode">
+#endif</pre>
+
+<p>
+A good practical method for choosing <tt>UNIQUE_STRING</tt> is to use a combination of project and header names, and append something to indicate that it is a header.
+For example, in a project called "itads exercise 6" there is a header file called "list.h" which would look like this:
+</p>
+
+<pre class="sourcecode">
+#ifndef ITADS_EX6_LIST_H
+#define ITADS_EX6_LIST_H
+
+/* The actual header content goes here... */
+
+#endif</pre>
+
+<h3>compilation and Makefiles</h3>
+
+<p>
+When your project is split into multiple files, the compilation process is split into several steps.
+As usual, there is more than one way to do it.
+Here we just look at one of the simplest possibilities, sufficient for relatively small projects:
+</p>
+
+<ol>
+  <li>
+    Compile each module source file into a separate <em>object</em> file (by convention, these have a ".o" extension).
+    This is achieved by passing the "-c" option to gcc, for example when compiling a source called <tt>list.c</tt> you would use:
+    <pre class="command">
+gcc -Wall -c list.c</pre>
+    In this case, gcc automatically sets the output file name to <tt>list.o</tt>.<br/>
+    <em><u>NOTE:</u> we skip this step for sources of executables (in other words, source files that define a <tt>main</tt> function), such as <tt>test-prog</tt> in the above example.</em>
+  </li>
+  <li>
+    Compile your executables and "link" them with the object files.
+    This is done by using essentially the type of gcc command that we have been using for all the exercises so far, except that in addition to the source file with the <tt>main</tt> function, we have to list all the required object files.
+    Thus, the command for compiling our <tt>test-prog</tt> looks like this:
+    <pre class="command">
+gcc -Wall -o test-prog test-prog.c list.o tree.o</pre>
+    Notice that we simply appended "<tt>list.o tree.o</tt>" to the command that we would have written if all the code had been in a single file.
+  </li>
+</ol>
+
+<p>
+When you have several files in your project, it quickly becomes tedious and error prone to enter all those gcc commands in the correct order and with all the required options.
+This is why many tools have been developed to manage this build process automatically.
+We will use the <tt>make</tt> tool for this purpose, specifically <a href="http://www.gnu.org/software/make/">GNU Make</a>, which is readily available for many operating systems.
+</p>
+
+<p>
+The <tt>make</tt> build tool is configured for your specific project by providing a file called <tt>Makefile</tt> which lists the project source files, the "targets" that you want to build from them (such as the objects and executables), and how you would like the compiler to be invoked.
+When you have a Makefile that properly describes your project, you can simply type:
+</p>
+
+<pre class="command">
+make</pre>
+
+<p>
+...and <tt>make</tt> will automatically find out what needs to be compiled in what order, and execute those compilations for you.
+It also prints progress information, and in case of compilation errors it will print the compiler messages and abort the build process.
+</p>
+
+<p>
+We will not discuss the syntax of Makefiles.
+You can just use this <a href="itads2012/ex6/Makefile">generic Makefile</a> to manage simple projects that <b>adhere to the following conventions</b>:
+</p>
+
+<ul>
+  <li>
+    All your .c and .h files are in the same directory, which is the same directory where the Makefile is stored as well.
+  </li>
+  <li>
+    All your executable sources have names that start with "main" or "test."
+    In other words, every .c file which starts with "main" or "test" contains a <tt>main</tt> function, and none of the other .c files contain a <tt>main</tt> function.
+  </li>
+</ul>
+
+<h3>try it out!</h3>
+
+<ol>
+  <li>
+  </li>
+</ol>
+
+
+
+<h2>exercise 6.2: priority queues based on vectors and trees</h2>
+
+<h2>exercise 6.3: efficient priority queues using heaps</h2>
+
+</body>
+</html>
