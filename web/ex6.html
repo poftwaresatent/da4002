@@ -16,7 +16,7 @@
 
 <p>
 So far we have always placed all the code required for a given program into a single source file.
-For small programs, this is approach works fine, but for larger programs it becomes necessary to decompose the code into modules that can be used and composed independently of each other.
+For small programs, this approach works fine, but for larger programs it becomes necessary to decompose the code into modules that can be used and composed independently of each other.
 Also, you will often start to reuse code that provides certain functionality in more than one program, and it quickly becomes tedious and error-prone to maintain separate copies of the same functions in many files.
 </p>
 
@@ -33,7 +33,8 @@ The key to splitting your C projects into multiple files is the distinction betw
   <dd>
     are intended to be included into other C files by using <tt>#include</tt> statements.
     You have already used such statements in all the examples, in order to include functionality from standard libraries.
-    Headers are C source files which contain practically only <em>declarations</em> but <em>no definitions</em>, and by convention header files have the extension "<tt>.h</tt>" (for example <tt>stdio.h</tt>).
+    Headers are C source files which contain (practically) only <em>declarations</em> but <em>no definitions</em>.
+    By convention header files have the extension "<tt>.h</tt>" (for example <tt>stdio.h</tt>).
   </dd>
   <dt>
     Source files
@@ -42,7 +43,7 @@ The key to splitting your C projects into multiple files is the distinction betw
     contain the actual code which <em>defines</em> how computations need to be performed in order to provide the functionality which is declared in a header.
     Every program is a source file, or rather: every C file which defines a <tt>main</tt> function is the source for an executable program.
     But sources do not necessarily need a <tt>main</tt> function.
-    Instead, they can "just" be a collection of functions, to be reused in many programs.
+    Instead, they can "just" be a collection of functions, to be reused in several programs.
   </dd>
 </dl>
 
@@ -86,20 +87,20 @@ For the example above, you would probably end up with the following four files:
     <tt>test-prog.c</tt>
   </dt>
   <dd>
-    could be the name of the source file which contains a <tt>main</tt> function, thus making it a source file fr an executable program.
+    could be the name of the source file which contains a <tt>main</tt> function, thus making it a source file for an executable program.
     For example, <tt>test-prog</tt> could be a test program which uses the list and tree modules in some combination, and tests whether they are free of programming errors.
   </dd>
 </dl>
 
 <p>
 In order to reuse the functionality from the list and tree modules, the <tt>test-prog.c</tt> source will contain <tt>#include</tt> statements that import the declarations necessary to connect <tt>test-prog</tt> with the functionality provided by the list and tree modules.
-When including such self-made modules, you normally use a different syntax for the <tt>#include</tt> statements:
-instead of the pointy brackets (&lt; and &gt;), you use a pair of double quotes (" and ") to enclose the header file name.
+<b>When including such self-made modules, you normally use a different syntax for the <tt>#include</tt> statements:
+instead of the pointy brackets (&lt; and &gt;), you use a pair of double quotes (" and ") to enclose the header file name.</b>
 This tells the compiler to search for these header files in the current working directory.
 </p>
 
 <p>
-Header files are further discussed in [K+R] section 4.5, but one thing they fail to mention there is an important mecanism to avoid "multiple definition" errors when a header gets included more than once.
+Header files are further discussed in [K+R] section 4.5, but one thing they fail to mention there is an important mechanism to avoid "multiple definition" errors when a header gets included more than once.
 This may sound like an unusual situation, but it happens in practice because headers can include other headers.
 The solution to this problem is to use <a href="http://en.wikipedia.org/wiki/Include_guard">include guards</a> (also called header guards).
 Please read the Wikipedia article for more details.
@@ -134,7 +135,7 @@ For example, in a project called "itads exercise 6" there is a header file calle
 
 <p>
 When your project is split into multiple files, the compilation process is split into several steps.
-As usual, there is more than one way to do it.
+There is more than one way to manage this situation.
 Here we just look at one of the simplest possibilities, sufficient for relatively small projects:
 </p>
 
@@ -145,7 +146,8 @@ Here we just look at one of the simplest possibilities, sufficient for relativel
     <pre class="command">
 gcc -Wall -c list.c</pre>
     In this case, gcc automatically sets the output file name to <tt>list.o</tt>.<br/>
-    <em><u>NOTE:</u> we skip this step for sources of executables (in other words, source files that define a <tt>main</tt> function), such as <tt>test-prog</tt> in the above example.</em>
+    <em><u>NOTE:</u> we skip this step for sources of executables (in other words, source files that define a <tt>main</tt> function), such as <tt>test-prog</tt> in the above example.
+    Other programming courses or books may also compile executable sources into .o file, which works just as well, but then the next step has to be slightly modified.</em>
   </li>
   <li>
     Compile your executables and "link" them with the object files.
@@ -160,7 +162,7 @@ gcc -Wall -o test-prog test-prog.c list.o tree.o</pre>
 <p>
 When you have several files in your project, it quickly becomes tedious and error prone to enter all those gcc commands in the correct order and with all the required options.
 This is why many tools have been developed to manage this build process automatically.
-We will use the <tt>make</tt> tool for this purpose, specifically <a href="http://www.gnu.org/software/make/">GNU Make</a>, which is readily available for many operating systems.
+We will use the <tt>make</tt> tool for this purpose, specifically <a href="http://www.gnu.org/software/make/">GNU Make</a>, which is readily available for many operating systems and already installed on the UNIX workstations in room B231c.
 </p>
 
 <p>
@@ -187,7 +189,8 @@ You can just use this <a href="itads2012/ex6/Makefile">generic Makefile</a> to m
   </li>
   <li>
     All your executable sources have names that start with "main" or "test."
-    In other words, every .c file which starts with "main" or "test" contains a <tt>main</tt> function, and none of the other .c files contain a <tt>main</tt> function.
+    In other words, every .c file which starts with "main" or "test" contains a <tt>main</tt> function.
+    Also, the .c files whose names do <em>not</em> start with "main" or "test" <em>must not</em> contain a <tt>main</tt> function.
   </li>
 </ul>
 
@@ -195,6 +198,99 @@ You can just use this <a href="itads2012/ex6/Makefile">generic Makefile</a> to m
 
 <ol>
   <li>
+    Download the project tarball <a href="itads2012/ex6/mini.tar.gz">mini.tar.gz</a> and extract it using the following command:
+    <pre class="command">
+tar xfvz mini.tar.gz</pre>
+    Then, change into the extracted directory before proceeding.
+    <pre class="command">
+cd mini</pre>
+  </li>
+  <li>
+    Compile the project using make:
+    <pre class="command">
+make</pre>
+    The output produced by that should look similar to this:
+    <pre class="command">
+ls: cannot access test*.c: No such file or directory
+for prg in main-mini; \
+        do \
+          make recurse PRG=$prg || exit 42; \
+        done
+make[1]: Entering directory `/home/rolo/soft/itads/ex6/mini'
+gcc -Wall -O0 -g -pipe   -c -o bar.o bar.c
+gcc -Wall -O0 -g -pipe   -c -o foo.o foo.c
+gcc -Wall -O0 -g -pipe -o main-mini main-mini.c bar.o foo.o
+make[1]: Leaving directory `/home/rolo/soft/itads/ex6/mini'</pre>
+    For now, focus on the three lines beginning with "gcc," they indicate that make has compiled the sources bar.c and foo.c into the objects bar.o and foo.o, and then created the executable main-mini by compiling main-mini.c and linking it with bar.o and foo.o.
+    All of this just by typing "make" at the command line!
+    Now run the resulting program as usual:
+    <pre class="command">
+./main-mini</pre>
+    Which will produce the following output:
+    <pre class="command">
+hello from main-mini!
+ff hello from foo!
+bbb hello from bar!</pre>
+  </li>
+  <li>
+    Open the files foo.h, foo.c, bar.h, bar.c, and main-mini.c in a text editor.
+    Make sure you understand which function from which file produces what part of the program output.
+    Also notice that the header files contain only type and function declarations, but no implementation code.
+  </li>
+  <li>
+    Create a new header file called toto.h and a new source file toto.c to declare and implement the following function:
+    <pre class="sourcecode">
+void toto_init (Bar * tab, int len)
+{
+  int ii;
+  for (ii = 0; ii < len; ++ii) {
+    tab[ii].num = ii+1;
+    tab[ii].letter = 'A' + ii % 26;
+  }
+}</pre>
+    Hints:
+    <ul>
+      <li>
+	toto.h has to include bar.h in order to import the struct declaration for <tt>Bar</tt>
+      </li>
+      <li>
+	toto.h has to include a function declaration for <tt>toto_init</tt>.
+	Remember that a function declaration is just the signature followed by a semicolon.
+	You can follow the examples given by hello_foo in foo.h and foo.c.
+      </li>
+      <li>
+	toto.c has to include toto.h in order to get the declarations necessary for the implementation of toto_init.
+      </li>
+    </ul>
+    To compile your updated project, use the <tt>make</tt> command until it runs without errors.
+  </li>
+  <li>
+    Change the <tt>main</tt> function (in main-mini.c) to the following:
+    <pre class="sourcecode">
+int main (int argc, char ** argv)
+{
+  Bar tab[10];
+  int ii;
+  
+  toto_init (tab, 10);
+  for (ii = 0; ii < 10; ++ii)
+    bar_hello (tab+ii);
+  
+  return 0;
+}</pre>
+    And modify the include directives at the top of the file such that the project compilation succeeds.
+    The program output should then look like this:
+    <pre class="command">
+A hello from bar!
+BB hello from bar!
+CCC hello from bar!
+DDDD hello from bar!
+EEEEE hello from bar!
+FFFFFF hello from bar!
+GGGGGGG hello from bar!
+HHHHHHHH hello from bar!
+IIIIIIIII hello from bar!
+JJJJJJJJJJ hello from bar!</pre>
   </li>
 </ol>
 
