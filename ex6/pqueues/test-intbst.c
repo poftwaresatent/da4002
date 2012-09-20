@@ -86,6 +86,15 @@ int main (int argc, char ** argv)
   
   intbst_print_dot (root, "dump-intbst.dot", label);
   
+  printf ("repeated intbst_rem_max:  \n");
+  while (NULL != root) {
+    IntBST *maxitem;
+    root = intbst_rem_max (root, &maxitem);
+    printf (" %d", maxitem->data);
+    free (maxitem);
+  }
+  printf ("\n");
+  
   intbst_free (root);
   return 0;
 }
