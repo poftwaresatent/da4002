@@ -22,6 +22,7 @@ IntHeap * intheap_new ()
 
 void intheap_delete (IntHeap * heap)
 {
+#error this looks really wrong
   intheap_new (heap);
 }
 
