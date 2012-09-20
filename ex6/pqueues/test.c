@@ -1,5 +1,5 @@
-#include "sorted.h"
-#include "unsorted.h"
+#include "ivs.h"
+#include "ivu.h"
 #include <stdio.h>
 #include <err.h>
 
@@ -7,9 +7,9 @@
 int main (int argc, char ** argv)
 {
   int ii;
-  IntVec *unsorted, *sorted;
-  unsorted = intvec_new ();
-  sorted = intvec_new ();
+  IntVec *ivu, *ivs;
+  ivu = intvec_new ();
+  ivs = intvec_new ();
   
   if (2 > argc)
     errx (EXIT_FAILURE,
@@ -22,29 +22,29 @@ int main (int argc, char ** argv)
     int num;
     if (1 != sscanf (argv[ii], "%d", &num))
       errx (EXIT_FAILURE, "failed to parse integer from argument %d `%s'", ii, argv[ii]);
-    unsorted_insert (unsorted, num);
-    sorted_insert (sorted, num);
+    ivu_insert (ivu, num);
+    ivs_insert (ivs, num);
     printf ("inserted %d\n", num);
-    intvec_dump (unsorted, "  unsorted", stdout);
-    intvec_dump (sorted, "  sorted", stdout);
+    intvec_dump (ivu, "  ivu", stdout);
+    intvec_dump (ivs, "  ivs", stdout);
   }
   
   printf ("--------------------------------------------------\n");
-  while (0 < unsorted->len && 0 < sorted->len) {
-    int n1 = unsorted_extract (unsorted);
-    int n2 = sorted_extract (sorted);
+  while (0 < ivu->len && 0 < ivs->len) {
+    int n1 = ivu_extract (ivu);
+    int n2 = ivs_extract (ivs);
     if (n1 != n2)
       errx (EXIT_FAILURE, "oops, the queues don't agree (%d != %d)", n1, n2);
     fprintf (stderr, "extracted %d\n", n1);
-    intvec_dump (unsorted, "  unsorted", stdout);
-    intvec_dump (sorted, "  sorted", stdout);
+    intvec_dump (ivu, "  ivu", stdout);
+    intvec_dump (ivs, "  ivs", stdout);
   }
   
-  if (unsorted->len != sorted->len)
+  if (ivu->len != ivs->len)
     errx (EXIT_FAILURE, "oops, one of the queues is not empty...");
   
-  intvec_delete (unsorted);
-  intvec_delete (sorted);
+  intvec_delete (ivu);
+  intvec_delete (ivs);
   
   return 0;
 }

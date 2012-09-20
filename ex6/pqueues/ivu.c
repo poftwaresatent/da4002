@@ -1,15 +1,15 @@
-#include "unsorted.h"
+#include "ivu.h"
 #include <err.h>
 #include <stdlib.h>
 
 
-void unsorted_insert (IntVec * vec, int num)
+void ivu_insert (IntVec * vec, int num)
 {
   intvec_ins (vec, vec->len, num);
 }
 
 
-int unsorted_extract (IntVec * vec)
+int ivu_extract (IntVec * vec)
 {
   size_t pos;
   if ( ! intvec_findmax (vec, &pos))
