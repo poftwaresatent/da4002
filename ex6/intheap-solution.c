@@ -100,12 +100,14 @@ int main (int argc, char ** argv)
   IntHeap heap;
   heap.len = 0;			/* should have an init function */
   
-  if (2 > argc)
-    errx (EXIT_FAILURE,
-	  "Please provide a sequence of integer values to put onto the heap.\n"
-	  "For example, give the following command:\n"
-	  "  %s 1 2 3 1 2 5 4 3",
-	  argv[0]);
+  if (2 > argc) {
+    fprintf (stderr,
+	     "Please provide a sequence of integer values to put onto the heap.\n"
+	     "For example, give the following command:\n"
+	     "  %s 1 2 3 1 2 5 4 3\n",
+	     argv[0]);
+    return 42;
+  }
   
   for (ii = 1; ii < argc; ++ii) {
     int num;
