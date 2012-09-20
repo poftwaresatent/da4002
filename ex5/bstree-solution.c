@@ -88,6 +88,68 @@ void bstree_free (BSTree * tree)
 
 
 /*
+ * Helper function to recursively find an item that matches a given
+ * data. It is called by bstree_find.
+ *
+ * This function returns 1 (one) if the data was found in the tree, or
+ * 0 (zero) if it was not found.
+ */
+int bstree_find_rec (BSItem * root, int data)
+{
+  if (NULL == root)
+    return 0;
+  if (data < root->data)
+    return bstree_find_rec (root->left, data);
+  else if (data > root->data)
+    return bstree_find_rec (root->right, data);
+  
+  /*
+    If we made it here, it means the root->data == data.
+  */
+  return 1;
+}
+
+
+/*
+ * Iterative version of the helper function which finds a match for a
+ * given element.
+ *
+ * This function returns 1 (one) if the data was found in the tree, or
+ * 0 (zero) if it was not found.
+ */
+int bstree_find_iter (BSItem * root, int data)
+{
+  while (NULL != root) {
+    if (data < root->data)
+      root = root->left;
+    else if (data > root->data)
+      root = root->right;
+    else
+      return 1;
+  }
+  
+  /*
+    If we made it here, it means root == NULL (so the data was not
+    found).
+  */
+  return 0;
+}
+
+
+/*
+ * User function to find out if a given data is stored in a tree item
+ * of this tree.
+ *
+ * This function returns 1 (one) if the data was found in the tree, or
+ * 0 (zero) if it was not found.
+ */
+int bstree_find (BSTree * tree, int data)
+{
+  return bstree_find_rec (tree->root, data);
+}
+
+
+/*
  * **************************************************
  * * IMPLEMENT THIS FUNCTION ************************
  * **************************************************
@@ -385,6 +447,20 @@ int main (int argc, char ** argv)
   }
   
   bstree_print_dot (tree, "diag.dot", argc, argv);
+
+  for (ii = 1; ii < argc; ++ii) {
+    int num;
+    if ('i' == argv[ii][0])
+      continue;
+    else if ('r' == argv[ii][0])
+      continue;
+    if (1 != sscanf (argv[ii], "%d", &num))
+      continue;
+    printf ("find %d:  %s  %s\n",
+	    num,
+	    bstree_find_iter (tree->root, num) ? "iter yes" : "iter NO!",
+	    bstree_find_rec (tree->root, num) ? "rec yes" : "rec NO!");
+  }
   
   bstree_free (tree);
   return 0;
