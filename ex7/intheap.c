@@ -192,3 +192,9 @@ void intheap_debug_off (void)
 {
   debug_prefix = NULL;
 }
+
+
+int intheap_nonempty (IntHeap * heap)
+{
+  return 0 == heap->len ? 0 : 1;
+}

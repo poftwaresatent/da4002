@@ -21,6 +21,8 @@ void intheap_insert (IntHeap * heap, int num);
 
 int intheap_extract (IntHeap * heap);
 
+int intheap_nonempty (IntHeap * heap);
+
 void intheap_dump (IntHeap * heap, FILE * of);
 
 void intheap_debug_on (void);

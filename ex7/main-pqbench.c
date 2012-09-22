@@ -1,6 +1,7 @@
 #include "pqvs.h"
 #include "pqvu.h"
 #include "pqbst.h"
+#include "intheap.h"
 #include "random.h"
 #include <err.h>
 #include <time.h>
@@ -64,10 +65,12 @@ int main (int argc, char ** argv)
   
   IntVec *pqvu, *pqvs;
   PqBST *bst;
+  IntHeap * heap;
   
   pqvu = intvec_new (nmax);
   pqvs = intvec_new (nmax);
   bst = pqbst_new ();
+  heap = intheap_new (nmax);
   
   printf ("# vector with unsorted insertion\n");
   benchmark (pqvu, pqvu_insert, pqvu_extract, intvec_nonempty, nstart, nmax, nfac);
@@ -77,6 +80,9 @@ int main (int argc, char ** argv)
   
   printf ("\n\n# binary search tree\n");
   benchmark (bst, pqbst_insert, pqbst_extract, pqbst_nonempty, nstart, nmax, nfac);
+  
+  printf ("\n\n# heap\n");
+  benchmark (heap, intheap_insert, intheap_extract, intheap_nonempty, nstart, nmax, nfac);
   
   return 0;
 }
