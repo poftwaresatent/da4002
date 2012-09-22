@@ -8,8 +8,8 @@ int main (int argc, char ** argv)
 {
   int ii;
   IntVec *ivu, *ivs;
-  ivu = intvec_new ();
-  ivs = intvec_new ();
+  ivu = intvec_new (0);
+  ivs = intvec_new (0);
   
   if (2 > argc)
     errx (EXIT_FAILURE,

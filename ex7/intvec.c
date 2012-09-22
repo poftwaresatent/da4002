@@ -4,14 +4,14 @@
 #include <err.h>
 
 
-#define START_CAPACITY 4
-
-
-IntVec * intvec_new ()
+IntVec * intvec_new (size_t startcap)
 {
   IntVec * vec;
-  if (NULL == (vec = calloc (1, sizeof (*vec))))
+  if (NULL == (vec = calloc (1, sizeof *vec)))
     err (EXIT_FAILURE, __FILE__": %s: calloc", __func__);
+  if (0 < startcap && NULL == (vec->arr = malloc (startcap * sizeof *vec->arr)))
+    err (EXIT_FAILURE, __FILE__": %s: malloc", __func__);
+  vec->cap = startcap;
   return vec;
 }
 
@@ -28,18 +28,15 @@ static void grow (IntVec * vec)
   size_t newcap;
   int * newarr;
   
-  if (0 == vec->cap) {
-    if (NULL == (vec->arr = malloc (START_CAPACITY * sizeof(*vec->arr))))
-      err (EXIT_FAILURE, __FILE__": %s: malloc", __func__);
-    vec->cap = START_CAPACITY;
-  }
-  else {
+  if (0 == vec->cap)
+    newcap = 256;
+  else
     newcap = 2 * vec->cap;
-    if (NULL == (newarr = realloc (vec->arr, newcap * sizeof(*vec->arr))))
-      err (EXIT_FAILURE, __FILE__": %s: realloc", __func__);
-    vec->arr = newarr;
-    vec->cap = newcap;
-  }
+  
+  if (NULL == (newarr = realloc (vec->arr, newcap * sizeof(*vec->arr))))
+    err (EXIT_FAILURE, __FILE__": %s: realloc", __func__);
+  vec->arr = newarr;
+  vec->cap = newcap;
 }
 
 
@@ -186,4 +183,11 @@ void intvec_dump (IntVec * vec, char * name, FILE * of)
   for (ii = 0; ii < vec->len; ++ii)
     fprintf (of, " %3d", vec->arr[ii]);
   fprintf (of, "\n");
+}
+
+
+
+int intvec_nonempty (IntVec * vec)
+{
+  return 0 == vec->len ? 0 : 1;
 }

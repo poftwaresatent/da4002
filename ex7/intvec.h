@@ -12,7 +12,7 @@ typedef struct {
 } IntVec;
 
 
-IntVec * intvec_new ();
+IntVec * intvec_new (size_t startcap);
 
 void intvec_delete (IntVec * vec);
 
@@ -33,5 +33,7 @@ int intvec_findmax (IntVec * vec, size_t * pos);
 int intvec_binsearch (IntVec * vec, int num, size_t * pos);
 
 void intvec_dump (IntVec * vec, char * name, FILE * of);
+
+int intvec_nonempty (IntVec * vec);
 
 #endif /* ITADS_EX6_INTVEC_H */
