@@ -6,76 +6,68 @@
 #include <time.h>
 
 
-int main (int argc, char ** argv)
+static void benchmark (void * cont,
+		       void (*insert)(void*, int), int (*extract)(void*), int (*nonempty)(void*),
+		       size_t nstart, size_t nmax, double nfac)
 {
-  size_t nn;
+  double nd;
   
-  for (nn = 10; nn < 30000; nn *= 2) {
-    size_t ii;
+  if (nfac <= 1.0)
+    nfac = 1.1;
+  
+  /*       12345\t12345678  12345678  12345678  12345678 */
+  printf ("#   N\t   T tot     T ins    T both     T ext\n");
+  for (nd = nstart; nd <= nmax; nd *= nfac) {
+    size_t nn, ii;
     int *arr, *num;
-    IntVec *ivu, *ivs;
     clock_t tt[4];
+    
+    nn = nd;
     
     if (NULL == (arr = malloc (2 * nn * sizeof *arr)))
       err (EXIT_FAILURE, __FILE__": %s: malloc", __func__);
-    ivu = intvec_new ();
-    ivs = intvec_new ();
-    
     random_uniform_array (-1000, 1000, arr, nn);
     
     printf ("%5zu", nn);
     fflush (stdout);
     
-    /* integer vector, unsorted */
-    
     num = arr;
     tt[0] = clock ();
     for (ii = 0; ii < nn; ++ii)
-      ivu_insert (ivu, *(num++));
+      insert (cont, *(num++));
     tt[1] = clock ();
     for (ii = 0; ii < nn; ++ii) {
-      ivu_extract (ivu);
-      ivu_insert (ivu, *(num++));
+      extract (cont);
+      insert (cont, *(num++));
     }
     tt[2] = clock ();
-    while (0 < ivu->len)
-      ivu_extract (ivu);
+    while (nonempty (cont))
+      extract (cont);
     tt[3] = clock ();
-    printf ("\t%8ld  %8ld  %8ld  %8ld",
+    printf ("\t%8ld  %8ld  %8ld  %8ld\n",
 	    tt[3] - tt[0],
 	    tt[1] - tt[0],
 	    tt[2] - tt[1],
 	    tt[3] - tt[2]);
-    fflush (stdout);
     
-    /* integer vector, sorted */
-    
-    num = arr;
-    tt[0] = clock ();
-    for (ii = 0; ii < nn; ++ii)
-      ivs_insert (ivs, *(num++));
-    tt[1] = clock ();
-    for (ii = 0; ii < nn; ++ii) {
-      ivs_extract (ivs);
-      ivs_insert (ivs, *(num++));
-    }
-    tt[2] = clock ();
-    while (0 < ivs->len)
-      ivs_extract (ivs);
-    tt[3] = clock ();
-    printf ("\t%8ld  %8ld  %8ld  %8ld",
-	    tt[3] - tt[0],
-	    tt[1] - tt[0],
-	    tt[2] - tt[1],
-	    tt[3] - tt[2]);
-    fflush (stdout);
-    
-    printf ("\n");
-    
-    intvec_delete (ivu);
-    intvec_delete (ivs);
     free (arr);    
   }
+
+}
+
+
+int main (int argc, char ** argv)
+{
+  size_t nstart = 10;
+  size_t nmax = 30000;
+  double nfac = 1.4142;
+  
+  IntVec *ivu, *ivs;
+  
+  ivu = intvec_new (nmax);
+  ivs = intvec_new (nmax);
+  
+  benchmark (ivu, ivu_insert, ivu_extract, intvec_nonempty, nstart, nmax, nfac);
   
   return 0;
 }
