@@ -62,7 +62,8 @@ int main (int argc, char ** argv)
   size_t nstart = 10;
   size_t nmax = 30000;
   double nfac = 1.4142;
-  
+  size_t big = 100;
+
   IntVec *pqvu, *pqvs;
   PqBST *bst;
   IntHeap * heap;
@@ -70,19 +71,19 @@ int main (int argc, char ** argv)
   pqvu = intvec_new (nmax);
   pqvs = intvec_new (nmax);
   bst = pqbst_new ();
-  heap = intheap_new (nmax);
+  heap = intheap_new (big * nmax);
   
-  printf ("# vector with unsorted insertion\n");
+  printf ("# vector with unsorted insertion, extraction based on find_max\n");
   benchmark (pqvu, pqvu_insert, pqvu_extract, intvec_nonempty, nstart, nmax, nfac);
   
-  printf ("\n\n# vector with sorted insertion\n");
+  printf ("\n\n# vector with sorted insertion, extraction from the end\n");
   benchmark (pqvs, pqvs_insert, pqvs_extract, intvec_nonempty, nstart, nmax, nfac);
   
-  printf ("\n\n# binary search tree\n");
-  benchmark (bst, pqbst_insert, pqbst_extract, pqbst_nonempty, nstart, nmax, nfac);
+  printf ("\n\n# binary search tree, extraction via rem_max\n");
+  benchmark (bst, pqbst_insert, pqbst_extract, pqbst_nonempty, nstart, big * nmax, nfac);
   
   printf ("\n\n# heap\n");
-  benchmark (heap, intheap_insert, intheap_extract, intheap_nonempty, nstart, nmax, nfac);
+  benchmark (heap, intheap_insert, intheap_extract, intheap_nonempty, nstart, big * nmax, nfac);
   
   return 0;
 }
