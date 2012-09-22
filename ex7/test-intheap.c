@@ -11,7 +11,7 @@ int main (int argc, char ** argv)
   
   intheap_debug_on ();
   
-  heap = intheap_new ();
+  heap = intheap_new (argc);
   
   for (ii = 1; ii < argc; ++ii) {
     int num;

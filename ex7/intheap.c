@@ -2,7 +2,6 @@
 
 #include <err.h>
 #include <stdlib.h>
-/* #include <string.h> */
 
 
 #define BUFSIZE  1024
@@ -11,19 +10,22 @@
 static const char const * debug_prefix = NULL;
 
 
-IntHeap * intheap_new ()
+IntHeap * intheap_new (size_t cap)
 {
   IntHeap * heap;
   if (NULL == (heap = calloc (1, sizeof(*heap))))
     err (EXIT_FAILURE, __FILE__": %s: calloc", __func__);
+  if (NULL == (heap->num = calloc (cap + 1, sizeof(*heap->num))))
+    err (EXIT_FAILURE, __FILE__": %s: calloc", __func__);
+  heap->cap = cap;
   return heap;
 }
 
 
 void intheap_delete (IntHeap * heap)
 {
-#error this looks really wrong
-  intheap_new (heap);
+  free (heap->num);
+  free (heap);
 }
 
 
@@ -119,7 +121,7 @@ static void bubble_down (IntHeap * heap, size_t index)
 
 void intheap_insert (IntHeap * heap, int num)
 {
-  if (INTHEAP_CAPACITY <= heap->len)
+  if (heap->cap <= heap->len)
     errx (EXIT_FAILURE, __FILE__": %s: heap is full", __func__);
   heap->num[++heap->len] = num; /* pre-increment because num starts at [1] */
   

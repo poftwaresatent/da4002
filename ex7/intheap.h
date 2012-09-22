@@ -4,19 +4,14 @@
 #include <stdio.h>
 
 
-/*
-  This simple implementation has a fixed capacity.
-*/
-#define INTHEAP_CAPACITY  100
-
-
 typedef struct {
-  int num[INTHEAP_CAPACITY+1]; /* num starts at [1] instead of [0] */
+  int * num;			/* num starts at [1] instead of [0] */
   size_t len;
+  size_t cap;
 } IntHeap;
 
 
-IntHeap * intheap_new ();
+IntHeap * intheap_new (size_t cap);
 
 void intheap_delete (IntHeap * heap);
 
