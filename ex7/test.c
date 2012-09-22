@@ -1,5 +1,5 @@
-#include "ivs.h"
-#include "ivu.h"
+#include "pqvs.h"
+#include "pqvu.h"
 #include <stdio.h>
 #include <err.h>
 
@@ -7,9 +7,9 @@
 int main (int argc, char ** argv)
 {
   int ii;
-  IntVec *ivu, *ivs;
-  ivu = intvec_new (0);
-  ivs = intvec_new (0);
+  IntVec *pqvu, *pqvs;
+  pqvu = intvec_new (0);
+  pqvs = intvec_new (0);
   
   if (2 > argc)
     errx (EXIT_FAILURE,
@@ -22,29 +22,29 @@ int main (int argc, char ** argv)
     int num;
     if (1 != sscanf (argv[ii], "%d", &num))
       errx (EXIT_FAILURE, "failed to parse integer from argument %d `%s'", ii, argv[ii]);
-    ivu_insert (ivu, num);
-    ivs_insert (ivs, num);
+    pqvu_insert (pqvu, num);
+    pqvs_insert (pqvs, num);
     printf ("inserted %d\n", num);
-    intvec_dump (ivu, "  ivu", stdout);
-    intvec_dump (ivs, "  ivs", stdout);
+    intvec_dump (pqvu, "  pqvu", stdout);
+    intvec_dump (pqvs, "  pqvs", stdout);
   }
   
   printf ("--------------------------------------------------\n");
-  while (0 < ivu->len && 0 < ivs->len) {
-    int n1 = ivu_extract (ivu);
-    int n2 = ivs_extract (ivs);
+  while (0 < pqvu->len && 0 < pqvs->len) {
+    int n1 = pqvu_extract (pqvu);
+    int n2 = pqvs_extract (pqvs);
     if (n1 != n2)
       errx (EXIT_FAILURE, "oops, the queues don't agree (%d != %d)", n1, n2);
     fprintf (stderr, "extracted %d\n", n1);
-    intvec_dump (ivu, "  ivu", stdout);
-    intvec_dump (ivs, "  ivs", stdout);
+    intvec_dump (pqvu, "  pqvu", stdout);
+    intvec_dump (pqvs, "  pqvs", stdout);
   }
   
-  if (ivu->len != ivs->len)
+  if (pqvu->len != pqvs->len)
     errx (EXIT_FAILURE, "oops, one of the queues is not empty...");
   
-  intvec_delete (ivu);
-  intvec_delete (ivs);
+  intvec_delete (pqvu);
+  intvec_delete (pqvs);
   
   return 0;
 }

@@ -1,5 +1,5 @@
-#include "ivs.h"
-#include "ivu.h"
+#include "pqvs.h"
+#include "pqvu.h"
 #include "pqbst.h"
 #include "random.h"
 #include <err.h>
@@ -62,18 +62,18 @@ int main (int argc, char ** argv)
   size_t nmax = 30000;
   double nfac = 1.4142;
   
-  IntVec *ivu, *ivs;
+  IntVec *pqvu, *pqvs;
   PqBST *bst;
   
-  ivu = intvec_new (nmax);
-  ivs = intvec_new (nmax);
+  pqvu = intvec_new (nmax);
+  pqvs = intvec_new (nmax);
   bst = pqbst_new ();
   
   printf ("# vector with unsorted insertion\n");
-  benchmark (ivu, ivu_insert, ivu_extract, intvec_nonempty, nstart, nmax, nfac);
+  benchmark (pqvu, pqvu_insert, pqvu_extract, intvec_nonempty, nstart, nmax, nfac);
   
   printf ("\n\n# vector with sorted insertion\n");
-  benchmark (ivs, ivs_insert, ivs_extract, intvec_nonempty, nstart, nmax, nfac);
+  benchmark (pqvs, pqvs_insert, pqvs_extract, intvec_nonempty, nstart, nmax, nfac);
   
   printf ("\n\n# binary search tree\n");
   benchmark (bst, pqbst_insert, pqbst_extract, pqbst_nonempty, nstart, nmax, nfac);
