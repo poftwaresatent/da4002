@@ -9,7 +9,8 @@
 
 static void benchmark (void * cont,
 		       void (*insert)(void*, int), int (*extract)(void*), int (*nonempty)(void*),
-		       size_t nstart, size_t nmax, size_t navg, double nfac)
+		       size_t nstart, size_t nmax, size_t navg, double nfac,
+		       int pmax)
 {
   double nd;
   double davg;
@@ -40,7 +41,7 @@ static void benchmark (void * cont,
     
     if (NULL == (arr = malloc (2 * nn * sizeof *arr)))
       err (EXIT_FAILURE, __FILE__": %s: malloc", __func__);
-    random_uniform_array (-1000, 1000, arr, nn);
+    random_uniform_array (0, pmax, arr, nn);
     
     printf ("%8zu", nn);
     fflush (stdout);
@@ -82,32 +83,38 @@ int main (int argc, char ** argv)
   PqBST *bst;
   IntHeap * heap;
   
-  /* printf ("##################################################\n" */
-  /* 	  "# vector with unsorted insertion, extraction based on find_max\n"); */
-  /* pqvu = intvec_new (nmax); */
-  /* benchmark (pqvu, pqvu_insert, pqvu_extract, intvec_nonempty, nstart, nmax, navg, nfac); */
-  /* intvec_delete (pqvu); */
+  printf ("##################################################\n"
+  	  "# vector with unsorted insertion, extraction based on find_max\n");
+  pqvu = intvec_new (nmax);
+  benchmark (pqvu, pqvu_insert, pqvu_extract, intvec_nonempty, nstart, nmax, navg, nfac, 10000);
+  intvec_delete (pqvu);
   
-  /* printf ("\n\n##################################################\n" */
-  /* 	  "# vector with sorted insertion, extraction from the end\n"); */
-  /* pqvs = intvec_new (nmax); */
-  /* benchmark (pqvs, pqvs_insert, pqvs_extract, intvec_nonempty, nstart, nmax, navg, nfac); */
-  /* intvec_delete (pqvs); */
+  printf ("\n\n##################################################\n"
+  	  "# vector with sorted insertion, extraction from the end\n");
+  pqvs = intvec_new (nmax);
+  benchmark (pqvs, pqvs_insert, pqvs_extract, intvec_nonempty, nstart, nmax, navg, nfac, 10000);
+  intvec_delete (pqvs);
 
   nstart =   50000;
   nmax =   5000000;
   navg =      1000;
   
   printf ("\n\n##################################################\n"
-	  "# binary search tree, extraction via rem_max\n");
+	  "# binary search tree (pmax = 1000)\n");
   bst = pqbst_new ();
-  benchmark (bst, pqbst_insert, pqbst_extract, pqbst_nonempty, nstart, nmax, navg, nfac);
+  benchmark (bst, pqbst_insert, pqbst_extract, pqbst_nonempty, nstart, nmax, navg, nfac, 1000);
+  pqbst_delete (bst);
+  
+  printf ("\n\n##################################################\n"
+	  "# binary search tree (pmax = 10000)\n");
+  bst = pqbst_new ();
+  benchmark (bst, pqbst_insert, pqbst_extract, pqbst_nonempty, nstart, nmax, navg, nfac, 10000);
   pqbst_delete (bst);
   
   printf ("\n\n##################################################\n"
 	  "# heap\n");
   heap = intheap_new (nmax);
-  benchmark (heap, intheap_insert, intheap_extract, intheap_nonempty, nstart, nmax, navg, nfac);
+  benchmark (heap, intheap_insert, intheap_extract, intheap_nonempty, nstart, nmax, navg, nfac, 1000);
   intheap_delete (heap);
   
   return 0;
