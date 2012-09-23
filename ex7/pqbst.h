@@ -1,10 +1,10 @@
 #ifndef ITADS_EX7_PQBST_H
 #define ITADS_EX7_PQBST_H
 
-#include "intbst.h"
+#include "intmbst.h"
 
 typedef struct {
-  IntBST * root;
+  IntMBst * root;
 } PqBST;
 
 PqBST * pqbst_new (void);

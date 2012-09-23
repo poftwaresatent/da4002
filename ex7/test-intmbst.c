@@ -1,4 +1,4 @@
-#include "intbst.h"
+#include "intmbst.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <err.h>
@@ -12,9 +12,9 @@ typedef enum {
 } pstate_t;
 
 
-static void printitem (IntBST * item, void * foo)
+static void printitem (IntMBst * item, void * foo)
 {
-  printf ("  %d", item->data);
+  printf ("  %dx%zu", item->dvec->arr[0], item->dvec->len);
 }
 
 
@@ -22,7 +22,7 @@ int main (int argc, char ** argv)
 {
   int ii;
   pstate_t ps;
-  IntBST * root;
+  IntMBst * root;
   char buf[BUFSIZE];
   char * label;
   int nremain, nwritten;
@@ -48,18 +48,18 @@ int main (int argc, char ** argv)
       if (INSERT == ps) {
 	printf ("inserting %d\n", num);
 	if (NULL == root)
-	  root = intbst_new (num);
+	  root = intmbst_new (num);
 	else
-	  root = intbst_ins (root, num);
-	intbst_in_order (root, printitem, NULL);
+	  root = intmbst_ins (root, num);
+	intmbst_in_order (root, printitem, NULL);
 	printf ("\n");
       }
       else {
 	printf ("removing %d\n", num);
 	if (NULL == root)
 	  errx (EXIT_FAILURE, __FILE__": %s: cannot remove items from NULL tree", __func__);
-	root = intbst_rem (root, num);
-	intbst_in_order (root, printitem, NULL);
+	root = intmbst_rem (root, num);
+	intmbst_in_order (root, printitem, NULL);
 	printf ("\n");
       }
     }
@@ -67,7 +67,7 @@ int main (int argc, char ** argv)
   
   nremain = BUFSIZE;
   label = buf;
-  nwritten = snprintf (label, nremain, "IntBST '%s", argv[1]);
+  nwritten = snprintf (label, nremain, "IntMBst '%s", argv[1]);
   if (0 > nwritten || nremain <= 0)
     errx (EXIT_FAILURE, __FILE__": %s: error creating label string", __func__);
   label += nwritten;
@@ -84,17 +84,16 @@ int main (int argc, char ** argv)
     errx (EXIT_FAILURE, __FILE__": %s: error creating label string", __func__);
   label = buf;
   
-  intbst_print_dot (root, "dump-intbst.dot", label);
+  intmbst_print_dot (root, "dump-intbst.dot", label);
   
-  printf ("repeated intbst_rem_max:  \n");
+  printf ("repeated intmbst_rem_max:  \n");
   while (NULL != root) {
-    IntBST *maxitem;
-    root = intbst_rem_max (root, &maxitem);
-    printf (" %d", maxitem->data);
-    free (maxitem);
+    int maxdata;
+    root = intmbst_rem_max (root, &maxdata);
+    printf (" %d", maxdata);
   }
   printf ("\n");
   
-  intbst_free (root);
+  intmbst_delete (root);
   return 0;
 }

@@ -14,26 +14,23 @@ PqBST * pqbst_new (void)
 
 void pqbst_delete (PqBST * pq)
 {
-  intbst_free (pq->root);
+  intmbst_delete (pq->root);
   free (pq);
 }
 
 
 void pqbst_insert (PqBST *pq, int num)
 {
-  pq->root = intbst_ins (pq->root, num);
+  pq->root = intmbst_ins (pq->root, num);
 }
 
 
 int pqbst_extract (PqBST *pq)
 {
   int result;
-  IntBST * maxitem;
-  pq->root = intbst_rem_max (pq->root, &maxitem);
-  if (NULL == maxitem)
+  if (NULL == pq->root)
     errx (EXIT_FAILURE, __FILE__": %s: empty tree", __func__);
-  result = maxitem->data;
-  free (maxitem);
+  pq->root = intmbst_rem_max (pq->root, &result);
   return result;
 }
 

@@ -9,19 +9,32 @@
 
 static void benchmark (void * cont,
 		       void (*insert)(void*, int), int (*extract)(void*), int (*nonempty)(void*),
-		       size_t nstart, size_t nmax, double nfac)
+		       size_t nstart, size_t nmax, size_t navg, double nfac)
 {
   double nd;
+  double davg;
   
+  if (1 > nstart)
+    nstart = 1;
+  if (nmax < nstart)
+    nmax = nstart;
+  if (1 >= navg)
+    navg = 1;
+  if (nstart < navg)
+    navg = nstart;
   if (nfac <= 1.0)
     nfac = 1.1;
+  davg = 1.0 / navg;
   
-  /*       12345\t12345678  12345678  12345678  12345678 */
-  printf ("#   N\t   T tot     T ins    T both     T ext\n");
+  /*         12345678\t12345678  12345678  12345678 */
+  printf ("# average operation times (over %zu samples) after N insertions\n"
+	  "#        N\t  insert   extract     total\n",
+	  navg);
+  
   for (nd = nstart; nd <= nmax; nd *= nfac) {
     size_t nn, ii;
     int *arr, *num;
-    clock_t tt[4];
+    clock_t tt[3];
     
     nn = nd;
     
@@ -29,61 +42,73 @@ static void benchmark (void * cont,
       err (EXIT_FAILURE, __FILE__": %s: malloc", __func__);
     random_uniform_array (-1000, 1000, arr, nn);
     
-    printf ("%5zu", nn);
+    printf ("%8zu", nn);
     fflush (stdout);
     
     num = arr;
-    tt[0] = clock ();
     for (ii = 0; ii < nn; ++ii)
       insert (cont, *(num++));
-    tt[1] = clock ();
-    for (ii = 0; ii < nn; ++ii) {
-      extract (cont);
+    
+    tt[0] = clock ();
+    for (ii = 0; ii < navg; ++ii)
       insert (cont, *(num++));
-    }
+    tt[1] = clock ();
+    for (ii = 0; ii < navg; ++ii)
+      extract (cont);
     tt[2] = clock ();
+    
     while (nonempty (cont))
       extract (cont);
-    tt[3] = clock ();
-    printf ("\t%8ld  %8ld  %8ld  %8ld\n",
-	    tt[3] - tt[0],
-	    tt[1] - tt[0],
-	    tt[2] - tt[1],
-	    tt[3] - tt[2]);
+    
+    printf ("\t%8.3f  %8.3f  %8.3f\n",
+	    davg * (tt[1] - tt[0]),
+	    davg * (tt[2] - tt[1]),
+	    davg * (tt[2] - tt[0]));
     
     free (arr);    
   }
-
+  
 }
 
 
 int main (int argc, char ** argv)
 {
-  size_t nstart = 10;
-  size_t nmax = 30000;
-  double nfac = 1.4142;
-  size_t big = 100;
-
+  size_t nstart =   500;
+  size_t nmax   = 40000;
+  size_t navg   =   100;
+  double nfac   =     1.4142;
+  
   IntVec *pqvu, *pqvs;
   PqBST *bst;
   IntHeap * heap;
   
-  pqvu = intvec_new (nmax);
-  pqvs = intvec_new (nmax);
+  /* printf ("##################################################\n" */
+  /* 	  "# vector with unsorted insertion, extraction based on find_max\n"); */
+  /* pqvu = intvec_new (nmax); */
+  /* benchmark (pqvu, pqvu_insert, pqvu_extract, intvec_nonempty, nstart, nmax, navg, nfac); */
+  /* intvec_delete (pqvu); */
+  
+  /* printf ("\n\n##################################################\n" */
+  /* 	  "# vector with sorted insertion, extraction from the end\n"); */
+  /* pqvs = intvec_new (nmax); */
+  /* benchmark (pqvs, pqvs_insert, pqvs_extract, intvec_nonempty, nstart, nmax, navg, nfac); */
+  /* intvec_delete (pqvs); */
+
+  nstart =   50000;
+  nmax =   5000000;
+  navg =      1000;
+  
+  printf ("\n\n##################################################\n"
+	  "# binary search tree, extraction via rem_max\n");
   bst = pqbst_new ();
-  heap = intheap_new (big * nmax);
+  benchmark (bst, pqbst_insert, pqbst_extract, pqbst_nonempty, nstart, nmax, navg, nfac);
+  pqbst_delete (bst);
   
-  printf ("# vector with unsorted insertion, extraction based on find_max\n");
-  benchmark (pqvu, pqvu_insert, pqvu_extract, intvec_nonempty, nstart, nmax, nfac);
-  
-  printf ("\n\n# vector with sorted insertion, extraction from the end\n");
-  benchmark (pqvs, pqvs_insert, pqvs_extract, intvec_nonempty, nstart, nmax, nfac);
-  
-  printf ("\n\n# binary search tree, extraction via rem_max\n");
-  benchmark (bst, pqbst_insert, pqbst_extract, pqbst_nonempty, nstart, big * nmax, nfac);
-  
-  printf ("\n\n# heap\n");
-  benchmark (heap, intheap_insert, intheap_extract, intheap_nonempty, nstart, big * nmax, nfac);
+  printf ("\n\n##################################################\n"
+	  "# heap\n");
+  heap = intheap_new (nmax);
+  benchmark (heap, intheap_insert, intheap_extract, intheap_nonempty, nstart, nmax, navg, nfac);
+  intheap_delete (heap);
   
   return 0;
 }

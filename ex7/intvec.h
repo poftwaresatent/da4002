@@ -1,5 +1,5 @@
-#ifndef ITADS_EX6_INTVEC_H
-#define ITADS_EX6_INTVEC_H
+#ifndef ITADS_EX7_INTVEC_H
+#define ITADS_EX7_INTVEC_H
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -36,4 +36,4 @@ void intvec_dump (IntVec * vec, char * name, FILE * of);
 
 int intvec_nonempty (IntVec * vec);
 
-#endif /* ITADS_EX6_INTVEC_H */
+#endif /* ITADS_EX7_INTVEC_H */
