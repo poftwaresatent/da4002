@@ -1,3 +1,10 @@
+/*
+ * test-pqv.c
+ *
+ * Unit tests for priority queues implemented via sorted and unsorted
+ * vectors. See pqvu.h and pqvs.h for their interfaces.
+ */
+
 #include "pqvs.h"
 #include "pqvu.h"
 #include <stdio.h>

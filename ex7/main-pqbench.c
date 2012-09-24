@@ -1,6 +1,33 @@
+/*
+ * main-pqbench.c
+ *
+ * Implementation of the priority queue benchmarking application. Runs
+ * a series of insertions and extractions on various implementations
+ * of priority queues, and measures the time it takes in function of
+ * the input data size and the particular queue implementation. Prints
+ * the data to standard output in a format that is suitable for
+ * gnuplot.
+ *
+ * The easiest way to safe the data produced by this benchmark to a
+ * text file is to redirect standard output from the command
+ * line. This is best done through the `tee' command, which echoes
+ * each measurement onto the cosole as well as saving it in a
+ * file. For example, to safe everything in a file called data.txt,
+ * just launch the benchmark like this:
+ *
+ *   ./main-pqbench | tee data.txt
+ *
+ * Then you can plot the data with gnuplot using the following
+ * approach:
+ *
+ *   cd /path/to/the/directory/where/data.txt/is/stored
+ *   gnuplot
+ *   plot 'data.txt' index 0 using 1:2 with lines title 'unsorted vector insert'
+ *
+ */
+
 #include "pqvs.h"
 #include "pqvu.h"
-#include "pqbst.h"
 #include "intheap.h"
 #include "random.h"
 #include <err.h>
@@ -78,43 +105,31 @@ int main (int argc, char ** argv)
   size_t nmax   = 40000;
   size_t navg   =   100;
   double nfac   =     1.4142;
+  int pmax      =  1000;
   
   IntVec *pqvu, *pqvs;
-  PqBST *bst;
   IntHeap * heap;
   
   printf ("##################################################\n"
   	  "# vector with unsorted insertion, extraction based on find_max\n");
   pqvu = intvec_new (nmax);
-  benchmark (pqvu, pqvu_insert, pqvu_extract, intvec_nonempty, nstart, nmax, navg, nfac, 10000);
+  benchmark (pqvu, pqvu_insert, pqvu_extract, intvec_nonempty, nstart, nmax, navg, nfac, pmax);
   intvec_delete (pqvu);
   
   printf ("\n\n##################################################\n"
   	  "# vector with sorted insertion, extraction from the end\n");
   pqvs = intvec_new (nmax);
-  benchmark (pqvs, pqvs_insert, pqvs_extract, intvec_nonempty, nstart, nmax, navg, nfac, 10000);
+  benchmark (pqvs, pqvs_insert, pqvs_extract, intvec_nonempty, nstart, nmax, navg, nfac, pmax);
   intvec_delete (pqvs);
 
   nstart =   5000;
-  nmax =  2000000;
-  navg =     1000;
-  
-  printf ("\n\n##################################################\n"
-	  "# binary search tree (pmax = 1000)\n");
-  bst = pqbst_new ();
-  benchmark (bst, pqbst_insert, pqbst_extract, pqbst_nonempty, nstart, nmax, navg, nfac, 1000);
-  pqbst_delete (bst);
-  
-  printf ("\n\n##################################################\n"
-	  "# binary search tree (pmax = 10000)\n");
-  bst = pqbst_new ();
-  benchmark (bst, pqbst_insert, pqbst_extract, pqbst_nonempty, nstart, nmax, navg, nfac, 10000);
-  pqbst_delete (bst);
+  nmax =   500000;
+  navg =      500;
   
   printf ("\n\n##################################################\n"
 	  "# heap\n");
   heap = intheap_new (nmax);
-  benchmark (heap, intheap_insert, intheap_extract, intheap_nonempty, nstart, nmax, navg, nfac, 1000);
+  benchmark (heap, intheap_insert, intheap_extract, intheap_nonempty, nstart, nmax, navg, nfac, pmax);
   intheap_delete (heap);
   
   return 0;

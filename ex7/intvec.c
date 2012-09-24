@@ -1,5 +1,10 @@
-#include "intvec.h"
+/*
+ * intvec.c
+ *
+ * Implementation of vector (dynamic array) that stores integers.
+ */
 
+#include "intvec.h"
 #include <stdlib.h>
 #include <err.h>
 

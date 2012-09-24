@@ -1,3 +1,9 @@
+/*
+ * pqvs.c
+ *
+ * Implementation of vector-based priority queue (sorted versions)
+ */
+
 #include "pqvs.h"
 
 

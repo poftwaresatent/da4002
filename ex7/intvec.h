@@ -1,3 +1,9 @@
+/*
+ * intvec.h
+ *
+ * Interface for a vector (dynamic array) that stores integers.
+ */
+
 #ifndef ITADS_EX7_INTVEC_H
 #define ITADS_EX7_INTVEC_H
 

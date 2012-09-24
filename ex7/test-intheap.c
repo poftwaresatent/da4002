@@ -1,3 +1,9 @@
+/*
+ * test-intheap.c
+ *
+ * Unit tests for intheap.{h,c}
+ */
+
 #include "intheap.h"
 
 #include <err.h>

@@ -1,3 +1,9 @@
+/*
+ * random.c
+ *
+ * Implementation of utility functions for creating random data.
+ */
+
 #include "random.h"
 
 #include <sys/uio.h>

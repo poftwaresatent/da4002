@@ -1,3 +1,9 @@
+/*
+ * pqvu.c
+ *
+ * Implementation of vector-based priority queue (unsorted versions)
+ */
+
 #include "pqvu.h"
 #include <err.h>
 #include <stdlib.h>

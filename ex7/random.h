@@ -1,3 +1,9 @@
+/*
+ * random.h
+ *
+ * Utility functions to create random data.
+ */
+
 #ifndef ITADS_EX7_RANDOM_H
 #define ITADS_EX7_RANDOM_H
 

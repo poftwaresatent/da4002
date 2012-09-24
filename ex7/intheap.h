@@ -1,5 +1,11 @@
-#ifndef ITADS_EX6_INTHEAP_H
-#define ITADS_EX6_INTHEAP_H
+/*
+ * intheap.h
+ *
+ * Interface for binary max heap that stores integers.
+ */
+
+#ifndef ITADS_EX7_INTHEAP_H
+#define ITADS_EX7_INTHEAP_H
 
 #include <stdio.h>
 
@@ -29,4 +35,4 @@ void intheap_debug_on (void);
 
 void intheap_debug_off (void);
 
-#endif /* ITADS_EX6_INTHEAP_H */
+#endif /* ITADS_EX7_INTHEAP_H */

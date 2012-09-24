@@ -1,5 +1,10 @@
-#include "intheap.h"
+/*
+ * intheap.c
+ *
+ * Implementation for binary max heap that stores integers.
+ */
 
+#include "intheap.h"
 #include <err.h>
 #include <stdlib.h>
 
