@@ -132,5 +132,34 @@ int main (int argc, char ** argv)
   benchmark (heap, intheap_insert, intheap_extract, intheap_nonempty, nstart, nmax, navg, nfac, pmax);
   intheap_delete (heap);
   
+  printf ("\n\n##################################################"
+	  "# things you may want to plot with this data\n"
+	  "# assuming you've saved it as data.txt\n"
+	  "#\n"
+	  "#   plot 'data.txt' i 0 u 1:2 w l t 'unsorted vector insertion'\n"
+	  "#   plot 'data.txt' i 0 u 1:3 w l t 'unsorted vector extraction'\n"
+	  "#   plot 'data.txt' i 0 u 1:3 w l t 'unsorted vector total'\n"
+	  "#\n"
+	  "#   plot 'data.txt' i 1 u 1:2 w l t 'sorted vector insertion'\n"
+	  "#   plot 'data.txt' i 1 u 1:3 w l t 'sorted vector extraction'\n"
+	  "#   plot 'data.txt' i 1 u 1:4 w l t 'sorted vector total'\n"
+	  "#\n"
+	  "#   plot 'data.txt' i 2 u 1:2 w l t 'heap insertion'\n"
+	  "#   plot 'data.txt' i 2 u 1:3 w l t 'heap extraction'\n"
+	  "#   plot 'data.txt' i 2 u 1:4 w l t 'heap total'\n"
+	  "#\n"
+	  "# You can also compare measurement with theory, for example:\n"
+	  "#\n"
+	  "#   plot 'data.txt' i 2 u 1:($4/$1) w l t 'heap / O(N)'\n"
+	  "#   plot 'data.txt' i 2 u 1:($4/log($1)) w l t 'heap / O(log N)'\n"
+	  "#   plot 'data.txt' i 2 u 1:($4/($1*log($1))) w l t 'heap / O(N log N)'\n"
+	  "#\n"
+	  "# You probably need to run more extensive tests and takes some averages\n"
+	  "# from multiple runs to get meaningful comparions. Note that you can\n"
+	  "# plot multiple data series by giving plot commands that have several\n"
+	  "# comma-separated entries, such as:\n"
+	  "#\n"
+	  "#   plot 'data1.txt' i 2 u 1:4 w l t 'run1', 'data2.txt' i 2 u 1:4 w l t 'run2'\n");
+  
   return 0;
 }
