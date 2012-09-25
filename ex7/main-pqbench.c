@@ -30,8 +30,8 @@
 #include "pqvu.h"
 #include "intheap.h"
 #include "random.h"
+#include "clockms.h"
 #include <err.h>
-#include <time.h>
 
 
 static void benchmark (void * cont,
@@ -62,7 +62,7 @@ static void benchmark (void * cont,
   for (nd = nstart; nd <= nmax; nd *= nfac) {
     size_t nn, ii;
     int *arr, *num;
-    clock_t tt[3];
+    double tt[3];
     
     nn = nd;
     
@@ -77,18 +77,18 @@ static void benchmark (void * cont,
     for (ii = 0; ii < nn; ++ii)
       insert (cont, *(num++));
     
-    tt[0] = clock ();
+    tt[0] = clockms ();
     for (ii = 0; ii < navg; ++ii)
       insert (cont, *(num++));
-    tt[1] = clock ();
+    tt[1] = clockms ();
     for (ii = 0; ii < navg; ++ii)
       extract (cont);
-    tt[2] = clock ();
+    tt[2] = clockms ();
     
     while (nonempty (cont))
       extract (cont);
     
-    printf ("\t%8.3f  %8.3f  %8.3f\n",
+    printf ("\t%8g  %8g  %8g\n",
 	    davg * (tt[1] - tt[0]),
 	    davg * (tt[2] - tt[1]),
 	    davg * (tt[2] - tt[0]));
@@ -113,13 +113,38 @@ int main (int argc, char ** argv)
   printf ("##################################################\n"
   	  "# vector with unsorted insertion, extraction based on find_max\n");
   pqvu = intvec_new (nmax);
-  benchmark (pqvu, pqvu_insert, pqvu_extract, intvec_nonempty, nstart, nmax, navg, nfac, pmax);
+  benchmark (pqvu,
+	     /*
+	      * This line looks really cryptic, but it's just a
+	      * pointer cast to eliminate a compiler warning.  If
+	      * you're curious about the details: The
+	      * "(void(*)(void*,int))" is a function pointer type,
+	      * which is slightly different but compatible to the type
+	      * of the function pqvu_insert. We can also just write
+	      * pqvu_insert without that complicated-looking cast, but
+	      * gcc will then complain about incompatible pointer
+	      * types.
+	      *
+	      * The same remarks are valid for pqvu_extract and
+	      * intvec_nonempty, and also for the other places where
+	      * we call the benchmark function. Don't worry, you're
+	      * not expected to be able to write such code in order to
+	      * pass this course...
+	      */
+	     (void(*)(void*,int)) pqvu_insert,
+	     (int(*)(void*)) pqvu_extract,
+	     (int(*)(void*)) intvec_nonempty,
+	     nstart, nmax, navg, nfac, pmax);
   intvec_delete (pqvu);
   
   printf ("\n\n##################################################\n"
   	  "# vector with sorted insertion, extraction from the end\n");
   pqvs = intvec_new (nmax);
-  benchmark (pqvs, pqvs_insert, pqvs_extract, intvec_nonempty, nstart, nmax, navg, nfac, pmax);
+  benchmark (pqvs,
+	     (void(*)(void*,int)) pqvs_insert,
+	     (int(*)(void*)) pqvs_extract,
+	     (int(*)(void*)) intvec_nonempty,
+	     nstart, nmax, navg, nfac, pmax);
   intvec_delete (pqvs);
 
   nstart =   5000;
@@ -129,7 +154,11 @@ int main (int argc, char ** argv)
   printf ("\n\n##################################################\n"
 	  "# heap\n");
   heap = intheap_new (nmax);
-  benchmark (heap, intheap_insert, intheap_extract, intheap_nonempty, nstart, nmax, navg, nfac, pmax);
+  benchmark (heap,
+	     (void(*)(void*,int)) intheap_insert,
+	     (int(*)(void*)) intheap_extract,
+	     (int(*)(void*)) intheap_nonempty,
+	     nstart, nmax, navg, nfac, pmax);
   intheap_delete (heap);
   
   printf ("\n\n##################################################"

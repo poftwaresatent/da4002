@@ -1,3 +1,9 @@
+/*
+ * clockms.c
+ *
+ * Implementation of the clockms function.
+ */
+
 #include <sys/time.h>
 #include <err.h>
 #include <stdlib.h>

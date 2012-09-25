@@ -1,3 +1,10 @@
+/*
+ * clockms.h
+ *
+ * Header file which declares the clockms function, a workaround for
+ * the broken clock function on Linux systems.
+ */
+
 #ifndef ITADS_EX7_CLOCKMS_H
 #define ITADS_EX7_CLOCKMS_H
 
