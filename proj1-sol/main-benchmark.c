@@ -101,7 +101,7 @@ int main (int argc, char ** argv)
     
     data = random_create_uniform_array (dmin, dmax, nn);
     
-    printf ("%8zu", nn);
+    printf ("%8d", nn);
     fflush (stdout);
     
     dup = duplicate (data, nn);

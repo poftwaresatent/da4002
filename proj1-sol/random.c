@@ -13,7 +13,7 @@
 #include <err.h>
 #include <fcntl.h>
 #include <string.h>
-#include <values.h>
+#include <limits.h>
 
 
 void random_read (void * buf, size_t nbytes)
