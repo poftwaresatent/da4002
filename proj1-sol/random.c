@@ -62,6 +62,16 @@ void random_uniform_array  (int minval, int maxval, int * arr, size_t len)
 }
 
 
+int * random_create_uniform_array (int minval, int maxval, size_t len)
+{
+  int * arr = malloc (len * sizeof *arr);
+  if (NULL == arr)
+    err (EXIT_FAILURE, __FILE__": %s: malloc", __func__);
+  random_uniform_array (minval, maxval, arr, len);
+  return arr;
+}
+
+
 static void merge_asc (int * dst, int * src, size_t beg, size_t mid, size_t end)
 {
   size_t ii = beg;
@@ -98,12 +108,15 @@ static void merge_des (int * dst, int * src, size_t beg, size_t mid, size_t end)
 }
 
 
-static void msort (int * arr, int * tmp, size_t beg, size_t end, void (*merge)(int*,int*,size_t,size_t,size_t))
+static void msort (int * arr, int * tmp, size_t beg, size_t end,
+		   void (*merge)(int*,int*,size_t,size_t,size_t))
 {
   size_t len, mid;
+  
   len = end - beg;
   if (1 >= len)
     return;
+  
   mid = beg + len / 2;
   
   /* trick to avoid copy:
@@ -112,8 +125,10 @@ static void msort (int * arr, int * tmp, size_t beg, size_t end, void (*merge)(i
      BUT THIS ONLY WORKS if tmp is a DUPLICATE of arr when the
      recursion is entered!!!
   */	
+  
   msort (tmp, arr, beg, mid, merge);
   msort (tmp, arr, mid, end, merge);
+  
   merge (arr, tmp, beg, mid, end);
 }
 
@@ -176,14 +191,26 @@ void random_chunkwise_array (int minval, int maxval, int * arr, size_t len,
   /* make duplicate to allow pointer switch trick in merge sort */  
   memcpy (tmp, arr, len * sizeof *tmp);
   
-  --len;      /* len is now the last index (the last value for end) */
-  --chunkmax;		 /* so we can use it to find the end marker */
-  for (beg = 0; beg <= len; /**/) {
+  for (beg = 0; beg < len; /**/) {
     size_t end = beg + random_uniform (chunkmin, chunkmax);
     if (end > len)
       end = len;
     msort (arr, tmp, beg, end);
-    beg = end + 1;
+    if (msort_des == msort) {
+      size_t jj;
+      for (jj = beg+1; jj < end; ++jj)
+	if (arr[jj-1] < arr[jj])
+	  errx (EXIT_FAILURE, "msort_des failed, arr[%d] == %d < %d == arr[%d]",
+		jj-1, arr[jj-1], arr[jj], jj);
+    }
+    else if (msort_asc == msort) {
+      size_t jj;
+      for (jj = beg+1; jj < end; ++jj)
+	if (arr[jj-1] > arr[jj])
+	  errx (EXIT_FAILURE, "msort_asc failed, arr[%d] == %d > %d == arr[%d]",
+		jj-1, arr[jj-1], arr[jj], jj);
+    }
+    beg = end;
   }
   
   free (tmp);

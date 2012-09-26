@@ -15,6 +15,8 @@ int random_uniform (int minval, int maxval);
 
 void random_uniform_array  (int minval, int maxval, int * arr, size_t len);
 
+int * random_create_uniform_array (int minval, int maxval, size_t len);
+
 void random_chunkwise_array (int minval, int maxval, int * arr, size_t len,
 			     size_t chunkmin, size_t chunkmax, char chunkdir);
 
