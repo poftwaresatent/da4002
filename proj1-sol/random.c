@@ -28,7 +28,7 @@ int random_uniform (int minval, int maxval)
 {
   unsigned int delta, tmp, mask;
   
-  if (maxval < minval) {
+  if (minval < maxval) {
     tmp = minval;
     minval = maxval;
     maxval = tmp;
