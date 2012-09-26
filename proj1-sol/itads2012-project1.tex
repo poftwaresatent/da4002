@@ -1,0 +1,180 @@
+\documentclass[a4paper,10pt]{article}
+
+\usepackage[margin=3cm]{geometry}
+\usepackage{verbatim,url}
+
+\begin{document}
+
+\title{
+  {\normalsize
+    Introduction to Algorithms, Data Structures, and Problem Solving\\
+    DA4002 (HT12) Halmstad University}\\
+  Assignment for Project 1: Sorting Algorithms Benchmarks\\
+}
+\author{
+  \texttt{roland.philippsen@hh.se}
+}
+\maketitle
+
+
+
+\section{Introduction}
+
+An important aspect of the ITADS course is to teach participants how to evaluate possible solutions for a given problem.
+Complexity analysis is a tool within this evaluation process.
+The lecture and the course book by Loudon~\cite{loudon} discuss several theoretical aspects of computational complexity, with a focus on how runtime grows with problem size.
+The first project complements the theoretical treatment with hands-on experience.
+It provides a practical and empirical understanding of the theory, and prepares the participants to make informed choices in real-life programming situations.
+
+The deadline for handing in the source code and the report is \textbf{Friday, October 5, 2012, at 18h00}.
+Teams who miss the deadline will receive a penalty of 5 points (the maximum number of points is 25).
+In case of exonerating circumstances, such as sickness certified by a medical doctor, a deadline extension will be granted.
+Participants must notify the lecturer of such circumstances as soon as possible when they arise.
+
+
+
+\section{Starting Point}
+
+Participants are provided with a collection of header and source files that provide a fully functional (but limited) benchmarking program for sorting algorithms.
+The aim is to determine how long it takes to sort arrays of varying lengths.
+
+The provided application is in the file \texttt{main-benchmark.c}.
+It uses arrays of random integers as input data on two sorting algorithms (merge sort and insertion sort) and measures the time taken to sort the data.
+It prints the measured times to \texttt{stdout} (the terminal) in a format appropriate for plotting with the \texttt{gnuplot} program.
+Plotting such data has already been practiced during exercise 7.
+
+Also as practiced during exercise 7, all code can be compiled with the help of the \texttt{make} command which relies on the provided \texttt{Makefile}.
+The \texttt{Makefile} is generic enough that you can add new headers and sources and they will automatically be added to the make process, as long as you follow some simple rules:
+
+\begin{itemize}
+\item
+  Filenames that match ``test*.c'' or ``main*.c'' are assumed to be sources for executables (i.e. they must contain a main function).
+\item
+  All other .c files are assumed to be implementations of functionality required by the executables (or other .c files), in other words they must not contain a main function.
+\end{itemize}
+
+
+
+\section{Assignment}
+
+There is a set of mandatory tasks that have to be performed in order to pass.
+And there is a list of suggested bonus tasks which can lead to a higher grade.
+A properly performed set of mandatory tasks that are well documented in the project report is worth 16 points (HH grade 4, ECTS grade D).
+Bonus tasks can give up to 9 extra points, such that the maximum achievable number of points is 25 (HH grade 5, ECTS grade A).
+
+Keep in mind that writing the report is an integral part of the project, so do not spend too much time on extending the functionality.
+It is important to note that teams are expected to manage their resources by themselves.
+This includes apportioning the time available for finding information online and in the course books, developing and debugging code, running the benchmarks, documenting the work, and preparing and testing the project archive file that you submit for evaluation.
+How these aspects are shared between the team members is for each team to decide.
+
+\subsection{Mandatory Tasks}
+
+\begin{table}
+  \centering
+  \begin{tabular}{l|l|l}
+    \textbf{algorithm} & \textbf{difficulty} & \textbf{link} \\
+    \hline
+    cocktail sort    & easy         & \url{http://en.wikipedia.org/wiki/Cocktail_sort} \\
+    selection sort   & easy         & \url{http://en.wikipedia.org/wiki/Selection_sort} \\
+    gnome sort       & easy         & \url{http://en.wikipedia.org/wiki/Gnome_sort} \\
+    radix sort       & easy         & \url{http://en.wikipedia.org/wiki/Radix_sort} \\
+    shell sort       & moderate     & \url{http://en.wikipedia.org/wiki/Shell_sort} \\
+    comb sort        & moderate     & \url{http://en.wikipedia.org/wiki/Comb_sort} \\
+    cycle sort       & moderate     & \url{http://en.wikipedia.org/wiki/Cycle_sort} \\
+    quicksort        & hard         & \url{http://en.wikipedia.org/wiki/Quicksort} \\
+    heapsort         & hard         & \url{http://en.wikipedia.org/wiki/Heapsort} \\
+  \end{tabular}
+  \caption{
+    List of sorting algorithms and their difficulty level.
+  }\label{tab:sorting-algorithms}
+\end{table}
+
+Table~\ref{tab:sorting-algorithms} list sorting algorithms which can added to the benchmark\footnote{
+The list excludes bubble sort, insertion sort, and merge sort, because they are either provided as part of the project starting point or have been treated during an earlier exercise.}.
+The (estimated) difficulty of implementing each algorithm is also given, along with a link to a Wikipedia page providing more details.
+
+\begin{enumerate}
+
+\item
+  Read the Wikipedia pages listed in table~\ref{tab:sorting-algorithms}.
+  Then, choose either \textbf{two \emph{easy}} algorithms or \textbf{one \emph{moderate}} algorithm, and add them to the benchmark.
+  Produce plots which clearly show the running times of the added algorithm(s) in relation to the ones that were already there.
+
+\item
+  Reduce the effect of variation in the runtime measurements by performing each measurement several times and taking the average.
+  \emph{Note that each run for the averaging should use fresh input data.}
+  Create plots which compare the data with and without averaging, and discuss your findings.
+  
+\item
+  Determine how well the measured runtimes match the big-Oh complexity classes for all of the sorting algorithms that you have (merge sort, insertion sort, and the one(s) that you implemented).
+  This was discussed in lecture 4 and practiced during exercise 7.
+  Create corresponding plots and discuss your findings in the report.
+  
+\end{enumerate}
+
+
+
+\section{Bonus Tasks}
+
+\begin{itemize}
+
+\item
+  Extend the benchmark to also measure the time it takes each algorithm to process data which is
+  \begin{itemize}
+  \item
+    already sorted
+  \item
+    sorted in reverse
+  \item
+    partially sorted
+  \end{itemize}
+  Create clear plots which illustrate the differences between the sorting algorithms for all the classes of input data.
+  Note that the files \texttt{random.h} and \texttt{random.c} provide a utility function that can easily be used to generate the above types of data, and that the \texttt{test-random.c} program is a good illustration of how to use them.
+  
+\item
+  Add two \emph{moderate} algorithms from table~\ref{tab:sorting-algorithms} to the benchmark.
+
+\item
+  Add one \emph{hard} algorithm from table~\ref{tab:sorting-algorithms} to the benchmark.
+  
+\end{itemize}
+
+
+
+\section{Additional Remarks}
+
+\textbf{work in progress\ldots}
+
+\begin{itemize}
+
+\item
+  output redirection, keeping ``good'' (representative) data and submit it along with the sources and report.
+  Also, it is a good idea to rename them in the process, for example to indicate what is on the plot.
+  Then, it will be much easier to include the data and plots in the report.
+
+\item
+  Maybe produce plot scripts, like the 2011 Java app?
+The automatically generated scripts for plotting the data logs are text files with \texttt{gnuplot} commands.
+It is possible to edit these scripts in order to customize the plots.
+It is also possible to run \texttt{gnuplot} in interactive mode as in exercise 4.2, and copy-paste-adapt individual commands from the script files.
+To enter interactive mode, simply launch \texttt{gnuplot} without arguments.
+
+Gnuplot comes with extensive online documentation~\cite{gnuplot}, and it has a built-in \texttt{help} command, too.
+  
+\item
+  creating tarballs, making sure there are no generated (binary) files
+
+\item
+  maybe a report template in LaTeX?
+
+\item
+  maybe a detailed list of what gives how many points (the report should count for 50\% of the points)
+
+\end{itemize}
+
+
+\footnotesize
+\bibliographystyle{plain}
+\bibliography{itads-bibliography}
+
+\end{document}
