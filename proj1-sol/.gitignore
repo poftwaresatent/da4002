@@ -2,3 +2,5 @@
 test-random
 main-mergesort
 main-insertionsort
+main-insertion-sort
+main-merge-sort
