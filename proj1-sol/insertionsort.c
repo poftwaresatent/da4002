@@ -1,7 +1,7 @@
-#include "insertion_sort.h"
+#include "insertionsort.h"
 
 
-void insertion_sort (int * arr, int len)
+void insertionsort (int * arr, int len)
 {
   int ii;
   for (ii = 1; ii < len; ++ii) {

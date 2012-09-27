@@ -1,4 +1,4 @@
-#include "merge_sort.h"
+#include "mergesort.h"
 #include <err.h>
 #include <stdlib.h>
 
@@ -40,7 +40,7 @@ static void msort_rec (int * arr, int * tmp, int beg, int end)
 }
 
 
-void merge_sort (int * arr, int len)
+void mergesort (int * arr, int len)
 {
   int * tmp = malloc (len * sizeof *tmp);
   if (NULL == tmp)

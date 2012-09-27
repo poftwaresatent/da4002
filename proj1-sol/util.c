@@ -7,6 +7,7 @@
 #include <sys/time.h>
 #include <err.h>
 #include <stdlib.h>
+#include <string.h>
 
 
 double clockms (void)
