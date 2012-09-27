@@ -1,3 +1,15 @@
+#
+# msort-example-NlogN-png.plot
+#
+# Produces a PNG image file to be included in a report. Otherwise it
+# is identical to msort-example-NlogN.plot. The output image file will
+# be called msort-example-NlogN.png.
+#
+# Run this script from the command line, like this:
+#
+#   gnuplot msort-example-NlogN-png.plot
+#
+
 O(N) = N * log(N)
 set key left
 set title 'merge sort on random data, convergence for O(N log N)'

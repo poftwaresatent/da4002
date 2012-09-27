@@ -1,3 +1,21 @@
+#
+# msort-example-NlogN.plot
+#
+# List of gnuplot commands for producing a plot that compares
+# theoretical Big-Oh complexity with actual runtime measurements. It
+# uses data from the file msort-example.data (which contains runtime
+# measurements from 5 runs), but it divides each time by N*log(N),
+# because merge sort has a theoretical runtime complexity of O(N log
+# N). In order to see the plot, either copy-paste each line into an
+# interactive gnuplot session (which you get by starting gnuplot by
+# itself in a terminal), or execute the following command:
+#
+#   gnuplot -persist msort-example-NlogN.plot
+#
+# Notice the "-persist" option, which keeps the figure window open
+# after gnuplot exits.
+#
+
 O(N) = N * log(N)
 set key left
 set title 'merge sort on random data, convergence for O(N log N)'

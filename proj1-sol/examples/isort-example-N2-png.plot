@@ -1,3 +1,15 @@
+#
+# isort-example-N2-png.plot
+#
+# Produces a PNG image file to be included in a report. Otherwise it
+# is identical to isort-example-N2.plot. The output image file will be
+# called isort-example-N2.png.
+#
+# Run this script from the command line, like this:
+#
+#   gnuplot isort-example-N2-png.plot
+#
+
 O(N) = N * N
 set key right
 set title 'insertion sort on random data, convergence for O(N^2)'
