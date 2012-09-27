@@ -1,12 +1,11 @@
 /*
- * clockms.h
+ * util.h
  *
- * Header file which declares the clockms function, a workaround for
- * the broken clock function on Linux systems.
+ * Header file which declares some utility functions.
  */
 
-#ifndef ITADS_EX7_CLOCKMS_H
-#define ITADS_EX7_CLOCKMS_H
+#ifndef ITADS_PROJ1_UTIL_H
+#define ITADS_PROJ1_UTIL_H
 
 /*
  * Return the number of milliseconds since the first time you called
@@ -21,4 +20,12 @@
  */
 double clockms (void);
 
-#endif /* ITADS_EX7_CLOCKMS_H */
+
+/*
+ * Create a duplicate of the given array. This allocates new memory,
+ * so you are responsible for calling free on the returned pointer
+ * after you are done with it.
+ */
+int * duplicate (int * arr, int len);
+
+#endif /* ITADS_PROJ1_UTIL_H */

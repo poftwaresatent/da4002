@@ -1,7 +1,7 @@
 /*
- * clockms.c
+ * util.c
  *
- * Implementation of the clockms function.
+ * Implementation of the utility functions.
  */
 
 #include <sys/time.h>
@@ -21,4 +21,14 @@ double clockms (void)
     err (EXIT_FAILURE, __FILE__": %s: gettimeofday", __func__);
   
   return 1e3 * (t1.tv_sec - t0.tv_sec) + 1e-3 * (t1.tv_usec - t0.tv_usec);
+}
+
+
+int * duplicate (int * arr, int len)
+{
+  int * dup = malloc (len * sizeof *dup);
+  if (NULL == dup)
+    err (EXIT_FAILURE, __FILE__": %s: malloc", __func__);
+  memcpy (dup, arr, len * sizeof *dup);
+  return dup;
 }
