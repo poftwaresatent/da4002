@@ -93,7 +93,7 @@ How these aspects are shared between the team members is for each team to decide
   }\label{tab:sorting-algorithms}
 \end{table}
 
-Table~\ref{tab:sorting-algorithms} list sorting algorithms which can added to the benchmark.
+Table~\ref{tab:sorting-algorithms} lists sorting algorithms which can added to the benchmark.
 The (estimated) difficulty of implementing each algorithm is also given, along with a link to a Wikipedia page providing more details.
 Note that the list excludes bubble sort, insertion sort, and merge sort, because they are either provided as part of the project starting point or have been treated during an earlier exercise.
 
@@ -103,7 +103,7 @@ Note that the list excludes bubble sort, insertion sort, and merge sort, because
   Browse the Wikipedia pages listed in table~\ref{tab:sorting-algorithms}.
   Then, choose either \textbf{two \emph{easy}} algorithms or \textbf{one \emph{moderate}} algorithm, and add them to the benchmark.
   The easiest way to achieve this is to copy the existing \texttt{main-insertion-sort.c} file.
-  Choose a file name which reflects the algorithm(s) that you have chosen, for example \texttt{main-radix-sort.c}, and also change the name of the sorting functio function, for example to \texttt{radix\_sort}.
+  Choose a file name which reflects the algorithm(s) that you have chosen, for example \texttt{main-radix-sort.c}, and also change the name of the sorting function, for example to \texttt{radix\_sort}.
   It will be easiest to keep exactly the same function signature, to minimize the amount of changes that you need to do in the \texttt{main} function.
   Also, make sure to replace all other occurrences of ``insertion sort,'' for example in the messages printed to stdout.
   Don't forget to verify that your implementation is correct, for example by writing a little test application.
@@ -129,10 +129,10 @@ Note that the list excludes bubble sort, insertion sort, and merge sort, because
 
 \section{Bonus Tasks}
 
-\begin{itemize}
+\begin{enumerate}
 
 \item
-  Extend the benchmark to illustrate the dependency of the runtime on the contents of the input data.
+  Extend the benchmark to illustrate the dependency of the runtime on input data distribution.
   Do this by also measuring the time it takes each algorithm to process data which is
   \begin{itemize}
   \item
@@ -146,12 +146,9 @@ Note that the list excludes bubble sort, insertion sort, and merge sort, because
   Note that the files \texttt{random.h} and \texttt{random.c} provide a utility function that can easily be used to generate the above types of data, and that the \texttt{test-random.c} program is a good illustration of how to use them.
   
 \item
-  Add two \emph{moderate} algorithms from table~\ref{tab:sorting-algorithms} to the benchmark.
-
-\item
-  Add one \emph{hard} algorithm from table~\ref{tab:sorting-algorithms} to the benchmark.
+  Add two \emph{moderate} or one \emph{hard} algorithm from table~\ref{tab:sorting-algorithms} to the benchmark.
   
-\end{itemize}
+\end{enumerate}
 
 
 
@@ -161,8 +158,8 @@ Note that the list excludes bubble sort, insertion sort, and merge sort, because
 
 \subsection*{How to Save the Runtime Measurements}
 
-As practiced during exercise 7, you can use output redirection to capture the output of a program into a text file.
-In order to see the output on the terminal whie also capturing it into a file, you have to ``pipe'' the output through the \texttt{tee} command, and tell the latter which filename you'd like to use to store the captured output.
+As practiced during exercise 7, you can use redirection to capture the output of a program into a text file.
+In order to see the output on the terminal while also capturing it into a file, you have to ``pipe'' the output through the \texttt{tee} command, and tell the latter which filename you'd like to use to store the captured output.
 
 For example, use ``\texttt{./main-merge-sort | tee msort.data}'' to run the merge sort benchmark and save the resulting timing measurements into the file \texttt{msort.data}.
 Notice that \textbf{this will overwrite the contents of \texttt{msort.data}}.
@@ -183,25 +180,27 @@ The same goes for plot files (see next section).
 Gnuplot can be used interactively (like in exercise 7) by just giving its command in a terminal.
 But it can also run in batch mode by passing the name of a plot script file on its command line.
 A gnuplot script file is just a text file with a list of gnuplot commands.
-The \texttt{examples/} subdirectory of the project sources contains several examples.
+The \texttt{examples/} subdirectory of the project contains several such scripts.
 Notice that those examples which create a figure window must be launched with the additional option ``\texttt{-persist}'' (otherwise the figure just flashes briefly on the screen).
 This is explained in the comments of the relevant .plot example files.
 Notice that there are also example plot files which save the figure in a PNG image, intended for inclusion in your report.
 
-If you want to use one of the existing example plot files, but modify it to suit your needs, it is easiest to first copy the example and then modify that.
+If you want to use one of the example plot files, but modify it to suit your needs, it is easiest to copy the scripts and then modify the copy.
 For example, you can do ``\texttt{cp examples/isort-example.plot radix-sort.plot}'' and then edit the \texttt{radix-sort.plot} file in a text editor.
 Things to change are: the name of the data file, the title, possibly the data column numbers, and maybe the output file name when creating PNG images.
 Please read the gnuplot documentation~\cite{gnuplot} for more details.
 
 Also notice that you are free to use some other software to plot your data.
 For example, if you are familiar with Matlab, you may find that much easier to work with.
+Excel may be another viable option.
+But you will probably need to adjust the output format of the benchmarking applications.
 
 
 
 \subsection*{Preparing Archives for Submitting Your Project}
 
 You already encountered the \texttt{tar} program in exercise 7 to extract project archives.
-In order to perform the reverse operation of creating an archive, use the command ``\texttt{tar xfvj archive-name.tar.bz2 project-directory}'' where you have to replace \texttt{project-directory} with the name of your project directory, and the result will be in \texttt{archive-name.tar.bz2}.
+In order to create an archive, use the command ``\texttt{tar xfvj archive-name.tar.bz2 project-directory}'' where you have to replace \texttt{project-directory} with the name of your project directory, and the result will be in \texttt{archive-name.tar.bz2}.
 
 However, please don't choose just any name.
 Rather, make a separate directory based on the family names of the team members, copy all the source and data files there, then create the archive with an archive name that has the directory name as its base.
