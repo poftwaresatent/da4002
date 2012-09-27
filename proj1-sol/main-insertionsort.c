@@ -1,6 +1,5 @@
 #include "random.h"
 #include "util.h"
-#include "insertionsort.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <err.h>
@@ -12,6 +11,31 @@
  */
 #define NRUNS 5
 
+
+/*
+  Insertion sort implementation
+*/
+
+
+void insertion_sort (int * arr, int len)
+{
+  int ii;
+  for (ii = 1; ii < len; ++ii) {
+    int jj, ival;
+    ival = arr[ii];
+    for (jj = ii; jj > 0; --jj) {
+      if (ival >= arr[jj-1])
+	break;
+      arr[jj] = arr[jj-1];
+    }
+    arr[jj] = ival;
+  }
+}
+
+
+/*
+  Benchmark.
+*/
 
 int main (int argc, char ** argv)
 {
@@ -79,7 +103,7 @@ int main (int argc, char ** argv)
       dup = duplicate (data[ii], nn);
       
       tstart = clockms ();
-      insertionsort (dup, nn);
+      insertion_sort (dup, nn);
       tstop = clockms ();
       
       free (dup);
