@@ -1,3 +1,5 @@
 *.o
 main-benchmark
 test-random
+main-mergesort
+main-insertionsort
