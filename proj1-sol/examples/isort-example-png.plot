@@ -2,7 +2,7 @@
 # isort-example-png.plot
 #
 # Produces a PNG image file to be included in a report. Otherwise it
-# is identical to isort-exaple.plot. The output image file will be
+# is identical to isort-example.plot. The output image file will be
 # called isort-example.png.
 #
 # Run this script from the command line, like this:
