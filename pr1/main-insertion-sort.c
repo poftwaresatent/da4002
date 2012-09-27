@@ -46,6 +46,7 @@ int main (int argc, char ** argv)
     will simply use a duplicate of the first N elements.
   */
   printf ("# generating input data (this can take a while...)\n");
+  fflush (stdout);
   data = random_create_uniform_array (dmin, dmax, nmax);
   
   printf ("################################################\n"
