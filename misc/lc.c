@@ -1,6 +1,6 @@
 #include <stdio.h>
 
-main ()
+int main (int argc, char ** argv)
 {
   int c;
   unsigned long n = 0;
@@ -10,4 +10,5 @@ main ()
       ++n;
   }
   printf ("\n%lu lines\n", n);
+  return 0;
 }

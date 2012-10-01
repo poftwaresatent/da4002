@@ -4,7 +4,7 @@
 #define IN  1  /* inside a word */
 #define OUT 0  /* outside a word */
 
-main ()
+int main (int argc, char ** argv)
 {
   int c, state = OUT;
   unsigned long n = 0;
@@ -18,4 +18,5 @@ main ()
     }
   }
   printf ("\n%lu words\n", n);
+  return 0;
 }

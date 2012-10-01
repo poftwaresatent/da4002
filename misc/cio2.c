@@ -1,6 +1,6 @@
 #include <stdio.h>
 
-main ()
+int main (int argc, char ** argv)
 {
   int c;
   unsigned long nc = 0, nl = 0;
@@ -11,4 +11,5 @@ main ()
       ++nl;
   }
   printf ("\nL:%lu C:%lu\n", nl, nc);
+  return 0;
 }

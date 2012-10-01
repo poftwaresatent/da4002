@@ -1,6 +1,6 @@
 #include <stdio.h>
 
-main ()
+int main (int argc, char ** argv)
 {
   int c;
   unsigned long n;
@@ -12,4 +12,5 @@ main ()
     c = getchar();
   }
   printf ("\ntotal: %lu\n", n);
+  return 0;
 }

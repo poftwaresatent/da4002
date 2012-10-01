@@ -23,19 +23,19 @@ int main (int argc, char **argv)
   
   printf ("int %d\n  hex %x\n  bin ", foo, foo);
   dcnt = 8 * sizeof(foo);
-  hack = &foo;
+  hack = (unsigned long*) &foo;
   pbin (*hack);
   printf ("\n");
   
   printf ("char %d\n  hex %x\n  bin ", bar, bar);
   dcnt = 8 * sizeof(bar);
-  hack = &bar;
+  hack = (unsigned long*) &bar;
   pbin (*hack);
   printf ("\n");
   
   printf ("unsigned char %u\n  hex %x\n  bin ", baz, baz);
   dcnt = 8 * sizeof(baz);
-  hack = &baz;
+  hack = (unsigned long*) &baz;
   pbin (*hack);
   printf ("\n");
   
