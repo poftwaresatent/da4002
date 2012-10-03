@@ -167,7 +167,7 @@ int main (int argc, char ** argv)
 	  "#\n"
 	  "#   plot 'data.txt' i 0 u 1:2 w l t 'unsorted vector insertion'\n"
 	  "#   plot 'data.txt' i 0 u 1:3 w l t 'unsorted vector extraction'\n"
-	  "#   plot 'data.txt' i 0 u 1:3 w l t 'unsorted vector total'\n"
+	  "#   plot 'data.txt' i 0 u 1:4 w l t 'unsorted vector total'\n"
 	  "#\n"
 	  "#   plot 'data.txt' i 1 u 1:2 w l t 'sorted vector insertion'\n"
 	  "#   plot 'data.txt' i 1 u 1:3 w l t 'sorted vector extraction'\n"
