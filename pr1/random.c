@@ -108,8 +108,8 @@ static void merge_des (int * dst, int * src, size_t beg, size_t mid, size_t end)
 }
 
 
-static void msort (int * arr, int * tmp, size_t beg, size_t end,
-		   void (*merge)(int*,int*,size_t,size_t,size_t))
+static void msort_gen (int * arr, int * tmp, size_t beg, size_t end,
+		       void (*merge)(int*,int*,size_t,size_t,size_t))
 {
   size_t len, mid;
   
@@ -126,8 +126,8 @@ static void msort (int * arr, int * tmp, size_t beg, size_t end,
      recursion is entered!!!
   */	
   
-  msort (tmp, arr, beg, mid, merge);
-  msort (tmp, arr, mid, end, merge);
+  msort_gen (tmp, arr, beg, mid, merge);
+  msort_gen (tmp, arr, mid, end, merge);
   
   merge (arr, tmp, beg, mid, end);
 }
@@ -135,22 +135,22 @@ static void msort (int * arr, int * tmp, size_t beg, size_t end,
 
 static void msort_asc(int * arr, int * tmp, size_t beg, size_t end)
 {
-  msort (arr, tmp, beg, end, merge_asc);
+  msort_gen (arr, tmp, beg, end, merge_asc);
 }
 
 
 static void msort_des(int * arr, int * tmp, size_t beg, size_t end)
 {
-  msort (arr, tmp, beg, end, merge_des);
+  msort_gen (arr, tmp, beg, end, merge_des);
 }
 
 
 static void msort_rnd(int * arr, int * tmp, size_t beg, size_t end)
 {
   if (random_uniform (0, 1) > 0)
-    msort (arr, tmp, beg, end, merge_asc);
+    msort_gen (arr, tmp, beg, end, merge_asc);
   else
-    msort (arr, tmp, beg, end, merge_des);
+    msort_gen (arr, tmp, beg, end, merge_des);
 }
 
 
@@ -200,14 +200,14 @@ void random_chunkwise_array (int minval, int maxval, int * arr, size_t len,
       size_t jj;
       for (jj = beg+1; jj < end; ++jj)
 	if (arr[jj-1] < arr[jj])
-	  errx (EXIT_FAILURE, "msort_des failed, arr[%d] == %d < %d == arr[%d]",
+	  errx (EXIT_FAILURE, "msort_des failed, arr[%zu] == %d < %d == arr[%zu]",
 		jj-1, arr[jj-1], arr[jj], jj);
     }
     else if (msort_asc == msort) {
       size_t jj;
       for (jj = beg+1; jj < end; ++jj)
 	if (arr[jj-1] > arr[jj])
-	  errx (EXIT_FAILURE, "msort_asc failed, arr[%d] == %d > %d == arr[%d]",
+	  errx (EXIT_FAILURE, "msort_asc failed, arr[%zu] == %d > %d == arr[%zu]",
 		jj-1, arr[jj-1], arr[jj], jj);
     }
     beg = end;
