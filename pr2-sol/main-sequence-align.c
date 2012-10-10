@@ -36,10 +36,10 @@ Table * table_new (char *src, char *dst)
   
   for (chk = src; *chk != '\0'; ++chk)
     if (0 == isalpha (*chk))
-      errx (EXIT_FAILURE, "%s: invalid character %d in source", (int) *chk, __func__);
+      errx (EXIT_FAILURE, "%s: invalid character %d in source", __func__, (int) *chk);
   for (chk = dst; *chk != '\0'; ++chk)
     if (0 == isalpha (*chk))
-      errx (EXIT_FAILURE, "%s: invalid character %d in destination", (int) *chk, __func__);
+      errx (EXIT_FAILURE, "%s: invalid character %d in destination", __func__, (int) *chk);
   
   /* Allocate the table */
   
@@ -64,10 +64,14 @@ Table * table_new (char *src, char *dst)
   
   /* Initialize the first row and the first column using the GAP_COST */
   
-  for (ii = 0; ii <= tab->dstlen; ++ii)
+  for (ii = 1; ii <= tab->dstlen; ++ii) {
     tab->state[0][ii].v_best = ii * GAP_COST;
-  for (ii = 1; ii <= tab->srclen; ++ii)
+    tab->state[0][ii].v_ins = tab->state[0][ii].v_best;
+  }
+  for (ii = 1; ii <= tab->srclen; ++ii) {
     tab->state[ii][0].v_best = ii * GAP_COST;
+    tab->state[ii][0].v_del = tab->state[ii][0].v_best;
+  }
   
   return tab;
 }
