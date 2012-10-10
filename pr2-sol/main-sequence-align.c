@@ -29,7 +29,7 @@ typedef struct {
 typedef struct {
   char *srcbuf, *src;
   char *dstbuf, *dst;
-  int isrc, idst;
+  int isrc, idst, iact;
 } Alignment;
 
 
@@ -201,42 +201,100 @@ int main (int argc, char **argv)
     Alignment *sol;
     int nsol = 1;
     int done;
+    int buflen = tab->srclen + tab->dstlen + 1;
     
     if (NULL == (sol = malloc (sizeof *sol)))
       err (EXIT_FAILURE, "malloc sol");
     
-    if (NULL == (sol[0].srcbuf = calloc (tab->srclen + tab->dstlen + 1, sizeof(char))))
+    if (NULL == (sol[0].srcbuf = calloc (buflen, sizeof(char))))
       err (EXIT_FAILURE, "calloc sol[0].srcbuf");
-    sol[0].src = sol[0].srcbuf + tab->srclen + tab->dstlen;
-    if (NULL == (sol[0].dstbuf = calloc (tab->srclen + tab->dstlen + 1, sizeof(char))))
+    sol[0].src = sol[0].srcbuf + buflen - 1;
+    if (NULL == (sol[0].dstbuf = calloc (buflen, sizeof(char))))
       err (EXIT_FAILURE, "calloc sol[0].dstbuf");
-    sol[0].dst = sol[0].dstbuf + tab->srclen + tab->dstlen;
+    sol[0].dst = sol[0].dstbuf + buflen - 1;
     sol[0].isrc = tab->srclen;
     sol[0].idst = tab->dstlen;
+    sol[0].iact = 0;
     
     for (done = 0; done != 1; /**/) {
+      int ncheck;
       done = 1;
       
-      for (ii = 0; ii < nsol; ++ii) {
+      /* check for branches */
+      
+      ncheck = nsol;		/* we may end up adding to nsol, don't check those though */
+      for (ii = 0; ii < ncheck; ++ii) {
+	
+	/* skip finished alignments */
 	
 	if (sol[ii].isrc == 0 && sol[ii].idst == 0)
 	  continue;
 	
+	/* check whether we have a 2nd and a 3rd action */
+	
+	for (jj = 1; jj <= 2; ++jj) {
+	  
+	  /* no more actions when we hit the '\0' of the action string */
+	  
+	  if (tab->state[sol[ii].isrc][sol[ii].idst].act[jj] == '\0')
+	    break;
+	  
+	  /* append a duplicate of sol[ii] that uses jj as iact */
+	  
+	  if (NULL == (sol = realloc (sol, (nsol + 1) * sizeof *sol)))
+	    err (EXIT_FAILURE, "realloc sol");
+	  
+	  if (NULL == (sol[nsol].srcbuf = malloc ((buflen) * sizeof(char))))
+	    err (EXIT_FAILURE, "malloc sol[nsol].srcbuf");
+	  memcpy (sol[nsol].srcbuf, sol[ii].srcbuf, buflen * sizeof(char));
+	  sol[nsol].src = sol[nsol].srcbuf + (sol[ii].src - sol[ii].srcbuf);
+	  sol[nsol].isrc = sol[ii].isrc;
+	  
+	  if (NULL == (sol[nsol].dstbuf = malloc ((buflen) * sizeof(char))))
+	    err (EXIT_FAILURE, "malloc sol[nsol].dstbuf");
+	  memcpy (sol[nsol].dstbuf, sol[ii].dstbuf, buflen * sizeof(char));
+	  sol[nsol].dst = sol[nsol].dstbuf + (sol[ii].dst - sol[ii].dstbuf);
+	  sol[nsol].idst = sol[ii].idst;
+	  
+	  sol[nsol].iact = jj;
+	  
+	  ++nsol;
+	}
+      }
+      
+      /* update all alignment branches */
+      
+      for (ii = 0; ii < nsol; ++ii) {
+	
+	/* skip finished alignments */
+	
+	if (sol[ii].isrc == 0 && sol[ii].idst == 0)
+	  continue;
+	
+	/* perform next action in the backtrace */
+	
 	done = 0;
-	if (tab->state[sol[ii].isrc][sol[ii].idst].act[0] == 'm') {
+	if (tab->state[sol[ii].isrc][sol[ii].idst].act[sol[ii].iact] == 'm') {
 	  *(sol[ii].src--) = tab->src[--sol[ii].isrc];
 	  *(sol[ii].dst--) = tab->dst[--sol[ii].idst];
 	}
-	else if (tab->state[sol[ii].isrc][sol[ii].idst].act[0] == 'i') {
+	else if (tab->state[sol[ii].isrc][sol[ii].idst].act[sol[ii].iact] == 'i') {
 	  *(sol[ii].src--) = '_';
 	  *(sol[ii].dst--) = tab->dst[--sol[ii].idst];
 	}
-	else if (tab->state[sol[ii].isrc][sol[ii].idst].act[0] == 'd') {
+	else if (tab->state[sol[ii].isrc][sol[ii].idst].act[sol[ii].iact] == 'd') {
 	  *(sol[ii].src--) = tab->src[--sol[ii].isrc];
 	  *(sol[ii].dst--) = '_';
 	}
 	else
-	  errx (EXIT_FAILURE, "BUG %d", (int) tab->state[sol[ii].isrc][sol[ii].idst].act[0]);
+	  errx (EXIT_FAILURE, "BUG: action %d  solution %d  isrc %d  idst %d  iact %d",
+		(int) tab->state[sol[ii].isrc][sol[ii].idst].act[sol[ii].iact],
+		ii, sol[ii].isrc, sol[ii].idst, sol[ii].iact);
+	
+	/* reset iact to zero (only becomes non-zero in the branch detection) */
+	
+	sol[ii].iact = 0;
+	
       }
     }
     
