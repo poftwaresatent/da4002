@@ -29,7 +29,7 @@ typedef struct {
 typedef struct {
   char *srcbuf, *src;
   char *dstbuf, *dst;
-  int ii, jj;
+  int isrc, idst;
 } Alignment;
 
 
@@ -198,34 +198,53 @@ int main (int argc, char **argv)
    */
   
   {
-    Alignment al;
-    if (NULL == (al.srcbuf = calloc (tab->srclen + tab->dstlen + 1, sizeof(char))))
-      err (EXIT_FAILURE, "calloc al.srcbuf");
-    al.src = al.srcbuf + tab->srclen + tab->dstlen;
-    if (NULL == (al.dstbuf = calloc (tab->srclen + tab->dstlen + 1, sizeof(char))))
-      err (EXIT_FAILURE, "calloc al.dstbuf");
-    al.dst = al.dstbuf + tab->srclen + tab->dstlen;
-    al.ii = tab->srclen;
-    al.jj = tab->dstlen;
-    for (;;) {
-      if (tab->state[al.ii][al.jj].act[0] == 'm') {
-	*(al.src--) = tab->src[--al.ii];
-	*(al.dst--) = tab->dst[--al.jj];
+    Alignment *sol;
+    int nsol = 1;
+    int done;
+    
+    if (NULL == (sol = malloc (sizeof *sol)))
+      err (EXIT_FAILURE, "malloc sol");
+    
+    if (NULL == (sol[0].srcbuf = calloc (tab->srclen + tab->dstlen + 1, sizeof(char))))
+      err (EXIT_FAILURE, "calloc sol[0].srcbuf");
+    sol[0].src = sol[0].srcbuf + tab->srclen + tab->dstlen;
+    if (NULL == (sol[0].dstbuf = calloc (tab->srclen + tab->dstlen + 1, sizeof(char))))
+      err (EXIT_FAILURE, "calloc sol[0].dstbuf");
+    sol[0].dst = sol[0].dstbuf + tab->srclen + tab->dstlen;
+    sol[0].isrc = tab->srclen;
+    sol[0].idst = tab->dstlen;
+    
+    for (done = 0; done != 1; /**/) {
+      done = 1;
+      
+      for (ii = 0; ii < nsol; ++ii) {
+	
+	if (sol[ii].isrc == 0 && sol[ii].idst == 0)
+	  continue;
+	
+	done = 0;
+	if (tab->state[sol[ii].isrc][sol[ii].idst].act[0] == 'm') {
+	  *(sol[ii].src--) = tab->src[--sol[ii].isrc];
+	  *(sol[ii].dst--) = tab->dst[--sol[ii].idst];
+	}
+	else if (tab->state[sol[ii].isrc][sol[ii].idst].act[0] == 'i') {
+	  *(sol[ii].src--) = '_';
+	  *(sol[ii].dst--) = tab->dst[--sol[ii].idst];
+	}
+	else if (tab->state[sol[ii].isrc][sol[ii].idst].act[0] == 'd') {
+	  *(sol[ii].src--) = tab->src[--sol[ii].isrc];
+	  *(sol[ii].dst--) = '_';
+	}
+	else
+	  errx (EXIT_FAILURE, "BUG %d", (int) tab->state[sol[ii].isrc][sol[ii].idst].act[0]);
       }
-      else if (tab->state[al.ii][al.jj].act[0] == 'i') {
-	*(al.src--) = '_';
-	*(al.dst--) = tab->dst[--al.jj];
-      }
-      else if (tab->state[al.ii][al.jj].act[0] == 'd') {
-	*(al.src--) = tab->src[--al.ii];
-	*(al.dst--) = '_';
-      }
-      else
-	break;
     }
-    ++al.src;
-    ++al.dst;
-    printf ("%s\n%s\n", al.src, al.dst);
+    
+    for (ii = 0; ii < nsol; ++ii) {
+      ++sol[ii].src;
+      ++sol[ii].dst;
+      printf ("%s\n%s\n", sol[ii].src, sol[ii].dst);
+    }
   }
   
   table_delete (tab);
