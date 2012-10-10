@@ -207,7 +207,7 @@ int main (int argc, char **argv)
     al.dst = al.dstbuf + tab->srclen + tab->dstlen;
     al.ii = tab->srclen;
     al.jj = tab->dstlen;
-    while (al.ii >= 0 && al.jj >= 0) {
+    for (;;) {
       if (tab->state[al.ii][al.jj].act[0] == 'm') {
 	*(al.src--) = tab->src[--al.ii];
 	*(al.dst--) = tab->dst[--al.jj];
@@ -221,9 +221,6 @@ int main (int argc, char **argv)
 	*(al.dst--) = '_';
       }
       else
-	errx (EXIT_FAILURE, "invalid action character %d", (int) tab->state[al.ii][al.jj].act[0]);
-      
-      if (al.ii == 0 && al.jj == 0)
 	break;
     }
     ++al.src;
