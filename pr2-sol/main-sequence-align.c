@@ -8,7 +8,7 @@
 #define GAP_COST -5
 
 
-typedef struct state_s {
+typedef struct {
   int v_ins;
   int v_del;
   int v_match;
@@ -17,13 +17,20 @@ typedef struct state_s {
 } State;
 
 
-typedef struct table_s {
+typedef struct {
   int srclen;
   int dstlen;
   char *src;
   char *dst;
   State **state;
 } Table;
+
+
+typedef struct {
+  char *srcbuf, *src;
+  char *dstbuf, *dst;
+  int ii, jj;
+} Alignment;
 
 
 Table * table_new (char *src, char *dst)
@@ -64,17 +71,19 @@ Table * table_new (char *src, char *dst)
   
   /* Initialize the first row and the first column using the GAP_COST */
   
-  tab->state[0][0].v_ins = -999; /* use -999 so that there is no action associated with [0][0] */
-  tab->state[0][0].v_del = -999;
-  tab->state[0][0].v_match = -999;
-  tab->state[0][0].v_best = 0;
+  /* tab->state[0][0].v_ins = -999; /\* use -999 so that there is no action associated with [0][0] *\/ */
+  /* tab->state[0][0].v_del = -999; */
+  /* tab->state[0][0].v_match = -999; */
+  /* tab->state[0][0].v_best = 0; */
   for (ii = 1; ii <= tab->dstlen; ++ii) {
     tab->state[0][ii].v_best = ii * GAP_COST;
     tab->state[0][ii].v_ins = tab->state[0][ii].v_best;
+    tab->state[0][ii].act[0] = 'i';
   }
   for (ii = 1; ii <= tab->srclen; ++ii) {
     tab->state[ii][0].v_best = ii * GAP_COST;
     tab->state[ii][0].v_del = tab->state[ii][0].v_best;
+    tab->state[ii][0].act[0] = 'd';
   }
   
   return tab;
@@ -130,6 +139,10 @@ int main (int argc, char **argv)
     errx (EXIT_FAILURE, "please provide two strings on the command line");
   tab = table_new (argv[1], argv[2]);
   
+  /***************************************************
+   * propagate
+   */
+  
   for (ii = 1; ii <= tab->srclen; ++ii) {
     for (jj = 1; jj <= tab->dstlen; ++jj) {
       int best;
@@ -162,6 +175,10 @@ int main (int argc, char **argv)
     }
   }
   
+  /***************************************************
+   * print
+   */
+  
   printf ("\n    _");
   for (ii = 1; ii <= tab->dstlen; ++ii)
     printf ("    %c", tab->dst[ii-1]);
@@ -174,6 +191,44 @@ int main (int argc, char **argv)
     for (jj = 0; jj <= tab->dstlen; ++jj)
       printf (" %4s", tab->state[ii][jj].act);
     printf ("\n\n");
+  }
+  
+  /***************************************************
+   * trace back
+   */
+  
+  {
+    Alignment al;
+    if (NULL == (al.srcbuf = calloc (tab->srclen + tab->dstlen + 1, sizeof(char))))
+      err (EXIT_FAILURE, "calloc al.srcbuf");
+    al.src = al.srcbuf + tab->srclen + tab->dstlen;
+    if (NULL == (al.dstbuf = calloc (tab->srclen + tab->dstlen + 1, sizeof(char))))
+      err (EXIT_FAILURE, "calloc al.dstbuf");
+    al.dst = al.dstbuf + tab->srclen + tab->dstlen;
+    al.ii = tab->srclen;
+    al.jj = tab->dstlen;
+    while (al.ii >= 0 && al.jj >= 0) {
+      if (tab->state[al.ii][al.jj].act[0] == 'm') {
+	*(al.src--) = tab->src[--al.ii];
+	*(al.dst--) = tab->dst[--al.jj];
+      }
+      else if (tab->state[al.ii][al.jj].act[0] == 'i') {
+	*(al.src--) = '_';
+	*(al.dst--) = tab->dst[--al.jj];
+      }
+      else if (tab->state[al.ii][al.jj].act[0] == 'd') {
+	*(al.src--) = tab->src[--al.ii];
+	*(al.dst--) = '_';
+      }
+      else
+	errx (EXIT_FAILURE, "invalid action character %d", (int) tab->state[al.ii][al.jj].act[0]);
+      
+      if (al.ii == 0 && al.jj == 0)
+	break;
+    }
+    ++al.src;
+    ++al.dst;
+    printf ("%s\n%s\n", al.src, al.dst);
   }
   
   table_delete (tab);
