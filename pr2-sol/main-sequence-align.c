@@ -64,6 +64,10 @@ Table * table_new (char *src, char *dst)
   
   /* Initialize the first row and the first column using the GAP_COST */
   
+  tab->state[0][0].v_ins = -999; /* use -999 so that there is no action associated with [0][0] */
+  tab->state[0][0].v_del = -999;
+  tab->state[0][0].v_match = -999;
+  tab->state[0][0].v_best = 0;
   for (ii = 1; ii <= tab->dstlen; ++ii) {
     tab->state[0][ii].v_best = ii * GAP_COST;
     tab->state[0][ii].v_ins = tab->state[0][ii].v_best;
@@ -143,10 +147,31 @@ int main (int argc, char **argv)
       if (best < tab->state[ii][jj].v_match)
 	best = tab->state[ii][jj].v_match;
       
-      printf ("  %3d", best);
       tab->state[ii][jj].v_best = best;
     }
-    printf ("\n");
+  }
+  
+  printf ("    _");
+  for (ii = 1; ii <= tab->dstlen; ++ii)
+    printf ("    %c", tab->dst[ii-1]);
+  printf ("\n\n");
+  for (ii = 0; ii <= tab->srclen; ++ii) {
+    printf ("%c", ii == 0 ? '_' : tab->src[ii-1]);
+    for (jj = 0; jj <= tab->dstlen; ++jj)
+      printf (" % 4d", tab->state[ii][jj].v_best);
+    printf ("\n ");
+    for (jj = 0; jj <= tab->dstlen; ++jj) {
+      char buf[] = { 0, 0, 0, 0 };
+      char *cc = buf;
+      if (tab->state[ii][jj].v_best == tab->state[ii][jj].v_match)
+	*(cc++) = 'm';
+      if (tab->state[ii][jj].v_best == tab->state[ii][jj].v_del)
+	*(cc++) = 'd';
+      if (tab->state[ii][jj].v_best == tab->state[ii][jj].v_ins)
+	*(cc++) = 'i';
+      printf (" %4s", buf);
+    }
+    printf ("\n\n");
   }
   
   table_delete (tab);
