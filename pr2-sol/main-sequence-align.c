@@ -11,9 +11,9 @@
 typedef struct state_s {
   int v_ins;
   int v_del;
-  int c_match;
   int v_match;
   int v_best;
+  char act[4];
 } State;
 
 
@@ -124,7 +124,7 @@ int match_cost (char aa, char bb)
 int main (int argc, char **argv)
 {
   Table *tab;
-  int ii, jj, best;
+  int ii, jj;
   
   if (argc < 3)
     errx (EXIT_FAILURE, "please provide two strings on the command line");
@@ -132,6 +132,8 @@ int main (int argc, char **argv)
   
   for (ii = 1; ii <= tab->srclen; ++ii) {
     for (jj = 1; jj <= tab->dstlen; ++jj) {
+      int best;
+      char * act;
       
       tab->state[ii][jj].v_ins = tab->state[ii][jj-1].v_best + GAP_COST;
       best = tab->state[ii][jj].v_ins;
@@ -147,11 +149,20 @@ int main (int argc, char **argv)
       if (best < tab->state[ii][jj].v_match)
 	best = tab->state[ii][jj].v_match;
       
+      act = tab->state[ii][jj].act;
+      if (best == tab->state[ii][jj].v_match)
+	*(act++) = 'm';
+      if (best == tab->state[ii][jj].v_del)
+	*(act++) = 'd';
+      if (best == tab->state[ii][jj].v_ins)
+	*(act++) = 'i';
+      *(act++) = '\0';
+      
       tab->state[ii][jj].v_best = best;
     }
   }
   
-  printf ("    _");
+  printf ("\n    _");
   for (ii = 1; ii <= tab->dstlen; ++ii)
     printf ("    %c", tab->dst[ii-1]);
   printf ("\n\n");
@@ -160,17 +171,8 @@ int main (int argc, char **argv)
     for (jj = 0; jj <= tab->dstlen; ++jj)
       printf (" % 4d", tab->state[ii][jj].v_best);
     printf ("\n ");
-    for (jj = 0; jj <= tab->dstlen; ++jj) {
-      char buf[] = { 0, 0, 0, 0 };
-      char *cc = buf;
-      if (tab->state[ii][jj].v_best == tab->state[ii][jj].v_match)
-	*(cc++) = 'm';
-      if (tab->state[ii][jj].v_best == tab->state[ii][jj].v_del)
-	*(cc++) = 'd';
-      if (tab->state[ii][jj].v_best == tab->state[ii][jj].v_ins)
-	*(cc++) = 'i';
-      printf (" %4s", buf);
-    }
+    for (jj = 0; jj <= tab->dstlen; ++jj)
+      printf (" %4s", tab->state[ii][jj].act);
     printf ("\n\n");
   }
   
