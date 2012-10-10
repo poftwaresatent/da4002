@@ -27,10 +27,53 @@ typedef struct {
 
 
 typedef struct {
+  int buflen;
   char *srcbuf, *src;
   char *dstbuf, *dst;
   int isrc, idst, iact;
 } Alignment;
+
+
+Alignment * alignment_new (Table * tab)
+{
+  Alignment *al;
+  
+  if (NULL == (al = malloc (sizeof *al)))
+    err (EXIT_FAILURE, __FILE__": %s: malloc", __func__);
+  
+  al->buflen = tab->srclen + tab->dstlen + 1;
+  if (NULL == (al->srcbuf = calloc (al->buflen, sizeof(char))))
+    err (EXIT_FAILURE, __FILE__": %s: calloc srcbuf", __func__);
+  al->src = al->srcbuf + al->buflen;
+  
+  if (NULL == (al->dstbuf = calloc (al->buflen, sizeof(char))))
+    err (EXIT_FAILURE, __FILE__": %s: calloc dstbuf", __func__);
+  al->dst = al->dstbuf + al->buflen;
+  
+  al->isrc = tab->srclen;
+  al->idst = tab->dstlen;
+  al->iact = 0;
+  
+  return al;
+}
+
+
+void alignment_dup (Alignment * clone, Alignment const * orig, int iact)
+{
+  memcpy (clone, orig, sizeof *clone);
+  
+  if (NULL == (clone->srcbuf = malloc (clone->buflen * sizeof(char))))
+    err (EXIT_FAILURE, __FILE__": %s: malloc srcbuf", __func__);
+  memcpy (clone->srcbuf, orig->srcbuf, clone->buflen * sizeof(char));
+  clone->src = clone->srcbuf + (orig->src - orig->srcbuf);
+  
+  if (NULL == (clone->dstbuf = malloc (clone->buflen * sizeof(char))))
+    err (EXIT_FAILURE, __FILE__": %s: malloc dstbuf", __func__);
+  memcpy (clone->dstbuf, orig->dstbuf, clone->buflen * sizeof(char));
+  clone->dst = clone->dstbuf + (orig->dst - orig->dstbuf);
+  
+  clone->iact = iact;
+}
 
 
 Table * table_new (char *src, char *dst)
@@ -134,6 +177,9 @@ int main (int argc, char **argv)
 {
   Table *tab;
   int ii, jj;
+  Alignment *sol;
+  int nsol = 1;
+  int done;
   
   if (argc < 3)
     errx (EXIT_FAILURE, "please provide two strings on the command line");
@@ -197,114 +243,102 @@ int main (int argc, char **argv)
    * trace back
    */
   
-  {
-    Alignment *sol;
-    int nsol = 1;
-    int done;
-    int buflen = tab->srclen + tab->dstlen + 1;
+  sol = alignment_new (tab);
+  
+  for (done = 0; done != 1; /**/) {
+    int ncheck;
+    done = 1;
     
-    if (NULL == (sol = malloc (sizeof *sol)))
-      err (EXIT_FAILURE, "malloc sol");
-    
-    if (NULL == (sol[0].srcbuf = calloc (buflen, sizeof(char))))
-      err (EXIT_FAILURE, "calloc sol[0].srcbuf");
-    sol[0].src = sol[0].srcbuf + buflen - 1;
-    if (NULL == (sol[0].dstbuf = calloc (buflen, sizeof(char))))
-      err (EXIT_FAILURE, "calloc sol[0].dstbuf");
-    sol[0].dst = sol[0].dstbuf + buflen - 1;
-    sol[0].isrc = tab->srclen;
-    sol[0].idst = tab->dstlen;
-    sol[0].iact = 0;
-    
-    for (done = 0; done != 1; /**/) {
-      int ncheck;
-      done = 1;
+    /*
+      check for branches, but may end up appending duplicates which
+      should not be checked this time around... so remember the old
+      size in ncheck
+    */
+    ncheck = nsol;
+    for (ii = 0; ii < ncheck; ++ii) {
       
-      /* check for branches */
+      /*
+	skip finished alignments
+      */
+      if (sol[ii].isrc == 0 && sol[ii].idst == 0)
+	continue;
       
-      ncheck = nsol;		/* we may end up adding to nsol, don't check those though */
-      for (ii = 0; ii < ncheck; ++ii) {
+      /*
+	check whether we have a 2nd and a 3rd action
+      */
+      for (jj = 1; jj <= 2; ++jj) {
 	
-	/* skip finished alignments */
+	/*
+	  no more actions when we hit the '\0' of the action string
+	*/
+	if (tab->state[sol[ii].isrc][sol[ii].idst].act[jj] == '\0')
+	  break;
 	
-	if (sol[ii].isrc == 0 && sol[ii].idst == 0)
-	  continue;
+	/*
+	  append a duplicate of sol[ii] that uses jj as iact
+	*/
+	if (NULL == (sol = realloc (sol, (nsol + 1) * sizeof *sol)))
+	  err (EXIT_FAILURE, "realloc sol");
+	alignment_dup (sol + nsol, sol + ii, jj);
 	
-	/* check whether we have a 2nd and a 3rd action */
-	
-	for (jj = 1; jj <= 2; ++jj) {
-	  
-	  /* no more actions when we hit the '\0' of the action string */
-	  
-	  if (tab->state[sol[ii].isrc][sol[ii].idst].act[jj] == '\0')
-	    break;
-	  
-	  /* append a duplicate of sol[ii] that uses jj as iact */
-	  
-	  if (NULL == (sol = realloc (sol, (nsol + 1) * sizeof *sol)))
-	    err (EXIT_FAILURE, "realloc sol");
-	  
-	  if (NULL == (sol[nsol].srcbuf = malloc ((buflen) * sizeof(char))))
-	    err (EXIT_FAILURE, "malloc sol[nsol].srcbuf");
-	  memcpy (sol[nsol].srcbuf, sol[ii].srcbuf, buflen * sizeof(char));
-	  sol[nsol].src = sol[nsol].srcbuf + (sol[ii].src - sol[ii].srcbuf);
-	  sol[nsol].isrc = sol[ii].isrc;
-	  
-	  if (NULL == (sol[nsol].dstbuf = malloc ((buflen) * sizeof(char))))
-	    err (EXIT_FAILURE, "malloc sol[nsol].dstbuf");
-	  memcpy (sol[nsol].dstbuf, sol[ii].dstbuf, buflen * sizeof(char));
-	  sol[nsol].dst = sol[nsol].dstbuf + (sol[ii].dst - sol[ii].dstbuf);
-	  sol[nsol].idst = sol[ii].idst;
-	  
-	  sol[nsol].iact = jj;
-	  
-	  ++nsol;
-	}
-      }
-      
-      /* update all alignment branches */
-      
-      for (ii = 0; ii < nsol; ++ii) {
-	
-	/* skip finished alignments */
-	
-	if (sol[ii].isrc == 0 && sol[ii].idst == 0)
-	  continue;
-	
-	/* perform next action in the backtrace */
-	
-	done = 0;
-	if (tab->state[sol[ii].isrc][sol[ii].idst].act[sol[ii].iact] == 'm') {
-	  *(sol[ii].src--) = tab->src[--sol[ii].isrc];
-	  *(sol[ii].dst--) = tab->dst[--sol[ii].idst];
-	}
-	else if (tab->state[sol[ii].isrc][sol[ii].idst].act[sol[ii].iact] == 'i') {
-	  *(sol[ii].src--) = '_';
-	  *(sol[ii].dst--) = tab->dst[--sol[ii].idst];
-	}
-	else if (tab->state[sol[ii].isrc][sol[ii].idst].act[sol[ii].iact] == 'd') {
-	  *(sol[ii].src--) = tab->src[--sol[ii].isrc];
-	  *(sol[ii].dst--) = '_';
-	}
-	else
-	  errx (EXIT_FAILURE, "BUG: action %d  solution %d  isrc %d  idst %d  iact %d",
-		(int) tab->state[sol[ii].isrc][sol[ii].idst].act[sol[ii].iact],
-		ii, sol[ii].isrc, sol[ii].idst, sol[ii].iact);
-	
-	/* reset iact to zero (only becomes non-zero in the branch detection) */
-	
-	sol[ii].iact = 0;
-	
+	++nsol;
       }
     }
     
+    /*
+      update all alignment branches
+    */
     for (ii = 0; ii < nsol; ++ii) {
-      ++sol[ii].src;
-      ++sol[ii].dst;
-      printf ("%s\n%s\n", sol[ii].src, sol[ii].dst);
+      
+      /*
+	skip finished alignments
+      */
+      if (sol[ii].isrc == 0 && sol[ii].idst == 0)
+	continue;
+      
+      /*
+	perform next action in the backtrace
+      */
+      done = 0;
+      if (tab->state[sol[ii].isrc][sol[ii].idst].act[sol[ii].iact] == 'm') {
+	*(--sol[ii].src) = tab->src[--sol[ii].isrc];
+	*(--sol[ii].dst) = tab->dst[--sol[ii].idst];
+      }
+      else if (tab->state[sol[ii].isrc][sol[ii].idst].act[sol[ii].iact] == 'i') {
+	*(--sol[ii].src) = '_';
+	*(--sol[ii].dst) = tab->dst[--sol[ii].idst];
+      }
+      else if (tab->state[sol[ii].isrc][sol[ii].idst].act[sol[ii].iact] == 'd') {
+	*(--sol[ii].src) = tab->src[--sol[ii].isrc];
+	*(--sol[ii].dst) = '_';
+      }
+      else
+	errx (EXIT_FAILURE, "BUG: action %d  solution %d  isrc %d  idst %d  iact %d",
+	      (int) tab->state[sol[ii].isrc][sol[ii].idst].act[sol[ii].iact],
+	      ii, sol[ii].isrc, sol[ii].idst, sol[ii].iact);
+      
+      /*
+	reset iact to zero (only becomes non-zero in the branch detection)
+      */
+      sol[ii].iact = 0;
     }
   }
   
+  /*
+    print all optimal alignments
+  */
+  for (ii = 0; ii < nsol; ++ii)
+    printf ("%s\n%s\n\n", sol[ii].src, sol[ii].dst);
+  
+  /***************************************************
+   * clean up after ourselves
+   */
+  
+  for (ii = 0; ii < nsol; ++ii) {
+    free (sol[ii].srcbuf);
+    free (sol[ii].dstbuf);
+  }
+  free (sol);
   table_delete (tab);
   
   return 0;
