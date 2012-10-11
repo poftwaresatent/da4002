@@ -1,0 +1,58 @@
+input source:      itsybitsyspider
+input destination: bit
+
+    _    b    i    t
+
+_    0   -5  -10  -15
+          i    i    i
+
+i   -5  -10    5    0
+     d  mdi    m    i
+
+t  -10   -9    0   15
+     d    m    d    m
+
+s  -15  -14   -5   10
+     d   md    d    d
+
+y  -20  -19  -10    5
+     d   md    d    d
+
+b  -25  -10  -15    0
+     d    m   di    d
+
+i  -30  -15    0   -5
+     d    d    m   di
+
+t  -35  -20   -5   10
+     d    d    d    m
+
+s  -40  -25  -10    5
+     d    d    d    d
+
+y  -45  -30  -15    0
+     d    d    d    d
+
+s  -50  -35  -20   -5
+     d    d    d    d
+
+p  -55  -40  -25  -10
+     d    d    d    d
+
+i  -60  -45  -30  -15
+     d    d   md    d
+
+d  -65  -50  -35  -20
+     d    d    d    d
+
+e  -70  -55  -40  -25
+     d    d    d    d
+
+r  -75  -60  -45  -30
+     d    d    d    d
+
+backtrace:
+
+output source:      itsybitsyspider
+output destination: ____bit________
+
