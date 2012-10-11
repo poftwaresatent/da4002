@@ -1,0 +1,13 @@
+input source:      xx
+input destination: oo
+
+    _    o    o
+
+_    0   -5  -10
+          i    i
+
+x   -5  -10  -15
+     d  mdi  mdi
+
+x  -10  -15  -20
+     d  mdi  mdi

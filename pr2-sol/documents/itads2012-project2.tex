@@ -25,7 +25,7 @@ Finding a good alignment between two sequences of symbols (characters) is a comm
 For example, it can be used to compute differneces between files, as part of spell-checking programs, and especially in bioinformatics to align protein or nucleotide sequences.
 A prominent example is the Needleman-Wunsch algorithm~\cite{needleman-wunsch:1970}.
 
-In this project, you will implement the Needleman-Wunsch algorithm, based on the slides of lecture 6~\cite{lecture6} and the excellent article on Wikipedia~\cite{wikipedia:needleman-wunsch}.
+In this project, you will implement that algorithm, based on the slides of lecture 6~\cite{lecture6} and the excellent article on Wikipedia~\cite{wikipedia:needleman-wunsch}.
 You can also search for more information about the algorithm on the internet, of course.
 As a starting point for the implementation, you are provided with example code for two-dimensional arrays in C, hints on dealing with character data, and example outputs from a sequence-alignment program working on various input strings.
 All lecture and exercise material, the course books, and the work you did for project~1 can be helpful, too.
@@ -81,6 +81,32 @@ How these aspects are shared between the team members is for each team to decide
 
 \subsection{Mandatory Tasks}
 
+\begin{figure}
+  \fbox{\begin{minipage}{55mm}
+      \footnotesize
+      \verbatiminput{tab-beer-coffee.txt}
+  \end{minipage}}\hfill
+  \fbox{\begin{minipage}{32mm}
+      \footnotesize
+      \verbatiminput{tab-xx-oo.txt}
+  \end{minipage}}\hfill
+  \fbox{\begin{minipage}{32mm}
+      \footnotesize
+      \verbatiminput{tab-kc-KC.txt}
+  \end{minipage}}\\[\baselineskip]
+  \fbox{\begin{minipage}{\columnwidth}
+      \footnotesize
+      \verbatiminput{tab-HOT-ohitishotinthere.txt}
+  \end{minipage}}
+  \caption{
+    Table of alignment scores, complete with backpointer information, for several examples of input source and destination strings.
+    The numbers are the accumulated scores for each state, and underneath the number are up to three letters:
+    'm' stands for \emph{match} (diagonal pointer),
+    'i' means \emph{insert} (horizontal pointer),
+    and 'd' means \emph{delete} (vertical pointer).
+  }\label{fig:example-tables}
+\end{figure}
+
 Create a new program called \texttt{main-sequence-align}.
 After completing all mandatory tasks, this program shall
 
@@ -127,6 +153,32 @@ The report must also include your program's output for all of the examples used 
 
 
 \section{Bonus Tasks}
+
+\begin{figure}
+  \begin{minipage}{80mm}
+    \fbox{\begin{minipage}{60mm}
+        \footnotesize
+        \verbatiminput{trace-beer-coffee.txt}
+    \end{minipage}}\\[\baselineskip]
+    \fbox{\begin{minipage}{60mm}
+        \footnotesize
+        \verbatiminput{trace-kc-KC.txt}
+    \end{minipage}}\\[\baselineskip]
+    \fbox{\begin{minipage}{60mm}
+        \footnotesize
+        \verbatiminput{trace-HOT-ohitishotinthere.txt}
+    \end{minipage}}
+  \end{minipage}
+  \fbox{\begin{minipage}{45mm}
+      \footnotesize
+      \verbatiminput{trace-xx-oo.txt}
+  \end{minipage}}
+  \caption{
+    Optimal alignments for the same example sources and destinations as in figure~\ref{fig:example-tables}.
+    All of the listed alignments have the same score.
+    The order in which they are listed is not relevant here, it depends on implementation details.
+  }\label{fig:example-traces}
+\end{figure}
 
 \begin{itemize}
 \item

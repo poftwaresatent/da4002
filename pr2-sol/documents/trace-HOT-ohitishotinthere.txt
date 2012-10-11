@@ -1,0 +1,14 @@
+input source:      HOT
+input destination: ohitishotinthere
+
+output source:      ______HO___T____
+output destination: ohitishotinthere
+
+output source:      ______HOT_______
+output destination: ohitishotinthere
+
+output source:      _H_____O___T____
+output destination: ohitishotinthere
+
+output source:      _H_____OT_______
+output destination: ohitishotinthere

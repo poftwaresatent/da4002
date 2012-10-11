@@ -1,0 +1,13 @@
+input source:      kc
+input destination: KC
+
+    _    K    C
+
+_    0   -5  -10
+          i    i
+
+k   -5   10    5
+     d    m    i
+
+c  -10    5   20
+     d    d    m
