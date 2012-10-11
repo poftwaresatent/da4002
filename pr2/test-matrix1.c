@@ -21,14 +21,14 @@ int main (int argc, char ** argv)
   /*
     Fill the matrix with some example values. Notice that the array
     index is one-dimensional: in order to access the element at
-    (ir,ic) you have to translate it into the index ir+ic*ncols.
+    (ir,ic) you have to translate it into the index ic+ir*ncols.
   */
   for (ir = 0; ir < nrows; ++ir)
     for (ic = 0; ic < ncols; ++ic)
       if ((ir + ic) % 2)
-	matrix[ir + ic*ncols] = -10*ic - ir;
+	matrix[ic + ir*ncols] = -10*ic - ir;
       else
-	matrix[ir + ic*ncols] = 10*ir + ic;
+	matrix[ic + ir*ncols] = 10*ir + ic;
   
   /*
     Print the matrix as a nice table with a header row that lists the
@@ -45,7 +45,7 @@ int main (int argc, char ** argv)
   for (ir = 0; ir < nrows; ++ir) {
     printf ("%d |", ir);
     for (ic = 0; ic < ncols; ++ic)
-      printf (" %3d", matrix[ir + ic*ncols]);
+      printf (" %3d", matrix[ic + ir*ncols]);
     printf ("\n");
   }
   
