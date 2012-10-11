@@ -31,8 +31,13 @@ typedef struct {
   char *srcbuf, *src;
   char *dstbuf, *dst;
   int isrc, idst, iact;
+  struct {
+    int id, orig, isrc, idst, iact;
+  } meta;
 } Alignment;
 
+
+static int meta_id = 0;
 
 Alignment * alignment_new (Table * tab)
 {
@@ -54,6 +59,12 @@ Alignment * alignment_new (Table * tab)
   al->idst = tab->dstlen;
   al->iact = 0;
   
+  al->meta.id = meta_id++;
+  al->meta.orig = al->meta.id;
+  al->meta.isrc = al->isrc;
+  al->meta.idst = al->idst;
+  al->meta.iact = al->iact;
+  
   return al;
 }
 
@@ -65,14 +76,41 @@ void alignment_dup (Alignment * clone, Alignment const * orig, int iact)
   if (NULL == (clone->srcbuf = malloc (clone->buflen * sizeof(char))))
     err (EXIT_FAILURE, __FILE__": %s: malloc srcbuf", __func__);
   memcpy (clone->srcbuf, orig->srcbuf, clone->buflen * sizeof(char));
+  printf ("  wtf srcbuf: ");
+  int wtf;
+  for (wtf = 0; wtf < clone->buflen; ++wtf)
+    printf (clone->srcbuf[wtf] == orig->srcbuf[wtf] ? "." : "X");
+  printf ("\n");
   clone->src = clone->srcbuf + (orig->src - orig->srcbuf);
   
   if (NULL == (clone->dstbuf = malloc (clone->buflen * sizeof(char))))
     err (EXIT_FAILURE, __FILE__": %s: malloc dstbuf", __func__);
   memcpy (clone->dstbuf, orig->dstbuf, clone->buflen * sizeof(char));
+  printf ("  wtf dstbuf: ");
+  for (wtf = 0; wtf < clone->buflen; ++wtf)
+    printf (clone->dstbuf[wtf] == orig->dstbuf[wtf]
+	    ? (orig->dstbuf[wtf] == '\0' ? "0" : ".")
+	    : "X");
+  printf ("\n");
   clone->dst = clone->dstbuf + (orig->dst - orig->dstbuf);
   
   clone->iact = iact;
+
+  clone->meta.id = meta_id++;
+  clone->meta.orig = orig->meta.id;
+  clone->meta.isrc = orig->isrc;
+  clone->meta.idst = orig->idst;
+  clone->meta.iact = iact;
+  
+  printf ("  dup: orig:  buflen %d  id %d  orig %d  isrc %d  idst %d  iact %d\n"
+	  "       clone: buflen %d  id %d  orig %d  isrc %d  idst %d  iact %d\n"
+	  "       orig  src: %s\n"
+	  "       clone src: %s\n"
+	  "       orig  dst: %s\n"
+	  "       clone dst: %s\n\n",
+	  orig->buflen, orig->meta.id, orig->meta.orig, orig->meta.isrc, orig->meta.idst, orig->meta.iact,
+	  clone->buflen, clone->meta.id, clone->meta.orig, clone->meta.isrc, clone->meta.idst, clone->meta.iact,
+	  orig->src, clone->src, orig->dst, clone->dst);
 }
 
 
@@ -293,6 +331,7 @@ int main (int argc, char **argv)
       update all alignment branches
     */
     for (ii = 0; ii < nsol; ++ii) {
+      char act;
       
       /*
 	skip finished alignments
@@ -304,22 +343,22 @@ int main (int argc, char **argv)
 	perform next action in the backtrace
       */
       done = 0;
-      if (tab->state[sol[ii].isrc][sol[ii].idst].act[sol[ii].iact] == 'm') {
+      act = tab->state[sol[ii].isrc][sol[ii].idst].act[sol[ii].iact];
+      if ('m' == act) {
 	*(--sol[ii].src) = tab->src[--sol[ii].isrc];
 	*(--sol[ii].dst) = tab->dst[--sol[ii].idst];
       }
-      else if (tab->state[sol[ii].isrc][sol[ii].idst].act[sol[ii].iact] == 'i') {
+      else if ('i' == act) {
 	*(--sol[ii].src) = '_';
 	*(--sol[ii].dst) = tab->dst[--sol[ii].idst];
       }
-      else if (tab->state[sol[ii].isrc][sol[ii].idst].act[sol[ii].iact] == 'd') {
+      else if ('d' == act) {
 	*(--sol[ii].src) = tab->src[--sol[ii].isrc];
 	*(--sol[ii].dst) = '_';
       }
       else
 	errx (EXIT_FAILURE, "BUG: action %d  solution %d  isrc %d  idst %d  iact %d",
-	      (int) tab->state[sol[ii].isrc][sol[ii].idst].act[sol[ii].iact],
-	      ii, sol[ii].isrc, sol[ii].idst, sol[ii].iact);
+	      (int) act, ii, sol[ii].isrc, sol[ii].idst, sol[ii].iact);
       
       /*
 	reset iact to zero (only becomes non-zero in the branch detection)
@@ -334,8 +373,10 @@ int main (int argc, char **argv)
   printf ("backtrace:\n\n");
   for (ii = 0; ii < nsol; ++ii)
     printf ("output source:      %s\n"
-	    "output destination: %s\n\n",
-	    sol[ii].src, sol[ii].dst);
+	    "output destination: %s\n"
+	    "  meta: id %d  orig %d  isrc %d  idst %d iact %d\n\n",
+	    sol[ii].src, sol[ii].dst,
+	    sol[ii].meta.id, sol[ii].meta.orig, sol[ii].meta.isrc, sol[ii].meta.idst, sol[ii].meta.iact);
   
   /***************************************************
    * clean up after ourselves
