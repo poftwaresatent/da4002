@@ -2,6 +2,7 @@
 #include <err.h>
 #include <stdlib.h>
 #include <ctype.h>
+#include <string.h>
 
 
 /*
@@ -11,7 +12,7 @@
 */
 int isvowel (char cc)
 {
-  static char vowel[] = { 'a', 'e', 'i', 'o', 'u' };
+  static char vowel[] = { 'a', 'e', 'i', 'o', 'u', 'y' };
   static int nvowels = sizeof vowel / sizeof *vowel;
   int ii;
   
@@ -48,9 +49,10 @@ int main (int argc, char ** argv)
     it is a vowel or 'c' if it is a consonant.
   */
   for (ii = 1; ii < 3; ++ii) {
-    printf ("argument %d: %s\n"
-	    "            ",
-	    ii, argv[ii]);
+    printf ("argument %d is %zu characters long.\n"
+	    "  here is the string:   %s\n"
+	    "  vowels or consonants: ",
+	    ii, strlen (argv[ii]), argv[ii]);
     for (chk = argv[ii]; *chk != '\0'; ++chk)
       printf (isvowel (*chk) ? "v" : "c");
     printf ("\n\n");

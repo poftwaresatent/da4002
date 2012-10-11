@@ -1,1 +1,6 @@
 main-sequence-align
+test-argument-parsing
+test-backpointer-example
+test-matrix-example1
+test-matrix-example2
+test-propagation-example
