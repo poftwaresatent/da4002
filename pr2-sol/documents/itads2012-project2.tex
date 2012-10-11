@@ -22,7 +22,7 @@
 \section{Introduction}
 
 Finding a good alignment between two sequences of symbols (characters) is a commonly encountered problem in various domains.
-For example, it can be used to compute differneces between files, as part of spell-checking programs, and especially in bioinformatics to align protein or nucleotide sequences.
+For example, it can be used to compute differences between files, as part of spell-checking programs, and especially in bioinformatics to align protein or nucleotide sequences.
 A prominent example is the Needleman-Wunsch algorithm~\cite{needleman-wunsch:1970}.
 
 In this project, you will implement that algorithm, based on the slides of lecture 6~\cite{lecture6} and the excellent article on Wikipedia~\cite{wikipedia:needleman-wunsch}.
@@ -55,11 +55,11 @@ The source archive that serves as starting point for project~2 contains the foll
   This makes memory management slightly more involved, but accessing individual matrix elements is straightforward.
 \item
   \texttt{test-propagation.c} shows one possible way of propagating values through a matrix, row by row but skipping the first row and the first column.
-  This is similar to the propagation pattern used by the Needlemen-Wunsch algorithm, but the propagation formula is just a simplistic example.
+  This is similar to the propagation pattern used by the Needleman-Wunsch algorithm, but the propagation formula is just a simplistic example.
 \item
   \texttt{test-backpointer.c} illustrates an idea for constructing backpointers and printing them in the nicely aligned table.
-  Here, backpointers are detected by comparing whether the propagated value (called \texttt{best}) depeds on the value \texttt{above} or \texttt{left}, or both, or none.
-  For each of these situations, a string is constucted: it can be empty if there are no backpointers, ``A'' if the backpointer comes from above, ``L'' if it comes from the left, and ``AL'' if there is a backpointer from above and from the left.
+  Here, backpointers are detected by comparing whether the propagated value (called \texttt{best}) depends on the value \texttt{above} or \texttt{left}, or both, or none.
+  For each of these situations, a string is constructed: it can be empty if there are no backpointers, ``A'' if the backpointer comes from above, ``L'' if it comes from the left, and ``AL'' if there is a backpointer from above and from the left.
 \item
   \texttt{test-argument-parsing.c} contains example code for checking whether a program receives two command-line arguments, whether those arguments contain only letters of the alphabet, and for each of their letters whether it is a vowel or a consonant.
   It also illustrates how to find the length of a string, and how to detect the end of a string when you are not given its length.
