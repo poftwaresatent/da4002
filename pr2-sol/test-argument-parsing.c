@@ -12,7 +12,7 @@
 */
 int isvowel (char cc)
 {
-  static char vowel[] = { 'a', 'e', 'i', 'o', 'u', 'y' };
+  static char vowel[] = { 'a', 'e', 'i', 'o', 'u' };
   static int nvowels = sizeof vowel / sizeof *vowel;
   int ii;
   
