@@ -5,7 +5,8 @@
 
 int main (int argc, char ** argv)
 {
-  int nrows, ncols, *matrix;
+  int *matrix; /* the matrix is "just" a pointer to the first element */
+  int nrows, ncols;
   int ir, ic;
   
   /*
