@@ -21,14 +21,14 @@
 
 \section{Introduction}
 
-Finding a good alignment between two sequences of symbols (characters) is a commonly encountered problem in.
+Finding a good alignment between two sequences of symbols (characters) is a commonly encountered problem in various domains.
 For example, it can be used to compute differneces between files, as part of spell-checking programs, and especially in bioinformatics to align protein or nucleotide sequences.
 A prominent example is the Needleman-Wunsch algorithm~\cite{needleman-wunsch:1970}.
 
 In this project, you will implement the Needleman-Wunsch algorithm, based on the slides of lecture 6~\cite{lecture6} and the excellent article on Wikipedia~\cite{wikipedia:needleman-wunsch}.
 You can also search for more information about the algorithm on the internet, of course.
 As a starting point for the implementation, you are provided with example code for two-dimensional arrays in C, hints on dealing with character data, and example outputs from a sequence-alignment program working on various input strings.
-Of course, all lecture and exercise material, the course books, and the work you did for project~1 can be helpful, too.
+All lecture and exercise material, the course books, and the work you did for project~1 can be helpful, too.
 
 The deadline for handing in the source code and the report is \textbf{Friday, October 19, 2012, at 18h00}.
 Teams who miss the deadline will receive a penalty of 5 points (the maximum number of points is 25).
@@ -39,55 +39,120 @@ Participants must notify the lecturer of such circumstances as soon as possible 
 
 \section{Starting Point}
 
-they can do their own makefile\\
-will give them some examples:\\
--- matrix using 1d array\\
--- matrix using array of arrays\\
--- printing numbers and strings right-aligned into fixed width\\
--- simple example of propagating values through a matrix and printing some properties\\
--- reading two strings from the command line and checking that they only contain letters\\
+The source archive that serves as starting point for project~2 contains the following files:
+
+\begin{itemize}
+\item
+  \texttt{Makefile} is the same as used for project~1.
+\item
+  \texttt{test-matrix1.c} shows one way of implementing matrices in C.
+  Here, the matrix is stored in a single array.
+  This makes memory management easier, but requires a bit of math to access the individual matrix elements.
+  The program also contains example code of how to nicely print a matrix, with header rows and columns and values that properly line up.
+\item
+  \texttt{test-matrix2.c} illustrates an alternative method of storing matrices.
+  Here, each row is an individual array, and the matrix is an array of pointers (one for each row).
+  This makes memory management slightly more involved, but accessing individual matrix elements is straightforward.
+\item
+  \texttt{test-propagation.c} shows one possible way of propagating values through a matrix, row by row but skipping the first row and the first column.
+  This is similar to the propagation pattern used by the Needlemen-Wunsch algorithm, but the propagation formula is just a simplistic example.
+\item
+  \texttt{test-backpointer.c} illustrates an idea for constructing backpointers and printing them in the nicely aligned table.
+  Here, backpointers are detected by comparing whether the propagated value (called \texttt{best}) depeds on the value \texttt{above} or \texttt{left}, or both, or none.
+  For each of these situations, a string is constucted: it can be empty if there are no backpointers, ``A'' if the backpointer comes from above, ``L'' if it comes from the left, and ``AL'' if there is a backpointer from above and from the left.
+\item
+  \texttt{test-argument-parsing.c} contains example code for checking whether a program receives two command-line arguments, whether those arguments contain only letters of the alphabet, and for each of their letters whether it is a vowel or a consonant.
+  It also illustrates how to find the length of a string, and how to detect the end of a string when you are not given its length.
+\end{itemize}
 
 
 
 \section{Assignment}
 
--- M implement computation of match cost (can be a function or a similarity matrix)\\
--- M fill value array based on match, insert, delete\\
--- M give ``just'' the alignment score for two strings\\
--- M print the value matrix\\
--- M write a report: what file implements what, how to compile, how to run, example output for some example pairs\\
--- O print the value matrix with backpointer information\\
--- O trace back one optimal alignment\\
--- O trace back all optimal alignments\\
--- O implement Smith-Waterman algorithm and compare results with Needleman-Wunsch\\
-
-A properly performed set of mandatory tasks that are well documented in the project report is worth 16 points (HH grade 4, ECTS grade D).
+Similarly to the first project, there are some mandatory and some bonus tasks defined for project~2.
+All of the mandatory tasks have to be performed, and you can choose one or more bonus tasks for additional points.
+A properly performed set of mandatory tasks that are well documented is worth 16 points (HH grade 4, ECTS grade D).
 Bonus tasks can give up to 9 extra points, such that the maximum achievable number of points is 25 (HH grade 5, ECTS grade A).
 
-Keep in mind that writing the report is an integral part of the project, so do not spend too much time on extending the functionality.
+Keep in mind that writing the report is an integral part of the project, and that it also takes time.
 It is important to note that teams are expected to manage their resources by themselves.
 This includes apportioning the time available for finding information online and in the course books, developing and debugging code, documenting the work, and preparing and testing the project archive file that you submit for evaluation.
 How these aspects are shared between the team members is for each team to decide.
 
 \subsection{Mandatory Tasks}
 
+Create a new program called \texttt{main-sequence-align}.
+After completing all mandatory tasks, this program shall
+
 \begin{enumerate}
-
 \item
-  one
-
+  Take two command-line arguments.
+  Check that they contain only alphabetical letters.
+  Create a matrix of size $(N+1)\times(M+1)$, where $N$ is the length of the \emph{input source} string (the first argument) and $M$ the length of the \emph{input destination} (second argument).
+\item
+  Follow the method described on slides 12--13 and 39--53 of lecture~6~\cite{lecture6} to: initialize the first row and first column of that matrix, and then propagate the costs for \emph{insert}, \emph{delete}, or \emph{match} operations.
+  The scores should be as in the lecture:
+  \begin{itemize}
+  \item
+    perfect match: +10
+  \item
+    matching a vowel with a different vowel: -2
+  \item
+    matching a consonant with a different consonant: -4
+  \item
+    matching a vowel with a consonant: -10
+  \item
+    insertions: -5
+  \item
+    deletions: -5
+  \end{itemize}
+  Note that all these scores should ignore whether the letters are upper case or lower case.
+  Thus, for example 'R' perfectly matches 'r' with score +10, and 'A' matches 'o' with score -2.
+  Beware of the fact that matrix row $i$ corresponds to letter $i-1$ of the source string, and matrix column $j$ corresponds to letter $j-1$ of the destination string.
+\item
+  For each element of the matrix, determine its \emph{backpointers}.
+  In other words, find out (and store) which subset of the three operations (\emph{insert}, \emph{delete}, \emph{match}) produced the best (minimum) value.
+  Note that there will be at least one backpointer for every element, except for the one in the top-left corner (which gets initialized to zero and has no backpointers).
+  \emph{Hint: similarly to the example in \texttt{test-backpointer.c}, you can use an array of 4 characters \texttt{char[4]} and use it like a zero-terminated C string that contains 'm' for a match, 'i' for an insert, and 'd' for a delete.}
+\item
+  Print the contents of the matrix, along with backpointer information.
+  An example of such output is given in figure~\ref{fig:example-tables} for the source ``beer'' and the destination ``coffee'' (the same example used in lecture~6) and some other examples that can be used to check your implementation.
 \end{enumerate}
+
+Your report must follow the same general guidelines as for project~1.
+It should mention the list of tasks that you completed and describe any additional files that you have have created.
+It should list websites and other references that you used for your implementation.
+The report must also include your program's output for all of the examples used in figure~\ref{fig:example-tables}.
 
 
 
 \section{Bonus Tasks}
 
-\begin{enumerate}
-
+\begin{itemize}
 \item
-  one
-  
-\end{enumerate}
+  After printing the table, your program should trace back an optimal alignment.
+  For this, you start at the bottom-right element and work your way along a backpointer until you reach the top-left element.
+  At each step of this tracing process, you have to prepend a character to an \emph{output source} and an \emph{output destination} string:
+  \begin{itemize}
+  \item
+    For a \emph{match}, you use one character of each input source and destination, and proceed to the element that is diagonally up one row and left one column.
+  \item
+    For a \emph{delete}, you use up one character from the input source and prepend it to the output source, but the output destination receives a gap '\_';
+    then you proceed to the element directly one row above.
+  \item
+    Conversely, for an \emph{insert}, one character from the input destination gets prepended to the output destination, whereas the output source receives a '\_';
+    then you proceed to the element directly to the left.
+  \end{itemize}
+  \emph{Hint: the maximum length of the output strings is $N+M$, so you can allocate a buffer that is big enough (i.e.\ ``\texttt{char *buf = calloc (N*M+1, sizeof(char))}'' with one extra element for the terminating '$\backslash$0') and fill it backwards starting at \texttt{buf+N*M}.
+    You will probably not use all of the space, so skip over the first few letters when passing the resulting string to \texttt{printf}.}
+\item
+  It is more challenging to trace back all optimal alignments:
+  at every element with two backpointers, you have to create a new branch for the backtrace; elements with three backpointers require two new branches.
+  Figure~\ref{fig:example-traces} shows the output of a program that traces back all solutions for the the tables given in figure~\ref{fig:example-tables}.
+\item
+  Create a new program that uses the Smith-Waterman algorithm~\cite{wikipedia:smith-waterman} (a variation of Needleman-Wunsch) for sequence alignment.
+  Compare the results it gives for the examples of Needleman-Wunsch shown in figure~\ref{fig:example-tables}.
+\end{itemize}
 
 
 

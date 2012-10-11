@@ -1,0 +1,31 @@
+input source:      HOT
+input destination: somelongstringwithhotinthemiddle
+
+    _    s    o    m    e    l    o    n    g    s    t    r    i    n    g    w    i    t    h    h    o    t    i    n    t    h    e    m    i    d    d    l    e
+
+_    0   -5  -10  -15  -20  -25  -30  -35  -40  -45  -50  -55  -60  -65  -70  -75  -80  -85  -90  -95 -100 -105 -110 -115 -120 -125 -130 -135 -140 -145 -150 -155 -160
+          i    i    i    i    i    i    i    i    i    i    i    i    i    i    i    i    i    i    i    i    i    i    i    i    i    i    i    i    i    i    i    i
+
+H   -5   -4   -9  -14  -19  -24  -29  -34  -39  -44  -49  -54  -59  -64  -69  -74  -79  -84  -75  -80  -85  -90  -95 -100 -105 -110 -115 -120 -125 -130 -135 -140 -145
+     d    m    i   mi    i   mi    i   mi   mi   mi   mi   mi    i   mi   mi   mi    i   mi    m   mi    i    i    i    i    i   mi    i    i    i    i    i    i    i
+
+O  -10   -9    6    1   -4   -9  -14  -19  -24  -29  -34  -39  -44  -49  -54  -59  -64  -69  -74  -79  -70  -75  -80  -85  -90  -95 -100 -105 -110 -115 -120 -125 -130
+     d    d    m    i    i    i   mi    i    i    i    i    i    i    i    i    i    i    i    i    i    m    i    i    i    i    i    i    i    i    i    i    i    i
+
+T  -15  -14    1    2   -3   -8  -13  -18  -23  -28  -19  -24  -29  -34  -39  -44  -49  -54  -59  -64  -69  -60  -65  -70  -75  -80  -85  -90  -95 -100 -105 -110 -115
+     d   md    d    m    i   mi    i   mi   mi   mi    m    i    i    i    i    i    i   mi    i    i    i    m    i    i   mi    i    i    i    i    i    i    i    i
+
+backtrace:
+
+output source:      __________________HO___T________
+output destination: somelongstringwithhotinthemiddle
+
+output source:      __________________HOT___________
+output destination: somelongstringwithhotinthemiddle
+
+output source:      _________________H_O___T________
+output destination: somelongstringwithhotinthemiddle
+
+output source:      _________________H_OT___________
+output destination: somelongstringwithhotinthemiddle
+

@@ -1,0 +1,31 @@
+input source:      HOT
+input destination: stringwithhotinthemiddle
+
+    _    s    t    r    i    n    g    w    i    t    h    h    o    t    i    n    t    h    e    m    i    d    d    l    e
+
+_    0   -5  -10  -15  -20  -25  -30  -35  -40  -45  -50  -55  -60  -65  -70  -75  -80  -85  -90  -95 -100 -105 -110 -115 -120
+          i    i    i    i    i    i    i    i    i    i    i    i    i    i    i    i    i    i    i    i    i    i    i    i
+
+H   -5   -4   -9  -14  -19  -24  -29  -34  -39  -44  -35  -40  -45  -50  -55  -60  -65  -70  -75  -80  -85  -90  -95 -100 -105
+     d    m   mi   mi    i   mi   mi   mi    i   mi    m   mi    i    i    i    i    i   mi    i    i    i    i    i    i    i
+
+O  -10   -9  -14  -19  -16  -21  -26  -31  -36  -41  -40  -45  -30  -35  -40  -45  -50  -55  -60  -65  -70  -75  -80  -85  -90
+     d    d  mdi  mdi    m    i    i    i   mi    i    d  mdi    m    i    i    i    i    i    i    i    i    i    i    i    i
+
+T  -15  -14    1   -4   -9  -14  -19  -24  -29  -26  -31  -36  -35  -20  -25  -30  -35  -40  -45  -50  -55  -60  -65  -70  -75
+     d   md    m    i    i    i    i    i    i    m    i    i    d    m    i    i   mi    i    i    i    i    i    i    i    i
+
+backtrace:
+
+output source:      __________HO___T________
+output destination: stringwithhotinthemiddle
+
+output source:      __________HOT___________
+output destination: stringwithhotinthemiddle
+
+output source:      _________H_O___T________
+output destination: stringwithhotinthemiddle
+
+output source:      _________H_OT___________
+output destination: stringwithhotinthemiddle
+

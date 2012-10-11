@@ -1,0 +1,22 @@
+input source:      HOT
+input destination: itshotinhere
+
+    _    i    t    s    h    o    t    i    n    h    e    r    e
+
+_    0   -5  -10  -15  -20  -25  -30  -35  -40  -45  -50  -55  -60
+          i    i    i    i    i    i    i    i    i    i    i    i
+
+H   -5  -10   -9  -14   -5  -10  -15  -20  -25  -30  -35  -40  -45
+     d  mdi    m   mi    m    i    i    i    i   mi    i    i    i
+
+O  -10   -7  -12  -17  -10    5    0   -5  -10  -15  -20  -25  -30
+     d    m    i    i    d    m    i    i    i    i    i    i    i
+
+T  -15  -12    3   -2   -7    0   15   10    5    0   -5  -10  -15
+     d    d    m    i    i    d    m    i    i    i    i    i    i
+
+backtrace:
+
+output source:      ___HOT______
+output destination: itshotinhere
+

@@ -1,0 +1,31 @@
+input source:      beer
+input destination: coffee
+
+    _    c    o    f    f    e    e
+
+_    0   -5  -10  -15  -20  -25  -30
+          i    i    i    i    i    i
+
+b   -5   -4   -9  -14  -19  -24  -29
+     d    m    i   mi   mi    i    i
+
+e  -10   -9   -6  -11  -16   -9  -14
+     d    d    m    i    i    m   mi
+
+e  -15  -14  -11  -16  -21   -6    1
+     d    d   md  mdi  mdi    m    m
+
+r  -20  -19  -16  -15  -20  -11   -4
+     d   md    d    m   mi    d    d
+
+backtrace:
+
+output source:      ___beer
+output destination: coffee_
+
+output source:      __b_eer
+output destination: coffee_
+
+output source:      b___eer
+output destination: coffee_
+

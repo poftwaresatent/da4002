@@ -185,6 +185,10 @@ int main (int argc, char **argv)
     errx (EXIT_FAILURE, "please provide two strings on the command line");
   tab = table_new (argv[1], argv[2]);
   
+  printf ("input source:      %s\n"
+	  "input destination: %s\n",
+	  argv[1], argv[2]);
+  
   /***************************************************
    * propagate
    */
@@ -327,8 +331,11 @@ int main (int argc, char **argv)
   /*
     print all optimal alignments
   */
+  printf ("backtrace:\n\n");
   for (ii = 0; ii < nsol; ++ii)
-    printf ("%s\n%s\n\n", sol[ii].src, sol[ii].dst);
+    printf ("output source:      %s\n"
+	    "output destination: %s\n\n",
+	    sol[ii].src, sol[ii].dst);
   
   /***************************************************
    * clean up after ourselves
