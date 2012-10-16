@@ -65,5 +65,9 @@ Edge * g_connect (Graph *gg, const char *src, const char *dst, int cost);
 
 void g_print_dot (Graph *gg, FILE *stream);
 
+void g_parse (Graph *gg, FILE *stream);
+
+void g_load (Graph *gg, const char *fname);
+
 
 #endif /* ITADS_EX9_GRAPH_H */

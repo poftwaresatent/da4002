@@ -113,3 +113,31 @@ void g_print_dot (Graph *gg, FILE *stream)
   }
   fprintf (stream, "}\n");
 }
+
+
+void g_parse (Graph *gg, FILE *stream)
+{
+  int status, cost;
+  char src[100], dst[100];
+  src[99] = '\0';
+  dst[99] = '\0';
+  
+  for (;;) {
+    status = fscanf (stream, " %99s %99s %d", src, dst, &cost);
+    if (EOF == status)
+      break;
+    if (3 != status)
+      errx (EXIT_FAILURE, __FILE__": %s: expected two strings and an integer", __func__);
+    g_connect (gg, src, dst, cost);
+  }
+}
+
+
+void g_load (Graph *gg, const char *fname)
+{
+  FILE *stream;
+  if (NULL == (stream = fopen (fname, "r")))
+    err (EXIT_FAILURE, __FILE__": %s: fopen %s", __func__, fname);
+  g_parse (gg, stream);
+  fclose (stream);
+}
