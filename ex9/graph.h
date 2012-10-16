@@ -2,11 +2,12 @@
 #define ITADS_EX9_GRAPH_H
 
 #include <stdlib.h>
+#include <stdio.h>
 
 
 typedef struct vertex_s {
   /*
-    adjacency list attributes
+    head of the adjacency list
   */
   struct edge_s *out;
   
@@ -14,13 +15,14 @@ typedef struct vertex_s {
     payload data
   */
   const char * name;
-  double value;
+  int value;
 } Vertex;
 
 
 typedef struct edge_s {
   /*
-    adjacency list attributes
+    adjacency list attributes: pointer to the next edge, and to the
+    vertex at the other end of this (current) edge
   */
   struct edge_s *next;
   struct vertex_s *dst;
@@ -28,11 +30,16 @@ typedef struct edge_s {
   /*
     payload data
   */
-  double cost;
+  int cost;
 } Edge;
 
 
 typedef struct graph_s {
+  /*
+    For simplicity, we store all the vertices in an array. This makes
+    searching for a vertex very inefficient, but it is easy to
+    implement and good enough for this example.
+  */
   Vertex **vertex;
   size_t size;
 } Graph;
@@ -42,9 +49,9 @@ Vertex * v_new (const char *name);
 
 void v_delete (Vertex *vv);
 
-Edge * v_connect (Vertex *src, Vertex *dst, double cost);
+Edge * v_connect (Vertex *src, Vertex *dst, int cost);
 
-Edge * e_new (Vertex *dst, double cost);
+Edge * e_new (Vertex *dst, int cost);
 
 void e_delete (Edge *ee);
 
@@ -54,7 +61,9 @@ void g_delete (Graph *gg);
 
 Vertex * g_vertex (Graph *gg, const char *name);
 
-Edge * g_connect (Graph *gg, const char *src, const char *dst, double cost);
+Edge * g_connect (Graph *gg, const char *src, const char *dst, int cost);
+
+void g_print_dot (Graph *gg, FILE *stream);
 
 
 #endif /* ITADS_EX9_GRAPH_H */

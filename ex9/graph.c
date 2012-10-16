@@ -24,7 +24,7 @@ void v_delete (Vertex *vv)
 }
 
 
-Edge * v_connect (Vertex *src, Vertex *dst, double cost)
+Edge * v_connect (Vertex *src, Vertex *dst, int cost)
 {
   Edge *ee = e_new (dst, cost);
   ee->next = src->out;
@@ -33,7 +33,7 @@ Edge * v_connect (Vertex *src, Vertex *dst, double cost)
 }
 
 
-Edge * e_new (Vertex *dst, double cost)
+Edge * e_new (Vertex *dst, int cost)
 {
   Edge *ee = malloc (sizeof *ee);
   if (NULL == ee)
@@ -64,7 +64,7 @@ Graph * g_new ()
 
 void g_delete (Graph *gg)
 {
-  int ii;
+  size_t ii;
   for (ii = 0; ii < gg->size; ++ii) {
     Edge *ee;
     for (ee = gg->vertex[ii]->out; ee != NULL; /**/) {
@@ -82,7 +82,7 @@ void g_delete (Graph *gg)
 Vertex * g_vertex (Graph *gg, const char *name)
 {
   Vertex *vv;
-  int ii;
+  size_t ii;
   for (ii = 0; ii < gg->size; ++ii)
     if (0  == strcmp (name, gg->vertex[ii]->name))
       return gg->vertex[ii];
@@ -95,7 +95,21 @@ Vertex * g_vertex (Graph *gg, const char *name)
 }
 
 
-Edge * g_connect (Graph *gg, const char *src, const char *dst, double cost)
+Edge * g_connect (Graph *gg, const char *src, const char *dst, int cost)
 {
   return v_connect (g_vertex (gg, src), g_vertex (gg, dst), cost);
+}
+
+
+void g_print_dot (Graph *gg, FILE *stream)
+{
+  size_t ii;
+  fprintf (stream, "digraph \"ex9\" {\n  graph [overlap=scale];\n");
+  for (ii = 0; ii < gg->size; ++ii) {
+    Edge *ee;
+    for (ee = gg->vertex[ii]->out; ee != NULL; ee = ee->next)
+      fprintf (stream, "  \"%s\" -> \"%s\" [label=\"%d\",len=2];\n",
+	       gg->vertex[ii]->name, ee->dst->name, ee->cost);
+  }
+  fprintf (stream, "}\n");
 }
