@@ -59,6 +59,8 @@ Graph * g_new ();
 
 void g_delete (Graph *gg);
 
+Vertex * g_find (Graph *gg, const char *name);
+
 Vertex * g_vertex (Graph *gg, const char *name);
 
 Edge * g_connect (Graph *gg, const char *src, const char *dst, int cost);

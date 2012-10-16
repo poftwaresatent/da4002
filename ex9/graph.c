@@ -79,13 +79,21 @@ void g_delete (Graph *gg)
 }
 
 
-Vertex * g_vertex (Graph *gg, const char *name)
+Vertex * g_find (Graph *gg, const char *name)
 {
-  Vertex *vv;
   size_t ii;
   for (ii = 0; ii < gg->size; ++ii)
     if (0  == strcmp (name, gg->vertex[ii]->name))
       return gg->vertex[ii];
+  return NULL;
+}
+
+
+Vertex * g_vertex (Graph *gg, const char *name)
+{
+  Vertex *vv = g_find (gg, name);
+  if (NULL != vv)
+    return vv;
   gg->vertex = realloc (gg->vertex, (gg->size + 1) * sizeof *(gg->vertex));
   if (NULL == gg)
     err (EXIT_FAILURE, __FILE__": %s: realloc", __func__);
