@@ -65,6 +65,8 @@ Vertex * g_vertex (Graph *gg, const char *name);
 
 Edge * g_connect (Graph *gg, const char *src, const char *dst, int cost);
 
+void g_print (Graph *gg, FILE *stream);
+
 void g_print_dot (Graph *gg, FILE *stream);
 
 void g_parse (Graph *gg, FILE *stream);

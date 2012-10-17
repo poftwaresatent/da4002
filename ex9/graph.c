@@ -124,10 +124,31 @@ void g_print_dot (Graph *gg, FILE *stream)
     Edge *ee;
     src = gg->vertex[ii];
     for (ee = src->out; ee != NULL; ee = ee->next)
-      fprintf (stream, "  \"%s\" -> \"%s\" [label=\"c:%d\",len=2];\n",
-	       src->name, ee->dst->name, ee->cost);
+      fprintf (stream, "  \"%s\" -> \"%s\" [label=\"c:%d\",len=2%s];\n",
+	       src->name, ee->dst->name, ee->cost,
+	       ee->dst->value == src->value + ee->cost ? ",style=bold" : "");
   }
   fprintf (stream, "}\n");
+}
+
+
+void g_print (Graph *gg, FILE *stream)
+{
+  size_t ii;
+  fprintf (stream, "vertices:\n");
+  for (ii = 0; ii < gg->size; ++ii) {
+    Vertex *src;
+    src = gg->vertex[ii];
+    fprintf (stream, "  %s\tv: %d\n", src->name, src->value);
+  }
+  fprintf (stream, "edges:\n");
+  for (ii = 0; ii < gg->size; ++ii) {
+    Vertex *src;
+    Edge *ee;
+    src = gg->vertex[ii];
+    for (ee = src->out; ee != NULL; ee = ee->next)
+      fprintf (stream, "  %s -> %s\tc: %d\n", src->name, ee->dst->name, ee->cost);
+  }
 }
 
 
