@@ -115,10 +115,14 @@ void g_print_dot (Graph *gg, FILE *stream)
   fprintf (stream, "digraph \"ex9\" {\n  graph [overlap=scale];\n");
   for (ii = 0; ii < gg->size; ++ii) {
     Vertex *src;
-    Edge *ee;
     src = gg->vertex[ii];
     fprintf (stream, "  \"%s\" [label=\"%s\\nv:%d\"];\n",
 	     src->name, src->name, src->value);
+  }
+  for (ii = 0; ii < gg->size; ++ii) {
+    Vertex *src;
+    Edge *ee;
+    src = gg->vertex[ii];
     for (ee = src->out; ee != NULL; ee = ee->next)
       fprintf (stream, "  \"%s\" -> \"%s\" [label=\"c:%d\",len=2];\n",
 	       src->name, ee->dst->name, ee->cost);
