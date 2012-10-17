@@ -18,6 +18,13 @@ int compare_int (const void * lhs, const void * rhs)
 
 int main (int argc, char ** argv)
 {
+
+#ifndef Darwin
+
+  errx (EXIT_FAILURE, "This benchmark is only available on Darwin");
+
+#else
+
   int dmin    =        0;
   int dmax    =     1000;
   int nstart  =     5000;
@@ -87,6 +94,8 @@ int main (int argc, char ** argv)
   }
   
   free (data);
+
+#endif
   
   return 0;
 }

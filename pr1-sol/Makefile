@@ -1,5 +1,5 @@
 CC       = gcc
-CFLAGS   = -Wall -O0 -g -pipe
+CFLAGS   = -Wall -O0 -g -pipe -D$(shell uname)
 HEADERS  = $(shell ls *.h)
 OBJECTS  = $(shell ls *.c | grep -v -e '^main' -e '^test' | sed 's:\.c$$:.o:')
 PROGRAMS = $(shell ls main*.c test*.c | sed 's:\.c$$::')
