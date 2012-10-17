@@ -123,6 +123,7 @@ int main (int argc, char **argv)
   for (ii = 0; ii < graph->size; ++ii)
     graph->vertex[ii]->value = -1;
   dijkstra (start);
+  g_print (graph, stderr);
   g_print_dot (graph, stdout);
   
   g_delete (graph);

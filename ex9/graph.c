@@ -116,17 +116,18 @@ void g_print_dot (Graph *gg, FILE *stream)
   for (ii = 0; ii < gg->size; ++ii) {
     Vertex *src;
     src = gg->vertex[ii];
-    fprintf (stream, "  \"%s\" [label=\"%s\\nv:%d\"];\n",
-	     src->name, src->name, src->value);
+    fprintf (stream, "  \"%s\" [label=\"%s\\n%d\"%s];\n",
+	     src->name, src->name, src->value,
+	     src->value < 0 ? ",style=dotted" : (src->value == 0 ? ",style=bold" : ""));
   }
   for (ii = 0; ii < gg->size; ++ii) {
     Vertex *src;
     Edge *ee;
     src = gg->vertex[ii];
     for (ee = src->out; ee != NULL; ee = ee->next)
-      fprintf (stream, "  \"%s\" -> \"%s\" [label=\"c:%d\",len=2%s];\n",
+      fprintf (stream, "  \"%s\" -> \"%s\" [label=\"%d\",len=2%s];\n",
 	       src->name, ee->dst->name, ee->cost,
-	       ee->dst->value == src->value + ee->cost ? ",style=bold" : "");
+	       src->value < 0 ? ",style=dotted" : (ee->dst->value == src->value + ee->cost) ? ",style=bold" : "");
   }
   fprintf (stream, "}\n");
 }
@@ -135,20 +136,20 @@ void g_print_dot (Graph *gg, FILE *stream)
 void g_print (Graph *gg, FILE *stream)
 {
   size_t ii;
-  fprintf (stream, "vertices:\n");
+  /* fprintf (stream, "vertices:\n"); */
   for (ii = 0; ii < gg->size; ++ii) {
     Vertex *src;
     src = gg->vertex[ii];
-    fprintf (stream, "  %s\tv: %d\n", src->name, src->value);
+    fprintf (stream, "  %-10s\t%d\n", src->name, src->value);
   }
-  fprintf (stream, "edges:\n");
-  for (ii = 0; ii < gg->size; ++ii) {
-    Vertex *src;
-    Edge *ee;
-    src = gg->vertex[ii];
-    for (ee = src->out; ee != NULL; ee = ee->next)
-      fprintf (stream, "  %s -> %s\tc: %d\n", src->name, ee->dst->name, ee->cost);
-  }
+  /* fprintf (stream, "edges:\n"); */
+  /* for (ii = 0; ii < gg->size; ++ii) { */
+  /*   Vertex *src; */
+  /*   Edge *ee; */
+  /*   src = gg->vertex[ii]; */
+  /*   for (ee = src->out; ee != NULL; ee = ee->next) */
+  /*     fprintf (stream, "  %s -> %s\tc: %d\n", src->name, ee->dst->name, ee->cost); */
+  /* } */
 }
 
 
