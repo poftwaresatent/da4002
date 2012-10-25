@@ -1,16 +1,16 @@
-void function_one (int N)
+void function_C (int N)
 {
   int ii, jj, kk;
   for (ii = 0; ii < N; ++ii) {
-    slow_a ();
+    slow_1 ();
     for (jj = 0; jj < N; ++jj) {
-      slow_b ();
+      slow_2 ();
       for (kk = 0; kk < jj; ++kk) {
-        slow_c ();
+        slow_3 ();
       }
     }
     for (jj = 1; jj <= N; jj *= 2) {
-      slow_d ();
+      slow_4 ();
     }
   }
 }

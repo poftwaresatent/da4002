@@ -255,15 +255,30 @@ Each has different X and Y coordinates, written in parenthesis after the label.
 \begin{enumerate}
 
 \item
-  \ldots
-
+  The execution time $T_A$ of program $A$ has been measured on a problem of size $N=1024$:
+  it took $T_A(N) = 640ms$ to run.
+  What is the expected execution time $T'_A$ for a problem of size $N'=128$, if $A$'s big-Oh complexity is
+  \begin{itemize}
+  \item
+    logarithmic: $T_A(N) \in O(\log N)$ ?
+  \item
+    square: $T_A(N) \in O(N^2)$ ?
+  \end{itemize}
+  
 \item
-  \ldots
-
+  Program $B$ required $T_B=10ms$ to run on a problem of size $N=1000$.
+  What problem size $N'$ can be expected to complete, if the available time is $T'_B=270ms$ and the big-Oh complexity of $B$ is
+  \begin{itemize}
+  \item
+    linear: $T_B(N) \in O(N)$ ?
+  \item
+    cubic: $T_B(N) \in O(N^3)$ ?
+  \end{itemize}
+  
 \item
-  The time it takes to run \texttt{function\_one} in the fragment below for $N=273654$ is $T_1(N) = 35762$.
-  Based on a big-Oh complexity analysis, how much time will it take for $N'=83764$?
-  You can assume that the various \texttt{slow\_X} functions take significantly longer to execute than any of the other instructions in the code.
+  The time $T_C$ it takes to run \texttt{function\_C} for $N=512$ is $T_D=5ms$.
+  Based on a big-Oh complexity analysis, how much time will it take for $N'=2048$?
+  You can assume that the various \texttt{slow\_X} functions take significantly longer to execute than any of the other operations.
   
   \begin{center}
     \fbox{%
@@ -274,7 +289,9 @@ Each has different X and Y coordinates, written in parenthesis after the label.
   \end{center}
   
 \item
-
+  The time $T_D$ taken by \texttt{function\_D} is $30ms$ for an array of length $N=512$.
+  How large of an array can be expected to be solved when we only have $10ms$ available?
+  You can assume that the \texttt{slow\_5} function takes up the majority of the computation time.
   
   \begin{center}
     \fbox{%

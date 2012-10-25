@@ -5,7 +5,7 @@ int recurse (char *str, char **arr, int aa, int bb)
     return -1;
   }
   cc = (aa + bb) / 2;
-  dd = slow_e (str, arr[cc]);
+  dd = slow_5 (str, arr[cc]);
   if (dd > 0) {
     return recurse (str, arr, cc + 1, bb);
   }
@@ -15,7 +15,7 @@ int recurse (char *str, char **arr, int aa, int bb)
   return cc;
 }
 
-int function_two (char *str, char **arr, int nn)
+int function_D (char *str, char **arr, int N)
 {
-  return recurse (str, arr, 0, nn - 1);
+  return recurse (str, arr, 0, N - 1);
 }
