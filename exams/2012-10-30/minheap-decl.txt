@@ -1,0 +1,2 @@
+static int *array;
+static size_t length;

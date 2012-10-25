@@ -1,0 +1,7 @@
+typedef struct item_s {
+  int value;
+  struct item_s * left;
+  struct item_s * right;
+} Item;
+
+static Item *root;

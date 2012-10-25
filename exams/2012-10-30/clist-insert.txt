@@ -1,0 +1,16 @@
+void insert (int value)
+{
+  Item *it = malloc (sizeof *it);
+  it->value = value;
+  if (NULL == head) {
+    it->next = it;
+    it->prev = it;
+  }
+  else {
+    it->next = head;
+    it->prev = head->prev;
+    it->prev->next = it;
+    it->next->prev = it;
+  }
+  head = it;
+}

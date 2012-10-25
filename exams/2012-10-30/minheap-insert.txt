@@ -1,0 +1,16 @@
+void insert (int value)
+{
+  size_t index, parent;
+  ++length;
+  array = realloc (array, (length+1) * sizeof *array);
+  index = length;
+  array[index] = value;
+  parent = index / 2;
+  while ((parent > 0) && (array[index] < array[parent])) {
+    array[0] = array[index];
+    array[index] = array[parent];
+    array[parent] = array[0];
+    index = parent;
+    parent = index / 2;
+  }
+}

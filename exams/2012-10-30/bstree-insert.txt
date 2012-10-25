@@ -1,0 +1,23 @@
+Item * insert_rec (Item *parent, int value)
+{
+  Item *it;
+  if (NULL == parent) {
+    it = malloc (sizeof *it);
+    it->value = value;
+    it->left = NULL;
+    it->right = NULL;
+    return it;
+  }
+  if (value < parent->value) {
+    parent->left = insert_rec (parent->left, value);
+  }
+  else if (value > parent->value) {
+    parent->right = insert_rec (parent->right, value);
+  }
+  return parent;
+}
+
+void insert (int value)
+{
+  root = insert_rec (root, value);
+}

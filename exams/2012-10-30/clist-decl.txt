@@ -1,0 +1,7 @@
+typedef struct item_s {
+  int value;
+  struct item_s *next;
+  struct item_s *prev;
+} Item;
+
+static Item *head;
