@@ -25,43 +25,71 @@ void insert (int value)
 }
 
 
-/* int remove (void) */
-/* { */
-/*   int it; */
-/*   if (0 == length) { */
-/*     errx (EXIT_FAILURE,  __FILE__": %s: empty heap", __func__); */
-/*   } */
-/*   it = array[1]; */
-/*   if (1 == length) { */
-/*     free (array); */
-/*     array = NULL; */
-/*     length = 0; */
-/*     return it; */
-/*   } */
-/*   array[1] = array[length]; */
-/*   array = realloc (array, length * sizeof *array); */
-/*   if (NULL == array) */
-/*     errx (EXIT_FAILURE, __FILE__": %s: realloc", __func__); */
-/*   --length; */
-/*   size_t parent, target, child; */
-/*   parent = 1; */
-/*   target = 1; */
-/*   while (1) { */
-/*     child = 2 * parent; */
-/*     if (child <= length && array[child] < array[target]) */
-/*       target = child; */
-/*     ++child; */
-/*     if (child <= length && array[child] < array[target]) */
-/*       target = child; */
-/*     if (parent == target) */
-/*       break; */
-/*     array[0] = array[target]; */
-/*     array[target] = array[parent]; */
-/*     array[parent] = array[0]; */
-/*     parent = target; */
-/*   } */
-/*   return it; */
-/* } */
+void bubble_down (void)
+{
+  size_t parent, target, child;
+  parent = 1;
+  target = 1;
+  while (1) {
+    child = 2 * parent;
+    if (child <= length && array[child] < array[target])
+      target = child;
+    ++child;
+    if (child <= length && array[child] < array[target])
+      target = child;
+    if (parent == target)
+      break;
+    array[0] = array[target];
+    array[target] = array[parent];
+    array[parent] = array[0];
+    parent = target;
+  }
+}
+
+
+void bubble_down_buggy (void)
+{
+  size_t parent, target, child;
+  parent = 0;
+  target = 0;
+  while (1) {
+    child = 2 * parent;
+    if (child <= length && array[child] < array[target])
+      target = child;
+    ++child;
+    if (child <= length && array[child] < array[target])
+      target = child;
+    if (parent == target)
+      break;
+    array[0] = array[target];
+    array[target] = array[parent];
+    array[parent] = array[0];
+    parent = target;
+  }
+}
+
+
+int dequeue (void)
+{
+  int it;
+  if (0 == length) {
+    errx (EXIT_FAILURE,  __FILE__": %s: empty heap", __func__);
+  }
+  it = array[1];
+  if (1 == length) {
+    free (array);
+    array = NULL;
+    length = 0;
+    return it;
+  }
+  array[1] = array[length];
+  array = realloc (array, length * sizeof *array);
+  if (NULL == array)
+    errx (EXIT_FAILURE, __FILE__": %s: realloc", __func__);
+  --length;
+  bubble_down_buggy ();
+  return it;
+}
 
 
 void dump (void)
@@ -100,5 +128,9 @@ int main (int argc, char **argv)
     dump ();
   }
   
+  printf ("repeated removal (to see the buggy behavior for Q6)\n");
+  while (length > 0) {
+    printf ("  %d\n", dequeue ());
+  }
   return 0;
 }

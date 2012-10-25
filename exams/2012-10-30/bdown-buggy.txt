@@ -1,0 +1,20 @@
+void bubble_down_buggy (int *array, int length)
+{
+  int parent, target, child;
+  parent = 0;
+  target = 0;
+  while (1) {
+    child = 2 * parent;
+    if (child <= length && array[child] < array[target])
+      target = child;
+    ++child;
+    if (child <= length && array[child] < array[target])
+      target = child;
+    if (parent == target)
+      break;
+    array[0] = array[target];
+    array[target] = array[parent];
+    array[parent] = array[0];
+    parent = target;
+  }
+}
