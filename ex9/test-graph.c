@@ -2,16 +2,27 @@
 
 int main (int argc, char **argv)
 {
-  Graph *gg;
+  Graph *graph;
+  int ii;
   
-  gg = g_new ();
+  graph = g_new ();
   if (argc > 1)
-    g_load (gg, argv[1]);
+    g_load (graph, argv[1]);
   else
-    g_parse (gg, stdin);
-  g_print_dot (gg, stdout);
+    g_parse (graph, stdin);
   
-  g_delete (gg);
+  for (ii = 0; ii < graph->size; ++ii) {
+    Vertex *vertex;
+    Edge *edge;
+    vertex = graph->vertex[ii];
+    printf ("neighbors of %s:\n", vertex->name);
+    for (edge = vertex->out; edge != NULL; edge = edge->next) {
+      printf ("  %-10s (cost %d)\n", edge->dst->name, edge->cost);
+    }
+    printf ("\n");
+  }
+  
+  g_delete (graph);
   
   return 0;
 }

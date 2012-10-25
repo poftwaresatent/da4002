@@ -2,28 +2,15 @@
 #include <err.h>
 
 
-/*
- * Items for the priority queue of vertices, needed by Dijkstra's
- * algorithm. You can just reuse this...
-*/
 typedef struct item_s {
   int key;
   Vertex *vv;
 } Item;
 
-/*
- * The priority queue is implemented as a heap, we need to store a
- * pointer to the first element and the number of items on the
- * queue. You can just reuse this...
- */
 static Item *heap;
 static size_t heaplen;
 
 
-/*
- * Utility function for placing a vertex on the priority queue. You
- * can just reuse this...
- */
 void enqueue (int key, Vertex *vv)
 {
   size_t index, parent;
@@ -45,12 +32,6 @@ void enqueue (int key, Vertex *vv)
 }
 
 
-/*
- * Utility function for retrieving the item with the smallest key from
- * the vertex priority queue. It always returns an item, but if the
- * queue was empty then the 'vv' field of the returned item will be
- * NULL. You can just reuse this...
- */
 Item dequeue ()
 {
   Item it;
@@ -92,22 +73,39 @@ Item dequeue ()
 }
 
 
-/*
- * Implement this function. You can assume that, before this function
- * gets called, the value of all the vertices is initialized to
- * -1. You will need a priority queue of vertices to visit, for which
- * you can simply use the enqueue() and dequeue() functions defined
- * above.
- */
-void dijkstra (Vertex *vv)
+void dumpqueue (const char *foo)
 {
-  errx (EXIT_FAILURE, "Please implement Dijkstra's algorithm.");
+  size_t ii;
+  printf ("  %s\n", foo);
+  if (0 == heaplen) {
+    printf ("    EMPTY\n");
+    return;
+  }
+  for (ii = 1; ii <= heaplen; ++ii)
+    printf ("    %d %p %s\n", heap[ii].key, heap[ii].vv, heap[ii].vv->name);
 }
 
 
-/*
- * No need to touch anything here.
- */
+void dijkstra (Vertex *vv)
+{
+  vv->value = 0;
+  enqueue (0, vv);
+  for (;;) {
+    Edge *ee;
+    Item it = dequeue ();
+    if (NULL == it.vv)
+      break;
+    for (ee = it.vv->out; ee != NULL; ee = ee->next) {
+      int key = it.vv->value + ee->cost;
+      if ((ee->dst->value < 0) || (ee->dst->value > key)) {
+	ee->dst->value = key;
+	enqueue (key, ee->dst);
+      }
+    }
+  }
+}
+
+
 int main (int argc, char **argv)
 {
   Graph *graph;

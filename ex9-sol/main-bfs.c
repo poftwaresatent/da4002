@@ -2,25 +2,14 @@
 #include <err.h>
 
 
-/*
- * An item for the vertex queue. You can just reuse this...
- */
 typedef struct item_s {
   Vertex *vv;
   struct item_s *next;
 } Item;
 
-/*
- * Head and tail of the linked list that implements the vertex
- * queue. You can just reuse this...
- */
 static Item *head, *tail;
 
 
-/*
- * Utility function for placing an item at the end of the queue. You
- * can just reuse this...
- */
 void enqueue (Vertex *vv)
 {
   Item *it;
@@ -38,10 +27,6 @@ void enqueue (Vertex *vv)
 }
 
 
-/*
- * Utility function for retrieving an item from the front of the
- * queue. You can just reuse this...
- */
 Vertex * dequeue ()
 {
   Vertex *vv;
@@ -58,26 +43,22 @@ Vertex * dequeue ()
 }
 
 
-/*
- * Implement this function. You can assume that, before this function
- * gets called, the value of all the vertices is initialized to
- * -1. You will need to mark vertices as visited, which you can do for
- * example by setting their value to 1. And you will need to iterate
- * over all the neighbors of a vertex, for which you can find an
- * example in the test-graph.c source code.
- *
- * You will also need a queue of vertices to visit, for which you can
- * simply use the enqueue() and dequeue() functions defined above.
- */
 void bfs (Vertex *vv)
 {
-  errx (EXIT_FAILURE, "Please implement the breadth-first search function.");
+  Edge *ee;
+  do {
+    if (vv->value < 0) {
+      printf ("%s\n", vv->name);
+      vv->value = 1;
+      for (ee = vv->out; ee != NULL; ee = ee->next)
+	if (ee->dst->value < 0)
+	  enqueue (ee->dst);
+    }
+    vv = dequeue ();
+  } while (NULL != vv);
 }
 
 
-/*
- * No need to touch anything here.
- */
 int main (int argc, char **argv)
 {
   Graph *graph;

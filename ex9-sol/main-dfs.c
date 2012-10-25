@@ -2,23 +2,18 @@
 #include <err.h>
 
 
-/*
- * Implement this function. You can assume that, before this function
- * gets called, the value of all the vertices is initialized to
- * -1. You will need to mark vertices as visited, which you can do for
- * example by setting their value to 1. And you will need to iterate
- * over all the neighbors of a vertex, for which you can find an
- * example in the test-graph.c source code.
- */
 void dfs (Vertex *vv)
 {
-  errx (EXIT_FAILURE, "Please implement the depth-first search function.");
+  Edge *ee;
+  if (vv->value >= 0)
+    return;
+  printf ("%s\n", vv->name);
+  vv->value = 1;
+  for (ee = vv->out; ee != NULL; ee = ee->next)
+    dfs (ee->dst);
 }
 
 
-/*
- * No need to touch anything here.
- */
 int main (int argc, char **argv)
 {
   Graph *graph;
