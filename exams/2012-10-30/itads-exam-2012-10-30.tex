@@ -84,31 +84,28 @@ Aside from the obvious rules of conduct exams (e.g.\ no chatting):
 
 
 
-\question{6 points}
+\question{3 points}
 
 Below are three diagrams \textbf{(1)}, \textbf{(2)}, and \textbf{(3)}.
 Each of them shows the result of inserting the values $\{5, -2, -3, 1, 9, 6\}$ into a different type of data structure.
-Beside the diagrams are three data structure declarations \textbf{(A)}, \textbf{(B)}, \textbf{(C)}.
+To the right of the diagrams are three data structure declarations \textbf{(A)}, \textbf{(B)}, and \textbf{(C)}.
 Each of them corresponds to one of the diagrams.
-On the next page, there are three different implementations of an \textbf{\texttt{insert}} function.
-They are labelled \textbf{(D)}, \textbf{(E)}, \textbf{(F)}.
+On the next page, there are three implementations of an \textbf{\texttt{insert}} function.
+They are labelled \textbf{(D)}, \textbf{(E)}, and \textbf{(F)}.
 Each implementation is for a different type of data structure.
 
+\vfill
+
+\noindent
+Fill in the table at the bottom of this page.
+For each of the diagrams
 \begin{enumerate}
 \item
-  Fill in the table at the bottom of this page.
-  For each of the diagrams
-  \begin{itemize}
-  \item
-    choose the corresponding declaration (from this page),
-  \item
-    choose the corresponding implementation (from the next page),
-  \item
-    and write down the name of the data structure.
-  \end{itemize}
+  choose the corresponding declaration (from this page),
 \item
-  For each of these data structures, \textbf{write code that iterates over all the items} and prints their value.
-  You can use pseudo-code or C code, or plain English.
+  choose the corresponding implementation (from the next page),
+\item
+  and write down the name of the data structure.
 \end{enumerate}
 
 \vfill
@@ -188,21 +185,27 @@ Each implementation is for a different type of data structure.
     \verbatimtabinput{clist-insert.txt}
 \end{minipage}}
 
-\vfill
-\textbf{\emph{Notice: don't forget to answer question 1.2 (see previous page).}}
+\clearpage
 
+
+\question{3 points}
+
+For each of the implementations \textbf{(D)}, \textbf{(E)}, and \textbf{(F)} from Question~1,
+write a procedure that iterates over all the items in the corresponding data structure and prints the values that they store.
+You can use pseudo-code, C, or plain English.
 
 \clearpage
 
-\question{4 points}
 
-In a \emph{multilist}, items have multiple link fields and belong to more than one list simultaneously.
+\question{5 points}
+
+In a \emph{multilist}, items have multiple link fields and belong to more than one list at the same time.
 For example, points can be stored such their order along X and Y is maintained independently.
 In this case, there is one link field (pointer) for the next item along X, and one for the next item along Y.
 There also are two separate heads, because the start of the list that is sorted along X will usually be different from the start of the list that is sorted along Y.
 
 The diagram below shows five points labeled \textbf{A}, \textbf{B}, \textbf{C}, \textbf{D}, and \textbf{E}.
-Each has different X and Y coordinates, written in parenthesis after the label.
+Each has different X and Y coordinates, written in parentheses after the label.
 
 \vfill
 
@@ -219,7 +222,7 @@ Each has different X and Y coordinates, written in parenthesis after the label.
   
   Your task is to fill in and connect the \texttt{Point} boxes:
   write one of the labels (A, B, C, D, and E) into each box, and draw arrows from the \texttt{xnext} fields.
-  The resulting linked list must be ordered along X (from lowest to highest X coordinate) and contains all the points A, B, C, D, and E.
+  The resulting linked list must be ordered along X (from lowest to highest X coordinate) and contain all the points A, B, C, D, and E.
   Also draw an arrow from \texttt{xhead} to the appropriate start box.
   
   Then, do the same for the Y coordinate, by adding arrows for the \texttt{ynext} and \texttt{yhead} pointers.
@@ -233,7 +236,7 @@ Each has different X and Y coordinates, written in parenthesis after the label.
   \end{itemize}
   
 \item
-  Write a procedure to insert a point into such a multilist.
+  Using pseudo-code, C, or plain English, write a procedure to insert a point into such a multilist.
   Points are specified using their X and Y coordinates.
   You have to provide a declaration for the data structure along with your procedure.
   Take care to properly handle the initial case of inserting into an empty list.
@@ -247,10 +250,9 @@ Each has different X and Y coordinates, written in parenthesis after the label.
 \end{center}
 
 
-
 \clearpage
 
-\question{4 points}
+\question{5 points}
 
 \begin{enumerate}
 
@@ -290,7 +292,7 @@ Each has different X and Y coordinates, written in parenthesis after the label.
   
 \item
   The time $T_D$ taken by \texttt{function\_D} is $30ms$ for an array of length $N=512$.
-  How large of an array can be expected to be solved when we only have $10ms$ available?
+  How large of an array can be handled when we only have $10ms$ available?
   You can assume that the \texttt{slow\_5} function takes up the majority of the computation time.
   
   \begin{center}
@@ -306,9 +308,9 @@ Each has different X and Y coordinates, written in parenthesis after the label.
 
 \clearpage
 
-\question{6 points}
+\question{5 points}
 
-The Needleman-Wunsch algorithm, which has been studied in detail suring project 2, can be used to align different kinds of sequences.
+The Needleman-Wunsch algorithm, which has been studied in detail during project~2, can be used to align different kinds of sequences.
 For colors, the match score can measure how similar one color is to the others.
 This can be expressed in a lookup table (you could also call it a similarity matrix).
 For example, assume the following color symbols and match scores:
@@ -350,7 +352,7 @@ You are asked to align the sequences ``violet-blue-red'' (VBR) and ``yellow-oran
 \item
   Given the above definitions, create and fill the cost propagation table used by the Needleman-Wunsch algorithm.
 \item
-  What is the optimal alignment cost between these two sequences?
+  What is the optimal alignment score between these two sequences?
 \item
   What are the optimal alignments?
   Note that there is more than one solution.
@@ -359,7 +361,7 @@ You are asked to align the sequences ``violet-blue-red'' (VBR) and ``yellow-oran
 \clearpage
 
 
-\question{5 points}
+\question{4 points}
 
 
 
