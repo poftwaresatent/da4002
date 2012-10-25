@@ -308,8 +308,56 @@ Each has different X and Y coordinates, written in parenthesis after the label.
 
 \question{6 points}
 
+The Needleman-Wunsch algorithm, which has been studied in detail suring project 2, can be used to align different kinds of sequences.
+For colors, the match score can measure how similar one color is to the others.
+This can be expressed in a lookup table (you could also call it a similarity matrix).
+For example, assume the following color symbols and match scores:
+
+\begin{center}
+  \begin{minipage}{0.5\columnwidth}
+    color similarity \emph{(match scores)}\\
+    \begin{tabular}{|c|cccccc|}
+      \hline
+      &  V &  B &  G &  Y &  O &  R \\
+      \hline
+      V & 10 &  2 & -3 & -6 & -3 &  2 \\
+      B &  2 & 10 &  2 & -3 & -6 & -3 \\
+      G & -3 &  2 & 10 &  2 & -3 & -6 \\
+      Y & -6 & -3 &  2 & 10 &  2 & -3 \\
+      O & -3 & -6 & -3 &  2 & 10 &  2 \\
+      R &  2 & -3 & -6 & -3 &  2 & 10 \\
+      \hline
+    \end{tabular}\\
+    \textbf{gap cost}: -3
+  \end{minipage}
+  \begin{minipage}{0.3\columnwidth}
+    \noindent
+    \textbf{V} stands for \emph{violet}\\
+    \textbf{B} stands for \emph{blue}\\
+    \textbf{G} stands for \emph{green}\\
+    \textbf{Y} stands for \emph{yellow}\\
+    \textbf{O} stands for \emph{orange}\\
+    \textbf{R} stands for \emph{red}
+  \end{minipage}
+\end{center}
+
+\vspace{\baselineskip}
+
+\noindent
+You are asked to align the sequences ``violet-blue-red'' (VBR) and ``yellow-orange-green'' (YOG).
+
+\begin{enumerate}
+\item
+  Given the above definitions, create and fill the cost propagation table used by the Needleman-Wunsch algorithm.
+\item
+  What is the optimal alignment cost between these two sequences?
+\item
+  What are the optimal alignments?
+  Note that there is more than one solution.
+\end{enumerate}
 
 \clearpage
+
 
 \question{5 points}
 
