@@ -63,7 +63,7 @@ int main (int argc, char **argv)
   
   if (2 > argc) {
     fprintf (stderr,
-	     "Please provide a sequence of integer values to put onto the heap.\n"
+	     "Please provide a sequence of integer values.\n"
 	     "For example, give the following command:\n"
 	     "  %s 1 2 3 1 2 5 4 3\n",
 	     argv[0]);

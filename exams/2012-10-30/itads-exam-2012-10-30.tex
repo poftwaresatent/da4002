@@ -193,7 +193,36 @@ Each implementation is for a different type of data structure.
 
 \question{4 points}
 
+In a \emph{multilist}, items have multiple link fields and belong to independently maintained linked lists.
+For example, we can store planar points sorted along the X and the Y coordinate at the same time.
+The two linked lists rely on two link fields, in this case one for the next item along X, and one for the next item along Y.
+We also need to maintain two separate heads, because the start of the list that is sorted along X will usually be different from the start of the list that is sorted along Y.
 
+The diagram shows five planar points labeled \textbf{A}, \textbf{B}, \textbf{C}, \textbf{D}, and \textbf{E}, each with different X and Y coordinates.
+Below that is a sketch of a \emph{multilist} which should be used to store these points such that:
+
+\begin{itemize}
+\item
+  We can traverse the list of points by order of increasing X coordinate by starting at \texttt{xhead} and repeatedly following the \texttt{xnext} link.
+\item
+  And for visiting the points in order of increasing Y coordinate, we start at \texttt{yhead} and follow the \texttt{ynext} links.
+\end{itemize}
+
+\vfill
+
+\includegraphics[width=\columnwidth]{q2.pdf}
+
+\vfill
+
+\begin{enumerate}
+\item
+  For each of the \texttt{Point} boxes above, fill in the point label (A, B, C, D, E) and the coordinates, then draw arrows from the \texttt{xnext} fields to an appropriate \texttt{Point} box, such that the resulting linked list is sorted along X (from lowest to highest) and contains all the points A, B, C, D, and E.
+  Don't forget to draw an arrow from the \texttt{xhead} box.
+  Then, do the same for the Y coordinate, on top of the same diagram.
+\item
+  Write down the procedure to insert a point, given by its X and Y coordinates, into such a multilist.
+  You have to provide a declaration for the data structure that you are using, and don't forget to handle the case when the list is empty.
+\end{enumerate}
 
 \clearpage
 
