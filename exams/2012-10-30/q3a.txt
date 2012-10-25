@@ -1,0 +1,16 @@
+void function_one (int N)
+{
+  int ii, jj, kk;
+  for (ii = 0; ii < N; ++ii) {
+    slow_a ();
+    for (jj = 0; jj < N; ++jj) {
+      slow_b ();
+      for (kk = 0; kk < jj; ++kk) {
+        slow_c ();
+      }
+    }
+    for (jj = 1; jj <= N; jj *= 2) {
+      slow_d ();
+    }
+  }
+}
