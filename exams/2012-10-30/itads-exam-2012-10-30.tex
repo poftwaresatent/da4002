@@ -169,6 +169,8 @@ For each of the diagrams
     \verbatimtabinput{minheap-insert.txt}
 \end{minipage}}
 
+\vfill
+
 \noindent
 \fbox{%
   \begin{minipage}{\columnwidth}
@@ -176,6 +178,8 @@ For each of the diagrams
     \footnotesize
     \verbatimtabinput{bstree-insert.txt}
 \end{minipage}}
+
+\vfill
 
 \noindent
 \fbox{%
@@ -197,7 +201,7 @@ You can use pseudo-code, C, or plain English.
 \clearpage
 
 
-\question{5 points}
+\question{4 points}
 
 In a \emph{multilist}, items have multiple link fields and belong to more than one list at the same time.
 For example, points can be stored such their order along X and Y is maintained independently.
@@ -236,7 +240,7 @@ Each has different X and Y coordinates, written in parentheses after the label.
   \end{itemize}
   
 \item
-  Using pseudo-code, C, or plain English, write a procedure to insert a point into such a multilist.
+  Using pseudo-code, C, or plain English, write a procedure to insert a point into such a sorted multilist.
   Points are specified using their X and Y coordinates.
   You have to provide a declaration for the data structure along with your procedure.
   Take care to properly handle the initial case of inserting into an empty list.
@@ -252,58 +256,62 @@ Each has different X and Y coordinates, written in parentheses after the label.
 
 \clearpage
 
-\question{5 points}
+\question{6 points}
+
+\emph{Notice the table of numeric values for $x^2$, $x^3$, and $2^x$ on the bottom of this page, to help you with the computations.}
 
 \begin{enumerate}
 
 \item
   The execution time $T_A$ of program $A$ has been measured on a problem of size $N=1024$:
   it took $T_A(N) = 640ms$ to run.
-  What is the expected execution time $T'_A$ for a problem of size $N'=128$, if $A$'s big-Oh complexity is
-  \begin{itemize}
-  \item
-    logarithmic: $T_A(N) \in O(\log N)$ ?
-  \item
-    square: $T_A(N) \in O(N^2)$ ?
-  \end{itemize}
+  What is the expected execution time $T'_A$ for a problem of size $N'=128$, if $A$'s big-Oh complexity is\\
+  \emph{(i)} logarithmic: $T_A(N) \in O(\log N)$ ?\\
+  \emph{(ii)} square: $T_A(N) \in O(N^2)$ ?
   
 \item
   Program $B$ required $T_B=10ms$ to run on a problem of size $N=1000$.
-  What problem size $N'$ can be expected to complete, if the available time is $T'_B=270ms$ and the big-Oh complexity of $B$ is
-  \begin{itemize}
-  \item
-    linear: $T_B(N) \in O(N)$ ?
-  \item
-    cubic: $T_B(N) \in O(N^3)$ ?
-  \end{itemize}
+  What problem size $N'$ can be expected to complete, if the available time is $T'_B=270ms$ and the big-Oh complexity of $B$ is\\
+  \emph{(i)} linear: $T_B(N) \in O(N)$ ?\\
+  \emph{(ii)} cubic: $T_B(N) \in O(N^3)$ ?
   
 \item
   The time $T_C$ it takes to run \texttt{function\_C} for $N=512$ is $T_D=5ms$.
-  Based on a big-Oh complexity analysis, how much time will it take for $N'=2048$?
+  Based on a big-Oh complexity analysis of the code shown below, how much time will it take for $N'=2048$?
   You can assume that the various \texttt{slow\_X} functions take significantly longer to execute than any of the other operations.
   
-  \begin{center}
-    \fbox{%
-      \begin{minipage}{0.6\columnwidth}
-        \small
-        \verbatimtabinput{q3a.txt}
-    \end{minipage}}
-  \end{center}
-  
 \item
-  The time $T_D$ taken by \texttt{function\_D} is $30ms$ for an array of length $N=512$.
+  The time $T_D$ taken by \texttt{function\_D} given below is $30ms$ for an array of length $N=512$.
   How large of an array can be handled when we only have $10ms$ available?
-  You can assume that the \texttt{slow\_5} function takes up the majority of the computation time.
-  
-  \begin{center}
-    \fbox{%
-      \begin{minipage}{0.6\columnwidth}
-        \small
-        \verbatimtabinput{q3b.txt}
-    \end{minipage}}
-  \end{center}
+  Again, you can assume that the \texttt{slow\_5} function takes up the majority of the computation time.
   
 \end{enumerate}
+  
+\vfill
+
+\noindent
+\fbox{%
+  \begin{minipage}[t]{0.40\columnwidth}
+    \small
+    \verbatimtabinput{q3a.txt}
+\end{minipage}}\hfill
+\fbox{%
+  \begin{minipage}[t]{0.56\columnwidth}
+    \small
+    \verbatimtabinput{q3b.txt}
+\end{minipage}}
+
+\vfill
+
+\noindent
+\begin{tabular}{|l|r|r|r|r|r|r|r|r|r|r|r|r|r|r|r|}
+  \hline
+  $x=$   & 0 & 1 & 2 &  3 &  4 &   5 &   6 &   7 &   8 &   9 &   10 &   11 &   12 &   13 &    14 \\
+  $x^2=$ & 0 & 1 & 4 &  9 & 16 &  25 &  36 &  49 &  64 &  81 &  100 &  121 &  144 &  169 &   196 \\
+  $x^3=$ & 0 & 1 & 8 & 27 & 64 & 125 & 216 & 343 & 512 & 729 & 1000 & 1331 & 1728 & 2197 &  2744 \\
+  $2^x=$ & 1 & 2 & 4 &  8 & 16 &  32 &  64 & 128 & 256 & 512 & 1024 & 2048 & 4096 & 8192 & 16384 \\
+  \hline
+\end{tabular}
 
 
 \clearpage
