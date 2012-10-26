@@ -196,7 +196,9 @@ For each of the diagrams
 
 For each of the implementations \textbf{(D)}, \textbf{(E)}, and \textbf{(F)} from Question~1,
 write a procedure that iterates over all the items in the corresponding data structure and prints the values that they store.
-You can use pseudo-code, C, or plain English.
+The order in which the items are printed does not matter.
+You can use pseudo-code or C.
+
 
 \clearpage
 
@@ -224,11 +226,9 @@ Each has different X and Y coordinates, written in parentheses after the label.
 \item
   At the bottom of this page is an incomplete diagram for a \emph{multilist} as described above.
   
-  Your task is to fill in and connect the \texttt{Point} boxes:
+  Your first task is to fill in and connect the \texttt{Point} boxes:
   write one of the labels (A, B, C, D, and E) into each box, and draw arrows from the \texttt{xnext} fields.
-  The resulting linked list must be ordered along X (from lowest to highest X coordinate) and contain all the points A, B, C, D, and E.
   Also draw an arrow from \texttt{xhead} to the appropriate start box.
-  
   Then, do the same for the Y coordinate, by adding arrows for the \texttt{ynext} and \texttt{yhead} pointers.
   
   Verify your work by checking that:
@@ -240,7 +240,7 @@ Each has different X and Y coordinates, written in parentheses after the label.
   \end{itemize}
   
 \item
-  Using pseudo-code, C, or plain English, write a procedure to insert a point into such a sorted multilist.
+  Using pseudo-code or C, write a procedure to insert a point into such a sorted multilist.
   Points are specified using their X and Y coordinates.
   You have to provide a declaration for the data structure along with your procedure.
   Take care to properly handle the initial case of inserting into an empty list.
@@ -258,8 +258,6 @@ Each has different X and Y coordinates, written in parentheses after the label.
 
 \question{6 points}
 
-\emph{Notice the table of numeric values for $x^2$, $x^3$, and $2^x$ on the bottom of this page, to help you with the computations.}
-
 \begin{enumerate}
 
 \item
@@ -268,6 +266,8 @@ Each has different X and Y coordinates, written in parentheses after the label.
   What is the expected execution time $T'_A$ for a problem of size $N'=128$, if $A$'s big-Oh complexity is\\
   \emph{(i)} logarithmic: $T_A(N) \in O(\log N)$ ?\\
   \emph{(ii)} square: $T_A(N) \in O(N^2)$ ?
+  
+  \emph{\textbf{Notice the table of numeric values} for $x^2$, $x^3$, and $2^x$ on the bottom of this page, to help you with the computations.}
   
 \item
   Program $B$ required $T_B=10ms$ to run on a problem of size $N=1000$.
@@ -351,10 +351,10 @@ For example, assume the following color symbols and match scores:
   \end{minipage}
 \end{center}
 
-\vspace{\baselineskip}
+\vspace{2\baselineskip}
 
 \noindent
-You are asked to align the sequences ``violet-blue-red'' (VBR) and ``yellow-orange-green'' (YOG).
+You are asked to \textbf{align the sequences VBR and YOG}.
 
 \begin{enumerate}
 \item
