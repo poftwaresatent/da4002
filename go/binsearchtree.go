@@ -1,6 +1,8 @@
 package main
 
 import "fmt"
+import "os"
+import "strconv"
 
 type item struct {
 	data int
@@ -88,30 +90,38 @@ func pdot_r(root *item) {
 	}
 }
 
-func pdot(label string, root *item) {
-	fmt.Printf("digraph \"%s\" {\n  graph [label=\"%s\",overlap=scale];\n", label, label)
+func pdot(root *item) {
+	fmt.Print("digraph \"bstree\" {\n  graph [label=\"")
+	for _, arg := range(os.Args[1:]) {
+		fmt.Print("  ", arg)
+	}
+	fmt.Println("\",overlap=scale];")
 	pdot_r(root)
-	fmt.Printf("}\n");
+	fmt.Println("}");
 }
 
 func main() {
-	data := []int {
-		50141, 20695, 52217, 41459, 52991, 28782, 23995, 23546,
-		16861, 13435, 37028,  1238,  5485, 43163,   159, 35882,
-		64010, 41135, 29900, 11857, 53486,  6914, 31472,  5671,
-		39806, 62425, 41035, 62272, 47089, 14756, 13476,  7178 }
-	
 	var root *item
-	for _, dd := range(data) {
-		root = ins_r(root, dd)
-	}
-	pdot("initialized", root)
 	
-	for ii := len(data)/2; ii < len(data); ii += 1 {
-		root = rem_r(root, data[ii])
+	op := ins_r
+	for _, arg := range(os.Args[1:]) {
+		if "i" == arg {
+			op = ins_r
+		} else if "r" == arg {
+			op = rem_r
+		} else {
+			data, error := strconv.Atoi(arg)
+			if nil != error {
+				fmt.Println("ignoring", arg)
+			} else {
+				root = op(root, data)
+			}
+		}
 	}
-	pdot("pruned", root)
 	
+	pdot(root)
+
+/*	
 	find := []func(*item, int) *item { find_r, find_i }
 	for ii := len(data)/4; ii < 3*len(data)/4; ii += 1 {
 		fmt.Printf("%5d", data[ii])
@@ -124,4 +134,5 @@ func main() {
 		}
 		fmt.Println()
 	}
+*/	
 }
