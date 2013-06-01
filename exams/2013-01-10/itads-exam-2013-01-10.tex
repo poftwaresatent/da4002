@@ -147,6 +147,8 @@ Use the most specific data structure name for each diagram.
 % 0.5 pts for each calculation
 
 Answer the following questions about computational complexity.
+\emph{\textbf{Notice the table of numeric values} for $x^2$ and $2^x$ on the bottom of this page, to help you with the computations.}
+
 
 \begin{enumerate}
   
@@ -216,6 +218,30 @@ Answer the following questions about computational complexity.
 
 \end{enumerate}
 
+\vfill
+
+\small
+
+\noindent
+\begin{tabular}{|l|r|r|r|r|r|r|r|r|r|r|r|r|r|}
+  \hline
+  $x=$   & 0 & 1 & 2 &  3 &  4 &   5 &   6 &   7 &   8 &   9 &   10 &   11 &   12 \\
+  \hline
+  $x^2=$ & 0 & 1 & 4 &  9 & 16 &  25 &  36 &  49 &  64 &  81 &  100 &  121 &  144 \\
+  $2^x=$ & 1 & 2 & 4 &  8 & 16 &  32 &  64 & 128 & 256 & 512 & 1024 & 2048 & 4096 \\
+  \hline
+\end{tabular}
+
+\hfill
+\begin{tabular}{|l|r|r|r|r|r|r|r|r|}
+  \hline
+  $x=$   &   13 &    14 &    15 &    16 &     17 &     18 &     19 &      20 \\
+  \hline
+  $x^2=$ &  169 &   196 &   225 &   256 &    289 &    324 &    361 &     400 \\
+  $2^x=$ & 8192 & 16384 & 32768 & 65536 & 131072 & 262144 & 524288 & 1048576 \\
+  \hline
+\end{tabular}
+\normalsize
 
 \clearpage
 
@@ -224,7 +250,7 @@ Answer the following questions about computational complexity.
 
 % 1 pt for each sub-question (although the first two are insultingly simple)
 
-The runtime of two programs \textbf{X} and \textbf{Y} has been measured for various problem sizes $N$.
+The runtime of two programs \textbf{X} and \textbf{Y} has been measured in microseconds ($1\mu s=10^{-6}s$) for various problem sizes $N$.
 Also, the measured time has also been divided by $N^2$ and $N\log N$, as shown in the table below:
 on the left are the plots for program \textbf{X},
 and the right shows the plots for program \textbf{Y}.
@@ -264,20 +290,21 @@ and the right shows the plots for program \textbf{Y}.
 
 \noindent
 Answer the following questions.
+\emph{\textbf{Notice the table of numeric values} for $x^2$ and $2^x$ on the bottom of the previous page, to help you with sub-questions 5 and 6.}
 
 \begin{enumerate}
 \item
-  How big of a problem (approximately) can program \textbf{X} solve in $T=10^{14}$?
+  How big of a problem (approximately) can program \textbf{X} solve in $T=2s=2\cdot10^6 \mu s$?
 \item
-  How big of a problem (approximately) can program \textbf{Y} solve in $T=10^{14}$?
+  How big of a problem (approximately) can program \textbf{Y} solve in $T=20s=2\cdot10^7\mu s$?
 \item
   What is the complexity class of program \textbf{X}?
 \item
   What is the complexity class of program \textbf{Y}?
 \item
-  How long will program \textbf{X} run (approximately) for a problem of size $N=4000$?
+  How long will program \textbf{X} run (approximately) for a problem of size $N=10^6$?
 \item
-  How long will program \textbf{Y} run (approximately) for a problem of size $N=4000$?
+  How long will program \textbf{Y} run (approximately) for a problem of size $N=2\cdot 10^5$?
 \end{enumerate}
 
 
