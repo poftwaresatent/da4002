@@ -1,7 +1,7 @@
 typedef struct node_s {
   char data;
-  struct node_s * child;
-  struct node_s * sibling;
+  struct node_s * cld;
+  struct node_s * sib;
 } Node;
 
 
@@ -11,35 +11,23 @@ typedef struct fifo_s {
 } Fifo;
 
 
-Fifo * fifo_create (Node * node)
+/* Creates a Fifo item containing the given Node. */
+Fifo * fifo_create (Node * node);
+
+/* Returns the next Fifo item, or NULL when the Fifo is empty. */
+Fifo * fifo_next (Fifo * head);
+
+
+void method_one (Node * node)
 {
-  Fifo * fifo;
-  fifo = calloc (1, sizeof *fifo);
-  fifo->node = node;
-  return fifo;
-}
-
-
-Fifo * fifo_next (Fifo * head)
-{
-  Fifo * next;
-  next = head->next;
-  free (head);
-  return next;
-}
-
-
-void method_one (Node * root)
-{
-  Node * child;
   Fifo * head;
   Fifo * tail;
-  head = fifo_create (root);
+  head = fifo_create (node);
   tail = head;
   while (NULL != head) {
     printf ("%c", head->node->data);
-    for (child = head->node->child; NULL != child; child = child->sibling) {
-      tail->next = fifo_create (child);
+    for (node = head->node->cld; NULL != node; node = node->sib) {
+      tail->next = fifo_create (node);
       tail = tail->next;
     }
     head = fifo_next (head);
@@ -49,9 +37,9 @@ void method_one (Node * root)
 
 void method_two (Node * node)
 {
-  Node * child;
-  for (child = node->child; NULL != child; child = child->sibling)
-    method_two (child);
+  Node * cld;
+  for (cld = node->cld; NULL != cld; cld = cld->sib)
+    method_two (cld);
   printf ("%c", node->data);
 }
 
@@ -59,6 +47,6 @@ void method_two (Node * node)
 void method_three (Node * node)
 {
   printf ("%c", node->data);
-  for (node = node->child; NULL != node; node = node->sibling)
+  for (node = node->cld; NULL != node; node = node->sib)
     method_three (node);
 }
