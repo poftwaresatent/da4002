@@ -18,6 +18,68 @@ typedef struct queue_item_s {
 } QueueItem;
 
 
+typedef struct fifo_s {
+  QueueItem *head, *tail;
+} Fifo;
+
+
+Fifo * fifo_create ()
+{
+  Fifo * fifo;
+  fifo = calloc (1, sizeof *fifo);
+  if (NULL == fifo) {
+    err (EXIT_FAILURE, "fifo_create: calloc");
+  }
+  return fifo;
+}
+
+
+void fifo_append (Fifo * fifo, CSItem * node)
+{
+  QueueItem * item;
+  item = calloc (1, sizeof *item);
+  if (NULL == item) {
+    err (EXIT_FAILURE, "fifo_append: calloc");
+  }
+  item->node = node;
+  if (NULL == fifo->head) {
+    fifo->head = item;
+    fifo->tail = item;
+  }
+  else {
+    fifo->tail->next = item;
+    fifo->tail = fifo->tail->next;
+  }
+}
+
+
+CSItem * fifo_extract (Fifo * fifo)
+{
+  CSItem * node;
+  QueueItem * tmp;
+  if (NULL == fifo->head) {
+    return NULL;
+  }
+  node = fifo->head->node;
+  tmp = fifo->head->next;
+  free (fifo->head);
+  fifo->head = tmp;
+  return node;
+}
+
+
+void fifo_destroy (Fifo * fifo)
+{
+  while (NULL != fifo->head) {
+    QueueItem * tmp;
+    tmp = fifo->head->next;
+    free (fifo->head);
+    fifo->head = tmp;
+  }
+  free (fifo);
+}
+
+
 CSItem * csitem_new (char data)
 {
   CSItem * it = calloc (1, sizeof (*it));
@@ -108,44 +170,22 @@ void cstree_post_order (CSItem * item)
 }
 
 
-QueueItem * queue_item_new (CSItem * node)
-{
-  QueueItem * item;
-  item = calloc (1, sizeof *item);
-  if (NULL == item)
-    err (EXIT_FAILURE, "queue_item_new: calloc");
-  item->node = node;
-  return item;
-}
-
-
-QueueItem * queue_item_next (QueueItem * head)
-{
-  QueueItem * next;
-  next = head->next;
-  free (head);
-  return next;
-}
-
-
-void cstree_level_order (CSItem * root)
+void cstree_level_order (CSItem * node)
 {
   int ii;
-  CSItem * child;
-  QueueItem *head, *tail;
-  head = queue_item_new (root);
-  tail = head;
-  while (NULL != head) {
-    for (ii = 0; ii < head->node->depth; ++ii) {
+  Fifo * fifo;
+  fifo = fifo_create ();
+  while (NULL != node) {
+    for (ii = 0; ii < node->depth; ++ii) {
       printf ("  ");
     }
-    printf ("%c\n", head->node->data);
-    for (child = head->node->child; NULL != child; child = child->sibling) {
-      tail->next = queue_item_new (child);
-      tail = tail->next;
+    printf ("%c\n", node->data);
+    for (node = node->child; NULL != node; node = node->sibling) {
+      fifo_append (fifo, node);
     }
-    head = queue_item_next (head);
+    node = fifo_extract (fifo);
   }
+  fifo_destroy (fifo);
 }
 
 
