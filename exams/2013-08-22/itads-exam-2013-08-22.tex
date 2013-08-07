@@ -113,7 +113,7 @@ Aside from the obvious rules of conduct exams (e.g.\ no chatting):
 \clearpage
 
 
-\question{5 points}
+\question{6 points}
 
 The following C code contains a tree data structure type declaration and three traversal functions.
 Note that the \texttt{Fifo} data structure and the various \texttt{fifo\_} functions provide a first-in first-out queue whose implementation is not shown.
@@ -135,5 +135,48 @@ Note that the \texttt{Fifo} data structure and the various \texttt{fifo\_} funct
 \fbox{\begin{minipage}[b]{0.3\columnwidth}
     \includegraphics[width=\columnwidth]{q2.pdf}
 \end{minipage}}
+
+
+\clearpage
+
+
+\question{4 points}
+
+\emph{Hint: there is a lookup table for powers of 2 at the bottom of the page.}
+
+\begin{enumerate}
+
+\item
+  What is the runtime complexity of the following \texttt{algo\_a}?
+  The \texttt{Item} structure implements a simply linked list element containing an integer \texttt{num}, and there are $N$ items in the list.
+  
+  \verbatimtabinput{q3-snip1.c}
+
+\item
+  What is the runtime complexity of the following \texttt{algo\_b}?
+  Like before, it also receives a simply linked list with $N$ elements.
+  
+  \verbatimtabinput{q3-snip2.c}
+
+\item
+  An algorithm is known to have $N\log N$ runtime complexity.
+  It has been measured to require 10 seconds on a problem of size 1024.
+  How long can it be expected to run on a problem of size 4096?
+  
+\item
+  Another algorithm is known to have exponential runtime complexity.
+  It requires 1 second to solve a problem of size 2048.
+  How big of a problem can be solved if we are willing to wait for 4096 seconds?
+\end{enumerate}
+
+\vfill
+
+\begin{tabular}{|l|r|r|r|r|r|r|r|r|r|r|r|r|r|r|r|}
+  \hline
+  $x=$   & 0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & 11 & 12 & 13 & 14 \\
+  \hline
+  $2^x=$ & 1 & 2 & 4 & 8 & 16 & 32 & 64 & 128 & 256 & 512 & 1024 & 2048 & 4096 & 8192 & 16384 \\
+  \hline
+\end{tabular}
 
 \end{document}
