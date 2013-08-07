@@ -115,6 +115,25 @@ Aside from the obvious rules of conduct exams (e.g.\ no chatting):
 
 \question{5 points}
 
-\verbatimtabinput{q2-pseudocode.c}
+The following C code contains a tree data structure type declaration and three traversal functions.
+Note that the \texttt{Fifo} data structure and the various \texttt{fifo\_} functions provide a first-in first-out queue whose implementation is not shown.
+
+\begin{enumerate}
+\item
+  For each of the functions, write down whether it does pre-order, post-order, in-order, or level-order traversal.
+\item
+  Given the example tree in the diagram below, write down for each function the sequence of characters that it prints out.
+  Note that the non-labeled horizontal arrows are the \texttt{sbl} pointers, the non-labeled downward-pointing arrows are \texttt{cld} pointers, and \texttt{\textsc{null}}-pointers are not shown.
+\end{enumerate}
+
+\vfill
+
+\begin{minipage}[b]{0.65\columnwidth}
+  \small
+  \verbatimtabinput{q2-pseudocode.c}
+\end{minipage}
+\fbox{\begin{minipage}[b]{0.3\columnwidth}
+    \includegraphics[width=\columnwidth]{q2.pdf}
+\end{minipage}}
 
 \end{document}
