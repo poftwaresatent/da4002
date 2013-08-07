@@ -185,7 +185,8 @@ Note that the \texttt{Fifo} data structure and the various \texttt{fifo\_} funct
 
 \question{5 points}
 
-In the following program, \texttt{print} is a function to print a number sequence defined recursively, and \texttt{calc} is a straightforward but very inefficient implementation to compute that sequence.
+In the following program, \texttt{print} is a function to print a number sequence defined recursively.
+The \texttt{calc} function is a straightforward but very inefficient recursive implementation to compute that sequence.
 
 \begin{enumerate}
 \item
@@ -194,10 +195,34 @@ In the following program, \texttt{print} is a function to print a number sequenc
   Use \emph{memoization} to implement a more efficient version of \texttt{calc}.
   You can give your answer in pseudo-code or as a textual explanation, there is no need to create correct C code.
 \item
-  Use \emph{dynamic programming} to implement another (also more efficient) version of \texttt{calc}.
+  Use \emph{dynamic programming} to implement an iterative version of \texttt{calc}.
   Again, you can give your answer in pseudo-code or as a textual explanation.
 \end{enumerate}
 
 \verbatimtabinput{q4.c}
+
+
+\clearpage
+
+
+\question{4 points}
+
+\begin{enumerate}
+\item
+  The \texttt{find} function shown below contains an error.
+  It is supposed to implement binary search on an array of integers that is in ascending order.
+  The idea is to return the index where the given \texttt{num} is stored, or -1 in case that number is not in the array \texttt{arr} of length \texttt{len}.
+  But, for example on the array \{1, 23, 25, 66, 102\} it fails to find the number 66.
+  What is the problem, and how can it be fixed?
+\item
+  There also is a bug in the \texttt{sort} function shown below.
+  It is supposed to implement insertion sort on an array of integers.
+  But, for example on the array \{ 6, 0, 7, 3, 8, 5, 1, 4, 9, 2 \} it produces the incorrect output \{ 6, 6, 7, 7, 8, 8, 8, 8, 9, 9 \}.
+  What is wrong, and how can it be fixed?
+\end{enumerate}
+
+\verbatimtabinput{q5a.c}
+\verbatimtabinput{q5b.c}
+
 
 \end{document}
