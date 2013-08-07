@@ -119,11 +119,20 @@ QueueItem * queue_item_new (CSItem * node)
 }
 
 
+QueueItem * queue_item_next (QueueItem * head)
+{
+  QueueItem * next;
+  next = head->next;
+  free (head);
+  return next;
+}
+
+
 void cstree_level_order (CSItem * root)
 {
   int ii;
   CSItem * child;
-  QueueItem *head, *tail, *tmp;
+  QueueItem *head, *tail;
   head = queue_item_new (root);
   tail = head;
   while (NULL != head) {
@@ -135,9 +144,7 @@ void cstree_level_order (CSItem * root)
       tail->next = queue_item_new (child);
       tail = tail->next;
     }
-    tmp = head->next;
-    free (head);
-    head = tmp;
+    head = queue_item_next (head);
   }
 }
 
@@ -154,7 +161,7 @@ void cstree_free (CSItem * item)
 int main (int argc, char ** argv)
 {
   CSItem * root;
-  const char * spec = "A(E(7(zyx))D(6543)CB(21))";
+  const char * spec = "A(D(G(IH))B(FEC))";
   
   printf ("initializing tree\n");
   root = cstree_parse (NULL, &spec);
