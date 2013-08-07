@@ -4,22 +4,22 @@
 #include <err.h>
 
 
-typedef struct cs_item_s {
+typedef struct node_s {
   char data;
   int depth;
-  struct cs_item_s *child;
-  struct cs_item_s *sibling;
-} CSItem;
+  struct node_s * cld;
+  struct node_s * sbl;
+} Node;
 
 
-typedef struct queue_item_s {
-  CSItem *node;
-  struct queue_item_s *next;
-} QueueItem;
+typedef struct fifo_item_s {
+  Node * node;
+  struct fifo_item_s * next;
+} FifoItem;
 
 
 typedef struct fifo_s {
-  QueueItem *head, *tail;
+  FifoItem * head, * tail;
 } Fifo;
 
 
@@ -34,9 +34,9 @@ Fifo * fifo_create ()
 }
 
 
-void fifo_append (Fifo * fifo, CSItem * node)
+void fifo_append (Fifo * fifo, Node * node)
 {
-  QueueItem * item;
+  FifoItem * item;
   item = calloc (1, sizeof *item);
   if (NULL == item) {
     err (EXIT_FAILURE, "fifo_append: calloc");
@@ -53,10 +53,10 @@ void fifo_append (Fifo * fifo, CSItem * node)
 }
 
 
-CSItem * fifo_extract (Fifo * fifo)
+Node * fifo_extract (Fifo * fifo)
 {
-  CSItem * node;
-  QueueItem * tmp;
+  Node * node;
+  FifoItem * tmp;
   if (NULL == fifo->head) {
     return NULL;
   }
@@ -71,7 +71,7 @@ CSItem * fifo_extract (Fifo * fifo)
 void fifo_destroy (Fifo * fifo)
 {
   while (NULL != fifo->head) {
-    QueueItem * tmp;
+    FifoItem * tmp;
     tmp = fifo->head->next;
     free (fifo->head);
     fifo->head = tmp;
@@ -80,19 +80,20 @@ void fifo_destroy (Fifo * fifo)
 }
 
 
-CSItem * csitem_new (char data)
+Node * node_new (char data)
 {
-  CSItem * it = calloc (1, sizeof (*it));
-  if (NULL == it)
-    err (EXIT_FAILURE, "csitem_new: calloc");
+  Node * it = calloc (1, sizeof (*it));
+  if (NULL == it) {
+    err (EXIT_FAILURE, "node_new: calloc");
+  }
   it->data = data;
   return it;
 }
 
 
-CSItem * cstree_parse (CSItem * parent, const char ** spec)
+Node * cstree_parse (Node * parent, const char ** spec)
 {
-  CSItem *child = NULL;
+  Node *child = NULL;
   
   while ('\0' != **spec){
     
@@ -102,28 +103,32 @@ CSItem * cstree_parse (CSItem * parent, const char ** spec)
     }
     
     if (')' == **spec) {
-      if (NULL == child)
+      if (NULL == child) {
 	errx (EXIT_FAILURE, "cstree_parse: empty sibling list");
+      }
       ++(*spec);
       return child;
     }
     
     if (isalnum (**spec)) {
-      CSItem *next;
-      if (NULL == parent && NULL != child)
+      Node *next;
+      if (NULL == parent && NULL != child) {
 	errx (EXIT_FAILURE, "cstree_parse: the root cannot have siblings");
-      next = csitem_new (**spec);
-      next->sibling = child;
+      }
+      next = node_new (**spec);
+      next->sbl = child;
       child = next;
-      if (NULL != parent)
-	parent->child = child;
+      if (NULL != parent) {
+	parent->cld = child;
+      }
       ++(*spec);
       continue;
     }
     
     if ('(' == **spec) {
-      if (NULL == child)
+      if (NULL == child) {
 	errx (EXIT_FAILURE, "cstree_parse: sibling list without parent");
+      }
       ++(*spec);
       cstree_parse (child, spec);
       continue;
@@ -132,45 +137,48 @@ CSItem * cstree_parse (CSItem * parent, const char ** spec)
     errx (EXIT_FAILURE, "cstree_parse: invalid character `%c'", **spec);
   }
   
-  if (NULL == child)
+  if (NULL == child) {
     errx (EXIT_FAILURE, "cstree_parse: empty root sibling list or unbalanced parenthesis");
+  }
   
   return child;
 }
 
 
-void cstree_compute_depth (CSItem * item, int parent_depth)
+void cstree_compute_depth (Node * node, int parent_depth)
 {
-  item->depth = ++parent_depth;
-  for (item = item->child; NULL != item; item = item->sibling)
-    cstree_compute_depth (item, parent_depth);
+  node->depth = ++parent_depth;
+  for (node = node->cld; NULL != node; node = node->sbl) {
+    cstree_compute_depth (node, parent_depth);
+  }
 }
 
 
-void cstree_pre_order (CSItem * item)
+void cstree_pre_order (Node * node)
 {
   int ii;
-  for (ii = 0; ii < item->depth; ++ii)
+  for (ii = 0; ii < node->depth; ++ii) {
     printf ("  ");
-  printf ("%c\n", item->data);
-  for (item = item->child; NULL != item; item = item->sibling)
-    cstree_pre_order (item);
+  }
+  printf ("%c\n", node->data);
+  for (node = node->cld; NULL != node; node = node->sbl)
+    cstree_pre_order (node);
 }
 
 
-void cstree_post_order (CSItem * item)
+void cstree_post_order (Node * node)
 {
   int ii;
-  CSItem * child;
-  for (child = item->child; NULL != child; child = child->sibling)
+  Node * child;
+  for (child = node->cld; NULL != child; child = child->sbl)
     cstree_post_order (child);
-  for (ii = 0; ii < item->depth; ++ii)
+  for (ii = 0; ii < node->depth; ++ii)
     printf ("  ");
-  printf ("%c\n", item->data);
+  printf ("%c\n", node->data);
 }
 
 
-void cstree_level_order (CSItem * node)
+void cstree_level_order (Node * node)
 {
   int ii;
   Fifo * fifo;
@@ -180,7 +188,7 @@ void cstree_level_order (CSItem * node)
       printf ("  ");
     }
     printf ("%c\n", node->data);
-    for (node = node->child; NULL != node; node = node->sibling) {
+    for (node = node->cld; NULL != node; node = node->sbl) {
       fifo_append (fifo, node);
     }
     node = fifo_extract (fifo);
@@ -189,18 +197,18 @@ void cstree_level_order (CSItem * node)
 }
 
 
-void cstree_free (CSItem * item)
+void cstree_free (Node * node)
 {
-  CSItem * child;
-  for (child = item->child; NULL != child; child = child->sibling)
+  Node * child;
+  for (child = node->cld; NULL != child; child = child->sbl)
     cstree_free (child);
-  free (item);
+  free (node);
 }
 
 
 int main (int argc, char ** argv)
 {
-  CSItem * root;
+  Node * root;
   const char * spec = "A(D(G(IH))B(FEC))";
   
   printf ("initializing tree\n");
