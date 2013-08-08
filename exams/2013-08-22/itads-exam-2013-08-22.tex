@@ -104,9 +104,7 @@ Aside from the obvious rules of conduct exams (e.g.\ no chatting):
 \end{enumerate}
 
 \begin{center}
-\fbox{(k-ary tree)}
-\fbox{(directed cyclic graph)}
-%%\includegraphics[width=0.4\columnwidth]{.pdf}
+\includegraphics[width=0.6\columnwidth]{q1.pdf}
 \end{center}
 
 
@@ -126,12 +124,12 @@ Note that the \texttt{Fifo} data structure and the various \texttt{fifo\_} funct
   Note that the non-labeled horizontal arrows are the \texttt{sbl} pointers, the non-labeled downward-pointing arrows are \texttt{cld} pointers, and \texttt{\textsc{null}}-pointers are not shown.
 \end{enumerate}
 
-\vfill
-
-\begin{minipage}[b]{0.65\columnwidth}
+\noindent
+\fbox{\begin{minipage}[b]{0.65\columnwidth}
   \small
   \verbatimtabinput{q2-pseudocode.c}
-\end{minipage}
+\end{minipage}}%
+\hfill%
 \fbox{\begin{minipage}[b]{0.3\columnwidth}
     \includegraphics[width=\columnwidth]{q2.pdf}
 \end{minipage}}
@@ -148,25 +146,26 @@ Note that the \texttt{Fifo} data structure and the various \texttt{fifo\_} funct
 
 \item
   What is the runtime complexity of the following \texttt{algo\_a}?
-  The \texttt{Item} structure implements a simply linked list element containing an integer \texttt{num}, and there are $N$ items in the list.
+  Note that the \texttt{Item} structure is a simply linked list element containing an integer \texttt{num} and a pointer to the next element.
+  There are $N$ elements in the list, and the last element has a \texttt{next} pointer which is \texttt{\textsc{null}}.
   
-  \verbatimtabinput{q3-snip1.c}
+  \fbox{\begin{minipage}{0.65\columnwidth}\verbatimtabinput{q3-snip1.c}\end{minipage}}
 
 \item
   What is the runtime complexity of the following \texttt{algo\_b}?
   Like before, it also receives a simply linked list with $N$ elements.
   
-  \verbatimtabinput{q3-snip2.c}
+  \fbox{\begin{minipage}{0.65\columnwidth}\verbatimtabinput{q3-snip2.c}\end{minipage}}
 
 \item
-  An algorithm is known to have $N\log N$ runtime complexity.
+  Algorithm C (code not shown) is known to have $N\log N$ runtime complexity.
   It has been measured to require 10 seconds on a problem of size 1024.
   How long can it be expected to run on a problem of size 4096?
   
 \item
-  Another algorithm is known to have exponential runtime complexity.
+  Algorithm D (code not shown) is known to have exponential runtime complexity.
   It requires 1 second to solve a problem of size 2048.
-  How big of a problem can be solved if we are willing to wait for 4096 seconds?
+  How big of a problem can be solved if we are willing to wait 4096 seconds?
 \end{enumerate}
 
 \vfill
@@ -186,7 +185,7 @@ Note that the \texttt{Fifo} data structure and the various \texttt{fifo\_} funct
 \question{5 points}
 
 In the following program, \texttt{print} is a function to print a number sequence defined recursively.
-The \texttt{calc} function is a straightforward but very inefficient recursive implementation to compute that sequence.
+The \texttt{calc} function is a straightforward but inefficient implementation to compute the members of that sequence.
 
 \begin{enumerate}
 \item
@@ -199,7 +198,8 @@ The \texttt{calc} function is a straightforward but very inefficient recursive i
   Again, you can give your answer in pseudo-code or as a textual explanation.
 \end{enumerate}
 
-\verbatimtabinput{q4.c}
+\noindent
+\fbox{\begin{minipage}{0.65\columnwidth}\verbatimtabinput{q4.c}\end{minipage}}
 
 
 \clearpage
@@ -214,15 +214,18 @@ The \texttt{calc} function is a straightforward but very inefficient recursive i
   The idea is to return the index where the given \texttt{num} is stored, or -1 in case that number is not in the array \texttt{arr} of length \texttt{len}.
   But, for example on the array \{1, 23, 25, 66, 102\} it fails to find the number 66.
   What is the problem, and how can it be fixed?
+  
+  \fbox{\begin{minipage}{0.65\columnwidth}\verbatimtabinput{q5a.c}\end{minipage}}
+  
 \item
   There also is a bug in the \texttt{sort} function shown below.
   It is supposed to implement insertion sort on an array of integers.
   But, for example on the array \{ 6, 0, 7, 3, 8, 5, 1, 4, 9, 2 \} it produces the incorrect output \{ 6, 6, 7, 7, 8, 8, 8, 8, 9, 9 \}.
   What is wrong, and how can it be fixed?
+  
+  \fbox{\begin{minipage}{0.65\columnwidth}\verbatimtabinput{q5b.c}\end{minipage}}
+  
 \end{enumerate}
-
-\verbatimtabinput{q5a.c}
-\verbatimtabinput{q5b.c}
 
 
 \end{document}
