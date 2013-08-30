@@ -1,0 +1,263 @@
+\documentclass[a4paper]{article}
+
+\usepackage[margin=3cm]{geometry}
+\usepackage{xspace,amsmath}
+\usepackage[nooneline,hang,it]{caption2}
+
+\newcommand{\refl}{\textbf{[L]}\xspace}
+\newcommand{\refkr}{\textbf{[K+R]}\xspace}
+
+\begin{document}
+
+\title{{\normalsize Course Guide DA4002 Halmstad University}\\
+  Algorithms, Data Structures,\\ and Problem Solving (ITADS)}
+\author{Roland Philippsen}
+\maketitle
+
+
+
+\section{Discussion of the Syllabus}
+
+The course syllabus states the prerequisites, objectives, and other details of the course.
+Here is a summary of the most important points, with some additional explanations.
+
+\begin{description}
+
+\item[Prerequisites and Conditions of Admission:]
+  \emph{Basic course in programming techniques}
+
+  It can be difficult to determine whether a student fulfills the conditions.
+  To clarify: participants must have passed an introductory programming course, or picked up an equivalent skill level through other activities.
+  More specifically, participants must be able to solve programming tasks independently and from scratch in a general-purpose procedural or object-oriented language (C, Fortran, Pascal, C++, C\#, Objective-C, Python, Ruby, Java, or similar).
+  Some specialized languages (Matlab, Mathematica, or similar) or domain-specific languages (PHP, JavScript, LabVIEW, or Visual Basic) can also count, but only if the student has done significant project development --- as opposed to merely using various toolboxes to crunch numbers, produce pretty data plots, or create web pages from data base contents.
+
+  This means \emph{at the very least} the following:
+  
+  \begin{itemize}
+  \item Participants understand fundamentals about how the operating system launches and interacts with applications.
+  \item They understand the concept of project directory, source and executable files, and compilation (or interpretation, in case of scripting languages).
+  \item They can apply basic programming constructs and principles such as: types, variables, functions, as well as input and output to and from files and from the command line.
+  \item They know how to edit source code, and use compiler and other failure messages to locate errors in the code.
+  \end{itemize}
+  
+  It is acknowledged that it may have been a while since those programming skills were last used, which is why the first few weeks contain a condensed C programming course in parallel to the more theoretic parts.
+  Nevertheless, this refresher relies heavily on the prerequisite basic programming skills.
+
+\item[Course Objectives:]
+  \emph{
+    The course offers the student the opportunity to learn about algorithm complexity, algorithm design, and classical data structures.
+    The aim of the course is also to improve programming abilities in a modern programming language, currently C.
+  }
+  
+  The course is very hands-on in order to achieve two objectives:
+  students should gain a deep understanding of data structures and algorithms by applying them in real programming situations;
+  and after the course students are expected to be able to work independently and in teams on programming projects where they \textbf{apply} what they have learnt.
+  However, the concepts behind the algorithms, data structures, and problem solving techniques are just as important.
+  These \textbf{concepts and methods are independent of the programming language}.
+  The written exam tests whether the students have assimilated the concepts and can use them to analyze problems and devise solutions with pen and paper.
+  
+\item[Course Literature:]
+  Note that more recent editions of the books listed here are expected to cover at least the same material, but the reading guide below refers to the sections in these specific versions.
+  
+  \begin{itemize}
+    
+  \item \refl
+    \emph{
+      Loudon, Kyle.
+      \textbf{Mastering Algorithms with C}.
+      O'Reilly \& Associates, 1999.
+      ISBN 978-1-56592-453-6
+    }
+    
+  This book forms an integral part of the course.
+  It covers fundamental concepts required to understand the treated data structures and algorithms.
+  It also contains a significant collection of data structures and algorithms implemented in C.
+  The reader is assumed to be already quite familiar with C programming, but also some language features that are most relevant to the subject matter are reviewed by the author.
+  
+  Many of the more advanced algorithms presented in this book are not taught in the course (see the reading guide below for details).
+  However, participants are likely to encounter some of them in subsequent programming tasks, making this book a valuable resource for every programmer's bookshelf.
+  
+  \item \refkr
+    \emph{
+      Kernighan, Brian W., Ritchie, Dennis M.
+      \textbf{The C Programming Language, \emph{Second Edition}}.
+      Prentice Hall, 1989.
+      ISBN 0-13-110362-8
+    }
+    
+    This classical textbook forms an integral part of the C refresher during the first few weeks of the course.
+    It is also a valuable resource throughout the course, and indeed for any C programming the participants may encounter later.
+    Participants who are not yet proficient in C will find it crucial for suceeding in the projects (which are part of the evaluation).
+    Students who already have a firm background in C and are able to independently fill any gaps in their knowledge may not need this book.
+    
+    \item
+      \emph{
+        Sedgewick, Robert
+        \textbf{Algorithms in C, \emph{Parts 1-4, Third Edition}}.
+        Addison Wesley, 1998.
+        ISBN 0-201-31452-5
+      }
+      
+      This is a very complete book written by an authoritative teacher on the subject.
+      It is suggested as a resource for students wishing to study independently with an additional resource, but is not included in the reading guide below.
+      
+  \end{itemize}
+  
+\end{description}
+
+
+
+\section{Schedule}
+
+\begin{table}
+  \centering
+  \begin{tabular}{|cll|}
+    \hline
+    \emph{week} & \multicolumn{2}{l|}{\emph{lecture (L) / exercises (E) / project (P)}} \\
+    \hline
+    1  & L1 & overview, C tutorial \\
+       & E1 & types, variables, operators, control flow \\
+       & E2 & arrays, pointers, strings \\
+    \hline
+    2  & L2 & vectors and lists \\
+       & E3 & struct and vectors \\
+       & E4 & lists, stacks, generics  \\
+    \hline
+    3  & L3 & searching, trees, heaps \\
+       & E5 & recursion, trees \\
+       & E6 & heaps, priority queues \\
+    \hline
+    4  & L4 & complexity analysis, sorting \\
+       & E7 & computational complexity \\
+       & P1 & sorting algorithm benchmarks \\
+    \hline
+    5  & L5 & divide \& conquer, memoization \\
+       &    & \emph{continue with P1} \\
+    \hline
+    6  & L6 & dynamic programming \\
+       & E8 & dynamic programming \\
+       & P2 & sequence alignment \\
+    \hline
+    7  & L7 & graphs \\
+       &    & \emph{continue with P2} \\
+    \hline
+    8  & L8 & review and exam preparations \emph{(time permitting)} \\
+       & E9 & graph search \emph{(time permitting)} \\
+    \hline
+  \end{tabular}
+  \caption{
+    Schedule overview.
+    Note that, depending on course program changes throughout the years, there may only be 7 weeks available.
+  }\label{tab:schedule}
+\end{table}
+
+Table~\ref{tab:schedule} shows the schedule for lectures, exercises, and project work.
+There is one lecture per week, and each lecture lasts $2\times 45$ minutes (with a $15$ minute break in the middle).
+Lectures include a short discussion of the exercises from the previous week.
+Exercises are split into groups to accommodate the capacity of the \textsc{Unix} room.
+Each week, there are two time slots ($105$ minutes each) for supervised exercises and project work.
+(Depending on the number of students, there will be two separate groups to be distributed among four time slots.)
+For the projects, participants work in teams of 2 (or 3 in case of an odd total number of students).
+
+
+
+\section{Reading Guide}
+
+\begin{table}
+  \footnotesize
+  \begin{minipage}[t]{0.5\columnwidth}
+  \begin{tabular}{|l|c|c|c|c|}
+    \hline
+    \multicolumn{5}{|c|}{\refkr Kernighan \& Ritchie} \\
+    \multicolumn{5}{|c|}{\emph{The C Programming Language, $2^\text{nd}$ Ed.}} \\
+    \hline
+                       & \multicolumn{4}{|c|}{\emph{week}} \\
+    section            & 1       & 2       & 3       & 4  \\
+    \hline
+    1.1--10            & $\circ$ & $\star$ &         & \\
+    \hline
+    2.1--8, 2.10       & $\star$ &         &         & \\
+    2.11--12           &         &         &         & $\star$ \\
+    \hline
+    3.1--5             & $\star$ &         &         & \\
+    3.6                &         &         &         & $\star$ \\
+    3.7                & $\star$ &         &         & \\
+    \hline
+    4.1                & $\circ$ & $\star$ &         & \\
+    4.2                &         & $\star$ &         & \\
+    4.4--6             &         &         & $\star$ & \\
+    4.8                &         & $\star$ &         & \\
+    4.9                &         &         &         & $\star$ \\
+    4.10               &         & $\star$ &         & \\
+    4.11               & $\circ$ &         & $\star$ & \\
+    \hline
+    5.1                & $\star$ &         &         & \\
+    5.2                &         & $\star$ &         & \\
+    5.3--4             & $\star$ &         &         & \\
+    5.6, 5.8, 5.10--11 &         &         &         & $\star$ \\
+    \hline
+    6.1--4, 6.7        &         & $\star$ &         & \\
+    \hline
+    7.1--2             & $\star$ &         &         & \\
+    7.4--6             &         &         & $\star$ & \\
+    \hline
+  \end{tabular}
+  \end{minipage}
+  \hfill
+  \begin{minipage}[t]{0.5\columnwidth}
+  \begin{tabular}{|l|c|c|c|c|c|c|}
+    \hline
+    \multicolumn{7}{|c|}{\refl Kyle Loudon} \\
+    \multicolumn{7}{|c|}{\emph{Mastering Algorithms with C}} \\
+    \hline
+                       & \multicolumn{6}{|c|}{\emph{week}} \\
+    section            & 2       & 3       & 4       & \ldots  & 7       & 8       \\
+    \hline
+    2.1-4              & $\star$ &         &         &         &         &         \\
+    2.5-6              &         & $\star$ &         &         &         &         \\
+    \hline
+    3.1                &         & $\star$ &         &         &         &         \\
+    \hline
+    4.1-4              &         &         & $\star$ &         &         &         \\
+    \hline
+    5.1,5,8            & $\star$ &         &         &         &         &         \\
+    5.2-4,6-7,9-10     & $\circ$ &         &         &         &         &         \\
+    \hline
+    6.1,4              & $\star$ &         &         &         &         &         \\
+    6.2-3,5-7          & $\circ$ &         &         &         &         &         \\
+    \hline
+    9.1,5              &         & $\star$ &         &         &         &         \\
+    9.2-4,6-7          &         & $\circ$ &         &         &         &         \\
+    \hline
+    10.1,4             &         & $\star$ &         &         &         &         \\
+    10.2-3,5-7         &         & $\circ$ &         &         &         &         \\
+    \hline
+    11.1,4-5           &         &         &         &         & $\circ$ & $\star$ \\
+    11.2-3             &         &         &         &         &         & $\circ$ \\
+    \hline
+    12.1,4,8           &         & $\circ$ & $\star$ &         &         &         \\
+    12.2-3,5-7,9-10    &         &         & $\circ$ &         &         &         \\
+    12.17              &         & $\star$ &         &         &         &         \\
+    12.18-20           &         & $\circ$ &         &         &         &         \\
+    \hline
+    16.1,4             &         &         &         &         & $\circ$ & $\star$ \\
+    16.2-3,5-6         &         &         &         &         &         & $\circ$ \\
+    \hline
+  \end{tabular}
+  \end{minipage}
+  \caption{
+    Course book reading order.
+    Any sections or chapters that are not explicitly listed can be skipped.
+    A \emph{circle} $\circ$ means that parts of the section will be used as needed by the main focus of that week.
+    A \emph{star} $\star$ indicates that a section will be assumed fully assimilated by the student after the indicated week.
+  }\label{tab:reading-guide}
+\end{table}
+
+Table~\ref{tab:reading-guide} summarizes which section of the course books will be treated in which week, and to what extent.
+\refkr refers to Kernighan \& Ritchie \emph{The C Programming Language ($2^\text{nd} Ed.)$}, and \refl refers to Loudon \emph{Mastering Algorithms with C}.
+The course website provides resources in form of exercises and links to books and other websites.
+
+Students are expected learn how to self-evaluate, and they will be guided during exercises to acquire this skill.
+Afterward, they should be able to study independently when they need more practice in particular areas.
+
+\end{document}
