@@ -115,7 +115,13 @@ h4 {
 
 p {
   padding: 0.2ex 0.2em;
-  margin: 1ex 0em 0ex 4em;
+  margin: 1ex 2em 0ex 4em;
+}
+
+pre {
+  padding: 0.4ex 0.4em 0.4ex 1em;
+  margin: 1ex 2em 0ex 4em;
+  background-color: #ddf
 }
 
 dl {
