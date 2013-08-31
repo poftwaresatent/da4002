@@ -56,11 +56,6 @@ a:visited {
 a:active {
   color: #f30;
 }
-a img {
-  border: 2px solid #ccc;
-  border-radius: 2px;
-}
-
 #shell a {
   text-decoration: none;
   color: #000;
@@ -123,6 +118,17 @@ p {
   margin: 1ex 0em 0ex 4em;
 }
 
+dl {
+  padding: 0.2ex 0.2em;
+  margin: 1ex 0em 0ex 4em;
+}
+dt {
+  font-style: italic;
+}
+dd {
+  margin: 0ex 0em 0ex 2em;
+}
+
 table {
   padding: 0.2ex 0.2em;
   margin: 1ex 0em 0ex 2em;
@@ -143,6 +149,7 @@ tr.alt td
 {
   background-color: #ddd;
 }
+
 ul {
   padding: 0px;
   margin: 1ex 0em 0ex 2em;
@@ -150,4 +157,13 @@ ul {
 li {
   padding: 0.2ex 0.2em;
   margin: 0ex 0em 0ex 2em;
+}
+
+#content ul {
+  padding: 0.2ex 0.2em;
+  margin: 1ex 0em 0ex 4em;
+}
+#content ul li {
+  padding: 0px;
+  margin: 0ex 0em 0ex 1em;
 }
