@@ -1,0 +1,105 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
+    <title>ITADS Linux Intro</title>
+    <link rel="stylesheet" href="style.css" type="text/css">
+  </head>
+  <body>
+    
+    <div id="shell">
+      
+      <div id="top-left">
+	<ul>
+	  <li><a href="index.html">home</a>
+	    <ul>
+	      <li><a href="schedule.html">schedule</a></li>
+	      <li><a href="faq.html">FAQ</a></li>
+	      <li><a href="linux-intro.html">linux intro</a></li>
+	      <li><a href="vbox.html">virtual box</a></li>
+	    </ul>
+	  </li>
+	  <li>exercises
+	    <ul>
+	      <li><a href="ex1.html">exercise 1</a></li>
+	      <li><a href="ex2.html">exercise 2</a></li>
+	      <li><a href="ex3.html">exercise 3</a></li>
+	      <li><a href="ex4.html">exercise 4</a></li>
+	      <li><a href="ex5.html">exercise 5</a></li>
+	      <li><a href="ex6.html">exercise 6</a></li>
+	      <li><a href="ex7.html">exercise 7</a></li>
+	      <li><a href="ex8.html">exercise 8</a></li>
+	      <li><a href="ex9.html">exercise 9</a></li>
+	    </ul>
+	  </li>
+	  <li><a href="projects.html">projects</a>
+	    <ul>
+	      <li><a href="pr1.html">project 1</a></li>
+	      <li><a href="pr2.html">project 2</a></li>
+	    </ul>
+	  </li>
+	</ul>
+      </div> <!-- top-left -->
+      
+      <div id="bottom-right">
+	<p><a href="http://validator.w3.org/check?uri=referer"><img src="./valid-html401-blue" alt="Valid HTML 4.01 Strict" height="31" width="88"></a></p>
+      </div> <!-- bottom-right -->
+      
+    </div> <!-- shell -->
+    
+    <!-- ================================================== -->
+    <!-- CONTENT STARTS HERE ============================== -->
+    <!-- ================================================== -->
+    
+    <div id="content">
+      
+      <h1>ITADS Virtual Appliance</h1>
+      
+      <p>
+	In case you want to work on the exercises and projects at home, but you only have a Windows machine, here you can get a virtual machine image with a bare-bones Linux system on it.
+      </p>
+      
+      <ol>
+	
+	<li>
+	  Install VirtualBox by downloading the appropriate file and following the instructions on <a href="http://www.virtualbox.org/">www.virtualbox.org</a>
+	</li>
+	
+	<li>
+	  Download the ITADS virtual appliance file: <a href="https://dl.dropbox.com/u/102732323/itads-2012-09-27.ova"><tt>itads-2012-09-27.ova</tt></a>
+	</li>
+	
+	<li>
+	  Import the ITADS appliance into VirtualBox:
+	  <ul>
+	    <li>Launch VirtualBox.</li>
+	    <li>Go to "File -&gt; Import Appliance..."</li>
+	    <li>Select the <tt>itads-2012-09-27.ova</tt> file.</li>
+	    <li>Finish the import (maybe adjust the settings a bit, but the defaults should be fine).</li>
+	  </ul>
+	</li>
+	<li>
+	  Launch the itads virtual machine inside VirtualBox.
+	  This will boot the virtual machine and present you with an interface very similar to the one on the computers in the exercise room.
+	</li>
+      </ol>
+      
+      <p>
+	This gives you a small Linux system (based on the <a href="http://www.debian.org/">Debian</a> distribution) with a setup that is very similar to the workstations in the University's UNIX room B231c.
+	In case the ITADS appliance ever asks you for a user name, password, or administrative password, they are all very simple to remember:
+      </p>
+      
+      <dl>
+	<dt>user name:</dt>
+	<dd>itads</dd>
+	<dt>password:</dt>
+	<dd>itads</dd>
+	<dt>root (administrator) password:</dt>
+	<dd>itads</dd>
+      </dl> 
+      
+    </div> <!-- content -->
+    
+  </body>
+</html>

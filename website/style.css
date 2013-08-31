@@ -179,3 +179,15 @@ li {
   padding: 0px;
   margin: 0ex 0em 0ex 1em;
 }
+#content ol {
+  padding: 0.2ex 0.2em;
+  margin: 1ex 0em 0ex 4em;
+}
+#content ol li {
+  padding: 0px;
+  margin: 0ex 0em 0ex 1.5em;
+}
+#content ol li ul {
+  padding: 0px;
+  margin: 0ex 0em 0.4ex 0em;
+}
