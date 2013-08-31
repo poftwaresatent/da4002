@@ -1,0 +1,191 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
+    <title>ITADS Linux Intro</title>
+    <link rel="stylesheet" href="style.css" type="text/css">
+  </head>
+  <body>
+    
+    <div id="shell">
+      
+      <div id="top-left">
+	<ul>
+	  <li><a href="index.html">home</a>
+	    <ul>
+	      <li><a href="schedule.html">schedule</a></li>
+	      <li><a href="faq.html">FAQ</a></li>
+	      <li><a href="linux-intro.html">linux intro</a></li>
+	      <li><a href="vbox.html">virtual box</a></li>
+	    </ul>
+	  </li>
+	  <li>exercises
+	    <ul>
+	      <li><a href="ex1.html">exercise 1</a></li>
+	      <li><a href="ex2.html">exercise 2</a></li>
+	      <li><a href="ex3.html">exercise 3</a></li>
+	      <li><a href="ex4.html">exercise 4</a></li>
+	      <li><a href="ex5.html">exercise 5</a></li>
+	      <li><a href="ex6.html">exercise 6</a></li>
+	      <li><a href="ex7.html">exercise 7</a></li>
+	      <li><a href="ex8.html">exercise 8</a></li>
+	      <li><a href="ex9.html">exercise 9</a></li>
+	    </ul>
+	  </li>
+	  <li><a href="projects.html">projects</a>
+	    <ul>
+	      <li><a href="pr1.html">project 1</a></li>
+	      <li><a href="pr2.html">project 2</a></li>
+	    </ul>
+	  </li>
+	</ul>
+      </div> <!-- top-left -->
+      
+      <div id="bottom-right">
+	<p><a href="http://validator.w3.org/check?uri=referer"><img src="./valid-html401-blue" alt="Valid HTML 4.01 Strict" height="31" width="88"></a></p>
+      </div> <!-- bottom-right -->
+      
+    </div> <!-- shell -->
+    
+    <!-- ================================================== -->
+    <!-- CONTENT STARTS HERE ============================== -->
+    <!-- ================================================== -->
+    
+    <div id="content">
+      
+      <h1>ITADS Introduction to Linux</h1>
+      
+      <p>
+	C compilers exist for practically all operating systems.
+	For the exercises and projects of this course, the <a href="http://gcc.gnu.org/">GNU Compiler Collection (GCC)</a> is used under <a href="http://en.wikipedia.org/wiki/Linux">Linux</a>.
+	This UNIX-like operating system gives you a large choice of editors and development environments, and frequently the best way to leverage the power of Linux is to use the command line.
+	The separate <a href="documents/linux-intro.pdf">tiny introduction to Linux (PDF)</a> can help you to get started.
+	Below, the most important aspects for working on ITADS exercises and projects are summarized.
+      </p>
+      
+      <h2>Linux Basics</h2>
+      
+      <p>
+	You interact with the Linux operating system by entering <em>commands</em> at a <em>terminal</em>.
+	On the exercise web pages, commands are indicated with a special color scheme, like this:
+      </p>
+      
+      <pre class="command">find . -type f</pre>
+      
+      <p>
+	<b>Do not confuse</b> this with example code, which you have to enter into a <em>text editor</em> (such as the one integrated into Eclipse) and uses a different color scheme, like this:
+      </p>
+      
+      <pre class="code">printf ("hello, world.\n");</pre>
+      
+      <p>
+	The commands that you will be most likely to use frequently are:
+      </p>
+      
+      <dl>
+	<dt><tt>mkdir</tt></dt>
+	<dd><a href="http://linuxmanpages.com/man1/mkdir.1.php">make a directory</a></dd>
+	<dd>
+	  example:
+	  <pre class="command">mkdir -p itads/ex1</pre>
+	  make a directory called <tt>ex1</tt> inside the direcory <tt>itads</tt>
+	</dd>
+	<dt><tt>cd</tt></dt>
+	<dd><a href="http://linuxmanpages.com/man1/cd.1.php">change directory</a></dd>
+	<dd>
+	  example:
+	  <pre class="command">cd itads/ex1</pre>
+	  change into the directory <tt>ex1</tt> which is underneath the directory <tt>itads</tt>
+	</dd>
+	<dt><tt>pwd</tt></dt>
+	<dd><a href="http://linuxmanpages.com/man1/pwd.1.php">print working directory</a></dd>
+	<dd>
+	  example:
+	  <pre class="command">pwd</pre>
+	  will print something like "<tt>/home/username/itads/ex1</tt>" if you followed the above examples
+	</dd>
+	<dt><tt>ls</tt></dt>
+	<dd><a href="http://linuxmanpages.com/man1/ls.1.php">list directory contents</a></dd>
+	<dd>
+	  example:
+	  <pre class="command">ls</pre>
+	  will write a list of filenames and directory names</dd>
+	<dt><tt>gcc</tt></dt>
+	<dd>Run the <a href="http://www.linuxmanpages.com/man1/gcc.1.php">C compiler</a> on a <tt>.c</tt> source file.</dd>
+	<dd>
+	  example:
+	  <pre class="command">gcc -Wall -o hello-world hello-world.c</pre>
+	  Compile the source code contained in <tt>hello-world.c</tt> into an executable (in this case, the output will be stored in a file called <tt>hello-world</tt>)
+	</dd>
+	<dd>
+	  <b>Note</b> the exercises are formulated for the Eclipse integrated development environment.
+	  It is thus unlikely that you will need to call the compiler from a command line, but it is still important to understand that the compiler is a program like any other on the system, and its operation can be precisely controlled from the command line.
+	</dd>
+	<dt><tt>gedit</tt></dt>
+	<dd>Launch the <a href="http://projects.gnome.org/gedit/">gedit text editor</a></dd>
+	<dd>
+	  example:
+	  <pre class="command">gedit hello-world.c &amp;</pre>
+	  Launch gedit and start editing the <tt>hello-world.c</tt> source file.
+	  If the file does not exist yet, gedit will create a new empty file for you.
+	</dd>
+	<dd>
+	  <b>Note:</b> when launching gedit (or any other program that opens its own window), you should append "<tt>&amp;</tt>" to the command.
+	  This makes the program start "in the background" and gives you back the command prompt.
+	  <b>Otherwise, the terminal will not accept new commands</b> (you can still type them, but they will not be executed).
+	</dd>
+	<dt><tt>nedit</tt></dt>
+	<dd>Launch the <a href="http://nedit.org/">nedit text editor</a></dd>
+	<dd>
+	  example:
+	  <pre class="command">nedit hello-world.c &amp;</pre>
+	  Launch nedit and start editing the <tt>hello-world.c</tt> source file.
+	  Nedit may ask for confirmation to create the file.
+	</dd>
+	<dd>
+	  <b>Note:</b> Nedit has some nice automatic indentation features that you may find very useful for editing source.
+	</dd>
+	<dt><tt>eclipse-cpp</tt></dt>
+	<dd>Launch the Eclipse IDE (version with C/C++ developer tools installed on the machines in the Unix room B231c).</dd>
+      </dl>
+      
+      <h2>Writing, Compiling, and Running Programs Written in C</h2>
+      
+      <p>
+	C source files are text files that have the extension <tt>.c</tt> and they are compiled by the C <em>compiler</em> (<tt>gcc</tt>) into executable machine code.
+	In order to launch executables, you type the name of the executable into a terminal window, but you have to prefix the name with "<tt>./</tt>" (dot-slash) <b>and</b> you have to be in the directory where the file is stored.
+	<em>(This explanation is not entirely accurate, but suffices for the purposes of this course.)</em>
+	Note that you can also run executables directly from within the Eclipse IDE, as explained in the exercises.
+      </p>
+      
+      <p>
+	If you do not have access to an IDE like Eclipse, you can use any text editor to write  source code.
+	Some choices, all of which should already be installed on the workstations used for the exercises, are:</p>
+      
+      <dl>
+	<dt><a href="http://www.gedit.org/">gedit</a></dt>
+	<dd>a simple and easy to use editor</dd>
+	<dd>you launch it from a terminal window by typing "<code>gedit &amp;</code>" (note the "<code>&amp;</code>" which instructs the shell to launch gedit in the background: gedit will open its own separate window)</dd>
+	<dt><a href="http://nedit.org/">nedit</a></dt>
+	<dd>still simple, yet maybe a bit more appropriate than gedit for editing source code</dd>
+	<dd>you launch it from a terminal window by typing "<code>nedit &amp;</code>" (note the "<code>&amp;</code>" which instructs the shell to launch nedit in the background: nedit will open its own separate window)</dd>
+	<dt><a href="http://www.gnu.org/software/emacs/">emacs</a></dt>
+	<dd>an extensible and customizable text editor</dd>
+	<dd>you launch it from a terminal window by typing "<code>emacs &amp;</code>" (again, note the "<code>&amp;</code>")</dd>
+	<dt><a href="http://www.vim.org/">vim</a></dt>
+	<dd>is a highly extensible modern version of the venerable <code>vi</code> editor</dd>
+	<dd>you launch it from a terminal window by typing "<code>vim</code>" (note the <em>absence</em> of "<code>&amp;</code>" because vim launches within the terminal window)</dd>
+      </dl>
+      
+      <p>
+	Gedit is probably the easiest when you get started.
+	Emacs and vim have a steeper learning curve but will vastly increase your efficiency in the long run.
+	Another option is to use an <em>integrated development environment (IDE)</em> which lets you edit code, compile, run and debug it all within one application.
+	Beside Eclipse, which is a widespread IDE and also used in this course, another popular alternative is <a href="http://kdevelop.org/">KDevelop</a>.
+      </p>
+      
+    </div> <!-- content -->
+    
+  </body>
+</html>

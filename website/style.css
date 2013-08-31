@@ -40,6 +40,7 @@ body {
   background-color: #fff;
   color: #333;
   margin: 1ex auto;
+  padding-bottom: 3ex;
   max-width: 52em;
 }
 
@@ -117,11 +118,16 @@ p {
   margin: 1ex 2em 0ex 4em;
 }
 
-pre {
+pre.command {
   padding: 0.4ex 0.4em 0.4ex 1em;
   margin: 1ex 2em 0ex 4em;
   background-color: #ddf;
   font-weight: bold;
+}
+pre.code {
+  padding: 0.4ex 0.4em 0.4ex 1em;
+  margin: 1ex 2em 0ex 4em;
+  border: 2px solid #9c9;
 }
 
 dl {
