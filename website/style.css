@@ -100,8 +100,8 @@ a img {
 
 h1 {
   padding: 0.2ex 0.2em;
-  margin: 1ex 0em 0ex 0em;
-  border-top: 4px solid #ccc;
+  margin: 1px;
+  border: none;
 }
 h2 {
   padding: 0.2ex 0.2em;
@@ -126,13 +126,23 @@ p {
 table {
   padding: 0.2ex 0.2em;
   margin: 1ex 0em 0ex 2em;
-  border-spacing: 2em 0em;
+  border-spacing: 0px;
+}
+th {
+  background-color: #ddd;
+  vertical-align: top;
+  text-align: left;
+  padding: 0.5ex 1em;
+  font-weight: bold;
 }
 td {
   vertical-align: top;
-  padding: 0em;
+  padding: 0ex 1em;
 }
-
+tr.alt td
+{
+  background-color: #ddd;
+}
 ul {
   padding: 0px;
   margin: 1ex 0em 0ex 2em;
