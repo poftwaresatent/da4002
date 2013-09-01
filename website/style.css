@@ -120,6 +120,11 @@ pre.command {
   background-color: #ddf;
   font-weight: bold;
 }
+pre.output {
+  padding: 0.4ex 0.4em 0.4ex 1em;
+  margin: 1ex 2em 0ex 4em;
+  background-color: #ffd;
+}
 pre.code {
   padding: 0.4ex 0.4em 0.4ex 1em;
   margin: 1ex 2em 0ex 4em;

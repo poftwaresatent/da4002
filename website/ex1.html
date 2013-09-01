@@ -1,0 +1,413 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
+    <title>ITADS Linux Intro</title>
+    <link rel="stylesheet" href="style.css" type="text/css">
+  </head>
+  <body>
+    
+    <div id="shell">
+      
+      <div id="top-left">
+	<ul>
+	  <li><a href="index.html">home</a>
+	    <ul>
+	      <li><a href="schedule.html">schedule</a></li>
+	      <li><a href="faq.html">FAQ</a></li>
+	      <li><a href="linux-intro.html">linux intro</a></li>
+	      <li><a href="vbox.html">virtual box</a></li>
+	    </ul>
+	  </li>
+	  <li>exercises
+	    <ul>
+	      <li><a href="ex1.html">exercise 1</a></li>
+	      <li><a href="ex2.html">exercise 2</a></li>
+	      <li><a href="ex3.html">exercise 3</a></li>
+	      <li><a href="ex4.html">exercise 4</a></li>
+	      <li><a href="ex5.html">exercise 5</a></li>
+	      <li><a href="ex6.html">exercise 6</a></li>
+	      <li><a href="ex7.html">exercise 7</a></li>
+	      <li><a href="ex8.html">exercise 8</a></li>
+	      <li><a href="ex9.html">exercise 9</a></li>
+	    </ul>
+	  </li>
+	  <li><a href="projects.html">projects</a>
+	    <ul>
+	      <li><a href="pr1.html">project 1</a></li>
+	      <li><a href="pr2.html">project 2</a></li>
+	    </ul>
+	  </li>
+	</ul>
+      </div> <!-- top-left -->
+      
+      <div id="bottom-right">
+	<p><a href="http://validator.w3.org/check?uri=referer"><img src="./valid-html401-blue" alt="Valid HTML 4.01 Strict" height="31" width="88"></a></p>
+      </div> <!-- bottom-right -->
+      
+    </div> <!-- shell -->
+    
+    <!-- ================================================== -->
+    <!-- CONTENT STARTS HERE ============================== -->
+    <!-- ================================================== -->
+    
+    <div id="content">
+      
+      <h1>
+	ITADS Exercise 1<br />
+	<em>types, variables, operators, control flow</em>
+      </h1>
+      
+      <p>
+	<em>Hint</em>: the <a href="linux-intro.html">linux intro</a> can help you get started if you are new to Linux.
+      </p>
+      
+      <h2>Exercise 1.1: Hello World</h2>
+      
+      <p>
+	It is <a href="http://catb.org/jargon/html/H/hello-world.html">traditional</a> to begin by writing a program that prints "hello, world".
+	We will use this example to also explain how to use Eclipse in Unix room B231c.
+      </p>
+      
+      <h3>Start Eclipse (C development version).</h3>
+      
+      <dl>
+	<dt>Open a terminal</dt>
+	<dd>Go to Applications/Accessories/Terminal</dd>
+	<dt>Start Eclipse</dt>
+	<dd>
+	  Type <tt>eclipse-cpp</tt> in the terminal and press enter, like this:
+	  <pre class="command">eclipse-cpp &</pre>
+	  Eclipse Juno will start up and ask you the workspace path.
+	  The default is <tt>home/stud1/username/workspace</tt> which is fine, so just click OK
+	</dd>
+      </dl>
+      
+      <h3>Create a project inside Eclipse.</h3>
+      
+      <ol>
+	<li>Go to File/New/C Project</li>
+	<li>By default, Empty Project is chosen; keep it that way.</li>
+	<li>Type HelloWorld as the Project name</li>
+	<li>Click Finish, now you have an empty project.</li>
+	<li>Right click on the project in the Project Explorer.</li>
+	<li>Go to New/Source File</li>
+	<li>Type <tt>hello-world.c</tt> as the Source file name. (Don't forget the <tt>.c</tt> extension.</li>
+	<li>Click Finish, now you have a c source file and you can start writing code.</li>
+      </ol>
+      
+      <h3>Copy the following C source code into the <tt>hello-world.c</tt> file.</h3>
+      
+<pre class="code">#include &lt;stdio.h&gt;
+
+int main(int argc, char ** argv)
+{
+  printf("Hello World!\n");
+  return 0;
+}</pre>
+      
+      <h3>Create a Makefile (to control how Eclipse compiles the project)</h3>
+      
+      <ol>
+	<li>Right click on the project in the Project Explorer</li>
+	<li>Go to New/File</li>
+	<li>Type <tt>Makefile</tt> as the File name</li>
+	<li>Click Finish</li>
+	<li>Write the following code into the Makefile, making sure to <b>use a <tt>tab</tt> and not spaces before the lines starting with "<tt>gcc...</tt>"</b>:
+<pre class="code">all:
+    gcc hello-world.c -o hello-world</pre>
+          <b>Remember</b> do not use spaces, instead use tab (once) before the gcc keyword</li>
+      </ol>
+      
+      <p>
+	Explanation: the <tt>gcc</tt> program <em>compiles</em> the source code into a binary form which is ready for execution.
+	There are many options available that influence what <tt>gcc</tt> does.
+	In this case, "<tt>-o hello-world</tt>" tells it to save the result of the compilation in a file called <tt>hello-world</tt> (notice that there is no suffix), and "<tt>hello-world.c</tt>" specifies the name of the source file.
+	In case of problems in the source file, <tt>gcc</tt> will print error messages.
+      </p>
+      
+      <h3>Build and run the HelloWorld application</h3>
+      
+      <ol>
+	<li>Go to Project/Build All (ignore the warnings in the console)</li>
+	<li>Go to Run/Run Cofigurations</li>
+	<li>Change the C/C++ Application to <tt>hello-world</tt> and click on Apply and then Run</li>
+	<li>Check the Console to see the output of the program</li>
+      </ol>
+      
+      <h2>Exercise 1.2: editing code, understanding warnings and errors</h2>
+      
+      <p>
+	After you have succeeded with exercise 1.1, do the following:
+      </p>
+      
+      <ol>
+	<li>
+	  Read the <a href="ex1/hello-world.c">annotated version</a> of the source code to better understand what each line does.
+	</li>
+	<li>
+	  Modify the program so that it prints some other message instead, for example "Bye bye...".
+	</li>
+	<li>
+	  What happens when you erase the statement "<tt>return 0;</tt>" from the source code and then recompile?
+	  Did you expect this?
+	</li>
+	<li>
+	  One of the most useful options for <tt>gcc</tt> is to enable warning messages.
+	  This is done by adding "<tt>-Wall</tt>" to the command.
+	  Compiler warnings are a very good way of catching potential bugs very early, before even running the program.
+	  To try this out, you have to edit the <tt>Makefile</tt> so that it contains the following version of the <tt>gcc</tt> specification:
+	  <pre class="code">gcc -Wall hello-world.c -o hello-world</pre>
+	  After you saved the new Makefile and rebuild the project, how does the compiler output change?
+	  What does the new message mean?
+	  Think about why it is a good idea to always pass <tt>-Wall</tt> to the compiler and edit the source code until all warnings are gone.
+	  <em>Now, put the "<tt>return 0;</tt>" statement back before continuing...</em>
+	</li>
+	<li>
+	  What happens if you erase the semicolon (the ";" character) after the <tt>printf()</tt> and rebuild the project?
+	  Try to understand the compiler messages, and put the semicolon back before continuing with the next task...
+	</li>
+	<li>
+	  What happens when you change "<tt>main</tt>" to something else, for example "<tt>blah</tt>"?
+	  Can you still compile the project?
+	  Try to explain the message you get.
+	</li>
+      </ol>
+      
+      <h2>Exercise 1.3: builtin types, printing values</h2>
+      
+      <p>
+	Read the source file <a href="ex1/builtin-types.c">builtin-types.c</a> which explains some fundamentals about builtin variable types and how to print values stored in various formats.
+      </p>
+      
+      <ol>
+	<li>
+	  Try to predict what the <tt>builtin-types</tt> application prints when you run it.
+	  Then create a new project (following the steps for execise 1.1 but with a different project name) to build and run it.
+	  Does it print what you expected?
+	</li>
+	<li>
+	  <b>(Optional)</b>
+	  The variable <tt>cc</tt> gets initialized using a single-character constant <tt>'Q'</tt>.
+	  What happens when you initialize it with an integer constant instead?
+	  Try it out by setting <tt>cc = 81</tt>.
+	  Read the manual page about <a href="http://www.linuxmanpages.com/man7/ascii.7.php">ASCII</a> codes (also available in the terminal by giving the command "<tt>man ascii</tt>") and find out what number you have to use in order to get the letter <tt>'z'</tt>.
+	  Check your answer by modifying and running the <tt>builtin-types</tt> application.
+	</li>
+	<li>
+	  <b>(Optional)</b>
+	  What is the largest value that can be stored in a variable of type <tt>int</tt>, assuming that it is represented with 4 bytes (32 bits)?
+	  What happens when you try to initialize an <tt>int</tt> variable with a value that is larger than that?
+	  Try it out by modifying the <tt>builtin-types.c</tt> source code and recompiling.
+	  How about using an <tt>unsigned int</tt> instead, does that influence the largest value that can be stored?
+	  How about the smallest value for <tt>int</tt> and <tt>unsigned int</tt>?
+	</li>
+      </ol>
+      
+      <h2>Exercise 1.4 (optional): implicit type conversion</h2>
+      
+      <p>
+	The various types can store values of differing ranges.
+	When an expression involves more than one type, the C compiler tries to automatically convert everything to the type that has the largest range.
+	However, this does not always have the intended result!
+	To understand this effect, create a source file called <tt>type-conversion.c</tt> and copy the following code into it:
+      </p>
+      
+<pre class="code">#include &lt;stdio.h&gt;
+
+int main (int argc, char ** argv)
+{
+  int x, y;
+  double q;
+
+  x = 6;
+  y = 10;
+  q = x / y;
+  printf ("x/y is %f\n", q);
+  
+  return 0;
+}</pre>
+      
+      <ol>
+	<li>
+	  Compile and run the <tt>type-conversion</tt> application.
+	  The result is probably not what you expected. Try to explain why before reading on...<br/><br/>
+	  <b>Answer:</b> in an assignment the expression to the right is evaluated first, in this case a division.
+	  In the division both arguments are integers so <tt>/</tt> is interpreted as integer division, which truncates the remainder of the division.
+	  This is probably not what was intended!
+	  Only after the integer division is the result converted into the type of the variable being assigned, in this case a double-precision floating point.
+	</li>
+	<li>
+	  It is possible for the programmer to force type conversion by preceding the expression to be converted by the type name in parenthesis, such as "<tt>(double)</tt>".
+	  <b>Try it out!</b> Experiment with the program so that the result stored in the variable <tt>q</tt> is 0.6 instead of 0.0.
+	  </li>
+      </ol>
+
+      <h2>Exercise 1.5 (optional): operators</h2>
+      
+      <ol>
+	<li>
+	  Assume we have three integer variables called <tt>a</tt>, <tt>b</tt>, and <tt>c</tt>, with initial values <tt>b=5</tt> and <tt>c=8</tt>.
+	  What is the value of a, b, and c after each line of the following program fragment?
+	  First find the answer by hand, then write a program to verify your reply.
+<pre class="code">a = b++ + c++;
+a = b++ + ++c;
+a = ++b + c++;
+a = ++b + ++c;</pre>
+	</li>
+	<li>
+	  What is the result of the following expression?
+	  Write a program to verify your answer.
+	  <em>(Hint: place the expression into an <tt>if-else</tt> construct which prints different messages depending on the result of the expression.)</em>
+	  <pre class="code">1 &amp;&amp; 0 || 1</pre>
+	</li>
+      </ol>
+      
+      <h2>Exercise 1.6: control flow</h2>
+      
+      <p>
+	The following program is called <tt>nested-loops</tt>.
+	It prints a list of all pairs <em>(i,j)</em> such that <em>0&nbsp;&lt;&nbsp;i&nbsp;&lt;&nbsp;6</em> and <em>0&nbsp;&lt;&nbsp;j&nbsp;&lt;&nbsp;6</em>.
+      </p>
+      
+<pre class="code">#include &lt;stdio.h&gt;
+
+int main (int argc, char ** argv)
+{
+  int ii, jj;
+
+  for (ii = 1; ii &lt;= 5; ii++) {
+    for (jj = 1; jj &lt;= 5; jj++) {
+      printf ("(%d, %d)\n", ii, jj);
+    }
+  }
+
+  return 0;
+}</pre>
+      
+      <ol>
+	<li>
+	  Modify the program so that the pairs are such that <em>0 &lt; j &lt;= i &lt; 6</em>.
+	</li>
+	<li>
+	  Modify the program so that a line is printed before each new value of <em>i</em>.
+	</li>
+      </ol>
+      
+      <h2>Exercise 1.7 (optional): printing numbers in any base</h2>
+      
+      <p>
+	The <tt>any-base.c</tt> source code shown below implements one method of representing a number in any <a href="http://en.wikipedia.org/wiki/Positional_notation">positional notation</a> system.
+	It also illustrates a few other things:
+      </p>
+      
+      <ul>
+	<li>
+	  C allows to <b>declare and initialize</b> variables in one line, which is sometimes convenient.
+	</li>
+	<li>
+	  The <tt>printf</tt> function allows to specify a <b>minimum field width</b> by placing a digit between the `<tt>%</tt>' and the number format specifier.
+	  For example, `<tt>%4d</tt>' results in an integer than at least 4 digits are used.
+	  If the integer is smaller than required, blank spaces are used to pad the field.
+	</li>
+	<li>
+	  The `<tt>%</tt>' operator <em>(not to be confused with the same character when used inside a format string for the printf function)</em> computes the <a href="http://en.wikipedia.org/wiki/Remainder"><b>remainder</b></a> <b>of an integer division</b>.
+	</li>
+	<li>
+	  <a href="http://en.wikipedia.org/wiki/Augmented_assignment">Compound assignments</a> such as `<tt>factor *= base</tt>' are frequently used shorthands.
+	  This example has the same effect as `<tt>factor = factor * base</tt>'.
+	</li>
+      </ul>
+      
+<pre class="code">#include &lt;stdio.h&gt;
+
+int main (int argc, char ** argv)
+{
+  unsigned short number = 6245;
+  unsigned short base = 3;
+  unsigned short factor = 1;
+
+  printf ("%u is the sum of:\n", number);
+  while (number &gt;= base) {
+    printf ("  %u * %4u\n", number % base, factor);
+    number /= base;
+    factor *= base;
+  }
+  printf ("  %u * %u\n", number, factor);
+
+  return 0;
+}</pre>
+      
+      <p>
+	What happens when you set <tt>number = -1</tt> and <tt>base = 2</tt>?
+	How does this compare to <tt>number = 65535</tt> (which is 2<sup>16</sup>-1).
+	Can you explain what you observe?
+      </p>
+      
+      <h2>Exercise 1.8: programming from scratch</h2>
+      
+      <p>
+	Perform the following tasks based on what you have learned so far.
+	Make sure to look at the optional exercises, they contain hints that can help you in case you get stuck.
+	Chapter 2 of the course book <a href="http://en.wikipedia.org/wiki/The_C_Programming_Language">[K+R]</a> also covers the basics that you need.
+      </p>
+      
+      <ol>
+	<li>
+	  Write a program that prints out the addition and multiplication tables for single-digit numbers.
+	  The result should be nicely formatted, such as follows:
+<pre class="output">           Addition Table
+   |  0 |  1 |  2 |  3 |  4 |  5 |  6 |  7 |  8 |  9 |
+------------------------------------------------------
+0  |  0    1    2    3    4    5    6    7    8    9  
+1  |  1    2    3    4    5    6    7    8    9   10  
+2  |  2    3    4    5    6    7    8    9   10   11  
+3  |  3    4    5    6    7    8    9   10   11   12  
+4  |  4    5    6    7    8    9   10   11   12   13  
+5  |  5    6    7    8    9   10   11   12   13   14  
+6  |  6    7    8    9   10   11   12   13   14   15  
+7  |  7    8    9   10   11   12   13   14   15   16  
+8  |  8    9   10   11   12   13   14   15   16   17  
+9  |  9   10   11   12   13   14   15   16   17   18  
+
+           Multiplication Table
+   |  0 |  1 |  2 |  3 |  4 |  5 |  6 |  7 |  8 |  9 |
+------------------------------------------------------
+0  |  0    0    0    0    0    0    0    0    0    0  
+1  |  0    1    2    3    4    5    6    7    8    9  
+2  |  0    2    4    6    8   10   12   14   16   18  
+3  |  0    3    6    9   12   15   18   21   24   27  
+4  |  0    4    8   12   16   20   24   28   32   36  
+5  |  0    5   10   15   20   25   30   35   40   45  
+6  |  0    6   12   18   24   30   36   42   48   54  
+7  |  0    7   14   21   28   35   42   49   56   63  
+8  |  0    8   16   24   32   40   48   56   64   72  
+9  |  0    9   18   27   36   45   54   63   72   81  </pre>
+	</li>
+	<li>
+	  Write a program that lists all pairs of positive integers (a,b) satisfying the following two conditions:
+	  <ul>
+	    <li><tt>a &lt; b &lt; 1000</tt></li>
+	    <li>"<tt>(a*a + b*b + 1) / (a*b)</tt>" is an integer</li>
+	  </ul>
+	  The output should be:
+<pre class="output">1 2
+2 5
+5 13
+13 34
+34 89
+89 233
+233 610</pre>
+	</li>
+	<li>
+	  Write a program that prints out the first 20 numbers in the <a href="http://en.wikipedia.org/wiki/Fibonacci_number">Fibonacci sequence</a>.
+	  The output should thus be:
+<pre class="output">1 1 2 3 5 8 13 21 34 55 89 144 233 377 610 987 1597 2584 4181 6765</pre>
+	</li>
+      </ol>
+      
+    </div> <!-- content -->
+    
+  </body>
+</html>
