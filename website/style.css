@@ -131,6 +131,26 @@ pre.code {
   border: 2px solid #9c9;
 }
 
+li pre.command {
+  margin: 1ex 2em 0ex 0em;
+}
+li pre.output {
+  margin: 1ex 2em 0ex 0em;
+}
+li pre.code {
+  margin: 1ex 2em 0ex 0em;
+}
+
+dd pre.command {
+  margin: 1ex 2em 0ex 0em;
+}
+dd pre.output {
+  margin: 1ex 2em 0ex 0em;
+}
+dd pre.code {
+  margin: 1ex 2em 0ex 0em;
+}
+
 dl {
   padding: 0.2ex 0.2em;
   margin: 1ex 0em 0ex 4em;
