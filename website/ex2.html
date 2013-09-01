@@ -1,0 +1,283 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
+    <title>ITADS Exercise 2</title>
+    <link rel="stylesheet" href="style.css" type="text/css">
+  </head>
+  <body>
+    
+    <div id="shell">
+      
+      <div id="top-left">
+	<ul>
+	  <li><a href="index.html">home</a>
+	    <ul>
+	      <li><a href="schedule.html">schedule</a></li>
+	      <li><a href="faq.html">FAQ</a></li>
+	      <li><a href="linux-intro.html">linux intro</a></li>
+	      <li><a href="vbox.html">virtual box</a></li>
+	    </ul>
+	  </li>
+	  <li>exercises
+	    <ul>
+	      <li><a href="ex1.html">exercise 1</a></li>
+	      <li><a href="ex2.html">exercise 2</a></li>
+	      <li><a href="ex3.html">exercise 3</a></li>
+	      <li><a href="ex4.html">exercise 4</a></li>
+	      <li><a href="ex5.html">exercise 5</a></li>
+	      <li><a href="ex6.html">exercise 6</a></li>
+	      <li><a href="ex7.html">exercise 7</a></li>
+	      <li><a href="ex8.html">exercise 8</a></li>
+	      <li><a href="ex9.html">exercise 9</a></li>
+	    </ul>
+	  </li>
+	  <li><a href="projects.html">projects</a>
+	    <ul>
+	      <li><a href="pr1.html">project 1</a></li>
+	      <li><a href="pr2.html">project 2</a></li>
+	    </ul>
+	  </li>
+	</ul>
+      </div> <!-- top-left -->
+      
+      <div id="bottom-right">
+	<p><a href="http://validator.w3.org/check?uri=referer"><img src="./valid-html401-blue" alt="Valid HTML 4.01 Strict" height="31" width="88"></a></p>
+      </div> <!-- bottom-right -->
+      
+    </div> <!-- shell -->
+    
+    <!-- ================================================== -->
+    <!-- CONTENT STARTS HERE ============================== -->
+    <!-- ================================================== -->
+    
+    <div id="content">
+      
+      <h1>ITADS Exercise 2:<br />
+	<em>arrays, pointers, strings</em></h1>
+      
+      <h2>Exercise 2.1: arrays</h2>
+      
+      <p>
+	The <tt>prime.c</tt> program shown below uses an array as a convenient way to keep track of numbers that are <a href="http://en.wikipedia.org/wiki/Prime_number">prime</a> (or not).
+      </p>
+      
+<pre class="code">#include &lt;stdio.h&gt;
+
+#define MAXNUM 100
+
+int main (int argc, char ** argv)
+{
+  char is_prime[MAXNUM - 1];
+  int ii, num;
+  
+  for (ii = 0; ii &lt; MAXNUM - 1; ++ii) {
+    is_prime[ii] = 1;
+  }
+  
+  for (num = 2; num &lt;= MAXNUM / 2; ++num) {
+    for (ii = num * 2 - 2; ii &lt;= MAXNUM - 2; ii += num) {
+      is_prime[ii] = 0;
+    }
+  }
+  
+  printf ("prime numbers up to %d:\n ", MAXNUM);
+  for (ii = 0; ii &lt; MAXNUM - 1; ++ii) {
+    if (is_prime[ii]) {
+      printf (" %d", ii + 2);
+    }
+  }
+  printf ("\n");
+  
+  return 0;
+}</pre>
+
+      <ol>
+	<li>
+	  This program implements a classical algorithm for computing prime numbers called <a href="http://en.wikipedia.org/wiki/Sieve_of_Eratosthenes">Sieve of Eratosthenes</a>.
+	  That Wikipedia page contains a nice animation explaining how it works.
+	  Can you explain why the above implementation sometimes adds or removes 1 or 2 to the indices and output?
+	</li>
+	<li>
+	  Modify the program to produce a histogram of the number of integer divisors except 1 and itself, for every number from 2 to 20.
+	  The output of the program should be:
+<pre class="output">NUMBER OF INTEGER DIVISORS other than 1 or itself:
+  2 
+  3 
+  4 *
+  5 
+  6 **
+  7 
+  8 **
+  9 *
+ 10 **
+ 11 
+ 12 ****
+ 13 
+ 14 **
+ 15 **
+ 16 ***
+ 17 
+ 18 ****
+ 19 
+ 20 ****</pre>
+	</li>
+      </ol>
+      
+      <h2>Exercise 2.2: a first look at pointers</h2>
+      
+      <p>
+	The annotated source code <a href="ex2/pointers-arrays-strings.c"><tt>pointers-arrays-strings.c</tt></a> reviews some of the explanations about pointers and arrays that were part of lecture 1.
+	Compile and run <tt>pointers-arrays-strings</tt> and make sure you understand how the output relates to the source code.
+      </p>
+      
+      <h2>Exercise 2.3: command line arguments</h2>
+      
+      <p>
+	We have now covered enough basics to understand the two arguments of the <tt>main</tt> function that is required for every C program:
+	the process which starts your programm (we have been using Eclipse so far) creates an <b>array of C strings</b> and passes a pointer to this array to your <tt>main</tt> as <b>second argument</b>.
+	By convention, this argument is called <tt>argv</tt>.
+	The <b>first argument</b> of <tt>main</tt> is called <tt>argc</tt> and receives the number of elements in the <tt>argv</tt> array.
+	It is necessary to pass the array length as an explicit parameter, because C arrays are just bare pointers with no information about the amount of data stored at that location.
+	Note that the first element of the <tt>argv</tt> vector is stored in <tt>argv[0]</tt> and contains the name of the program.
+	The first argument is stored in <tt>argv[1]</tt>, the second one in <tt>argv[2]</tt> etc.
+	Thus, the number of arguments really is <tt>argc-1</tt> because the program names takes up one array element, too.
+      </p>
+      
+      <p>
+	The declaration of <tt>argv</tt> can look weird at first, because it is a pointer to a pointer (indicated by <b>two <tt>*</tt> characters</b>), but this is explained by fact that <tt>argv</tt> is an array (which is equivalent to a pointer), and the elements of that array are strings (which is also equivalent to a pointer).
+      </p>
+      
+      <p>
+	In Eclipse, <b>setting program arguments</b> is rather convoluted:
+      </p>
+      
+      <ol>
+	<li><b>under construction...</b></li>
+      </ol>
+      
+      <p>
+	Try it out by creating the following simple program which prints the contents of the argument array.
+	This code introduces the <tt>strlen</tt> function, which is useful in case you need to find out the length of a string.
+      </p>
+
+<pre class="code">#include &lt;stdio.h&gt;
+#include &lt;string.h&gt;
+
+int main (int argc, char ** argv)
+{
+  int ii;
+  for (ii = 0; ii &lt; argc; ++ii) {
+    size_t len = strlen (argv[ii]);
+    printf ("argv[%d] (length %zu):\t`%s'\n", ii, len, argv[ii]);
+  }
+  return 0;
+}
+</pre>
+
+      <ol>
+	<li>
+	  Copy the above sourcecode into a file called <tt>printargs.c</tt>, compile it, and run it.
+	  It should produce the following (or very similar) output:
+	  <pre class="output">argv[0] (length 11):    `./printargs'</pre>
+	</li>
+	<li>
+	  Change the program arguments to the following using the Eclipse Run Configuration settings:
+	  <pre class="code">some arguments   and some   spaces</pre>
+	  Re-run the program and explain the resulting output.
+	</li>
+	<li>
+	  Try some more complicated looking arguments:
+	  <pre class="code">bravo \\ "" "something with spaces"</pre>
+	  This illustrates some possibilities for passing all kinds of strings as arguments into a C program.
+	</li>
+	<li>
+	  Set the arguments so that the output looks like this:
+<pre class="output">argv[0] (length 11):    `./printargs'
+argv[1] (length 1):     `"'</pre>
+<!-- " -->
+	</li>
+      </ol>
+      
+      <h2>Exercise 2.4: strings are character arrays</h2>
+      
+      <p>
+	Write a program called <tt>eascii</tt> that takes a string as command-line argument and prints a table with three lines:
+      </p>
+      
+      <dl>
+	<dt>first line</dt>
+	<dd>Each printable character between single quotes.</dd>
+	<dd><em>Hint:</em> use the <a href="http://www.linuxmanpages.com/man3/isprint.3.php"><tt>isprint()</tt> function</a> from the <tt>ctype.h</tt> header.</dd>
+	<dt>second line</dt>
+	<dd>Each character's ASCII code in decimal</dd>
+	<dt>third line</dt>
+	<dd>Each character's ASCII code in <a href="http://en.wikipedia.org/wiki/Hexadecimal">hexadecimal</a></dd>
+	<dd><em>Hint:</em> the <tt>pointers-arrays-strings.c</tt> code from exercise 2.2 contains explanations about printing values in hexadecimal.</dd>
+      </dl>
+      
+      <p>
+	For example, if the argument is "hello" then the output of your program should be:
+      </p>
+
+<pre class="output"> 'h' 'e' 'l' 'l' 'o'
+104 101 108 108 111
+ 68  65  6c  6c  6f</pre>
+
+      <h2>Exercise 2.5: arrays and for loops <em>(with bubble sort as example)</em></h2>
+      
+      <p>
+	Sorting is one of the most fundamental tasks that programs have to perform, and many algorithms have been developed to sort various kinds of data under different circumstances.
+	A very simple example is <a href="http://en.wikipedia.org/wiki/Bubble_sort">Bubble Sort</a> which is based on the idea of repeatedly scanning through the data, and swapping any two neighboring items that are in the wrong order.
+	The following code shows how it works in principle (but this is a quite inefficient implementation).
+      </p>
+      
+      <p>
+	This code also uses a convenient C syntax for initializing and sizing static arrays, and a way to <tt>printf</tt> floating point numbers with a given precision as well as reserving space for the optionally leading minus sign.
+      </p>
+
+<pre class="code">#include &lt;stdio.h&gt;
+
+int main (int argc, char ** argv)
+{
+  int ii, jj, length;
+  double data[] = { 351.354, 21.02, -3544.2, 152.999 };
+  double tmp;
+  
+  length = sizeof(data) / sizeof(double);
+  
+  for (ii = 0; ii &lt; length; ++ii) {
+    for (jj = 1; jj &lt; length; ++jj) {
+      if (data[jj] &lt; data[jj - 1]) {
+        tmp = data[jj];
+        data[jj] = data[jj - 1];
+        data[jj - 1] = tmp;
+      }
+    }
+  }
+  
+  for (ii = 0; ii &lt; length; ++ii) {
+    printf ("% 8.2f\n", data[ii]);
+  }
+  
+  return 0;
+}</pre>
+
+      <p>
+	Based on this example implementation of bubble-sort and what you've learned above about command line arguments, write a program called <tt>args-bubble-sort</tt> that takes each argument string and sorts it character-by-character.
+	For example, if the argument is "743 oiufObIwUWBF", the output of the program should be:
+      </p>
+
+<pre class="output">./args-bubble-sort 743 oiufObIwUWBF
+
+in:  743
+out: 347
+
+in:  oiufObIwUWBF
+out: BFIOUWbfiouw</pre>
+
+    </div> <!-- content -->
+    
+  </body>
+</html>
