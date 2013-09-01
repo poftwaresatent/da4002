@@ -1,0 +1,130 @@
+<h1>ITADS exercise 7<br /> computational complexity</h1>
+<h2><strong>Under construction! This is still last year's version and might change...</strong></h2>
+<h2>exercise 7.1: comprehension test</h2>
+<ol>
+<li>Programs <strong>A</strong> and <strong>B</strong> have worst-case running times no greater than <strong><tt>T(N) = 150 N log N</tt></strong> and <strong><tt>T(N) = N<sup>2</sup></tt></strong> respectively. Answer the following questions, <em>if possible</em>. If it is not possible to give an answer, explain why.<ol>
+<li>Which program has the better guarantee on the running time for large values of <tt>N</tt> (<tt>N</tt> &gt; 10000)?</li>
+<li>Which program has the better guarantee on the running time for small of <tt>N</tt> (<tt>N</tt> &lt; 100)?</li>
+<li>Which program will run faster <em>on average</em> for <tt>N</tt> = 1000?</li>
+<li>Can program <em>B</em> run faster than program <em>A</em> on <em>all</em> possible inputs?</li>
+</ol></li>
+<li>An algorithm takes 0.5ms for input size 100. Assuming that low-order terms are negligible, how long will it take for input size 500 if the running time is<ol>
+<li>linear?</li>
+<li>O(N log N)?</li>
+<li>quadratic?</li>
+<li>exponential? <em>(this means O(2<sup>N</sup>))</em></li>
+</ol></li>
+<li>An algorithm takes 0.5ms for input size 100. Assuming that low-order terms are negligible, how large a problem can be solved in 1 minute if the running time is<ol>
+<li>linear?</li>
+<li>O(N log N)?</li>
+<li>quadratic?</li>
+<li>exponential?</li>
+</ol></li>
+</ol>
+<h3>solution7.1: on the <a href="itads2012/slides/05-divide-and-conquer-print.pdf">first few slides</a> of lecture 5</h3>
+<h2>exercise 7.2: priority queue benchmarks</h2>
+<p>In this exercise you learn two things:</p>
+<ul>
+<li>Working with programs whose code is split among multiple source files. If you have never done that before, then here is a <a href="index.php?option=com_content&amp;view=article&amp;id=10&amp;catid=9&amp;Itemid=115">warmup exercise</a> for just that.</li>
+<li>Measuring and plotting the time it takes to run certain algorithms on certain input data. For this exercise we will use the <a href="http://www.gnuplot.info/">gnuplot</a> program which is installed on the UNIX workstations. Its manual page is available <a href="http://linuxmanpages.com/man1/gnuplot.1.php">online</a> or by typing "man gnuplot" in a terminal. The gnuplot homepage has extensive information, including <a href="http://www.gnuplot.info/help.html">tutorials</a>. You can also produce plots with other applications, if you want, but you may need to adapt the data logging format accordingly.</li>
+</ul>
+<p>Start by downloading the <a href="itads2012/ex7.tar.bz2">ex7.tar.bz2</a> tarball (compressed archive) with all required files. Save it at the top-level of the directory where you created all the other exercise directories. Then, in order to extract the files, use the following command:</p>
+<p class="command">tar xfvj ex7.tar.bz2</p>
+<p>This will create a new directory called <tt>ex7</tt>.</p>
+<ol>
+<li>Change into that directory, and look at all the files <em>(that is to say: open them all in a text editor and read them)</em>. Make sure you grasp what each file does <em>(<span style="text-decoration: underline;">hint:</span> there is a comment at the very beginning of each file)</em>.</li>
+<li>Then, build the project by using the <tt>make</tt> command, and run the <tt>main-pqbench</tt>application.
+<pre class="command">cd ex7
+make
+./main-pqbench</pre>
+In order to save the data produced by this benchmark, it is easiest to redirect the program output into a file, like this:
+<pre class="command">./main-pqbench | tee data.txt</pre>
+</li>
+<li>Open another (second) terminal window, change into the <tt>ex7</tt> directory, and start the <tt>gnuplot</tt> program. Then copy-paste the various plot commands suggested by <tt>main-pqbench</tt> into the <tt>gnuplot</tt> terminal.<br /> <strong><span style="text-decoration: underline;">Hint:</span> under Linux, copy-pasting is as simple as selecting the text by right-dragging the mouse over the text you want to copy, then middle-clicking into the terminal where you want to paste it.</strong> This should create a figure that show the running time of the various priority queue operations in function of problem size and in function of the implementation that is being used.</li>
+<li>What is the Big-Oh complexity of inserting items into the vector-based priority queue implementations? How about the Big-Oh complexity of extraction? How about the "proper" heap implementation?</li>
+<li>Do the plots that you just created match this?<br /> <strong>Check your answer by plotting the running times divided by the Big-Oh function.</strong> If you choose the right Big-Oh, that division will converge to a non-zero value.</li>
+</ol>
+<h2>exercise 7.3: theoretical and empirical complexity</h2>
+<p>In this exercise, you first estimate the Big-Oh complexity in theory, then implement a benchmark which logs the number of operations in function of problem size, and finally plot the data graphically to check whether your theoretical estimates are correct. We will use the simplification of just incrementing a counter called <tt>sum</tt> to simulate the operations that would be done by the code fragments.</p>
+<p>Estimate the Big-Oh complexity of each of the following code fragments:</p>
+<ol>
+<li>
+<pre class="sourcecode">for (ii = 0; ii &lt; N; ++ii) {
+  sum++;
+}</pre>
+<strong><span style="text-decoration: underline;">Hint:</span> embed this code into a new application with a main function similar to this:</strong>
+<pre class="sourcecode">int N, ii, sum;
+for (N = 10; N &lt; 10000; N *= 2)
+  sum = 0;
+  for (ii = 0; ii &lt; N; ++ii)
+    sum++;
+  printf ("%d\t%d\n", N, sum);
+}</pre>
+Then use gnuplot to verify your theoretical estimate. For example, assuming you have saved the above main function in a file called frag1.c, you'd to the following:
+<pre class="command">gcc -Wall -o frag1 frag1.c
+./frag1 | tee data
+gnuplot
+plot 'data' u 1:2 w l t 'fragment 1'</pre>
+</li>
+<li>
+<pre class="sourcecode">for (ii = 0; ii &lt; N; ii += 2) {
+    sum++;
+}</pre>
+</li>
+<li>
+<pre class="sourcecode">for (ii = 0; ii &lt; N; ++ii) {
+  for (jj = 0; jj &lt; N; ++jj) {
+    sum++;
+  }
+}</pre>
+</li>
+<li>
+<pre class="sourcecode">for (ii = 0; ii &lt; N; ++ii) {
+  sum++;
+}
+for (jj = 0; jj &lt; N; ++jj) {
+  sum++;
+}</pre>
+</li>
+<li>
+<pre class="sourcecode">for (ii = 0; ii &lt; N; ++ii) {
+  for (jj = 0; jj &lt; N * N; ++jj) {
+    sum++;
+  }
+}</pre>
+</li>
+<li>
+<pre class="sourcecode">for (ii = 0; ii &lt; N; ++ii) {
+  for (jj = 0; jj &lt; ii; ++jj) {
+    sum++;
+  }
+}</pre>
+</li>
+<li>
+<pre class="sourcecode">for (ii = 0; ii &lt; N; ++ii) {
+  for (jj = 0; jj &lt; N * N; ++jj) {
+    for (kk = 0; kk &lt; jj; ++kk) {
+      sum++;
+    }
+  }
+}</pre>
+</li>
+<li>
+<pre class="sourcecode">/* note: ii starts at 1 to avoid an infinite loop */
+for (ii = 1; ii &lt; N; ii *= 2) {
+  sum++;
+}</pre>
+</li>
+<li>
+<pre class="sourcecode">/* note: ii and jj start at 1, the kk loop is not always executed */
+for (ii = 1; ii &lt;= N; ++ii) {
+  for (jj = 1; jj &lt;= ii * ii; ++jj) {
+    if (0 == jj % ii) {
+      for (kk = 0; kk &lt; jj; ++kk) {
+        sum++;
+      }
+    }
+  }
+}</pre>
+</li>
+</ol>

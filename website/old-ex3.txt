@@ -1,0 +1,53 @@
+<h1>ITADS exercise 3<br />structs and vectors</h1>
+<h2><strong>Under construction! This is still last year's version and might change...</strong></h2>
+<h2>exercise 3.1: structs</h2>
+<p>The <a href="itads2012/ex3/interval.c"><tt>interval.c</tt></a> source file contains a sketch of what an <a href="http://en.wikipedia.org/wiki/Interval_arithmetic">interval arithmetic</a> package might contain in C. There is a type called <tt>Interval</tt> which stores a lower and an upper bound, and functions to <tt>create</tt>, <tt>add</tt>, and <tt>print</tt> intervals. When you compile and run this program, it simply prints two intervals and their sum.</p>
+<ol>
+<li>Change the <tt>Interval</tt> declaration so that it stores the bounds in <tt>double</tt> format instead of integers. Make sure to change all the other functions and variables accordingly. A good way to catch potential errors is to use the "<tt>-Wall</tt>" option of gcc.
+<pre class="command">gcc -Wall -o interval interval.c</pre>
+</li>
+<li>None of the functions currently verify that <tt>low &lt;= high</tt> but this is a fundamental property required of intervals. Write a <tt>normalize</tt> function which takes an interval and, if necessary, modifies it in-place such that it respects that property. This means that you have to add the following function definition to your source file (place it after the <tt>create</tt>function):
+<pre class="sourcecode">void normalize (Interval * ii)
+{
+  /* function body to be filled in by you.
+      1. check if ii-&gt;low is bigger than ii-&gt;high
+      2. if that is true, then swap ii-&gt;low with ii-&gt;high
+          HINT: you need a temporary variable */
+}</pre>
+Notice that we <strong>pass a pointer</strong> to the <tt>normalize</tt> function. That function should swap <tt>ii-&gt;low</tt> with <tt>ii-&gt;high</tt> if they are in the wrong order.<br /> Check your implementation by changing the initialization of <tt>aa</tt> to "<tt>aa = create(3, 2)</tt>" and then immediately normalizing it. In other words, the creation and normalization of <tt>aa</tt> will take two lines in the <tt>main</tt>function, like this:
+<pre class="sourcecode">  aa = create (3, 2);
+  normalize ( /* the address of aa */ );</pre>
+<strong>In the above, you have to eplace "<tt>/* the address of aa */</tt>" with the C language construct that actually gets the address of <tt>aa</tt></strong>.</li>
+<li>Change the initialization of <tt>bb</tt> to "<tt>bb = create(50, -10)</tt>" <em>but do <strong>not</strong> call <tt>normalize</tt> on it</em>. This should produce an erroneous result in the additon (try it out: <tt>cc</tt> should now become the incorrect <tt>[52, -7]</tt> instead of the correct <tt>[-8, 53]</tt>).</li>
+<li>Now make the <tt>add</tt> function robust to non-normalized inputs, by adding two calls to <tt>normalize</tt>as the first two lines in its implementation, like this:
+<pre class="sourcecode">Interval add (Interval lhs, Interval rhs)
+{
+  normalize (&amp;lhs);
+  normalize (&amp;rhs);
+  /* ... the rest of the add function remains the same */
+}</pre>
+Verify that you get the correct answer again. However, as can be seen by the program output, <tt>bb</tt> will remain non-normalized.</li>
+<li><em>Optional (advanced):</em><br /> Modify the <tt>add</tt> function so that the effects of normalization remain after it has returned. But make sure that your improved <tt>add</tt> function has no adverse side effects, such as changing the value of an outside variable (apart from the desired normalization)!<br /> <em><span style="text-decoration: underline;">Hint</span>: you will need to pass pointers instead of values for <tt>lhs</tt> and <tt>rhs</tt>, but that's only half the story...</em><br /> Again, check your results by running the program, this time paying particular attention also to the printed values of <tt>aa</tt> (should be <tt>[2, 3]</tt>) and <tt>bb</tt> (should be <tt>[-10, 50]</tt>).</li>
+</ol>
+<h3>solution 3.1: <a href="itads2012/ex3/EYeek3oW/interval-solution.c">interval-solution.c</a></h3>
+<h2>exercise 3.2: vectors</h2>
+<p>The source file <a href="itads2012/ex3/vector.c"><tt>vector.c</tt></a> is a partial implementation of a dynamic array. It closely follows the example presented in lecture 2 (<a href="itads2012/slides/02-vectors-and-lists-print.pdf">handout</a>). There are several functions that still need to be filled in, but the source already provides an application that is ready to run.</p>
+<ol>
+<li>Compile and run the <tt>vector</tt> program. Notice that it performs a series of checks, called <em>unit tests</em>, which allow to quickly determine whether an implementation is complete. Study the <tt>vector_append</tt> function (starting on line 89 of <tt>vector.c</tt>) and make sure you understand what it does by matching it with the relevant part of the messages printed by the <tt>vector</tt> program.</li>
+<li>Fill in the function <tt>vector_prepend</tt> (starting on line 127 of <tt>vector.c</tt>). It is probably easiest to start by studying what <tt>vector_append</tt> does, and following the same general implementation pattern. Verify that your implementation is correct by running the <tt>vector</tt> program and analysing the output produced by the <tt>test_prepend</tt> function.</li>
+<li>Fill in the function <tt>vector_insert</tt> (starting on line 153 of <tt>vector.c</tt>). You can get inspiration from the <tt>vector_prepend</tt> function that you just implemented. Again, verify that your implementation is correct by analysing the unit test output produced by running the <tt>vector</tt> program.</li>
+<li>Fill in the <tt>vector_remove</tt> function (starting on line 183 of <tt>vector.c</tt>). By now you should have the hang of this kind of test-driven implementation, using repeated runs of the unit tests to find out when you're done.</li>
+<li><em>Optional (advanced)</em><br /> The <tt>vector_grow</tt> utility function can be improved by using <tt>realloc</tt> instead of <tt>malloc</tt>. Read the <tt>realloc(3)</tt> manual page (either by typing "<tt>man realloc</tt>" into the terminal or looking at the <a href="http://www.linuxmanpages.com/man3/realloc.3.php">online version</a>) to find out how it works. Then, modify the <tt>vector_grow</tt> code to take advantage of it (you won't need <tt>memcpy</tt> anymore).</li>
+</ol>
+<h3>solution 3.2: <a href="itads2012/ex3/EYeek3oW/vector-solution.c">vector-solution.c</a></h3>
+<h2>exercise 3.3: a vector-based stack</h2>
+<p>The source file <a href="itads2012/ex3/stack.c"><tt>stack.c</tt></a> is a partial implementation of a program that prints the lines of a given file in reverse order. The idea is simple: push all the lines onto a stack, then pop and print until the stack is empty. Three of the required stack operations have not been implemented yet, but the source code contains instructions and hints.</p>
+<ol>
+<li>Implement the function <tt>stack_grow</tt> (line 74).</li>
+<li>Implement the function <tt>stack_push</tt> (line 98).</li>
+<li>Implement the function <tt>stack_pop</tt> (line 121).</li>
+</ol>
+<p>Test your implementation by passing a text file, for example the source code itself, to the program, such as:</p>
+<pre class="command">./stack stack.c
+</pre>
+<h3>solution 3.3: <a href="itads2012/ex3/EYeek3oW/stack-solution.c">stack-solution.c</a></h3>

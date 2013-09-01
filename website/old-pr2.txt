@@ -1,0 +1,9 @@
+<h1>ITADS project 2:<br /> sequence alignment</h1>
+<p><strong>Caution! This is still last year's version and will change for 2013...</strong></p>
+<ul>
+<li><a href="itads2012/itads2012-project-intro.pdf">itads2012-project-intro.pdf</a> explains what the projects are about and defines their rules.</li>
+<li><a href="itads2012/pr2/itads2012-project2.pdf">itads2012-project2.pdf</a> gives the detailed assignment of project 2.</li>
+<li><a href="itads2012/pr2/itads2012-pr2.tar.bz2">itads2012-pr2.tar.bz2</a>is the source archive which serves as starting point for working on this project. Unpack it using the usual command, that is to say:
+<pre class="command">tar xfvj itads2012-pr2.tar.bz2</pre>
+</li>
+</ul>

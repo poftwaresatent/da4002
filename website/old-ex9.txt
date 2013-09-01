@@ -1,0 +1,132 @@
+<h1>ITADS exercise 9<br /> graph search</h1>
+<h2><strong>Under construction! This is still last year's version and might change...</strong></h2>
+<h2>preparations</h2>
+<p>Download the archive <a href="itads2012/ex9.tar.bz2">ex9.tar.bz2</a>, unpack it, compile all the binaries, and run the test program:</p>
+<pre class="command">tar xfvj ex9.tar.bz2
+cd ex9
+make
+./test-graph cities.adj</pre>
+<p>Notice that you are provided with <tt>graph.h</tt> and <tt>graph.c</tt> which contain a fully functioning graph implementation (using the adjacency list approach). Note the function called <tt>g_load</tt> which loads a directed graph from a text file such as the <tt>cities.adj</tt> provided in the archive. This is used by <tt>test-graph</tt> to create a graph based on the filename passed as its first command-line argument. The command above should print out the following, which is a textual description of the graph shown below.</p>
+<pre class="command">neighbors of lulea:
+  malmo      (cost 10)
+  stockholm  (cost 3)
+
+neighbors of ostersund:
+  stockholm  (cost 1)
+  lulea      (cost 2)
+
+neighbors of stockholm:
+  visby      (cost 4)
+  ystad      (cost 8)
+  malmo      (cost 2)
+  goteborg   (cost 2)
+
+neighbors of malmo:
+  visby      (cost 6)
+
+neighbors of goteborg:
+  ystad      (cost 5)
+  ostersund  (cost 4)
+
+neighbors of ystad:
+
+neighbors of visby:
+  ystad      (cost 1)</pre>
+<p><a href="itads2012/ex9/big/cities.png"><img src="itads2012/ex9/cities.png" border="0" /></a> (click on the image for a larger version)<br /> The above corresponds to the contents of the <tt>cities.adj</tt> file, which simply lists all edges and their cost:</p>
+<pre class="sourcecode">ostersund lulea      2
+ostersund stockholm  1
+lulea     stockholm  3 
+lulea     malmo     10
+goteborg  ostersund  4
+goteborg  ystad      5
+stockholm goteborg   2
+stockholm malmo      2
+stockholm ystad      8
+stockholm visby      4
+malmo     visby      6
+visby     ystad      1</pre>
+<h2>exercise 9.1: depth-first search</h2>
+<p>Edit the file <tt>main-dfs.c</tt> and implement the function called <tt>dfs</tt> in order to implement <a href="http://en.wikipedia.org/wiki/Depth-first_search">depth-first search</a>. Test your program by running the <tt>main-dfs</tt> program passing various city names on the command line:</p>
+<pre class="command">./main-dfs cities.adj stockholm</pre>
+<p>Should produce the output:</p>
+<pre class="command">stockholm
+visby
+ystad
+malmo
+goteborg
+ostersund
+lulea</pre>
+<p>Whereas for example:</p>
+<pre class="command">./main-dfs cities.adj visby</pre>
+<p>Should produce the list:</p>
+<pre class="command">visby
+ystad</pre>
+<h3>solution 9.1: <a href="itads2012/ex9/wi5OMeip/main-dfs-solution.c">main-dfs-solution.c</a></h3>
+<h2>exercise 9.2: breadth-first search</h2>
+<p>Edit the file <tt>main-bfs.c</tt> in order to implement <a href="http://en.wikipedia.org/wiki/Breadth-first_search">breadth-first search</a>. Note that you only need to touch the function <tt>bfs</tt>, everything else in the file is ready to be reused. In particular, there is a fully functioning implementation of a queue of vertices, you just have to call the <tt>enqueue</tt> and <tt>dequeue</tt> functions. When you're done, your program should produce output like this:</p>
+<pre class="command">./main-bfs cities.adj stockholm</pre>
+<p>This should print:</p>
+<pre class="command">stockholm
+visby
+ystad
+malmo
+goteborg
+ostersund
+lulea</pre>
+<h3>solution 9.2: <a href="itads2012/ex9/wi5OMeip/main-bfs-solution.c">main-bfs-solution.c</a></h3>
+<h2>exercise 9.3 (optional): Dijkstra's algorithm</h2>
+<p>Edit the file <tt>main-dijkstra.c</tt> to implement <a href="http://en.wikipedia.org/wiki/Dijkstra%27s_algorithm">Dijkstra's algorithm</a>. You only need to touch the function <tt>dijkstra</tt>, everything else in the file can be reused as-is. Note that in particular, the <tt>enqueue</tt> and <tt>dequeue</tt> functions provide a priority queue (implemented as a heap). When you're done, your program should produce output like this:</p>
+<pre class="command">./main-dijkstra cities.adj stockholm</pre>
+<pre class="command">  lulea     	8
+  ostersund 	6
+  stockholm 	0
+  malmo     	2
+  goteborg  	2
+  ystad     	5
+  visby     	4</pre>
+<p>Notice that here, we are printing the optimal distance from any node to the start of the search. It is also possible to use the provided <tt>g_print_dot</tt> function (from <tt>graph.h</tt>) to create output that can be processed by the <a href="http://linux.die.net/man/1/circo"><tt>circo</tt></a> tool of the <a href="http://www.graphviz.org/">Graphviz</a> suite. For example, you can simply print the resulting Graphviz file to stdout and pipe your program output into circo, like this:</p>
+<pre class="sourcecode">/* ... */
+dijkstra (start);
+g_print (graph, stderr);
+g_print_dot (graph, stdout);
+/* ... */</pre>
+<p>...and then produce a visualization on the fly...</p>
+<pre class="command">./main-dijkstra cities.adj stockholm | circo -Tx11</pre>
+<p>This should open a window with a plot of the graph, complete with the optimal values in each vertex and edges highlighted depending on where the optimal value comes from. The table below shows the graphs for all start cities in that network. Click on the images for larger versions.</p>
+<table>
+<tbody>
+<tr>
+<td>starting at malmo</td>
+<td>starting at visby</td>
+</tr>
+<tr>
+<td><a href="itads2012/ex9/big/dijkstra-malmo.png"><img src="itads2012/ex9/dijkstra-malmo.png" border="0" /></a></td>
+<td><a href="itads2012/ex9/big/dijkstra-visby.png"><img src="itads2012/ex9/dijkstra-visby.png" border="0" /></a></td>
+</tr>
+<tr>
+<td> </td>
+<td> </td>
+</tr>
+<tr>
+<td>starting at goteborg</td>
+<td>starting at ostersund</td>
+</tr>
+<tr>
+<td><a href="itads2012/ex9/big/dijkstra-goteborg.png"><img src="itads2012/ex9/dijkstra-goteborg.png" border="0" /></a></td>
+<td><a href="itads2012/ex9/big/dijkstra-ostersund.png"><img src="itads2012/ex9/dijkstra-ostersund.png" border="0" /></a></td>
+</tr>
+<tr>
+<td> </td>
+<td> </td>
+</tr>
+<tr>
+<td>starting at lulea</td>
+<td>starting at stockholm</td>
+</tr>
+<tr>
+<td><a href="itads2012/ex9/big/dijkstra-lulea.png"><img src="itads2012/ex9/dijkstra-lulea.png" border="0" /></a></td>
+<td><a href="itads2012/ex9/big/dijkstra-stockholm.png"><img src="itads2012/ex9/dijkstra-stockholm.png" border="0" /></a></td>
+</tr>
+</tbody>
+</table>
+<h3>solution 9.3: <a href="itads2012/ex9/wi5OMeip/main-dijkstra-solution.c">main-dijkstra-solution.c</a></h3>

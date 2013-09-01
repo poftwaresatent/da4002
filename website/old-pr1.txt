@@ -1,0 +1,10 @@
+<h1>ITADS project 1:<br /> sorting algorithm benchmarks</h1>
+<p><strong>Under construction! This is still last year's version and will change a bit...</strong></p>
+<ul>
+<li><a href="itads2012/itads2012-project-intro.pdf">itads2012-project-intro.pdf</a> explains what the projects are about and defines their rules.</li>
+<li><a href="itads2012/pr1/itads2012-project1.pdf">itads2012-project1.pdf</a> gives the detailed assignment of project 1.</li>
+<li><a href="itads2012/pr1/itads2012-example-report.pdf">itads2012-example-report.pdf</a> is an example project report with additional guidelines about how to write a good report.</li>
+<li><a href="itads2012/pr1/itads2012-pr1.tar.bz2">itads2012-pr1.tar.bz2</a> is the source archive which serves as starting point for working on this project. Unpack it using the usual command, that is to say:
+<pre class="command">tar xfvj itads2012-pr1.tar.bz2</pre>
+</li>
+</ul>
