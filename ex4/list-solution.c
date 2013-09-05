@@ -98,6 +98,21 @@ void ins_after (List * list, Item * pos, int data)
 }
 
 
+void rem_head (List * list)
+{
+  Item * tmp;
+  
+  if (NULL != list->head) {
+    tmp = list->head;
+    list->head = list->head->next;
+    free (tmp);
+    if (NULL == list->head) {
+      list->tail = NULL;
+    }
+  }
+}
+
+
 /* more advanced, but teaches important lessons; could use it to
    illustrate the benefit of doubly-linked lists for removal
    operations. */
@@ -203,6 +218,12 @@ int main (int argc, char ** argv)
   ins_after (fwd, fwd->head->next, -33);
   printf ("inserted after 2nd item:");
   print (fwd);
+  
+  while (NULL != fwd->head) {
+    rem_head (fwd);
+    printf ("removed head:");
+    print (fwd);
+  }
   
   destroy (fwd);
   destroy (rev);
