@@ -119,6 +119,30 @@ removed head:  [empty]</pre>
       
       <h2>Exercise 4.2: list-based stack</h2>
       
+      <p>
+	The source file <a href="stack.c">stack.c</a> is a partial implementation for a program that uses a stack to print its command-line arguments in reverse.
+	It pushes each argument onto the stack, and then pops them off the stack and prints them one by one.
+      </p>
+      
+      <p>
+	Complete this program based on what you learned in exercise 4.1 and the comments that you find in the source file.
+	Notice that the <tt>push()</tt> function is practically the same as <tt>prepend()</tt> in the previous exercise, and <tt>pop()</tt> will be similar to <tt>rem_head()</tt>.
+      </p>
+      
+      <p>
+	Test your program with the following arguments:
+      </p>
+<pre class="code">one "argument two" three 4</pre>
+
+      <p>
+	This should produce the following output:
+      </p>
+<pre class="output">4
+three
+argument two
+one
+./stack-solution</pre>
+      
       <h2>Exercise 4.3: circular linked list</h2>
       
       <h2>Exercise 4.4: doubly linked list</h2>

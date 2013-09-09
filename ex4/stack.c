@@ -55,22 +55,6 @@ Stack * create (void)
 */
 void push (Stack * stack, char const * string)
 {
-  Item * item;
-  
-  item = malloc (sizeof *item);
-  if (NULL == item) {
-    err (EXIT_FAILURE, "%s: malloc", __func__);
-  }
-  item->string = string;
-  
-  if (NULL == stack->head) {
-    item->next = NULL;
-    stack->head = item;
-  }
-  else {
-    item->next = stack->head;
-    stack->head = item;
-  }
 }
 
 
@@ -84,19 +68,7 @@ void push (Stack * stack, char const * string)
 */
 char const * pop (Stack * stack)
 {
-  Item * tmp;
-  char const * string;
-  
-  if (NULL == stack->head) {
-    return NULL;
-  }
-  
-  tmp = stack->head;
-  string = tmp->string;
-  stack->head = stack->head->next;
-  free (tmp);
-  
-  return string;
+  return NULL; /* remove this before implementing the function */
 }
 
 
