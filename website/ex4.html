@@ -168,6 +168,119 @@ one
       
       <h2>Exercise 4.4: doubly linked list</h2>
       
+      <p>
+	The file <a href="dlist.c">dlist.c</a> is a partial implementation of a program to demonstrate doubly-linked lists.
+	It is ready to compile and run but is missing three crucial functions: <tt>rem_item()</tt> to remove a given item from the list, <tt>ins_after()</tt> to insert something so that it comes after a given item, and <tt>ins_before()</tt> which inserts something in front of the given item.
+      </p>
+      
+      <ol>
+	<li>
+	  Implement <tt>rem_item()</tt>.
+	  It should produce the output given below.
+	  <b>Check that the three "removing..." blocks</b> produced by your program are correct before continuing.
+<pre class="output">initial list...
+  forward:    3  14  15  92  65 359
+  reverse:  359  65  92  15  14   3
+removing head...
+  forward:   14  15  92  65 359
+  reverse:  359  65  92  15  14
+removing tail...
+  forward:   14  15  92  65
+  reverse:   65  92  15  14
+removing second item...
+  forward:   14  92  65
+  reverse:   65  92  14
+inserting after head...
+  forward:   14  92  65
+  reverse:   65  92  14
+inserting after tail...
+  forward:   14  92  65
+  reverse:   65  92  14
+inserting after 2nd item...
+  forward:   14  92  65
+  reverse:   65  92  14
+inserting before head...
+  forward:   14  92  65
+  reverse:   65  92  14
+inserting before tail...
+  forward:   14  92  65
+  reverse:   65  92  14
+inserting before 2nd item...
+  forward:   14  92  65
+  reverse:   65  92  14</pre>
+	</li>
+	<li>
+	  Implement <tt>ins_after()</tt>.
+	  It should produce the output given below.
+	  <b>Check that the three "inserting after..." blocks</b> produced by your program are correct before continuing.
+<pre class="output">initial list...
+  forward:    3  14  15  92  65 359
+  reverse:  359  65  92  15  14   3
+removing head...
+  forward:   14  15  92  65 359
+  reverse:  359  65  92  15  14
+removing tail...
+  forward:   14  15  92  65
+  reverse:   65  92  15  14
+removing second item...
+  forward:   14  92  65
+  reverse:   65  92  14
+inserting after head...
+  forward:   14  -1  92  65
+  reverse:   65  92  -1  14
+inserting after tail...
+  forward:   14  -1  92  65  -2
+  reverse:   -2  65  92  -1  14
+inserting after 2nd item...
+  forward:   14  -1  -3  92  65  -2
+  reverse:   -2  65  92  -3  -1  14
+inserting before head...
+  forward:   14  -1  -3  92  65  -2
+  reverse:   -2  65  92  -3  -1  14
+inserting before tail...
+  forward:   14  -1  -3  92  65  -2
+  reverse:   -2  65  92  -3  -1  14
+inserting before 2nd item...
+  forward:   14  -1  -3  92  65  -2
+  reverse:   -2  65  92  -3  -1  14</pre>
+	</li>
+	<li>
+	  Implement <tt>ins_before()</tt>.
+	  It should produce the output given below.
+	  <b>Check that the three "inserting before..." blocks</b> produced by your program are correct before continuing.
+<pre class="output">initial list...
+  forward:    3  14  15  92  65 359
+  reverse:  359  65  92  15  14   3
+removing head...
+  forward:   14  15  92  65 359
+  reverse:  359  65  92  15  14
+removing tail...
+  forward:   14  15  92  65
+  reverse:   65  92  15  14
+removing second item...
+  forward:   14  92  65
+  reverse:   65  92  14
+inserting after head...
+  forward:   14  -1  92  65
+  reverse:   65  92  -1  14
+inserting after tail...
+  forward:   14  -1  92  65  -2
+  reverse:   -2  65  92  -1  14
+inserting after 2nd item...
+  forward:   14  -1  -3  92  65  -2
+  reverse:   -2  65  92  -3  -1  14
+inserting before head...
+  forward:  -11  14  -1  -3  92  65  -2
+  reverse:   -2  65  92  -3  -1  14 -11
+inserting before tail...
+  forward:  -11  14  -1  -3  92  65 -22  -2
+  reverse:   -2 -22  65  92  -3  -1  14 -11
+inserting before 2nd item...
+  forward:  -11 -33  14  -1  -3  92  65 -22  -2
+  reverse:   -2 -22  65  92  -3  -1  14 -33 -11</pre>
+	</li>
+      </ol>
+      
       <h2>Exercise 4.5 (optional): generic list</h2>
 
       <ol>
