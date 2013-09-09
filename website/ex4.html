@@ -59,6 +59,64 @@
       
       <h2>Exercise 4.1: singly linked list</h2>
       
+      <p>
+	As a starting point, create a project from the file <a href="ex4/list.c">list.c</a> which contains structures and functions to implement and test a simply linked list.
+	The code is ready to run and should produce the following output:
+      </p>
+
+<pre class="output">forward:    3  14  15  92   [tail:  92]
+reverse:  [empty]
+ins_after head:        3  14  15  92   [tail:  92]
+ins_after tail:        3  14  15  92   [tail:  92]
+ins_after 2nd item:    3  14  15  92   [tail:  92]</pre>
+
+      <p>
+	Before continuing, make sure to understand the <tt>append()</tt> function and what <tt>main()</tt> does to produce this output.
+      </p>
+      
+      <ol>
+	<li>
+	  Make a diagram of the operations needed to <b>prepend</b> an element to a simply linked list.
+	  Then implement the <tt>prepend()</tt> function starting on line 102.
+	  When you are done, the output of the program should look exactly like this:
+<pre class="output">forward:    3  14  15  92   [tail:  92]
+reverse:   92  15  14   3   [tail:   3]
+ins_after head:        3  14  15  92   [tail:  92]
+ins_after tail:        3  14  15  92   [tail:  92]
+ins_after 2nd item:    3  14  15  92   [tail:  92]</pre>
+          On the second line of this output, you see that the "reverse" list is now properly created.
+	</li>
+	<li>
+	  Make a diagram of the operations needed to <b>insert</b> an element into a simply linked list.
+	  Then implement the <tt>ins_after()</tt> function starting on line 124 of the original file (the line number will have changed due to the space taken by your implementation of the <tt>prepend</tt> function).
+	  When you are done, the output of the program should look exactly like this:
+<pre class="output">forward:    3  14  15  92   [tail:  92]
+reverse:   92  15  14   3   [tail:   3]
+ins_after head:        3 -11  14  15  92   [tail:  92]
+ins_after tail:        3 -11  14  15  92 -22   [tail: -22]
+ins_after 2nd item:    3 -11 -33  14  15  92 -22   [tail: -22]</pre>
+          Notice that the three last lines of output now have additional elements: -11, -22, and -33.
+	</li>
+	<li>
+	  Make a diagram of the changes needed to <b>remove the head</b> of a simply linked list.
+	  Then implement the <tt>rem_head()</tt> function (line 140 in the original source file) and un-comment the <tt>while</tt> loop at the end of <tt>main()</tt> (line 228 in the original file) in order to test your implementation.
+	  When you are done, the output should look like this:
+<pre class="output">forward:    3  14  15  92   [tail:  92]
+reverse:   92  15  14   3   [tail:   3]
+ins_after head:        3 -11  14  15  92   [tail:  92]
+ins_after tail:        3 -11  14  15  92 -22   [tail: -22]
+ins_after 2nd item:    3 -11 -33  14  15  92 -22   [tail: -22]
+removed head:  -11 -33  14  15  92 -22   [tail: -22]
+removed head:  -33  14  15  92 -22   [tail: -22]
+removed head:   14  15  92 -22   [tail: -22]
+removed head:   15  92 -22   [tail: -22]
+removed head:   92 -22   [tail: -22]
+removed head:  -22   [tail: -22]
+removed head:  [empty]</pre>
+          Notice the 7 new lines at the end of the output, which show that <tt>rem_head()</tt> repeatedly removes the first element until the list is empty.
+	</li>
+      </ol>
+      
       <h2>Exercise 4.2: list-based stack</h2>
       
       <h2>Exercise 4.3: circular linked list</h2>
