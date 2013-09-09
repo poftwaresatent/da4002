@@ -135,6 +135,11 @@ removed head:  [empty]</pre>
 <pre class="code">one "argument two" three 4</pre>
 
       <p>
+	<em>Reminder: to set arguments from within Eclipse, you have to right-click on the executable name, select "Run As..." -> "Run Configurations", then enable the "Arguments" tab, enter the above text, and click "Apply".</em>
+	From the command line, provided you are in the directory containing the executable, you can simply just type <tt>./stack one "argument two" three 4</tt> (followed by return).
+      </p>
+      
+      <p>
 	This should produce the following output:
       </p>
 <pre class="output">4
@@ -143,7 +148,13 @@ argument two
 one
 ./stack-solution</pre>
       
+      <p>
+	Note that the last line may contain an absolute path when you run this from within Eclipse.
+      </p>
+      
       <h2>Exercise 4.3: circular linked list</h2>
+      
+      
       
       <h2>Exercise 4.4: doubly linked list</h2>
       
