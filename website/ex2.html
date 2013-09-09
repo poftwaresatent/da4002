@@ -154,7 +154,12 @@ int main (int argc, char ** argv)
       </p>
       
       <ol>
-	<li><b>under construction...</b></li>
+	<li>Build the project.</li>
+	<li>Right-click on the executable name in the project browser.</li>
+	<li>Select Run As -> Run Configurations.</li>
+	<li>Select the Arguments tab.</li>
+	<li>Type in the arguments you want to pass (separated by spaces).</li>
+	<li>Click Apply.</li>
       </ol>
       
       <p>
@@ -197,6 +202,7 @@ int main (int argc, char ** argv)
 <pre class="output">argv[0] (length 11):    `./printargs'
 argv[1] (length 1):     `"'</pre>
 <!-- " -->
+         <em>Note that the first line (for <tt>argv[0]</tt>) will contain an absolute path when working with Eclipse.</em>
 	</li>
       </ol>
       

@@ -75,7 +75,7 @@
 	<li>
 	  None of the functions currently verify that <tt>low &lt;= high</tt> but this is a fundamental property required of intervals.
 	  Write a <tt>normalize</tt> function which takes an interval and, if necessary, modifies it in-place such that it respects that property.
-	  This means that you have to add the following function definition to your source file (place it after the <tt>create</tt>function):
+	  This means that you have to add the following function definition to your source file (place it after the <tt>create</tt> function):
 <pre class="code">void normalize (Interval * ii)
 {
   /* function body to be filled in by you.
@@ -94,7 +94,7 @@ normalize ( /* the address of aa */ );</pre>
 	<li>
 	  Change the initialization of <tt>bb</tt> to "<tt>bb = create(50,&nbsp;-10)</tt>" <em>but do <b>not</b> call <tt>normalize</tt> on it</em>.
 	  This should produce an erroneous result in the additon (try it out).
-	  Now make the <tt>add</tt> function robust to non-normalized inputs, by adding two calls to <tt>normalize</tt>as the first two lines in its implementation, like this:
+	  Now make the <tt>add</tt> function robust to non-normalized inputs, by adding two calls to <tt>normalize</tt> as the first two lines in its implementation, like this:
 <pre class="code">Interval add (Interval lhs, Interval rhs)
 {
   normalize (&amp;lhs);
@@ -136,12 +136,12 @@ normalize ( /* the address of aa */ );</pre>
 	  Verify that your implementation is correct by running the <tt>vector</tt> program and analysing the output produced by the <tt>test_prepend</tt> function.
 	</li>
 	<li>
-	  Fill in the function <tt>vector_insert</tt> (starting on line 153 of <tt>vector.c</tt>).
+	  Fill in the function <tt>vector_insert</tt> (starting on line 153 of the original <tt>vector.c</tt> but that will have changed after you implemented <tt>vector_prepend</tt>).
 	  You can get inspiration from the <tt>vector_prepend</tt> function that you just implemented.
 	  Again, verify that your implementation is correct by analysing the unit test output produced by running the <tt>vector</tt> program.
 	</li>
 	<li>
-	  Fill in the <tt>vector_remove</tt> function (starting on line 183 of <tt>vector.c</tt>).
+	  Fill in the <tt>vector_remove</tt> function (originally starting on line 183 of <tt>vector.c</tt>).
 	  By now you should have the hang of this kind of test-driven implementation, using repeated runs of the unit tests to find out when you're done.
 	</li>
 	<li>
