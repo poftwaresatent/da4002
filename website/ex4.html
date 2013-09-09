@@ -121,7 +121,8 @@ removed head:  [empty]</pre>
       
       <p>
 	The source file <a href="stack.c">stack.c</a> is a partial implementation for a program that uses a stack to print its command-line arguments in reverse.
-	It pushes each argument onto the stack, and then pops them off the stack and prints them one by one.
+	It is based on the same idea as exercise 3.3: push each argument onto the stack, and then pop them off while printing them one by one.
+	(But exercise 3.3 used a vector-backed stack, and it used lines in a text file instead of command line arguments.)
       </p>
       
       <p>
@@ -135,9 +136,10 @@ removed head:  [empty]</pre>
 <pre class="code">one "argument two" three 4</pre>
 
       <p>
-	<em>Reminder: to set arguments from within Eclipse, you have to right-click on the executable name, select "Run As..." -> "Run Configurations", then enable the "Arguments" tab, enter the above text, and click "Apply".</em>
-	From the command line, provided you are in the directory containing the executable, you can simply just type <tt>./stack one "argument two" three 4</tt> (followed by return).
+	<em>Reminder: to set arguments from within Eclipse, you have to right-click on the executable name, select "Run As..." -> "Run Configurations", go to the "Arguments" tab, enter the above text, and click "Apply".</em>
+	From the command line, provided you are in the directory containing the executable, you can simply just type:
       </p>
+<pre class="command">./stack one "argument two" three 4</pre>
       
       <p>
 	This should produce the following output:
@@ -146,15 +148,23 @@ removed head:  [empty]</pre>
 three
 argument two
 one
-./stack-solution</pre>
+./stack</pre>
       
       <p>
 	Note that the last line may contain an absolute path when you run this from within Eclipse.
       </p>
       
-      <h2>Exercise 4.3: circular linked list</h2>
+      <h2>Exercise 4.3 (optional): circular linked list</h2>
       
+      <p>
+	The file <a href="clist.c">clist.c</a> is an incomplete program which illustrates circularly linked lists.
+	Implement the empty <tt>append()</tt> and <tt>prepend()</tt> functions so that it prints the following output:
+      </p>
       
+<pre class="output"> 6 elements:    6   4   2   1   3   5
+ 9 elements:    6   4   2   1   3   5   6   4   2
+12 elements:    6   4   2   1   3   5   6   4   2   1   3   5
+15 elements:    6   4   2   1   3   5   6   4   2   1   3   5   6   4   2</pre>
       
       <h2>Exercise 4.4: doubly linked list</h2>
       
