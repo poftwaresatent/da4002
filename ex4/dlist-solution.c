@@ -117,7 +117,7 @@ void prepend (List * list, int data)
   
   Be careful with the special cases: the given item could be the head
   or the tail of the list! Also, it could be the only element he list,
-  which ans thatafter movg the item the list should empty.
+  which means that after removing the item, the list should empty.
   
   Also be sure to free() the memory that was occupied by the element
   that is being removed!
