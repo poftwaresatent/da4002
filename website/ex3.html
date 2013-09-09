@@ -57,6 +57,79 @@
       <h1>ITADS Exercise 3<br>
 	structs and vectors</h1>
       
+      <h2>Eclipse Import</h2>
+      
+      <p>
+	You can create an Eclipse project with all the necessary files for this exercise as follows:
+      </p>
+      
+      <!-- The following does not work because Eclipse is too stupid
+	   to handle the Makefile setup correctly and it does not
+	   understand that each executable can be run separately.
+	   
+      <ol>
+	<li>go to "File" -> "New" -> "C Project"</li>
+	<li>enter a project name, for example "ex3"</li>
+	<li>in the "Project Type" tab, select "Makefile project" -> "Empty Project"</li>
+	<li>in the "Toolchains" tab, select "Linux GCC"</li>
+	<li>click "Finish"</li>
+	<li>download <a href="ex3.zip">ex3.zip</a></li>
+	<li>go to "File" -> "Import..."</li>
+	<li>select "General" -> "Archive File"</li>
+	<li>click "Next"</li>
+	<li>click "Browse" and choose the downloaded zip file</li>
+	<li>click on the little triangle before the folder symbol with name "/" in the left tab</li>
+	<li>click on the desired subfolder (in this case "ex3") and leave all file selected in the right tab</li>
+	<li>click "Finish"</li>
+      </ol>
+      
+      -->
+      
+      <ol>
+	<li>download <a href="ex3.tar">ex3.tar</a>, for example to your home folder</li>
+	<li>open a terminal and, if necessary, change to the directory to the folder where you saved the tar file (if you saved it in your home folder, this should not be necessary)</li>
+	<li>extract the tar file using the command (you need to type this into the terminal and then press the return key):
+	  <pre class="command">tar xfv ex3.tar</pre></li>
+	<li>start Eclipse (unless it is already running, of course)</li>
+	<li>go to "File" -> "Import..."</li>
+	<li>select "C/C++" -> "Existing Code as Makefile Project" then click "Next"</li>
+	<li>enter a sensible project name, for example "ex3"</li>
+	<li>click "Browse" select the directory which you just extracted, then click "OK"</li>
+	<li>de-select "C++" from the "Languages" section</li>
+	<li>select "Linux GCC" from the "Toolchain" section</li>
+	<li>click "Finish"</li>
+      </ol>
+      
+      <p>
+	You should now have a project called "ex3" ready to build and run.
+      </p>
+      
+      <ol>
+	<li>select the project ("ex3" if you followed the above example) in the "Project Explorer"</li>
+	<li>go to "Project" -> "Build All"</li>
+	<li>select one of the binaries that got created, for example "clist"</li>
+	<li>click the "Run" button (green disk with a white triangle that points to the right)</li>
+      </ol>
+      
+      <h3>If the above seems horribly convoluted to you...</h3>
+      
+      <p>
+	...then you may prefer to use the command line to streamline the process:
+      </p>
+      
+      <ol>
+	<li><em>(same as above)</em> download <a href="ex3.tar">ex3.tar</a>, for example to your home folder</li>
+	<li><em>(same as above)</em> open a terminal and, if necessary, change to the directory to the folder where you saved the tar file (if you saved it in your home folder, this should not be necessary)</li>
+	<li><em>(same as above)</em> extract the tar file using the command (you need to type this into the terminal and then press the return key):
+	  <pre class="command">tar xfv ex3.tar</pre></li>
+	<li>change into the extracted folder using:
+	  <pre class="command">cd ex3</pre></li>
+	<li>build the project using <tt>make</tt>:
+	  <pre class="command">make</pre></li>
+	<li>run one of the programs, for example "clist," by typing:
+	  <pre class="command">./clist</pre></li>
+      </ol>
+      
       <h2>Exercise 3.1: structs</h2>
       
       <p>
