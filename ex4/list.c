@@ -101,23 +101,14 @@ void append (List * list, int data)
 */
 void prepend (List * list, int data)
 {
-  Item * item;
-  
-  item = malloc (sizeof *item);
-  if (NULL == item) {
-    err (EXIT_FAILURE, "%s: malloc", __func__);
-  }
-  item->data = data;
-  
-  if (NULL == list->head) {
-    item->next = NULL;
-    list->head = item;
-    list->tail = item;
-  }
-  else {
-    item->next = list->head;
-    list->head = item;
-  }
+  /*
+    You need to:
+    1. allocate memory and check that it is valid;
+    2. save the data;
+    3. adjust the next, head, and tail pointers as appropriate.
+    
+    Don't forget to check the special case when the list is empty.
+  */
 }
 
 
@@ -132,25 +123,6 @@ void prepend (List * list, int data)
 */
 void ins_after (List * list, Item * pos, int data)
 {
-  Item * item;
-  
-  /* if (NULL == pos) { */
-  /*   prepend (list, data); */
-  /*   return; */
-  /* } */
-  
-  if (pos == list->tail) {
-    append (list, data);
-    return;
-  }
-  
-  item = malloc (sizeof *item);
-  if (NULL == item) {
-    err (EXIT_FAILURE, "%s: malloc", __func__);
-  }
-  item->data = data;
-  item->next = pos->next;
-  pos->next = item;
 }
 
 
@@ -160,19 +132,13 @@ void ins_after (List * list, Item * pos, int data)
   Function to remove the first item from a given list.  When the list
   is empty, nothing should be changed.  Remember to call free() on the
   item that is removed, and to adjust the head of the list.
+  
+  To test this function, you have to modify the main function by
+  un-commenting the while loop, as described in the code comments of
+  the main function (see below).
 */
 void rem_head (List * list)
 {
-  Item * tmp;
-  
-  if (NULL != list->head) {
-    tmp = list->head;
-    list->head = list->head->next;
-    free (tmp);
-    if (NULL == list->head) {
-      list->tail = NULL;
-    }
-  }
 }
 
 
@@ -220,7 +186,9 @@ void destroy (List * list)
   from some test data (one list is in the same order as the test data,
   the other in reverse).
   
-  (Do not change this.)
+  Change this function AFTER IMPLEMENTING the rem_head() function in
+  exercise 4.1.3 by un-commenting the while loop close to the end of
+  the main function.
 */
 int main (int argc, char ** argv)
 {
@@ -253,11 +221,16 @@ int main (int argc, char ** argv)
   printf ("ins_after 2nd item:");
   print (fwd);
   
+  /*
+    UN-COMMENT THIS while loop only after you have implemented the
+    rem_head() function for exercise 4.1.3.
+    
   while (NULL != fwd->head) {
     rem_head (fwd);
     printf ("removed head:");
     print (fwd);
   }
+  */
   
   destroy (fwd);
   destroy (rev);
