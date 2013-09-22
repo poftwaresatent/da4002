@@ -7,11 +7,6 @@ void insertion_sort (int * arr, int len)
 {
   int ii, jj, tmp;
   
-  for (jj = 0; jj < len; ++jj) {
-    printf ("  %2d", arr[jj]);
-  }
-  printf ("\n");
-  
   for (ii = 1; ii < len; ++ii) {
     
     tmp = arr[ii];
@@ -23,11 +18,6 @@ void insertion_sort (int * arr, int len)
     }
     arr[jj] = tmp;
     
-    for (jj = 0; jj < len; ++jj) {
-      printf ("  %2d", arr[jj]);
-    }
-    printf ("\n");
-    
   }
 }
 
@@ -36,11 +26,17 @@ int main (int argc, char ** argv)
 {
   static int const input[] = { 15, 3, 92, 14, 4 };
   int * output;
+  int ii;
   
   output = malloc (sizeof input);
   memcpy (output, input, sizeof input);
   
   insertion_sort (output, (sizeof input) / (sizeof *input));
+  
+  for (ii = 0; ii < (sizeof input) / (sizeof *input); ++ii) {
+    printf ("  %2d", output[ii]);
+  }
+  printf ("\n");
   
   free (output);
   
