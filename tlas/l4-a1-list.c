@@ -23,6 +23,18 @@ List * list_create (void)
 }
 
 
+void list_destroy (List * list)
+{
+  Item * tmp;
+  while (NULL != list->head) {
+    tmp = list->head->next;
+    free (list->head);
+    list->head = tmp;
+  }
+  free (list);
+}
+
+
 int list_append (List * list, int data)
 {
   Item * item;
@@ -62,19 +74,7 @@ void list_rem_head (List * list)
 }
 
 
-void list_destroy (List * list)
-{
-  Item * tmp;
-  while (NULL != list->head) {
-    tmp = list->head->next;
-    free (list->head);
-    list->head = tmp;
-  }
-  free (list);
-}
-
-
-int list_test ()
+int list_test (void)
 {
   static int const data[] = { 3, 14, 15, 92 };
   int ii;
@@ -83,7 +83,10 @@ int list_test ()
   
   list = list_create ();
   for (ii = 0; ii < sizeof(data)/sizeof(*data); ++ii) {
-    list_append (list, data[ii]);
+    if (0 != list_append (list, data[ii])) {
+      list_destroy (list);
+      return -1;
+    }
   }
   
   ii = 0;
@@ -91,18 +94,18 @@ int list_test ()
   while (ii < sizeof(data)/sizeof(*data) && NULL != item) {
     if (data[ii] != item->data) {
       list_destroy (list);
-      return -1;
+      return -2;
     }
     ++ii;
     item = item->next;
   }
   if (ii != sizeof(data)/sizeof(*data)) {
     list_destroy (list);
-    return -2;
+    return -3;
   }
   if (NULL != item) {
     list_destroy (list);
-    return -3;
+    return -4;
   }
   
   list_rem_head (list);
@@ -112,18 +115,18 @@ int list_test ()
   while (ii < sizeof(data)/sizeof(*data) && NULL != item) {
     if (data[ii] != item->data) {
       list_destroy (list);
-      return -4;
+      return -5;
     }
     ++ii;
     item = item->next;
   }
   if (ii != sizeof(data)/sizeof(*data)) {
     list_destroy (list);
-    return -5;
+    return -6;
   }
   if (NULL != item) {
     list_destroy (list);
-    return -6;
+    return -7;
   }
   
   list_destroy (list);
