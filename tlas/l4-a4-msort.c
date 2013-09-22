@@ -9,19 +9,24 @@ void merge (int * arr, int * tmp, int beg, int mid, int end)
   int jj = mid;
   int kk = beg;
   
-  while (ii < mid && jj < end)
-    if (arr[ii] < arr[jj])
+  while (ii < mid && jj < end) {
+    if (arr[ii] < arr[jj]) {
       tmp[kk++] = arr[ii++];
-    else
+    }
+    else {
       tmp[kk++] = arr[jj++];
-  
-  while (ii < mid)
+    }
+  }
+  while (ii < mid) {
     tmp[kk++] = arr[ii++];
-  while (jj < end)
+  }
+  while (jj < end) {
     tmp[kk++] = arr[jj++];
-
-  for (ii = beg; ii < end; ++ii)
+  }
+  
+  for (ii = beg; ii < end; ++ii) {
     arr[ii] = tmp[ii];
+  }
 }
 
 
