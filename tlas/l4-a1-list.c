@@ -1,4 +1,3 @@
-#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
@@ -71,72 +70,4 @@ void list_rem_head (List * list)
       list->tail = NULL;
     }
   }
-}
-
-
-int list_test (void)
-{
-  static int const data[] = { 3, 14, 15, 92 };
-  int ii;
-  List * list;
-  Item * item;
-  
-  list = list_create ();
-  for (ii = 0; ii < sizeof(data)/sizeof(*data); ++ii) {
-    if (0 != list_append (list, data[ii])) {
-      list_destroy (list);
-      return -1;
-    }
-  }
-  
-  ii = 0;
-  item = list->head;
-  while (ii < sizeof(data)/sizeof(*data) && NULL != item) {
-    if (data[ii] != item->data) {
-      list_destroy (list);
-      return -2;
-    }
-    ++ii;
-    item = item->next;
-  }
-  if (ii != sizeof(data)/sizeof(*data)) {
-    list_destroy (list);
-    return -3;
-  }
-  if (NULL != item) {
-    list_destroy (list);
-    return -4;
-  }
-  
-  list_rem_head (list);
-  
-  ii = 1;
-  item = list->head;
-  while (ii < sizeof(data)/sizeof(*data) && NULL != item) {
-    if (data[ii] != item->data) {
-      list_destroy (list);
-      return -5;
-    }
-    ++ii;
-    item = item->next;
-  }
-  if (ii != sizeof(data)/sizeof(*data)) {
-    list_destroy (list);
-    return -6;
-  }
-  if (NULL != item) {
-    list_destroy (list);
-    return -7;
-  }
-  
-  list_destroy (list);
-  
-  return 0;
-}
-
-
-int main (int argc, char ** argv)
-{
-  printf ("%d\n", list_test ());
-  return 0;
 }
