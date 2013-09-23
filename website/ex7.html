@@ -54,12 +54,258 @@
     
     <div id="content">
       
-      <h1>ITADS Exercise 7<br>
-	computational complexity</h1>
+      <h1>ITADS exercise 7<br> computational complexity</h1>
+      
+      <h2>Exercise 7.1: comprehension test</h2>
+      
+      <ol>
+	<li>Programs <b>A</b> and <b>B</b> have worst-case running times <b><tt>T(N) = 150 N log N</tt></b> and <b><tt>T(N) = N<sup>2</sup></tt></b> respectively.
+	  Answer the following questions, <em>if possible</em>.
+	  If it is not possible to give an answer, explain why.
+	  Discuss your answers with another student.
+	  <ol>
+	    <li>
+	      Which program has the better guarantee on the running time for large values of <tt>N</tt> (<tt>N</tt> &gt; 10000)?
+	    </li>
+	    <li>
+	      Which program has the better guarantee on the running time for small of <tt>N</tt> (<tt>N</tt> &lt; 100)?
+	    </li>
+	    <li>
+	      Which program will run faster <em>on average</em> for <tt>N</tt> = 1000?
+	    </li>
+	    <li>
+	      Can program <em>B</em> run faster than program <em>A</em> on <em>all</em> possible inputs?
+	    </li>
+	</ol>
+	</li>
+	<li>
+	  An algorithm takes 0.5ms for input size 100.
+	  How long can it be expected to take for input size 500 if the running time is...
+	  <ol>
+	    <li>linear?</li>
+	    <li>O(N log N)?</li>
+	    <li>quadratic?</li>
+	    <li>exponential? <em>(this means O(2<sup>N</sup>))</em></li>
+	</ol>
+	</li>
+	<li>
+	  An algorithm takes 0.5ms for input size 100.
+	  How large of a problem can it be expected to solve in 1 minute if the running time is...
+	  <ol>
+	    <li>linear?</li>
+	    <li>O(N log N)?</li>
+	    <li>quadratic?</li>
+	    <li>exponential?</li>
+	</ol>
+	</li>
+      </ol>
+      
+      <h2>Exercise 7.2: data visualization with Gnuplot</h2>
       
       <p>
-	<b>Under construction...</b>
+	For empirical complexity analysis, we measure the time it takes to run certain algorithms on certain input data.
+	A graphical plot of the measured data is an important tool for such an analysis.
+	We will use the <a href="http://www.gnuplot.info/">Gnuplot</a> program to do this, as it can be used interactively as well as in batch mode (driven by a script file) and is installed on the UNIX workstations.
+	The basic approach is to output the relevant data from our program in a line oriented format, save the output to a file using <em>redirection</em> (you can also copy-paste from the Eclipse output window into a text file), and commanding Gnuplot to visualize the data via an interactive terminal session.
+	In this preparatory exercise, we will not plot actual running times but data created artificially.
       </p>
+      
+      <p>
+	<em>
+	  For further information, the Gnuplot homepage is a good source, for example it has <a href="http://www.gnuplot.info/help.html">tutorials</a>.
+	  It also has a manual page which can be access by typing "man gnuplot" in a terminal, or browsed <a href="http://linuxmanpages.com/man1/gnuplot.1.php">online</a>.
+	</em>
+      </p>
+      
+      <ol>
+	<li>
+	  <b>Produce empirical data:</b><br>
+	  Create a program called <tt>gnuplot-intro</tt> that runs the following piece of code:
+<pre class="code">long nn, ii, jj, s1, s2, s3;
+
+for (nn = 100; nn < 5000; nn += 100) {
+  s1 = 0;
+  s2 = 0;
+  s3 = 0;
+  for (ii = 0; ii < nn; ++ii) {
+    ++s1;
+    for (jj = 0; jj < nn; ++jj) {
+	++s2;
+    }
+    for (jj = 1; jj <= nn; jj *= 2) {
+	++s3;
+    }
+  }
+  printf ("%ld  %ld  %ld  %ld\n", nn, s1, s2, s3);
+}</pre>
+	  It should produce 4 columns of numbers as output, beginning with
+<pre class="output">100  100  10000  700</pre>
+          and ending with
+<pre class="output">4900  4900  24010000  63700</pre>
+        </li>
+	<li>
+	  <b>Store empirical data:</b><br>
+	  Save the output in a file called <tt>data</tt>.
+	  For example, you can copy-paste it from the Eclipse output window (but this will quickly become cumbersome if you need to frequently modify and re-run the program).
+	  A more efficient method is to open a terminal, change directory to your workspace where the executable is placed by Eclipse, and run it with the following <em>output redirection</em>:
+<pre class="command">cd path/to/your/worksapce/for/ex7
+./gnuplot-intro | tee data</pre>
+          This will display the data as well as save it into a file called <tt>data</tt>.
+	</li>
+	<li>
+	  <b>Start Gnuplot:</b><br>
+	  Open another terminal and also change to the workspace directory (or wherever you saved the <tt>data</tt> file) and launch gnuplot:
+<pre class="command">cd path/to/your/worksapce/for/ex7
+gnuplot</pre>
+          The prompt in that terminal should change to
+<pre class="output">gnuplot> </pre>
+          In the following, this terminal window will be called the "Gnuplot terminal" or simply "Gnuplot" when it is clear that the currently running Gnuplot session is meant.
+	</li>
+	<li>
+	  <b>Plot command syntax:</b><br>
+	  Enter the following command in the Gnuplot terminal:
+<pre class="command">plot 'data' using 1:2 with lines title 'linear'</pre>
+          This produces a graphical representation using the first and second column of the <tt>data</tt> file, with a plot style that draws lines between data points, and creates a curve label called "linear."
+          Note the use of single quotes around the file name and the title string.
+          Gnuplot allows most of the specifiers to be abbreviated: "using" becomes "u," "with lines" becomes "w l," and title becomes "t."
+          So the following command will give the same results:
+<pre class="command">plot 'data' u 1:2 w l t 'linear'</pre>
+          Try it out!
+        </li>
+	<li>
+	  <b>Multiple plots, custom data ranges:</b><br>
+	  Similarly, you can plot the third or the fourth column against the first one.
+	  Try it out with the following commands:
+<pre class="command">plot 'data' u 1:3 w l t 'quadratic'</pre>
+          and
+<pre class="command">plot 'data' u 1:4 w l t 'N log N'</pre>
+          Note that Gnuplot remembers the commands you entered earlier and allows you to edit them.
+          Use the up and down arrow keys to navigate the command history, and the left and right arrow keys to move around the current command line.
+          You can also create a plot with all three curves at once, by placing them all on one plot command line separated by commas:
+<pre class="command">plot 'data' u 1:2 w l t 'linear', '' u 1:3 w l t 'quadratic', '' u 1:4 w l t 'N log N'</pre>
+          Note that when you use the same data file several times, you can just write an empty file name string '' (two single quotes with nothing in between).
+          Unfortunately, the plot produced with this last command is dominated by the quadratic curve, as it contains much bigger values than the other two.
+          You need to manually control the range of values to plot, which works like this:
+<pre class="command">set yrange [0:100000]</pre>
+          Then you have to issue the plot command again (use the arrow keys).
+          If for some reason you want to re-enable autoscaling for the plot range, the command to use is:
+<pre class="command">set yrange [*:*]</pre>
+          This is useful if you change the plot command or update the data file with new measurements.
+          Be sure to re-enable autoscaling before the next exercise.
+          <em>
+	    Notice that the "wxt" terminal type under Linux allows to interactively zoom and reset the plot, among other things.
+	    This should be the default terminal type on the workstation in room B231c.
+	  </em>
+	</li>
+	<li>
+	  <b>Applying functions to data points:</b><br>
+	  In addition to plotting values directly from a data file, it is also possible to use those values in mathematical expressions that Gnuplot shall visualize.
+	  This requires a slightly different syntax in the "using" directive:
+	  instead of just plain numbers, the value of a certain column has to be preceded by a dollar sign $, and the entire expression needs to be enclosed in parentheses.
+	  For example, to plot the difference between the linear and NlogN data, enter the following command:
+<pre class="command">plot 'data' u 1:($4-$2) w l t 'lin - NlogN'</pre>
+          More importantly for the purpose of empirical complexity analysis, we need to find out whether a given set of measurements corresponds to a theoretical complexity expression.
+          For example, how well does the fourth column from the data file match the O(N log N) class?
+          Here we can profit from the set of functions built into Gnuplot, for example you can write "log($1)" to get the (natural) logarithm of the value stored in the first column of the data file.
+          Putting all of this together, we can create a plot that shows how well column four matches the theoretical complexity like this:
+<pre class="command">plot 'data' u 1:($4/$1/log($1)) w l t 'T / (N log N')</pre>
+          Notice that this plot oscillates from around 1.45 to approximately 1.57, which indicates a fairly good match (it goes neither to zero nor to infinity).
+          What would be the value for a perfect theoretical match, by the way?
+	</li>
+      </ol>
+      
+      <h2>Exercise 7.3: theoretical and empirical complexity</h2>
+      
+      <p>
+	In this exercise, you first estimate the Big-Oh complexity in theory, then implement a program that creates data for plotting and visual verification of your estimate.
+	It relies on the plotting commands from the previous exercise.
+	Again, instead of measuring real execution times, we just increment a <tt>sum</tt> variable to as placeholder for clock measurements.
+      </p>
+      
+      <p>
+	What is the Big-Oh complexity of each of the following code fragments?
+	You should first find a theoretical formula, then plot the <tt>sum</tt> variable in function of problem size <tt>nn</tt> to verify the theory.
+	Make sure to also produce a plot that clearly illustrates convergence to a non-zero constant when dividing the measured "time" by the complexity expression.
+      </p>
+      
+      <p>
+	<em>
+	  Note that the code has been adjusted such that <tt>nn</tt> varying from 100 to 5000 or so is a good range, with increments of 100.
+	  Also, read the comments about recursive functions after the following code block.
+	</em>
+      </p>
+      
+<pre class="code">/* fragment 1 */
+sum = 0;
+for (ii = 0; ii < nn; ++ii) {
+  ++sum;
+}
+for (jj = 0; jj < nn; ++jj) {
+  ++sum;
+}
+
+/* fragment 2 */
+sum = 0;
+for (ii = 0; ii < nn; ++ii) {
+  for (jj = 0; jj < ii; ++jj) {
+    ++sum;
+  }
+}
+
+/* fragment 3 */
+sum = 0;
+for (ii = 0; ii < nn / 100; ++ii) {
+  for (jj = 0; jj < nn * nn / 20000; ++jj) {
+    for (kk = 0; kk < jj; ++kk) {
+      ++sum;
+    }
+  }
+}
+
+/* fragment 4 */
+sum = 0;
+for (ii = 1; ii <= nn * nn * nn; ii *= 2) {
+  ++sum;
+}
+
+/* fragment 5 */
+sum = 0;
+recursion_a (nn * 10000);
+
+/* fragment 6 */
+sum = 0;
+for (ii = 1; ii <= nn / 100; ++ii) {
+  recursion_b (ii);
+}</pre>
+
+      <p>
+	Notice that the <tt>sum</tt> variable needs to be global in order to properly record the execution cound in the recursive functions.
+	The two recursive functions are defined as follows:
+      </p>
+
+<pre class="code">void recursion_a (long nn)
+{
+  long ii;
+  if (nn >= 2) {
+    for (ii = 0; ii < nn; ++ii) {
+      ++sum;
+    }
+    recursion_a (nn / 2);
+  }
+}
+
+void recursion_b (long nn)
+{
+  long ii;
+  if (nn > 1) {
+    for (ii = 0; ii < nn; ++ii) {
+      ++sum;
+    }
+    recursion_b (nn - 1);
+  }
+}
+</pre>
+
       
     </div> <!-- content -->
     
