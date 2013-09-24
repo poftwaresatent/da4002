@@ -1,6 +1,6 @@
 \documentclass[a4paper]{article}
 
-\usepackage[margin=3cm]{geometry}
+\usepackage[margin=3.5cm]{geometry}
 \usepackage{verbatim,amsmath}
 
 \begin{document}
@@ -63,5 +63,33 @@ Together with another student (for example the same as for the previous activity
     2 T(N-1) & \text{otherwise}
   \end{cases}
 \end{align}
+
+
+
+\section{Analyzing Insertion Sort}
+
+Together with another student, manually trace the execution of an example program that applies insertion sort to a small array.
+Write down what the contents of the array look like at each of the outer iterations of the algorithm.
+This is expected to take only a few minutes.
+
+Then, also together with the other student, extract an execution time expression $T(N)$ from the insertion sort code.
+What is the natural choice for $N$?
+What happens in the worst case in each of the loops of the algorithm?
+After a few minutes of discussion, move on to the next activity.
+
+
+
+\section{Analysis of Merge Sort}
+
+Similarly to the previous activity, analyze what happens when merge sort is applied to a given small array.
+Note that this example code contains \emph{printf} statements: as you trace the execution of this program, write down what it would print.
+Also make a sketch of how the array contents evolve through the different stages.
+
+After some minutes, after you have a grasp on how the recursion makes merge sort work, extract an execution time expression $T(N)$ for it.
+
+This algorithm is expected to be more difficult to analyze than the previous one.
+Write down and discuss what exactly made it more difficult for you personally.
+
+
 
 \end{document}
