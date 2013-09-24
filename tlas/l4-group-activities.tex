@@ -1,7 +1,7 @@
 \documentclass[a4paper]{article}
 
 \usepackage[margin=3cm]{geometry}
-\usepackage{verbatim}
+\usepackage{verbatim,amsmath}
 
 \begin{document}
 
@@ -13,6 +13,8 @@
   Group Activities for Lecture 4
 }
 \maketitle
+
+
 
 \section{Stack and Queue Implementation}
 
@@ -35,5 +37,31 @@ This should also take only a couple of minutes.
 
 \emph{The results of the exercise are not handed in.
   To check whether the implementations are correct, the students can later write the test program that they designed.}
+
+
+
+\section{Working with Big-Oh Expressions}
+
+Together with another student (for example the same as for the previous activity), discuss and write down the ``Big-Oh'' complexity expression $O(N)$ for the following execution times $T(N)$.
+
+\begin{align}
+  T(N) &= 0.15 N^2 + 23.5 \log N
+  \\
+  T(N) &= N (5N + (22 + 0.01N^2) \log N) + 2.1 \cdot 2^N
+  \\
+  T(N) &= \sum_{i=1}^Ni
+  \\
+  T(N) &=
+  \begin{cases}
+    0          & \text{for} N < 1 \\
+    N + T(N-1) & \text{otherwise}
+  \end{cases}
+  \\
+  T(N) &=
+  \begin{cases}
+    1        & \text{for} N \leq 1 \\
+    2 T(N-1) & \text{otherwise}
+  \end{cases}
+\end{align}
 
 \end{document}
