@@ -85,12 +85,12 @@ Students who do that bonus task are required to come up with their own structure
 
 \begin{figure}
   \centering
-  \includegraphics[width=0.7\columnwidth]{examples/isort-example.png}
+  \includegraphics[width=0.7\columnwidth]{examples/isort.png}
   \caption{
     Runtimes of insertion sort on various arrays sizes.
   }\label{fig:isort}
   \vspace{\baselineskip}
-  \includegraphics[width=0.7\columnwidth]{examples/isort-example-N2.png}
+  \includegraphics[width=0.7\columnwidth]{examples/isort-N2.png}
   \caption{
     Dividing the measured runtimes of insertion sort by $N^2$ shows a clear convergence to a non-zero value.
   }\label{fig:isort-N2}
@@ -107,7 +107,7 @@ The benchmark prints the measured times in individual columns, with the minimum,
 The figure can be reproduced with the following Gnuplot commands, assuming you have saved the benchmark output into a file called \texttt{data}.
 
 \small\noindent
-\verbatiminput{examples/isort-example.plot}
+\verbatiminput{examples/isort.plot}
 \normalsize
 
 According to Wikipedia, the theoretical complexity of insertion sort is $O(N^2)$.
@@ -116,7 +116,7 @@ This illustrates that theory and practice match each other very closely in this 
 This figure can be reproduced as follows:
 
 \small\noindent
-\verbatiminput{examples/isort-example-N2.plot}
+\verbatiminput{examples/isort-N2.plot}
 \normalsize
 
 
@@ -125,12 +125,12 @@ This figure can be reproduced as follows:
 
 \begin{figure}
   \centering
-  \includegraphics[width=0.7\columnwidth]{examples/msort-example.png}
+  \includegraphics[width=0.7\columnwidth]{examples/msort.png}
   \caption{
     Runtimes of merge sort on various arrays sizes.
   }\label{fig:msort}
   \vspace{\baselineskip}
-  \includegraphics[width=0.7\columnwidth]{examples/msort-example-NlogN.png}
+  \includegraphics[width=0.7\columnwidth]{examples/msort-NlogN.png}
   \caption{
     Dividing the measured runtimes of insertion sort by $N \log N$ shows a clear convergence to a non-zero value.
   }\label{fig:msort-NlogN}
@@ -146,7 +146,7 @@ Figure~\ref{fig:msort} shows minimum, average, and maximum runtimes over five di
 The figure can be reproduced with the following Gnuplot commands.
 
 \small\noindent
-\verbatiminput{examples/msort-example.plot}
+\verbatiminput{examples/msort.plot}
 \normalsize
 
 According to Wikipedia, the theoretical complexity of insertion sort is $O(N \log N)$.
@@ -155,7 +155,7 @@ This illustrates that theory and practice match each other very closely in this 
 This figure can be reproduced as follows:
 
 \small\noindent
-\verbatiminput{examples/msort-example-NlogN.plot}
+\verbatiminput{examples/msort-NlogN.plot}
 \normalsize
 
 
@@ -179,14 +179,14 @@ Figure~\ref{fig:isort-msort} shows the average runtime measurements for all impl
 It can be produced with the following Gnuplot commands, assuming that the insertion sort runtime data is stored in a file called \texttt{isort.data} and the merge sort data in \texttt{msort.data}:
 
 \small\noindent
-\verbatiminput{examples/isort-msort-together.plot}
+\verbatiminput{examples/isort-msort.plot}
 \normalsize
 
 To better separate the slow-growing from the fast-growing curves, Figure~\ref{fig:isort-msort-logscale} shows the same data on logarithmic scales.
 It can be produced with the following commands:
 
 \small\noindent
-\verbatiminput{examples/isort-msort-together-logscale.plot}
+\verbatiminput{examples/isort-msort-logscale.plot}
 \normalsize
 
 These figures clearly show that merge sort is orders of magnitude faster than insertion sort on the larger problem sizes.
