@@ -1,0 +1,114 @@
+\documentclass[a4paper,10pt]{article}
+
+\usepackage[margin=3.5cm]{geometry}
+\usepackage[format=hang,justification=raggedright,font=it,singlelinecheck=off]{caption}
+\usepackage{url,graphicx,paralist,verbatim}
+
+\begin{document}
+
+\title{
+  {\small
+    Halmstad University course DA4002\\
+    Introduction to Algorithms, Data Structures, and Problem Solving\\
+  }
+  Report Template for Project 1:\\
+  Sorting Algorithm Benchmarks
+}
+\author{
+  Student Name One \texttt{<student.email@one>}\\
+  Student Name Two \texttt{<student.email@two>}
+}
+\maketitle
+
+
+
+The report is an essential part of the project work.
+It counts for approximately half the points.
+The structure of this template should be followed to write your report.
+Most aspects of the report are clearly specified in this template, others are more open-ended and you have to decide how best to structure them to illustrate what you have done and what conclusions you draw from your results.
+
+The report should start with a short summary of what you have done (which tasks and which algorithms you have chosen).
+
+Then follows a section on individual algorithm benchmarks, each under its own section heading.
+It should contain at least one plot of the runtime in function of problem size.
+If you did the second mandatory task, this plot should show the minimum, average, and maximum runtimes.
+If you did the third mandatory task, you should add a plot that illustrates how well your empirical measurements match the theoretical complexity.
+The plots should be followed by a short text (or bullet list) which
+\begin{compactitem}
+\item
+  specifies references that you used;
+\item
+  explains where to find your implementation in your code (source file and function names);
+\item
+  states how to reproduce your plots (how to save the data and plot it using Gnuplot or some other tool);
+\item
+  finishes with a more free-form text about other things you wish to point out, for example where to find test code and what you conclude from the plots.
+\end{compactitem}
+
+After the individual algorithms, you should write a section which compares them with each other.
+This should include some plots that clearly show how the algorithms in relation to each other, possibly using various ranges on the axes or even logarithmic scale if you think that is the most useful.
+The figures should again be followed by a short text that explains how to reproduce the plots with your program, and concludes with another open-ended free-form text.
+
+If you did the first and/or second bonus task, include them in the individual and comparison sections.
+If you did the third bonus task, choose your own reporting format such that it properly conveys your insights.
+
+Do not forget to
+\begin{compactitem}
+\item
+  give the course name, project title, and student names;
+\item
+  specify references to all the sources you have used, for example links to websites were you found pseudo-code;
+\item
+  number all the figures and give them short descriptive captions;
+\item
+  generally include all the information necessary to reproduce your results with your code.
+\end{compactitem}
+
+
+
+\section*{Summary}
+
+This template report illustrates how to present your project results.
+It relies on insertion sort and merge sort, which are included in the project assignment.
+
+
+
+\section*{Individual Algorithms}
+
+\subsection*{Insertion Sort}
+
+\begin{figure}
+  \centering
+  \includegraphics[width=0.7\columnwidth]{examples/isort-example.png}
+  \caption{
+    Runtimes of insertion sort on various arrays sizes.
+  }\label{fig:isort}
+  \vspace{\baselineskip}
+  \centering
+  \includegraphics[width=0.7\columnwidth]{examples/isort-example-N2.png}
+  \caption{
+    Dividing the measured runtimes of insertion sort by $N^2$ shows a clear convergence to a non-zero value.
+  }\label{fig:isort-N2}
+\end{figure}
+
+The implementation of insertion sort can be found in the source code \texttt{insertion\--sort\--benchmark.c} in the \texttt{insertion\_sort()} function.
+It is based on code examples readily available on the internet, for example on Wikipedia at \url{http://en.wikipedia.org/wiki/Insertion_sort}.
+
+Figure~\ref{fig:isort} shows the minimum, average, and maximum runtimes measured by the running insertion sort on five different random arrays that are initialized at the beginning of the \texttt{main()} function\footnote{Note that the code included in the project assignment does \emph{not} do this, it is part of mandatory task 1 that you have to do.}.
+The benchmark prints the measured times in individual columns, with the minimu, average, and maximum printed in the last three columns.
+The figure can be reproduced with the following Gnuplot commands, assuming you have saved the benchmark output into a file called ``data''.
+
+\small\noindent
+\verbatiminput{examples/isort-example.plot}
+\normalsize
+
+According to Wikipedia, the theoretical complexity of insertion sort is $O(N^2)$.
+Figure~\ref{fig:isort-N2} shows that, if the measured runtimes are divided by $N^2$, the resulting values do converge to a non-zero constant.
+This illustrates that theory and practice match each other very closely in this case.
+This figure can be reproduced as follows:
+
+\small\noindent
+\verbatiminput{examples/isort-example-N2.plot}
+\normalsize
+
+\end{document}
