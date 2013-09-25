@@ -23,7 +23,7 @@
 
 \section*{Introduction}
 
-Complexity analysis is an important tool for evaluate possible solutions for a given problem.
+Complexity analysis is an important tool to evaluate possible solutions for a given problem.
 Lecture~4 and the course book by Loudon~\cite{loudon} discuss several theoretical aspects of computational complexity, with a focus on how runtime grows with problem size.
 
 The first project complements the theoretical treatment with hands-on experience.
@@ -43,6 +43,8 @@ There is a set of mandatory tasks that have to be performed in order to pass.
 And there is a list of suggested bonus tasks which can lead to a higher grade.
 A properly performed set of mandatory tasks that are well documented in the project report will receive a grade of 4 in the Halmstad system (ECTS grade C).
 By implementing bonus tasks and properly documenting them, the highest grade (5 and A) can be reached.
+Note that the projects, as well as the written final exam, each count independently for 2.5 credits.
+Each of these must be passed individually, and the final overall grade is the average of all three.
 
 \textbf{The report is an integral part of the project and counts for approximately half the points.}
 In the report, it has to become clear what the students have done, where they took the relevant information, and to what extent the different questions can be answered.
@@ -60,7 +62,7 @@ Teams are encouraged to talk with each other in order to figure out common progr
 
 \section*{Assignment}
 
-Table~\ref{tab:sorting-algorithms} lists sorting algorithms which can added to the benchmark.
+Table~\ref{tab:sorting-algorithms} lists sorting algorithms which can be added to the benchmark.
 The (estimated) difficulty of implementing each algorithm is also given, along with a link to a Wikipedia page providing more details.
 Note that the list excludes bubble sort, insertion sort, and merge sort, because they are either provided as part of the project starting point or have been treated during an earlier exercise.
 
@@ -158,17 +160,15 @@ Perform one or more of these suggested tasks to be able to receive the highest g
 Gnuplot can be used interactively (like in exercise 7) by just giving its command in a terminal.
 But it can also run in batch mode by passing the name of a plot script file on its command line.
 A gnuplot script file is just a text file with a list of gnuplot commands.
-The \texttt{examples/} subdirectory of the project contains several such scripts.
+The \texttt{examples/} subdirectory of the project contains several such scripts (they have a ``\texttt{.plot}'' extension on the file name).
 Notice that those examples which create a figure window must be launched with the additional option ``\texttt{-persist}'' (otherwise the figure just flashes briefly on the screen).
-This is explained in the comments of the relevant .plot example files.
 Notice that there are also example plot files which save the figure in a PNG image, intended for inclusion in your report.
 Please read the gnuplot documentation~\cite{gnuplot} for more details.
 
 Also notice that you are free to use some other software to plot your data.
 For example, if you are familiar with Matlab, you may find that much easier to work with.
 Excel may be another viable option.
-
-
+Note that whichever option you choose, your report must document the plotting tool and commands such that your figures can be reproduced.
 
 \subsection*{Submission Format}
 
