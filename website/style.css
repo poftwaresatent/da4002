@@ -61,6 +61,20 @@ a img {
   border: 0px;
 }
 
+#navtab {
+  color: #333;
+  margin: 1ex auto;
+  padding-bottom: 0ex;
+  max-width: 52em;
+  text-align: center;
+}
+
+#navtab a {
+  border: 4px solid #ccc;
+  border-radius: 4px;
+  background-color: #ccc;
+}
+
 #shell p {
   margin: 0px;
   padding: 0px;
