@@ -11,7 +11,7 @@
 
 /***************************************************
   Merge sort implementation
-*/
+***************************************************/
 
 
 static void merge (int * arr, int * tmp, size_t beg, size_t mid, size_t end)
@@ -70,94 +70,29 @@ static void merge_sort (int * arr, int len)
 
 
 /***************************************************
-  Utility functions to create random data and measure execution time.
-  
-  YOU DO NOT NEED TO UNDERSTAND THESE FUNCTIONS! Just copy-paste them
-  as needed when you create new benchmark programs.
-  
-  You can skip to the main() function ar bottom of this source file to
-  continue reading this code.
-*/
+  Declarations of utility functions used in the benchmark. They are
+  defined after the main function. You do not need to understand how
+  they work, just use them in your benchmarks by copy-pasting.
+***************************************************/
 
+/* Returns a random integer in the specified range. */
+static int random_int (int minval, int maxval);
 
-static int random_int (int minval, int maxval)
-{
-  static int fd = -1;
-  unsigned int delta, tmp, mask;
-  
-  if (0 > fd && 0 > (fd = open ("/dev/urandom", O_RDONLY))) {
-    err (EXIT_FAILURE, __FILE__": %s: open /dev/urandom", __func__);
-  }
-  
-  if (maxval < minval) {
-    tmp = minval;
-    minval = maxval;
-    maxval = tmp;
-  }
-  if (0 == (delta = maxval - minval)) {
-    return minval;
-  }
-  
-  for (tmp = 1 << (8 * sizeof(int) - 1); 0 == (tmp & delta); tmp >>= 1) {
-    /* nop */;
-  }
-  for (mask = tmp; 0 != tmp; tmp >>= 1) {
-    mask |= tmp;
-  }
-  
-  for (;;) {
-    if (sizeof(int) != read (fd, &tmp, sizeof(int))) {
-      err (EXIT_FAILURE, __FILE__": %s: read /dev/urandom", __func__);
-    }
-    tmp &= mask;
-    if (tmp <= delta) {
-      break;
-    }
-  }
-  
-  return minval + tmp;
-}
+/* Returns a freshly allocated array with len random integers from the
+   specified range. The returned array has to be freed at the end of
+   the program. */
+static int * random_array (int minval, int maxval, size_t len);
 
-
-static int * random_array (int minval, int maxval, size_t len)
-{
-  int * arr;
-  int * ii;
-  
-  arr = malloc (len * sizeof(int));
-  if (NULL == arr) {
-    err (EXIT_FAILURE, __FILE__": %s: malloc", __func__);
-  }
-  
-  for (ii = arr; len > 0; ++ii, --len) {
-    *ii = random_int (minval, maxval);
-  }
-  
-  return arr;
-}
-
-
-static double clockms (void)
-{
-  static struct timeval t0 = { 0, 0 };
-  struct timeval t1;
-  
-  if (0 == t0.tv_sec) {
-    if (0 != gettimeofday (&t0, NULL)) {
-      err (EXIT_FAILURE, __FILE__": %s: gettimeofday", __func__);
-    }
-  }
-  if (0 != gettimeofday (&t1, NULL)) {
-    err (EXIT_FAILURE, __FILE__": %s: gettimeofday", __func__);
-  }
-  
-  return 1e3 * (t1.tv_sec - t0.tv_sec) + 1e-3 * (t1.tv_usec - t0.tv_usec);
-}
+/* Returns the current time as milliseconds in double format. The first
+   time this function is called, it resets an internal reference and
+   returns zero. From then on it returns the number of milliseconds
+   since that reset. */
+static double clockms (void);
 
 
 /***************************************************
-  Benchmark.
-*/
+  The main benchmark code begins here.
+***************************************************/
 
 int main (int argc, char ** argv)
 {
@@ -235,4 +170,88 @@ int main (int argc, char ** argv)
   free (dup);
   
   return 0;
+}
+
+
+/***************************************************
+  Implementations of the utility functions to create random data and
+  measure execution time.
+  
+  YOU DO NOT NEED TO UNDERSTAND THESE FUNCTIONS! Just copy-paste them
+  as needed when you create new benchmark programs.
+***************************************************/
+
+
+int random_int (int minval, int maxval)
+{
+  static int fd = -1;
+  unsigned int delta, tmp, mask;
+  
+  if (0 > fd && 0 > (fd = open ("/dev/urandom", O_RDONLY))) {
+    err (EXIT_FAILURE, __FILE__": %s: open /dev/urandom", __func__);
+  }
+  
+  if (maxval < minval) {
+    tmp = minval;
+    minval = maxval;
+    maxval = tmp;
+  }
+  if (0 == (delta = maxval - minval)) {
+    return minval;
+  }
+  
+  for (tmp = 1 << (8 * sizeof(int) - 1); 0 == (tmp & delta); tmp >>= 1) {
+    /* nop */;
+  }
+  for (mask = tmp; 0 != tmp; tmp >>= 1) {
+    mask |= tmp;
+  }
+  
+  for (;;) {
+    if (sizeof(int) != read (fd, &tmp, sizeof(int))) {
+      err (EXIT_FAILURE, __FILE__": %s: read /dev/urandom", __func__);
+    }
+    tmp &= mask;
+    if (tmp <= delta) {
+      break;
+    }
+  }
+  
+  return minval + tmp;
+}
+
+
+int * random_array (int minval, int maxval, size_t len)
+{
+  int * arr;
+  int * ii;
+  
+  arr = malloc (len * sizeof(int));
+  if (NULL == arr) {
+    err (EXIT_FAILURE, __FILE__": %s: malloc", __func__);
+  }
+  
+  for (ii = arr; len > 0; ++ii, --len) {
+    *ii = random_int (minval, maxval);
+  }
+  
+  return arr;
+}
+
+
+double clockms (void)
+{
+  static struct timeval t0 = { 0, 0 };
+  struct timeval t1;
+  
+  if (0 == t0.tv_sec) {
+    if (0 != gettimeofday (&t0, NULL)) {
+      err (EXIT_FAILURE, __FILE__": %s: gettimeofday", __func__);
+    }
+  }
+  if (0 != gettimeofday (&t1, NULL)) {
+    err (EXIT_FAILURE, __FILE__": %s: gettimeofday", __func__);
+  }
+  
+  return 1e3 * (t1.tv_sec - t0.tv_sec) + 1e-3 * (t1.tv_usec - t0.tv_usec);
 }
