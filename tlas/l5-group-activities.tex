@@ -18,7 +18,7 @@
 
 \section{Detecting container types in code}
 
-In groups of two students (pairs of neighbors together), discuss and decide which type of container is implemented by \texttt{ContainerOne} and \texttt{ContainerTwo} in the provided source code.
+In groups of two students (for example with your neighbor), discuss and decide which type of container is implemented by \texttt{ContainerOne} and \texttt{ContainerTwo} in the provided source code.
 Also discuss and decide on answers for the two related questions:
 \begin{itemize}
 \item
@@ -39,16 +39,21 @@ Also discuss and decide on answers for the two related questions:
 \section{Estimating runtimes using Big-Oh}
 
 The class is divided randomly into two groups.
-Each group selects one of them to take notes for the common parts of the activity.
+% Each group selects one of them to take notes for the common parts of the activity.
+
 \begin{enumerate}
+
 \item
-  \emph{Without solving} the specific questions, each group discusses and decides which of the formulas on slide 10 of lecture 5 can be used to solve to each of the 4 questions on the provided sheet of questions.
+  \emph{Without solving} the specific questions, each group discusses and decides which of the formulas on slide 10 of lecture 5 can be used to solve to each of the 4 questions on the provided sheet.
   Then discuss where and how to use the numeric tables at the bottom of the question sheet.
+
 \item
   Each student solves the 4 questions individually, asking one of their group members for help if they get stuck.
-\item
-  Discuss in the group which part of the activity you found the most difficult, and why.
-  As a group, write down one aspect that seems the most important, then share your impressions with the entire class.
+
+% \item
+%   Discuss in the group which part of the activity you found the most difficult, and why.
+%   As a group, write down one aspect that seems the most important to you, then share your impressions with the entire class.
+
 \end{enumerate}
 
 \emph{
@@ -60,8 +65,8 @@ Each group selects one of them to take notes for the common parts of the activit
 
 \section{When is Big-Oh useful?}
 
-The class is again divided randomly into two groups.
-And again, each group selects one of them to take notes.
+The class remains divided into the two randomly chosen groups.
+Before continuing, each group selects one of them to take notes.
 
 Each group discusses the benefits and drawbacks of the Big-Oh approach to computational complexity.
 What does it do, what does it assume, when is this good or bad, how much can be inferred from it?
@@ -69,7 +74,7 @@ At the end of the discussion each group decides what is for them the most import
 This consensus is written down and then shared with the entire class.
 
 \emph{
-  There is no strict right or wrong in this activity.
+  There are no strictly right or wrong answers.
   The purpose is for everyone to clarify why we learn about Big-Oh and when it can be useful in practice.
 }
 
@@ -77,9 +82,35 @@ This consensus is written down and then shared with the entire class.
 
 \section{Divide \& Conquer applied to the maximum subsequence sum problem}
 
+Work together in groups of two students (with your neighbor) to apply the D\&C method to the maximum subsequence sum problem.
+The idea is to divide the problem into two halves, each of which is solved using recursion.
+Thus you will need to define a recursive function.
+Inside that function, you also have to put the two half-solutions back together:
+how can this be done in the particular case of the maximum subsequence problem?
+Write down an implementation sketch as you work.
+
+After approximately 10 minutes, stop working on the algorithm itself.
+Instead, discuss how you would write a program to test if your algorithm works.
+Think of example sequences that would test specific aspects, and how to know whether the answer computed by your (or any) algorithm is correct.
+Again, write down your ideas as you work.
+
+
+\emph{
+  Depending on time in the lecture, we can discuss all sketches in class.
+  And remember that you can always try out your solution by implementing it.
+}
+
 
 
 \section{Implement a memo infrastructure for the Fibonacci sequence}
+
+Individually or in small groups, write a sketch for the memo structure and functions that are used by the given code (the same as slide 41 of lecture 5) to avoid duplicate computations of Fibonacci numbers when they are computed recursively.
+Think about how to dynamically allocate the required storage, and how to initialize it with values so that the \texttt{fibMemo()} function works properly.
+Pay attention to the detail that the \texttt{fibMemo()} function does not contain an explicit termination condition, which can lead to an infinite recursion (and crash) unless the memo is initialized in the correct way.
+
+\emph{
+  To check your answer, compile and run it on a computer.
+}
 
 
 
