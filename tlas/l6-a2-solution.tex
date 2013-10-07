@@ -1,0 +1,95 @@
+\documentclass[a4paper]{article}
+
+\usepackage[margin=3.5cm]{geometry}
+\usepackage{booktabs,amsmath,paralist}
+
+\begin{document}
+
+\title{
+  {\small
+    Halmstad University course DA4002\\
+    Introduction to Algorithms, Data Structures, and Problem Solving\\
+  }
+  Solution for Group Activity 2 of Lecture 6
+}
+\maketitle
+
+\begin{table}
+  \caption{Cost and transition models.}\label{tab:actions}
+  \centering
+  \begin{tabular}{lll}
+    \toprule
+    Action & Cost & Transition \\
+    \midrule
+    keep   & $F(x,\text{K}) = m_{x+1}$       & $T(x,\text{K}) = x+1$ \\
+    trade  & $F(x,\text{T}) = p - s_x + m_1$ & $T(x,\text{T}) = 1$ \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+The Bellman equation can be written as follows in this example:
+
+\begin{equation}
+  V_n(x) = \min_{a\in\{K,T\}} \big((F(x,a) + V_{n+1}(T(x,a)) \big)
+\end{equation}
+
+The actions lead to the cost and transition expressions listed in table~\ref{tab:actions}.
+$F(x,\text{K})$ states that if you keep a machine that is $x$ years old, you will have to pay the maintenance cost of a machine that is in its year of operation number $x+1$.
+$T(x,\text{K})$ states that if you keep a machine, it will be one year older at the next stage.
+$F(x,\text{T})$ states that if you trade in a machine, you have to pay the price $p$ for a new one, you get the value $s_x$ for selling your $x$ year old machine, and you have to pay maintenance $m_1$ for a machine in its first year of operation.
+$T(x,\text{T})$ states that when you buy a new machine, it will be one year old at the next stage.
+
+There are few boundary conditions to consider:
+After year 5, we have to sell and get back the resale value of a machine that is $x$ years old.
+Thus $V_5 = -s_x$.
+Before the first year, which is the same as after year zero, we have to buy.
+Thus $V_0 = p + m_1 + V_1(1)$ which by the way does not depend on $x$.
+In year one $x$ can only be $1$.
+In year two, $x\in\{1,2\}$.
+In the remaining years, $x\in\{1,2,3\}$.
+A three-year-old machine has to be traded, so the only possible action is $a=\text{T}$.
+In those cases, there is no choice, thus no minimization.
+
+Summarizing all of the above we get
+\begin{align}
+  V_n(x)
+  &=
+  \min
+  \begin{cases}
+    \text{K (only for}\; x < 3):
+    &
+    m_{x+1} + V_{n+1}(x+1)
+    \\
+    \text{T:}
+    &
+    p - s_x + m_1 + V_{n+1}(1)
+  \end{cases}
+  \\
+  V_5(x)
+  &=
+  -s_x
+  \\
+  V_0
+  &=
+  p + m_1 + V_1(1)
+\end{align}
+
+The procedure to follow is then:
+\begin{compactenum}
+\item
+  Create a table for stage $n=5$ with $V_5(x)$ where $x\in\{1,2,3\}$.
+\item
+  Create tables for stages $n=4,3,2,1$ based on the table for $n+1$.
+\item
+  Compute $V_0$
+\end{compactenum}
+
+The result is shown in table~\ref{tab:result}.
+To trace back a solution, start at the first stage.
+Look up the optimal choices and pick one of them.
+Use its transition function to find out where you end up in the next stage.
+Repeat until you hit $n=5$.
+
+
+
+\end{document}
