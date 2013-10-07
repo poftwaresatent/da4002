@@ -2,6 +2,7 @@
 
 \usepackage[margin=3.5cm]{geometry}
 \usepackage{booktabs,amsmath,paralist}
+\usepackage[format=hang,labelfont=it]{caption}
 
 \begin{document}
 
@@ -16,67 +17,103 @@
 
 
 
-\section{Dynamic Programming applied to the coin change problem}
+\section{Coin change}
 
-a country has coin denominations of 1, 3, and 7 cents
-what's the best way to give change?
-minimize number of coins
-give change: the coins must sum to K
-do it for K = { 1, ..., 10 }
+Work with your neighbor on the following problem.
+A country has coin denominations of 1, 3, and 7 cents.
+What is the best way to give change?
+By best we mean that you use the minimum number of coins so that their values sum up to $n$ cents.
 
+Table~\ref{tab:coin} is the starting point.
+It states that for $n=0$ no coins are required, for $n=1$ a single coin of 1 cent (written $a^\ast_1=1$) is optimal, and for $n=2$ we need two coins (written $V_2=2$).
+How about $n=3$?
+That one should be straightforward, but discuss with your neighbor to make sure.
+At $n=4$ there are two equivalent choices, how are they encoded?
 
+What do the formulas underneath the $a=\{1,3,7\}$ columns mean?
+Talk about it with your neighbor.
 
-\section{Equipment replacement}
+Expand this table for $n=5$ and beyond.
+Discuss your procedure as you go along!
+Try to get a feeling for how optimal solutions for new rows in the table can depend on various older rows, depending on the choice you consider for each $n$.\\[3\baselineskip]
 
 \begin{table}
-  \caption{Operation and investment costs and values.}\label{tab:costs}
+  \caption{
+    Dynamic Programming solution to coin changing, where
+    $n$ is the remaining amount,
+    $a\in\{1,3,7\}$ denotes the choice of coins at our disposal,
+    $a^\ast$ denotes the best choice of coin for a given $n$,
+    $V_n$ tracks the minimum number of coins necessary to give change for a total value of $n$ cents,
+    and $n^+$ indicates how $n$ changes when you pick a coin according to $a^\ast$ for a given $n$.
+  }\label{tab:coin}
   \centering
-  \begin{tabular}{lrrrr}
+  \begin{tabular}{*7{l}}
     \toprule
-    \multicolumn{2}{l}{Operation or investment} & year 1    & year 2    & year 3    \\
+    $n$ & $a=1$      & $a=3$        & $a=7$ & $a^\ast$ & $V_n$ & $n^+$  \\
     \midrule
-    purchase cost                     & $p=1000$ &           &           &           \\
-    sales value                       &          & $s_1=800$ & $s_2=600$ & $s_3=500$ \\
-    maintenace cost                   &          & $m_1=60$  & $m_2=80$  & $m_3=120$ \\
+    0 &              &              &       &          & $V_0=0$ &        \\
+    1 & $1+V_{(1-1)}=1$ &              &       & 1        & $V_1=1$ & 0      \\
+    2 & $1+V_{(2-1)}=2$ &              &       & 1        & $V_2=2$ & 1      \\
+    3 & $1+V_{(3-1)}=3$ & $1+V_{(3-3)}=1$ &       & 3        & $V_3=1$ & 0      \\
+    4 & $1+V_{(4-1)}=2$ & $1+V_{(4-3)}=2$ &       & 1 or 3   & $V_4=2$ & 3 or 1 \\
+    5 & \ldots \\
     \bottomrule
   \end{tabular}
 \end{table}
+
+\pagebreak
+
+\section{Equipment replacement}
 
 The class is divided into two ``random'' groups.
 Each group is in charge of a production facility that needs a certain type of machine.
 A machine can be kept for a maximum of three years.
 The value that you get for selling an old machine, and the cost of maintaining a machine, both depend on its age.
-A new machine always costs the same amount.
-What is the cheapest sequence of buying, maintaining, and selling such machines over the next five years, given the costs and values from table~\ref{tab:costs}?
+It always costs the same amount to buy a new machine.
 
+What is the cheapest sequence of buying, maintaining, and selling such machines over the next five years, given the costs and values from Table~\ref{tab:costs}?
 Use the following hints to formulate and solve this problem.
 Discuss with your neighbor or in the entire group to make sure you understand what is meant.
 
 \begin{compactitem}
 \item
-  The natural \emph{stages} $n$ (or steps) in this problem are the years of operation, and it is easiest to plan backwards.
+  The natural \emph{stages} $n$ in this problem are the years of operation.
 \item
-  The natural \emph{state} $x$ in this problem is the age of the machine expressed as year of operation.
-  Thus, if you just bought a machine, its age will be 1 (one) and it will cost you $m_1$ to maintain.
-  Or, if you sell a 2 year old machine, you will receive $s_2$ money back.
+  The natural \emph{state} $x$ is the age of the machine expressed as year of operation.
+  Thus, for example if you just bought a machine, it costs $m_1$ to maintain.
+  Similarly, if you sell a 2 year old machine, you receive $s_2$ money back.
 \item
-  There are two possible \emph{actions} $a$ which encode what you can do at the beginning of each year:
+  There are two possible \emph{actions} $a$ that you can choose from at the beginning of each year:
   either \emph{keep} a machine, or \emph{trade} it in for a new one.
-  But you do not always have the choice, for example after using a 3 year old machine, you have to trade.
+  But a 3 year old machine must be traded and cannot be kept.
 \item
   Think about how to formalize the \emph{transformation} $x_{n+1}=T(x_n,a_n)$ and the \emph{cost} $F(x_n,a_n)$ associated with each action.
-  To shorten notation, we can write $a=\text{K}$ to denote \emph{keep} actions, and $a=\text{T}$ for \emph{trade} actions.
+  We can write $a=k$ to denote \emph{keep} actions, and $a=t$ for \emph{trade} actions.
+  For example, this simplifies the expression for what happens to the state of a 2 year old machine when we decide to keep it: $T(2,k)=2+1=3$ which means that it will become 3 years old.
 \item
-  Express the \emph{value function} update (Bellman equation) in terms of the problem-specific formalisations.
+  Express the \emph{value function} update (Bellman equation) in terms of the problem-specific formalization.
   In this problem, we are minimizing cost (as opposed to maximizing payoff).
 \item
-  After preparing all the above ingredients, begin by thinking about what are the possible outcomes of the last (fifth) year in isolation.
+  This problem is best solved in reverse, starting at year 5 and working backward.
+  So, first think about the possible outcomes of the last (fifth) year considered in isolation of all the others.
   Then, for each of these outcomes, what would be the possible and the best options for year four?
   And so on until you reach year zero.
 \end{compactitem}
 
+\vspace{3\baselineskip}
 
-
-
+\begin{table}[h]
+  \caption{Operation and investment costs and values.}\label{tab:costs}
+  \centering
+  \begin{tabular}{lrrrr}
+    \toprule
+    \multicolumn{2}{l}{Buying, selling, and maintaining} & age 1    & age 2    & age 3    \\
+    \midrule
+    purchase cost                     & $p=1000$ &           &           &           \\
+    sales value                       &          & $s_1=800$ & $s_2=600$ & $s_3=500$ \\
+    maintenance cost                  &          & $m_1=60$  & $m_2=80$  & $m_3=120$ \\
+    \bottomrule
+  \end{tabular}
+\end{table}
 
 \end{document}
