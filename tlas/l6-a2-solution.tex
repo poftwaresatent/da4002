@@ -21,8 +21,8 @@
     \toprule
     Action & Cost & Transition \\
     \midrule
-    keep   & $F(x,\text{K}) = m_{x+1}$       & $T(x,\text{K}) = x+1$ \\
-    trade  & $F(x,\text{T}) = p - s_x + m_1$ & $T(x,\text{T}) = 1$ \\
+    keep   & $F(x,k) = m_{x+1}$       & $T(x,k) = x+1$ \\
+    trade  & $F(x,t) = p - s_x + m_1$ & $T(x,t) = 1$ \\
     \bottomrule
   \end{tabular}
 \end{table}
@@ -34,20 +34,21 @@ The Bellman equation can be written as follows in this example:
 \end{equation}
 
 The actions lead to the cost and transition expressions listed in table~\ref{tab:actions}.
-$F(x,\text{K})$ states that if you keep a machine that is $x$ years old, you will have to pay the maintenance cost of a machine that is in its year of operation number $x+1$.
-$T(x,\text{K})$ states that if you keep a machine, it will be one year older at the next stage.
-$F(x,\text{T})$ states that if you trade in a machine, you have to pay the price $p$ for a new one, you get the value $s_x$ for selling your $x$ year old machine, and you have to pay maintenance $m_1$ for a machine in its first year of operation.
-$T(x,\text{T})$ states that when you buy a new machine, it will be one year old at the next stage.
+$F(x,k)$ states that if you keep a machine that is $x$ years old, you will have to pay the maintenance cost of a machine that is in its year of operation number $x+1$.
+$T(x,k)$ states that if you keep a machine, it will be one year older at the next stage.
+$F(x,t)$ states that if you trade in a machine, you have to pay the price $p$ for a new one, you get the value $s_x$ for selling your $x$ year old machine, and you have to pay maintenance $m_1$ for a machine in its first year of operation.
+$T(x,t)$ states that when you buy a new machine, it will be one year old at the next stage.
+Notice that $p$ and $m_1$ always appear together, so we substitute $P=p+m_1$.
 
 There are few boundary conditions to consider:
 After year 5, we have to sell and get back the resale value of a machine that is $x$ years old.
 Thus $V_5 = -s_x$.
 Before the first year, which is the same as after year zero, we have to buy.
-Thus $V_0 = p + m_1 + V_1(1)$ which by the way does not depend on $x$.
+Thus $V_0 = p + m_1 + V_1(1) = P + V_1(1)$ which by the way does not depend on $x$.
 In year one $x$ can only be $1$.
 In year two, $x\in\{1,2\}$.
 In the remaining years, $x\in\{1,2,3\}$.
-A three-year-old machine has to be traded, so the only possible action is $a=\text{T}$.
+A three-year-old machine has to be traded, so the only possible action is $a=t$.
 In those cases, there is no choice, thus no minimization.
 
 Summarizing all of the above we get
@@ -56,13 +57,13 @@ Summarizing all of the above we get
   &=
   \min
   \begin{cases}
-    \text{K (only for}\; x < 3):
+    \text{keep}\; (x < 3):
     &
-    m_{x+1} + V_{n+1}(x+1)
+    v_k = m_{x+1} + V_{n+1}(x+1)
     \\
-    \text{T:}
+    \text{trade:}
     &
-    p - s_x + m_1 + V_{n+1}(1)
+    v_t = P - s_x + V_{n+1}(1)
   \end{cases}
   \\
   V_5(x)
@@ -71,25 +72,65 @@ Summarizing all of the above we get
   \\
   V_0
   &=
-  p + m_1 + V_1(1)
+  P + V_1(1)
 \end{align}
 
 The procedure to follow is then:
-\begin{compactenum}
-\item
-  Create a table for stage $n=5$ with $V_5(x)$ where $x\in\{1,2,3\}$.
-\item
-  Create tables for stages $n=4,3,2,1$ based on the table for $n+1$.
-\item
-  Compute $V_0$
-\end{compactenum}
+create a table for stage $n=5$ with $V_5(x)$ where $x\in\{1,2,3\}$;
+then compute tables for stages $n\in\{4,3,2,1\}$ each based on the table for $n+1$;
+finally compute $V_0$.
 
 The result is shown in table~\ref{tab:result}.
+It uses the notation $v_k$ and $v_t$ for the tentative values of $V_n(x)$, corresponding to the two action choices over which we minimize.
+Recall the numeric values $p=1000$, $s_1=800$, $s_2=600$, $s_3=500$, $m_1=60$, $m_2=80$, $m_3=120$, and $P=p+m_1=1060$.
+
 To trace back a solution, start at the first stage.
 Look up the optimal choices and pick one of them.
 Use its transition function to find out where you end up in the next stage.
 Repeat until you hit $n=5$.
 
-
+\begin{table}
+  \caption{Dynamic Programming solution of equipment replacement}\label{tab:result}
+  \centering
+  \begin{tabular}{lllll}
+    \toprule
+    \multicolumn{5}{l}{stage $n=5$} \\
+    \midrule
+    $x_5$ & \multicolumn{4}{l}{sell} \\
+    1     & \multicolumn{4}{l}{$V_5(1)=-s_1=-800$} \\
+    2     & \multicolumn{4}{l}{$V_5(2)=-s_2=-600$} \\
+    3     & \multicolumn{4}{l}{$V_5(3)=-s_3=-500$} \\
+    \toprule
+    \multicolumn{5}{l}{stage $n=4$} \\
+    \midrule
+    $x_4$ & keep $\rightarrow v_k$ & trade $\rightarrow v_t$ & $\rightarrow V_4(x)$ & $\rightarrow x_5$ \\
+    1 & $m_2+V_5(2)=-520$ & $P-s_1+V_5(1)=-540$ & $v_t=-540$ & $T(1,t)=1$ \\
+    2 & $m_3+V_5(3)=-380$ & $P-s_2+V_5(1)=-340$ & $v_k=-380$ & $T(2,k)=3$ \\
+    3 &                   & $P-s_3+V_5(1)=-240$ & $v_t=-240$ & $T(3,t)=1$ \\
+    \toprule
+    \multicolumn{5}{l}{stage $n=3$} \\
+    \midrule
+    $x_3$ & keep $\rightarrow v_k$ & trade $\rightarrow v_t$ & $\rightarrow V_3(x)$ & $\rightarrow x_4$ \\
+    1 & $m_2+V_4(2)=-300$ & $P-s_1+V_4(1)=-280$ & $v_k=-300$ & $T(1,k)=2$ \\
+    2 & $m_3+V_4(3)=-120$ & $P-s_2+V_4(1)=-80$  & $v_k=-120$ & $T(2,k)=3$ \\
+    3 &                   & $P-s_3+V_4(1)= 20$  & $v_t=20$   & $T(3,t)=1$ \\
+    \toprule
+    \multicolumn{5}{l}{stage $n=2$} \\
+    \midrule
+    $x_2$ & keep $\rightarrow v_k$ & trade $\rightarrow v_t$ & $\rightarrow V_2(x)$ & $\rightarrow x_3$ \\
+    1 & $m_2+V_3(2)=-40$  & $P-s_1+V_3(1)=-40$  & $v_{k,t}=-40$ & $2$ or $1$ \\
+    2 & $m_3+V_3(3)= 140$ & $P-s_2+V_3(1)= 160$ & $v_k=140$     & $T(2,k)=3$     \\
+    \toprule
+    \multicolumn{5}{l}{stage $n=1$} \\
+    \midrule
+    $x_1$ & keep $\rightarrow v_k$ & trade $\rightarrow v_t$ & $\rightarrow V_1(x)$ & $\rightarrow x_2$ \\
+    1 & $m_2+V_2(2)= 220$ & $P-s_1+V_2(1)= 220$ &  $v_{k,t}=220$ & $2$ or $1$ \\
+    \toprule
+    \multicolumn{5}{l}{stage $n=0$} \\
+    \midrule
+    $x_0$ & \multicolumn{4}{l}{buy: $V_0=P+V_1(1)=1280$ and initialize: $x_1 = 1$} \\
+    \bottomrule
+    \end{tabular}
+\end{table}
 
 \end{document}
