@@ -30,14 +30,14 @@
 The Bellman equation can be written as follows in this example:
 
 \begin{equation}
-  V_n(x) = \min_{a\in\{K,T\}} \big((F(x,a) + V_{n+1}(T(x,a)) \big)
+  V_n(x) = \min_{a\in\{k,t\}} \big((F(x,a) + V_{n+1}(T(x,a)) \big)
 \end{equation}
 
-The actions lead to the cost and transition expressions listed in table~\ref{tab:actions}.
-$F(x,k)$ states that if you keep a machine that is $x$ years old, you will have to pay the maintenance cost of a machine that is in its year of operation number $x+1$.
-$T(x,k)$ states that if you keep a machine, it will be one year older at the next stage.
-$F(x,t)$ states that if you trade in a machine, you have to pay the price $p$ for a new one, you get the value $s_x$ for selling your $x$ year old machine, and you have to pay maintenance $m_1$ for a machine in its first year of operation.
-$T(x,t)$ states that when you buy a new machine, it will be one year old at the next stage.
+The actions lead to the cost and transition expressions listed in Table~\ref{tab:actions}.
+$F(x,k)$ states that if you \emph{keep} a machine that is $x$ years old, you will have to pay the maintenance cost of a machine that is in its year of operation number $x+1$.
+$T(x,k)$ states that if you \emph{keep} a machine, it will be one year older at the next stage.
+$F(x,t)$ states that if you \emph{trade} in a machine, you have to pay the price $p$ for a new one, you get the value $s_x$ for selling your $x$ year old machine, and you have to pay maintenance $m_1$ for a machine in its first year of operation.
+$T(x,t)$ states that \emph{trade} means you buy a new machine, thus it will be one year old at the next stage.
 Notice that $p$ and $m_1$ always appear together, so we substitute $P=p+m_1$.
 
 There are few boundary conditions to consider:
@@ -80,7 +80,7 @@ create a table for stage $n=5$ with $V_5(x)$ where $x\in\{1,2,3\}$;
 then compute tables for stages $n\in\{4,3,2,1\}$ each based on the table for $n+1$;
 finally compute $V_0$.
 
-The result is shown in table~\ref{tab:result}.
+The result is shown in Table~\ref{tab:result}.
 It uses the notation $v_k$ and $v_t$ for the tentative values of $V_n(x)$, corresponding to the two action choices over which we minimize.
 Recall the numeric values $p=1000$, $s_1=800$, $s_2=600$, $s_3=500$, $m_1=60$, $m_2=80$, $m_3=120$, and $P=p+m_1=1060$.
 
