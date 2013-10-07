@@ -74,9 +74,135 @@
       <h1>ITADS Exercise 8<br>
 	dynamic programming</h1>
       
+      <h2>Exercise 8.1: equipment replacement revisited</h2>
+      
       <p>
-	<b>Under construction...</b>
+	Read the <a href="documents/itads2013-l6-a2-solution.pdf">solution</a> of today's <b>second</b> <a href="documents/itads2013-l6-group-activities.pdf">group activity</a> (the one about equipment replacement).
+	Then answer the following questions to make sure you understand the solution.
       </p>
+      
+      <ol>
+	<li>
+	  List all the optimal solutions.
+	</li>
+	<li>
+	  Let the maintenance costs be higher:
+	  <strong>m<sub>1</sub>=100, m<sub>2</sub>=110, m<sub>3</sub>=200</strong>.
+	  Then:
+	  <ul>
+	    <li>Redo the computations for all stages.</li>
+	    <li>What is the optimal cost after this change?</li>
+	    <li>What is the new optimal solution (there is only one)?</li>
+	  </ul>
+	</li>
+	<li>
+	  <em>Optional (time intensive):</em>
+	  let the maximum age of a machine be 4 instead of 3, and use the following maintenance costs and trade values:
+	  <strong>m<sub>1</sub>=60, m<sub>2</sub>=80, m<sub>3</sub>=120, m<sub>4</sub>=130, s<sub>1</sub>=800, s<sub>2</sub>=600, s<sub>3</sub>=500, s<sub>4</sub>=400</strong>.
+	  Then:
+	  <ul>
+	    <li>Redo the computations for all stages.</li>
+	    <li>What is the optimal cost after this change?</li>
+	    <li>Give the two new optimal solutions.</li>
+	  </ul>
+	</li>
+      </ol>
+      
+      <h2>Exercise 8.2: change-making program</h2>
+      
+      <p>
+	Consider the <b>first</b> <a href="documents/itads2013-l6-group-activities.pdf">group activity</a> from lecture 6.
+      </p>
+      
+      <ol>
+	<li>
+	  Write a program called <tt>change</tt> that executes the change-making algorithm for <em>n={1, 2, 3, ... 20}</em> and prints the resulting table to the terminal.
+	  The output should for example look like this:
+<pre class="output"> n | a1 a3 a7 |  V | best coin(s)
+---+----------+----+-------------
+ 1 |  1       |  1 | 1 
+ 2 |  2       |  2 | 1 
+ 3 |  3  1    |  1 | 3 
+ 4 |  2  2    |  2 | 1 3 
+ 5 |  3  3    |  3 | 1 3 
+ 6 |  4  2    |  2 | 3 
+ 7 |  3  3  1 |  1 | 7 
+ 8 |  2  4  2 |  2 | 1 7 
+ 9 |  3  3  3 |  3 | 1 3 7 
+10 |  4  2  2 |  2 | 3 7 
+11 |  3  3  3 |  3 | 1 3 7 
+12 |  4  4  4 |  4 | 1 3 7 
+13 |  5  3  3 |  3 | 3 7 
+14 |  4  4  2 |  2 | 7 
+15 |  3  5  3 |  3 | 1 7 
+16 |  4  4  4 |  4 | 1 3 7 
+17 |  5  3  3 |  3 | 3 7 
+18 |  4  4  4 |  4 | 1 3 7 
+19 |  5  5  5 |  5 | 1 3 7 
+20 |  6  4  4 |  4 | 3 7 </pre>
+	</li>
+	<li>
+	  Extend the program so that, after printing the table, it also prints one of the optimal coin sequences for every <em>n</em>.
+	  Your program output should look somewhat like this:
+<pre class="output"> n | a1 a3 a7 |  V |  choices | optimal sequence
+---+----------+----+----------+-----------------
+ 1 |  1       |  1 |  1       | 1
+ 2 |  2       |  2 |  1       | 1+1
+ 3 |  3  1    |  1 |     3    | 3
+ 4 |  2  2    |  2 |  1  3    | 1+3
+ 5 |  3  3    |  3 |  1  3    | 1+1+3
+ 6 |  4  2    |  2 |     3    | 3+3
+ 7 |  3  3  1 |  1 |        7 | 7
+ 8 |  2  4  2 |  2 |  1     7 | 1+7
+ 9 |  3  3  3 |  3 |  1  3  7 | 1+1+7
+10 |  4  2  2 |  2 |     3  7 | 3+7
+11 |  3  3  3 |  3 |  1  3  7 | 1+3+7
+12 |  4  4  4 |  4 |  1  3  7 | 1+1+3+7
+13 |  5  3  3 |  3 |     3  7 | 3+3+7
+14 |  4  4  2 |  2 |        7 | 7+7
+15 |  3  5  3 |  3 |  1     7 | 1+7+7
+16 |  4  4  4 |  4 |  1  3  7 | 1+1+7+7
+17 |  5  3  3 |  3 |     3  7 | 3+7+7
+18 |  4  4  4 |  4 |  1  3  7 | 1+3+7+7
+19 |  5  5  5 |  5 |  1  3  7 | 1+1+3+7+7
+20 |  6  4  4 |  4 |     3  7 | 3+3+7+7</pre>
+	</li>
+	<li>
+	  <em>Optional (advanced)</em>: extend the program so that the possible choices (the available coin denominations) and the range of <em>n</em> can be specified on the command line.
+	  For example, you could interpret the first argument as the upper bound for the range of <em>n</em>, and the remaining ones as the denominations.
+	  Then, you could create a table for making change in more commonly encountered situations, such as:
+<pre class="command">&gt; ./change  25 1 2 5 10 25
+  n | a1  a2  a5  a10 a25 |  V |  choices and optimal sequence
+----------------------------------------------------------------------
+  1 |   1                 |  1 |  1             | 1
+  2 |   2   1             |  1 |     2          | 2
+  3 |   2   2             |  2 |  1  2          | 1+2
+  4 |   3   2             |  2 |     2          | 2+2
+  5 |   3   3   1         |  1 |        5       | 5
+  6 |   2   3   2         |  2 |  1     5       | 1+5
+  7 |   3   2   2         |  2 |     2  5       | 2+5
+  8 |   3   3   3         |  3 |  1  2  5       | 1+2+5
+  9 |   4   3   3         |  3 |     2  5       | 2+2+5
+ 10 |   4   4   2   1     |  1 |          10    | 10
+ 11 |   2   4   3   2     |  2 |  1       10    | 1+10
+ 12 |   3   2   3   2     |  2 |     2    10    | 2+10
+ 13 |   3   3   4   3     |  3 |  1  2    10    | 1+2+10
+ 14 |   4   3   4   3     |  3 |     2    10    | 2+2+10
+ 15 |   4   4   2   2     |  2 |        5 10    | 5+10
+ 16 |   3   4   3   3     |  3 |  1     5 10    | 1+5+10
+ 17 |   4   3   3   3     |  3 |     2  5 10    | 2+5+10
+ 18 |   4   4   4   4     |  4 |  1  2  5 10    | 1+2+5+10
+ 19 |   5   4   4   4     |  4 |     2  5 10    | 2+2+5+10
+ 20 |   5   5   3   2     |  2 |          10    | 10+10
+ 21 |   3   5   4   3     |  3 |  1       10    | 1+10+10
+ 22 |   4   3   4   3     |  3 |     2    10    | 2+10+10
+ 23 |   4   4   5   4     |  4 |  1  2    10    | 1+2+10+10
+ 24 |   5   4   5   4     |  4 |     2    10    | 2+2+10+10
+ 25 |   5   5   3   3   1 |  1 |             25 | 25</pre>
+	  <em>Note that most countries design their coin denominations such that the optimal change sequence does not require dynamic programming.
+	    Instead, you can use simple greedy algorithm: repeatedly pick the coin with the highest denomination that is smaller than or equal to the remaining amount of change that you need to make.</em>
+	</li>
+      </ol>
       
     </div> <!-- content -->
     
