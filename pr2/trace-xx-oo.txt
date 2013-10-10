@@ -1,0 +1,41 @@
+input source:      xx
+input destination: oo
+
+output source:      xx
+output destination: oo
+
+output source:      _xx
+output destination: oo_
+
+output source:      xx_
+output destination: _oo
+
+output source:      _xx
+output destination: o_o
+
+output source:      x_x
+output destination: _oo
+
+output source:      __xx
+output destination: oo__
+
+output source:      x_x
+output destination: oo_
+
+output source:      xx_
+output destination: o_o
+
+output source:      xx__
+output destination: __oo
+
+output source:      _x_x
+output destination: o_o_
+
+output source:      x__x
+output destination: _oo_
+
+output source:      _xx_
+output destination: o__o
+
+output source:      x_x_
+output destination: _o_o

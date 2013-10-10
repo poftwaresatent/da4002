@@ -1,0 +1,16 @@
+input source:      HOT
+input destination: ohitishotinthere
+
+    _    o    h    i    t    i    s    h    o    t    i    n    t    h    e    r    e
+
+_    0   -5  -10  -15  -20  -25  -30  -35  -40  -45  -50  -55  -60  -65  -70  -75  -80
+          i    i    i    i    i    i    i    i    i    i    i    i    i    i    i    i
+
+H   -5  -10    5    0   -5  -10  -15  -20  -25  -30  -35  -40  -45  -50  -55  -60  -65
+     d  mdi    m    i    i    i    i   mi    i    i    i    i    i   mi    i    i    i
+
+O  -10    5    0    3   -2   -7  -12  -17  -10  -15  -20  -25  -30  -35  -40  -45  -50
+     d    m   di    m    i   mi    i    i    m    i    i    i    i    i    i    i    i
+
+T  -15    0    1   -2   13    8    3   -2   -7    0   -5  -10  -15  -20  -25  -30  -35
+     d    d    m    d    m    i    i    i    i    m    i    i   mi    i    i    i    i

@@ -1,0 +1,193 @@
+\documentclass[a4paper,10pt]{article}
+
+\usepackage[margin=3.5cm]{geometry}
+\usepackage[format=hang,justification=raggedright,font=it,singlelinecheck=off]{caption}
+\usepackage{url,verbatim}
+
+\begin{document}
+
+\title{
+  {\small
+    Halmstad University course DA4002\\
+    Introduction to Algorithms, Data Structures, and Problem Solving\\
+  }
+  Assignment for Project 2:\\
+  Sequence Alignment
+}
+\author{
+  Roland Philippsen\\
+  \url{roland.philippsen@hh.se}
+}
+\maketitle
+
+
+
+\section{Introduction}
+
+Finding a good alignment between two sequences of symbols (characters) is a commonly encountered problem in various domains.
+The Needleman-Wunsch algorithm~\cite{needleman-wunsch:1970} presented in lecture~6~\cite{lecture6} efficiently finds such optimal alignments, and this project is about implementing it.
+The excellent article on Wikipedia~\cite{wikipedia:needleman-wunsch} explain this algorithm in more detail.
+
+In order to get started on the implementation, you are given code examples for some of the technical ingredients you will need:
+\begin{itemize}
+\item
+  Matrices (or ``tables'' or ``two dimensional arrays'') can be implemented using either the approach in \texttt{example-matrix-a.c} or \texttt{example-matrix-b.c}.
+  These examples also show how you might print nicely formatted output from your program.
+\item
+  Your program will be required to process command line arguments, namely the two strings which should be aligned with each other.
+  The \texttt{example-argument-parsing.c} file provides code for some of operations you will need to perform on the provided strings, such as finding the length of a string, checking that all characters are valid, and finding out whether a given letter is a vowel.
+\end{itemize}
+
+You are again required to write a report about this project, and hand it in along with your source code.
+Again, your project must compile and run properly on the machines in room B231c.
+There is no template for the report this time, but of course the report must still be well structured and contain appropriate explanations to understand what you have achieved and how.
+
+The deadline for handing in the source code and the report is \textbf{Friday, October 18, 2013, at 18h00}.
+Teams who miss the deadline will receive a penalty of 5 points (the maximum number of points is 25).
+In case of exonerating circumstances, a deadline extension will be granted.
+Participants must notify the lecturer of such circumstances as soon as possible when they arise.
+
+
+
+\section{Mandatory Tasks}
+
+Create a new program that does the following things:
+
+\begin{enumerate}
+\item
+  The program accepts two command-line arguments and checks that they contain only alphabetical letters.
+\item
+  It then creates a matrix of size $(N+1)\times(M+1)$, where $N$ is the length of the \emph{input source} string (the first argument) and $M$ the length of the \emph{input destination} (second argument).
+  This matrix will serve as table to store the value function (accumulated alignment scores) during the cost propagation of the Needleman-Wunsch algorithm.
+  \emph{
+    Hint: you can store something other than integer values in the matrix, for example a struct.
+    This can help to keep track of backpointer information required for a later step.
+  }
+\item
+  After proper initialization, the value table is then filled using the propagation mechanism described on slides 28--33 of lecture~6.
+  The scoring system should be the same as the example given in the lecture:
+  \begin{itemize}
+  \item
+    perfect match: +10
+  \item
+    matching a vowel with a different vowel: -2
+  \item
+    matching a consonant with a different consonant: -4
+  \item
+    matching a vowel with a consonant: -10
+  \item
+    insertions: -5
+  \item
+    deletions: -5
+  \end{itemize}
+  Note that your scoring function should ignore whether the letters are upper case or lower case.
+  Thus, for example 'R' perfectly matches 'r' with score +10, and 'A' matches 'o' with score -2.
+  Also beware of the fact that, due to the addition of the gap character '\_', table row $i$ corresponds to letter $i-1$ of the source string, and table column $j$ corresponds to letter $j-1$ of the destination string.
+\item
+  At the end, your program shall print the contents of the value matrix \emph{along with backpointer information} in a properly formatted way.
+  Some examples are given in Figure~\ref{fig:example-tables} which you should use to check that your program computes the correct values.
+  \emph{
+    Reminder: a backpointer is information about which particular propagation action (insert, delete, or match) lead to the optimal score for a particular value in the table.
+    There can be up to three backpointers for any matrix element.
+  }
+\end{enumerate}
+
+Make sure that your report mentions to what extent you have completed the above tasks and indicates where to find the relevant implementation in your source file (or files).
+The report must also include your program's output for all of the examples shown in Figure~\ref{fig:example-tables}.
+As usual, it should also properly cite references (websites and other sources of information that you used).
+
+\begin{figure}
+  \fbox{\begin{minipage}{55mm}
+      \footnotesize
+      \verbatiminput{tab-beer-coffee.txt}
+  \end{minipage}}\hfill
+  \fbox{\begin{minipage}{32mm}
+      \footnotesize
+      \verbatiminput{tab-xx-oo.txt}
+  \end{minipage}}\hfill
+  \fbox{\begin{minipage}{32mm}
+      \footnotesize
+      \verbatiminput{tab-kc-KC.txt}
+  \end{minipage}}\\[\baselineskip]
+  \fbox{\begin{minipage}{\columnwidth}
+      \footnotesize
+      \verbatiminput{tab-HOT-ohitishotinthere.txt}
+  \end{minipage}}
+  \caption{
+    Table of accumulated alignment scores, complete with backpointer information, for several examples of input source and destination strings.
+    The letters underneath each value encode the backpointer information:
+    'm' stands for \emph{match} (diagonal arrow on the lecture slides),
+    'i' means \emph{insert} (horizontal arrow on the slides),
+    and 'd' means \emph{delete} (vertical arrow).
+  }\label{fig:example-tables}
+\end{figure}
+
+
+\pagebreak
+\section{Bonus Tasks}
+
+Perform one or more of these suggested tasks to receive more points:
+
+\begin{enumerate}
+\item
+  After printing the table, your program should trace back \emph{one} optimal alignment.
+  Remember, this starts at the bottom-right corner of the table and follows backpointers until you reach the top-left.
+  The corresponding alignment between source and destination result in an \emph{output source} and an \emph{output destination} string that contain the characters from the \emph{input source} and \emph{input destination} but with appropriately added gap characters:
+  \begin{itemize}
+  \item
+    For a \emph{match}, you use one character of each input source and destination, and proceed along the diagonal to the next cell in the table.
+  \item
+    A \emph{delete} puts one character from the input source into the output source, but the output destination receives a gap '\_' and instead of going diagonally, the column will remain constant.
+  \item
+    Conversely, an \emph{insert} puts one character from the input destination into the output destination, whereas the output source receives a '\_' and the row remains constant.
+  \end{itemize}
+  Figure~\ref{fig:example-traces} shows examples of output strings that result from tracing back the example inputs shown in Figure~\ref{fig:example-tables}.\\
+  \emph{
+    Implementation hint:
+    the maximum length of the output strings is $N+M$, so you can allocate a buffer that is big enough for that plus one extra element for the terminating '$\backslash$0', and fill it backwards starting at \texttt{buffer+N*M}.
+    When printing the result, be careful to skip over the first few (unused) characters in the strings thus produced.
+  }
+\item
+  It is more challenging to trace back all optimal alignments:
+  at every element with two backpointers, you have to create a new branch for the backtrace.
+  Likewise, three backpointers will require two new branches.
+  Figure~\ref{fig:example-traces} shows the output of a program that traces back all solutions for the the tables given in Figure~\ref{fig:example-tables}.
+  It is not important whether your program produces the traces in the same order, as long as it produces the same traces.
+\item
+  Create a new program that uses the Smith-Waterman algorithm~\cite{wikipedia:smith-waterman} (a variation of Needleman-Wunsch) for sequence alignment.
+  Compare the results it gives for the examples of Needleman-Wunsch shown in Figure~\ref{fig:example-tables}.
+\end{enumerate}
+
+\begin{figure}
+  \begin{minipage}{80mm}
+    \fbox{\begin{minipage}{60mm}
+        \footnotesize
+        \verbatiminput{trace-beer-coffee.txt}
+    \end{minipage}}\\[\baselineskip]
+    \fbox{\begin{minipage}{60mm}
+        \footnotesize
+        \verbatiminput{trace-kc-KC.txt}
+    \end{minipage}}\\[\baselineskip]
+    \fbox{\begin{minipage}{60mm}
+        \footnotesize
+        \verbatiminput{trace-HOT-ohitishotinthere.txt}
+    \end{minipage}}
+  \end{minipage}
+  \fbox{\begin{minipage}{45mm}
+      \footnotesize
+      \verbatiminput{trace-xx-oo.txt}
+  \end{minipage}}
+  \caption{
+    Optimal alignments for the same example sources and destinations as in Figure~\ref{fig:example-tables}.
+    All of the listed alignments have the same score.
+    The order in which they are listed is not relevant here, it depends on implementation details.
+  }\label{fig:example-traces}
+\end{figure}
+
+
+
+\footnotesize
+\bibliographystyle{plain}
+\bibliography{bib}
+
+\end{document}

@@ -1,0 +1,11 @@
+input source:      beer
+input destination: coffee
+
+output source:      ___beer
+output destination: coffee_
+
+output source:      __b_eer
+output destination: coffee_
+
+output source:      b___eer
+output destination: coffee_
