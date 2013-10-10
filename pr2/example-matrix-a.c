@@ -5,7 +5,13 @@
 
 int main (int argc, char ** argv)
 {
-  int *matrix; /* the matrix is "just" a pointer to the first element */
+  /* 
+     The matrix is "just" a pointer to the first element.  Here we
+     create a matrix of integers, but you can of course create a
+     matrix of any type, such as structs.
+  */
+  int *matrix;
+  
   int nrows, ncols;
   int ir, ic;
   
@@ -15,20 +21,25 @@ int main (int argc, char ** argv)
   nrows = 5;
   ncols = 7;
   matrix = malloc (nrows * ncols * sizeof(int));
-  if (NULL == matrix)
+  if (NULL == matrix) {
     err (EXIT_FAILURE, "malloc");
+  }
   
   /*
     Fill the matrix with some example values. Notice that the array
     index is one-dimensional: in order to access the element at
     (ir,ic) you have to translate it into the index ic+ir*ncols.
   */
-  for (ir = 0; ir < nrows; ++ir)
-    for (ic = 0; ic < ncols; ++ic)
-      if ((ir + ic) % 2)
+  for (ir = 0; ir < nrows; ++ir) {
+    for (ic = 0; ic < ncols; ++ic) {
+      if ((ir + ic) % 2) {
 	matrix[ic + ir*ncols] = -10*ic - ir;
-      else
+      }
+      else {
 	matrix[ic + ir*ncols] = 10*ir + ic;
+      }
+    }
+  }
   
   /*
     Print the matrix as a nice table with a header row that lists the
@@ -36,16 +47,19 @@ int main (int argc, char ** argv)
     the values right-aligned into a field of width 3.
   */
   printf ("  |");
-  for (ic = 0; ic < ncols; ++ic)
+  for (ic = 0; ic < ncols; ++ic) {
     printf (" %3d", ic);
+  }
   printf ("\n--+");
-  for (ic = 0; ic < ncols; ++ic)
+  for (ic = 0; ic < ncols; ++ic) {
     printf ("----");
+  }
   printf ("\n");
   for (ir = 0; ir < nrows; ++ir) {
     printf ("%d |", ir);
-    for (ic = 0; ic < ncols; ++ic)
+    for (ic = 0; ic < ncols; ++ic) {
       printf (" %3d", matrix[ic + ir*ncols]);
+    }
     printf ("\n");
   }
   

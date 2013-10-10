@@ -5,7 +5,15 @@
 
 int main (int argc, char ** argv)
 {
-  int **matrix; /* the matrix is a pointer to the first row */
+  /* 
+     In this example, the matrix is a pointer to the first row, which
+     is pointer to the first elements of an array.  So, the matrix
+     variable is a pointer to a pointer. Again, here we create a
+     matrix of integers, but you can of course create a matrix of any
+     type, such as structs.
+  */
+
+  int ** matrix;
   int nrows, ncols;
   int ir, ic;
   
@@ -19,12 +27,14 @@ int main (int argc, char ** argv)
   nrows = 5;
   ncols = 7;
   matrix = malloc (nrows * sizeof(int*)); /* notice sizeof POINTER to int */
-  if (NULL == matrix)
+  if (NULL == matrix) {
     err (EXIT_FAILURE, "malloc rows");
+  }
   for (ir = 0; ir < nrows; ++ir) {
     matrix[ir] = malloc (ncols * sizeof(int));
-    if (NULL == matrix[ir])
+    if (NULL == matrix[ir]) {
       err (EXIT_FAILURE, "malloc row %d", ir);
+    }
   }
   
   /*
@@ -32,12 +42,16 @@ int main (int argc, char ** argv)
     array index is two-dimensional, this may look more natural: in
     order to access the element at (ir,ic) you just write [ir][ic].
   */
-  for (ir = 0; ir < nrows; ++ir)
-    for (ic = 0; ic < ncols; ++ic)
-      if ((ir + ic) % 2)
+  for (ir = 0; ir < nrows; ++ir) {
+    for (ic = 0; ic < ncols; ++ic) {
+      if ((ir + ic) % 2) {
 	matrix[ir][ic] = -10*ic - ir;
-      else
+      }
+      else {
 	matrix[ir][ic] = 10*ir + ic;
+      }
+    }
+  }
   
   /*
     Print the matrix as a nice table with a header row that lists the
@@ -45,16 +59,19 @@ int main (int argc, char ** argv)
     the values right-aligned into a field of width 3.
   */
   printf ("  |");
-  for (ic = 0; ic < ncols; ++ic)
+  for (ic = 0; ic < ncols; ++ic) {
     printf (" %3d", ic);
+  }
   printf ("\n--+");
-  for (ic = 0; ic < ncols; ++ic)
+  for (ic = 0; ic < ncols; ++ic) {
     printf ("----");
+  }
   printf ("\n");
   for (ir = 0; ir < nrows; ++ir) {
     printf ("%d |", ir);
-    for (ic = 0; ic < ncols; ++ic)
+    for (ic = 0; ic < ncols; ++ic) {
       printf (" %3d", matrix[ir][ic]);
+    }
     printf ("\n");
   }
   
