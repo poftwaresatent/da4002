@@ -2,7 +2,11 @@
 
 \usepackage[pdftex]{graphicx}
 \usepackage[margin=3cm]{geometry}
-\usepackage{verbatim,moreverb,amssymb,amsmath}
+\usepackage{verbatim,moreverb,amssymb,amsmath,paralist}
+\usepackage[noend]{algorithmic}
+
+\algsetup{indent=2em}
+\renewcommand{\algorithmiccomment}[1]{\quad \{\emph{#1}\}}
 
 
 \newcounter{question}
@@ -140,16 +144,7 @@ In the following table, match the data structure names with the diagrams \textbf
 
 \clearpage
 
-
-\question{6 points}
-
-Give them recursive code for the coin change problem, let them develop and fill out the DP variant.
-
-
-
-\clearpage
-
-\question{6 points}
+\question{4 points}
 
 \begin{enumerate}
 \item
@@ -204,9 +199,103 @@ Do a bunch of runtime estimates given big-Oh expressions.
 
 \clearpage
 
-\question{6 points}
+\question{5 points}
 
-Give an adjacency matrix, let them draw the graph, describe Dijkstra, let them run it on the graph they drew.
+A positive-weighted directed graph is a graph where edges have a direction as well as an associated cost.
+A minimum-cost path in such a graph is a path from a \emph{start} node to a \emph{goal} node such that the sum of edge costs along this path is minimum.
+
+\begin{enumerate}
+\item
+  Draw a diagram representing the graph given in the adjacency matrix below.
+  The existence of edges as well as their cost are directly given by the non-empty entries in the matrix.
+  In your diagram, also indicate the cost of each edge on the diagram.
+  Note that for the next question, you will also need to indicate a value for each node, so leave enough room for this.
+\item
+  Run the graph algorithm explained below on the given graph, starting at node \textbf{B}.
+  This is ``Dijkstra's Algorithm'' which computes the value of minimum-cost paths from a given start node to all other nodes in the graph.
+  Write the resulting node values into the your graph diagram.
+\item
+  What is the minimum-cost path from \textbf{B} to \textbf{D}?
+  What is its cost, and what is the sequence of visited nodes?
+\end{enumerate}
+
+\vfill
+
+\begin{center}
+  \begin{minipage}{0.45\columnwidth}
+    \begin{tabular}{|*{6}{c|}}
+      \hline
+      \emph{source}
+      &
+      \multicolumn{5}{l|}{\emph{destination}} \\
+        &  A &  B &  C &  D &  E \\
+      \hline
+      A &    &  2 &    &  1 &    \\
+      \hline
+      B &    &    &  5 &    &  4 \\
+      \hline
+      C &    & 10 &    &  6 &    \\
+      \hline
+      D &    &    &  2 &    &  2 \\
+      \hline
+      E &  4 &    &    &  7 &    \\
+      \hline
+    \end{tabular}
+  \end{minipage}
+  \fbox{\begin{minipage}{0.45\columnwidth}
+      \begin{algorithmic}[1]
+        \FORALL { nodes $n$ }
+          \STATE $v(n) \leftarrow \infty$
+        \ENDFOR
+        \STATE $v(s) \leftarrow 0$
+        \STATE $\text{insert}(Q,s)$
+        \WHILE { $0 \neq \text{length}(Q)$ }
+          \STATE $n \leftarrow \text{extract}(Q)$
+          \FORALL { $e=(n,m)$ }
+            \IF { $v(m) > v(n) + c(e)$ }
+              \STATE $v(m) \leftarrow v(n) + c(e)$
+              \STATE $\text{insert}(Q,m)$
+            \ENDIF
+          \ENDFOR
+        \ENDWHILE
+      \end{algorithmic}
+  \end{minipage}}
+\end{center}
+
+\vfill
+
+\noindent\textbf{Detailed explanations about the pseudo-code:}
+
+Left-pointing arrows denote assignment.
+For example ``$x \leftarrow 1$'' means that the value 1 is stored into the variable $x$.
+Nodes are written $n$ or $m$.
+The start node is written $s$.
+Each node has a value, which is written $v(n)$.
+Edges are written $e=(n,m)$ which means that there is an edge from node $n$ to node $m$.
+Edge costs are written $c(e)$.
+
+$Q$ denotes a priority queue that contains nodes $n$ sorted by their value $v(n)$.
+It supports the following operations:
+\begin{compactitem}
+\item
+  $n \leftarrow \text{extract}(Q)$ removes the node with the smallest value from the queue.
+\item
+  $\text{insert}(Q,n)$ inserts the node $n$ into the queue.
+  If $n$ is already in the queue, then its place in the queue gets updated.
+\item
+  $\text{length}(Q)$ is the number of nodes in the queue.
+\end{compactitem}
+
+Lines 1--4 perform initializations: all values are set to infinity, except the start node which gets a value of zero.
+Also, the queue is initialized to contain just the start node.
+
+The outer loop (lines 5--10) runs until the queue is empty.
+Line 6 retrieves the queued node with the smallest value.
+This node $n$ is the \emph{source} used by the inner loop.
+
+The inner loop (lines 7--10) runs over all \emph{destination} nodes that can be reached from the source.
+Line 8 checks whether a destination can be more cheaply reached from the current source.
+If that is the case, then lines 9--10 update the destination by lowering its value, and inserting it into the queue.
 
 
 

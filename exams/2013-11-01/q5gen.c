@@ -326,6 +326,7 @@ void dijkstra (Vertex *vv)
       if ((ee->dst->value < 0) || (ee->dst->value > key)) {
 	ee->dst->value = key;
 	enqueue (key, ee->dst);
+#warning "BTW the problem here is that we should really use lower_key and not enqueue"
       }
     }
   }
