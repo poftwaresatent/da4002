@@ -303,13 +303,35 @@ If that is the case, then lines 9--10 update the destination by lowering its val
 
 \question{6 points}
 
+Imagine that your are working as a programmer and encounter the following situations.
+
 \begin{enumerate}
 \item
-  someone suggests to sort a linked list in order to be able to use binary search (does not make sense because linked lists do not provide random access)
+  One of your colleagues wants to speed up an existing program that manages information about persons.
+  The program currently keeps the information in a linked list.
+  This list is only rarely modified, but very frequently used to search for persons.
+  Your colleague plans to change the program so that it sorts the list, and then uses binary search instead of linear search.
+  Do you think this is a good idea?
+  Why, or why not?
 \item
-  someone suggests using level-order traversal to save a balanced binary search tree (as opposed to in- or post-order traversal which makes it unbalanced when you load it back)
+  Another colleague, working on a similar but different program, has written functions for saving the data from a binary search tree in a file and later loading them back from the file.
+  He implemented the safe function using in-order traversal, and everything worked correctly and quickly during his tests with small data sets.
+  However, with large data sets, the program becomes very slow after loading data from such a file.
+  What do you think is going wrong?
+  What do you suggest to solve this problem?
 \item
-  email routing system with 10 priority levels, expect to have millions of emails in the queue; people suggest different things: use a heap, use a fixed-size array of linked lists, use a single dynamic array. which do you think is the best solution and why?
+  You are leading a team that works on designing and implementing an email routing system that is expected to handle a very large amount of messages.
+  The idea is to use up to 10 priority levels so that important email gets sent first while less important messages wait.
+  Your team has come up with three suggestions for implementing the message queue:
+  \begin{compactitem}
+  \item
+    use a min heap with array-backed storage, sorted by priority level;
+  \item
+    use an array of 10 linked lists, one for each priority level;
+  \item
+    use a dynamically sized array.
+  \end{compactitem}
+  Which of these solutions would you choose, and why?
 \end{enumerate}
 
 
