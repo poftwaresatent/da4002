@@ -84,100 +84,133 @@ static int random_int (int minval, int maxval);
 static int * random_array (int minval, int maxval, size_t len);
 
 
-/***************************************************
-  The validity checking code begins here.
-***************************************************/
+static void test_create (int index, int ** input, int ** output);
+static int test_check (int const * input, int * output);
+static void test_destroy (int * input, int * output);
+
+
+/***************************************************/
 
 int main (int argc, char ** argv)
 {
   int * input;
   int * output;
-  int ii, jj, kk, pass, allpass;
+  int ii, pass;
   
-  allpass = 1;
+  pass = 1;
   for (ii = 0; ii < 10; ++ii) {
-    input = random_array (0, 9, 10);
-    if (0 == ii) {
-      for (jj = 0; jj < 10; ++jj) {
-	input[jj] = jj;
-      }
-    }
-    else if (1 == ii) {
-      for (jj = 0; jj < 10; ++jj) {
-	input[jj] = 9 - jj;
-      }
-    }
-    else if (2 == ii) {
-      for (jj = 0; jj < 10; ++jj) {
-	input[jj] = jj % 2;
-      }
-    }
-    
-    output = malloc (10 * sizeof(int));
-    if (NULL == output) {
-      err (EXIT_FAILURE, __FILE__": %s: malloc", __func__);
-    }
-    memcpy (output, input, 10 * sizeof(int));
+    test_create (ii, &input, &output);
     merge_sort (output, 10);
-    
-    printf ("check [%d", input[0]);
-    for (jj = 1; jj < 10; ++jj) {
-      printf (" %d", input[jj]);
+    if ( ! test_check (input, output)) {
+      pass = 0;
     }
-    printf ("] -> [%d", output[0]);
-    for (jj = 1; jj < 10; ++jj) {
-      printf (" %d", output[jj]);
-    }
-    printf ("]: ");
-    
-    pass = 1;
-    for (jj = 1; jj < 10; ++jj) {
-      if (output[jj-1] > output[jj]) {
-	pass = 0;
-	allpass = 0;
-	printf ("FAILED order check: output[%d] = %d > output[%d] = %d)\n",
-		jj-1, output[jj-1], jj, output[jj]);
-	break;
-      }
-    }
-    
-    if (pass) {
-      for (jj = 0; jj < 10; ++jj) {
-	for (kk = 0; kk < 10; ++kk) {
-	  if (output[kk] >= 0 && output[kk] == input[jj]) {
-	    output[kk] = -1;
-	    break;
-	  }
-	}
-	if (kk >= 10) {
-	  pass = 0;
-	  allpass = 0;
-	  printf ("FAILED match check: input[%d] = %d not found in output\n",
-		  jj, input[jj]);
-	  break;
-	}
-      }
-    }
-    
-    if (pass) {
-      printf ("passed\n");
-    }
-    
-    free (input);
-    free (output);
+    test_destroy (input, output);
   }
   
-  return allpass ? 0 : 1;
+  return pass ? 0 : 1;
 }
 
 
-/***************************************************
-  Implementations of the utility functions to create random data and
-  measure execution time.
+/***************************************************/
+
+
+void test_create (int index, int ** input, int ** output)
+{
+  int jj;
   
-  YOU DO NOT NEED TO UNDERSTAND THESE FUNCTIONS! Just copy-paste them
-  as needed when you create new benchmark programs.
-***************************************************/
+  if (0 == index) {
+    *input = malloc (10 * sizeof(int));
+    if (NULL == output) {
+      err (EXIT_FAILURE, __FILE__": %s: malloc", __func__);
+    }
+    for (jj = 0; jj < 10; ++jj) {
+      (*input)[jj] = jj;
+    }
+  }
+  else if (1 == index) {
+    *input = malloc (10 * sizeof(int));
+    if (NULL == output) {
+      err (EXIT_FAILURE, __FILE__": %s: malloc", __func__);
+    }
+    for (jj = 0; jj < 10; ++jj) {
+      (*input)[jj] = 9 - jj;
+    }
+  }
+  else if (2 == index) {
+    *input = malloc (10 * sizeof(int));
+    if (NULL == output) {
+      err (EXIT_FAILURE, __FILE__": %s: malloc", __func__);
+    }
+    for (jj = 0; jj < 10; ++jj) {
+      (*input)[jj] = jj % 2;
+    }
+  }
+  else {
+    *input = random_array (0, 9, 10);
+  }
+  
+  *output = malloc (10 * sizeof(int));
+  if (NULL == output) {
+    err (EXIT_FAILURE, __FILE__": %s: malloc", __func__);
+  }
+  memcpy (*output, *input, 10 * sizeof(int));
+}
+
+
+int test_check (int const * input, int * output)
+{
+  int jj, kk, pass;
+  
+  printf ("check [%d", input[0]);
+  for (jj = 1; jj < 10; ++jj) {
+    printf (" %d", input[jj]);
+  }
+  printf ("] -> [%d", output[0]);
+  for (jj = 1; jj < 10; ++jj) {
+    printf (" %d", output[jj]);
+  }
+  printf ("]: ");
+  
+  pass = 1;
+  for (jj = 1; jj < 10; ++jj) {
+    if (output[jj-1] > output[jj]) {
+      pass = 0;
+      printf ("FAILED output[%d] = %d > output[%d] = %d)\n",
+	      jj-1, output[jj-1], jj, output[jj]);
+      break;
+    }
+  }
+  
+  if (pass) {
+    for (jj = 0; jj < 10; ++jj) {
+      for (kk = 0; kk < 10; ++kk) {
+	if (output[kk] >= 0 && output[kk] == input[jj]) {
+	  output[kk] = -1;
+	  break;
+	}
+      }
+      if (kk >= 10) {
+	pass = 0;
+	printf ("FAILED input[%d] = %d not found (sufficiently often) in output\n",
+		jj, input[jj]);
+	break;
+      }
+    }
+  }
+  
+  if (pass) {
+    printf ("passed\n");
+  }
+  
+  return pass;
+}
+
+
+void test_destroy (int * input, int * output)
+{
+  free (input);
+  free (output);
+}
 
 
 int random_int (int minval, int maxval)
