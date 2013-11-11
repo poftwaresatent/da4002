@@ -75,19 +75,8 @@ static void merge_sort (int * arr, int len)
 
 int main (int argc, char ** argv)
 {
-  int * input;
-  int * output;
-  int ii, pass;
-  
-  pass = 1;
-  for (ii = 0; ii < 10; ++ii) {
-    test_create (ii, &input, &output);
-    merge_sort (output, 10);
-    if ( ! test_check (input, output)) {
-      pass = 0;
-    }
-    test_destroy (input, output);
-  }
-  
-  return pass ? 0 : 1;
+  sortfunc funcs[] = {
+    { "merge sort", merge_sort }
+  };
+  return test_runall (funcs, sizeof(funcs) / sizeof(*funcs));
 }

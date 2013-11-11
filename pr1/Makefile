@@ -1,4 +1,4 @@
-CC = gcc
+CC = clang
 CFLAGS = -Wall
 
 all: insertion-sort-benchmark merge-sort-benchmark check-merge-sort

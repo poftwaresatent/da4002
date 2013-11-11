@@ -6,9 +6,6 @@
 #include <string.h>
 #include <unistd.h>
 #include <fcntl.h>
-/* #include <limits.h> */
-/* #include <sys/uio.h> */
-/* #include <sys/time.h> */
 
 
 static int random_int (int minval, int maxval)
@@ -115,7 +112,7 @@ int test_check (int const * input, int * output)
 {
   int jj, kk, pass;
   
-  printf ("check [%d", input[0]);
+  printf ("  check [%d", input[0]);
   for (jj = 1; jj < 10; ++jj) {
     printf (" %d", input[jj]);
   }
@@ -164,4 +161,46 @@ void test_destroy (int * input, int * output)
 {
   free (input);
   free (output);
+}
+
+
+int test_runall (sortfunc const * funcs, int nfuncs)
+{
+  int * input;
+  int * output;
+  int ifunc, icheck, pass, allpass;
+  
+  allpass = 1;
+  for (ifunc = 0; ifunc < nfuncs; ++ifunc) {
+    
+    printf ("Checking %s\n", funcs[ifunc].name);
+    
+    pass = 1;
+    for (icheck = 0; icheck < 10; ++icheck) {
+      test_create (icheck, &input, &output);
+      funcs[ifunc].func (output, 10);
+      if ( ! test_check (input, output)) {
+	pass = 0;
+      }
+      test_destroy (input, output);
+    }
+    
+    if (pass) {
+      printf ("%s passed\n", funcs[ifunc].name);
+    }
+    else {
+      printf ("%s FAILED\n", funcs[ifunc].name);
+      allpass = 0;
+    }
+    
+  }
+  
+  if (allpass) {
+    printf ("\nAll tests passed.\n");
+  }
+  else {
+    printf ("\nThere were FAILURES.\n");
+  }
+  
+  return allpass ? 0 : 1;
 }
