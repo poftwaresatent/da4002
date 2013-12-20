@@ -88,10 +88,69 @@ Aside from the obvious rules of conduct exams (e.g.\ no chatting):
 
 
 
-\question{X points}
+\question{6 points}
+
+A \textbf{queue} is a data structure where items can be appended and retrieved.
+The oldest item that was appended to a queue is the next one to be retrieved.
+A \textbf{stack} is a data structure where items can be pushed and popped.
+The youngest item that was pushed is the next one to be popped.
+A \textbf{priority queue} is a data structure which allows to insert and extract items based on a priority.
+An extracted item always has the highest priority of all the items in the priority queue at that moment.
+
+Each of the data structures can be implemented in various ways, for example using linked lists, vectors (dynamically sized arrays), heaps (array-backed balanced trees), or combinations such as arrays of lists.
+Consider the following possibilities:
+
+\begin{itemize}
+\item
+  Queue
+  \begin{itemize}
+  \item
+    list-based ``append'' operation
+  \item
+    list-based ``retrieve'' operation
+  \item
+    vector-based ``append'' operation
+  \item
+    vector-based ``retrieve'' operation
+  \end{itemize}
+\item
+  Stack
+  \begin{itemize}
+  \item
+    list-based ``push'' operation
+  \item
+    list-based ``pop'' operation
+  \item
+    vector-based ``push'' operation
+  \item
+    vector-based ``pop'' operation
+  \end{itemize}
+\item
+  Priority queue
+  \begin{itemize}
+  \item
+    heap-based ``insert'' operation
+  \item
+    heap-based ``extract'' operation
+  \item
+    array-of-lists-based ``insert'' operation
+  \item
+    array-of-lists-based ``extract'' operation
+  \end{itemize}
+\end{itemize}
+
+For each of the six functions given on the next page, write down which of the above 12 operations it implements.
 
 \clearpage
 
+\twocolumn
+\small
+\verbatiminput{shell.c}
+\normalsize
+\onecolumn
+
+
+\clearpage
 \question{6 points}
 
 What is the runtime complexity for each of the following six programs?
