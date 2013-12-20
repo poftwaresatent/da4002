@@ -59,22 +59,22 @@ void function_C (List * list,
 
 
 
-int function_D (List ** pql)
+int function_D (List ** list)
 {
   int ii;
   int data;
   Item * tmp;
   for (ii = MAXPRIORITY; ii > 0; --ii) {
-    if (pql[ii]->head != NULL) {
+    if (list[ii]->head != NULL) {
       break;
     }
   }
-  tmp = pql[ii]->head;
+  tmp = list[ii]->head;
   data = tmp->data;
-  pql[ii]->head = tmp->next;
+  list[ii]->head = tmp->next;
   free (tmp);
-  if (pql[ii]->head == NULL) {
-    pql[ii]->tail = NULL;
+  if (list[ii]->head == NULL) {
+    list[ii]->tail = NULL;
   }
   return data;
 }
@@ -93,15 +93,15 @@ int function_E (List * list)
 }
 
 
-void function_F (List ** pql,
+void function_F (List ** list,
                  int priority,
                  int data)
 {
   Item * item = malloc (sizeof (Item));
   item->data = data;
   item->next = NULL;
-  if (pql[priority]->head == NULL) {
-    pql[priority]->head = item;
+  if (list[priority]->head == NULL) {
+    list[priority]->head = item;
   }
-  pql[priority]->tail = item;
+  list[priority]->tail = item;
 }
