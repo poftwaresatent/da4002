@@ -96,9 +96,15 @@ A \textbf{stack} is a data structure where items can be pushed and popped.
 The youngest item that was pushed is the next one to be popped.
 A \textbf{priority queue} is a data structure which allows to insert and extract items based on a priority.
 An extracted item always has the highest priority of all the items in the priority queue at that moment.
+Each of these data structures can be implemented in various ways, for example using linked lists, vectors (dynamically sized arrays), heaps (array-backed balanced trees), or combinations such as arrays of lists.
 
-Each of the data structures can be implemented in various ways, for example using linked lists, vectors (dynamically sized arrays), heaps (array-backed balanced trees), or combinations such as arrays of lists.
-Consider the following possibilities:
+\vfill
+
+Six functions (A, B, C, D, E, and F) are given on the next page.
+Each of them implements a particular data structure operation, for a data structure implemented using a specific storage approach.
+
+The following list contains 12 possible combinations of data structure operation and storage approach.
+Write the function name (A, B, C, D, E, or F) beside those items in this list which they correspond to.
 
 \begin{itemize}
 \item
@@ -139,16 +145,33 @@ Consider the following possibilities:
   \end{itemize}
 \end{itemize}
 
-For each of the six functions given on the next page, write down which of the above 12 operations it implements.
-You can write the function label (A, B, C, D, E, and F) beside the corresponding list items above.
+\vfill
 
 \clearpage
 
 \twocolumn
 \small
-\verbatiminput{shell.c}
+\verbatiminput{q1.c}
 \normalsize
 \onecolumn
+
+
+
+\clearpage
+\question{4 points}
+
+For each of the following four functions, write down what type of data structure it applies to and what the function does.
+
+\textbf{Notice} that \texttt{function\_C} does \textbf{not} use ``\texttt{NULL != item}'' as end condition in the \texttt{for} loop.
+Your answer for that function needs to be specific to a data structure for which comparison with \texttt{NULL} would not work.
+
+\vfill
+
+\small
+\verbatiminput{q2.c}
+\normalsize
+
+\vfill
 
 
 
@@ -156,6 +179,8 @@ You can write the function label (A, B, C, D, E, and F) beside the corresponding
 \question{6 points}
 
 What is the runtime complexity for each of the following six programs?
+The first column in the table shows the plot of measured runtime in function of problem size.
+The other columns plot the same data, but divided by various expressions involving the problem size.
 
 \begin{center}
   \begin{tabular}{cccc}
@@ -231,7 +256,9 @@ What is the runtime complexity for each of the following six programs?
 \clearpage
 \question{4 points}
 
-Knowing the ``Big-Oh'' complexity class of a program's running time $T$ in function of problem size $N$, written $T(N)\in O(F(N))$, allows us to estimate two kinds of things.
+The ``Big-Oh'' complexity class of a program's running time $T$ in function of problem size $N$ is written $T(N)\in O(F(N))$.
+For example, for a \emph{quadratic} program, we have $F(N)=N^2$ and write its complexity class $O(N^2)$.
+Knowing a program's Big-Oh complexity allows us to estimate the following.
 
 \begin{itemize}
 \item
@@ -240,32 +267,37 @@ Knowing the ``Big-Oh'' complexity class of a program's running time $T$ in funct
   Problem size prediction: if, on the other hand, we are given a runtime budget of $T_2$, we can estimate the corresponding problem size $N_2$ (again assuming that we know the time $T_1$ for the known problem size $N_1$).
 \end{itemize}
 
+\vfill
+
 Write down the formulas which allow you to solve the \textbf{runtime prediction} problem for the following complexity classes:
 
 \begin{itemize}
 \item
-  $\log N$
+  $O(\log N)$
 \item
-  $N^2\log N$
+  $O(N^2\log N)$
 \item
-  $N^3$
+  $O(N^3)$
 \item
-  $2^N$
+  $O(2^N)$
 \end{itemize}
+
+\vfill
 
 Then write down the formulas to solve the \textbf{problem size prediction} problem for the following complexity classes:
 
 \begin{itemize}
 \item
-  $\log N$
+  $O(\log N)$
 \item
-  $N$
+  $O(N)$
 \item
-  $N^2$
+  $O(N^2)$
 \item
-  $2^N$
+  $O(2^N)$
 \end{itemize}
 
+\vfill
 
 
 \end{document}
