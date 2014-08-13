@@ -1,0 +1,7 @@
+int ii, jj;
+for (ii = 0; ii < N; ii += 3) {
+  f_1ms ();
+  for (jj = 0; jj < N; ++jj) {
+    f_3ms ();
+  }
+}

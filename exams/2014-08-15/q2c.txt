@@ -1,0 +1,16 @@
+// a function used by FRAGMENT 3  
+void foo (int N) {
+  if (N <= 1) {
+    f_3ms ();
+  }
+  else {
+    f_1ms ();
+    foo (N / 2);
+  }
+}
+  
+// FRAGMENT 3
+int ii;
+for (ii = 0; ii < N; ++ii) {
+  foo (N);
+}

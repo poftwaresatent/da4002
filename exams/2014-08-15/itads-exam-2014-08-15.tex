@@ -1,0 +1,489 @@
+\documentclass[a4paper]{article}
+
+\usepackage[pdftex]{graphicx}
+\usepackage[margin=3cm]{geometry}
+\usepackage{verbatim,moreverb,amssymb,amsmath,paralist}
+
+
+\newcounter{question}
+\newcommand{\question}[1]{\refstepcounter{question}\section*{Question~\thequestion~~~\small\emph{(#1)}}}
+\renewcommand*\thequestion{\arabic{question}}
+
+
+\begin{document}
+
+\pagestyle{empty}
+\thispagestyle{empty}
+
+
+
+\noindent
+\begin{minipage}{\columnwidth}
+  \centering
+  \Large
+  DA4002 (HT13) Halmstad University\\
+  Introduction to Algorithms, Data Structures, and Problem Solving\\[3\baselineskip]
+  \Huge
+  Written Exam\\
+  \Large
+  Friday, August 15, 2014\\[2\baselineskip]
+  Examiner: Roland Philippsen
+\end{minipage}
+
+\vfill
+
+\noindent
+\begin{center}
+\fbox{
+  \begin{minipage}{0.8\columnwidth}
+    \textbf{Student Name:}\\[3\baselineskip]
+  \end{minipage}
+}
+\end{center}
+
+\vfill
+
+
+
+\section*{Rules}
+
+Aside from the obvious rules of conduct exams (e.g.\ no chatting):
+
+\begin{itemize}
+\item
+  \textbf{No computing devices} (laptops, phones, calculators, \emph{etc}).
+\item
+  \textbf{No books or printouts} except for non-electronic dictionaries.
+\item
+  \textbf{Allowed hand-written notes}: two sheets of A4 paper (front and back).
+\end{itemize}
+
+
+
+\section*{Guidelines}
+
+\begin{itemize}
+\item
+  \textbf{Read carefully} and pace yourself.
+  Some questions include explanations or hints.
+\item
+  \textbf{Write clearly} and draw clear diagrams.
+\item
+  \textbf{Indicate the question number} for each of your answers.
+  If a question has sub-questions, clearly indicate which one your answer belongs to.
+\item
+  \textbf{Do not write with a red pen.}
+\end{itemize}
+
+
+
+\section*{Evaluation Criteria}
+
+You need 60\% of points to pass.
+The remaining 40\% are equally divided among the grades.
+
+\begin{itemize}
+\item
+  Halmstad: \quad
+  5: $\left[87,100\right]\%$ \quad
+  4: $\left[74,87\right)\%$ \quad
+  3: $\left[60,74\right)\%$
+\item
+  ECTS: \quad
+  A: $\left[92,100\right]\%$ \quad
+  B: $\left[84,92\right)\%$ \quad
+  C: $\left[76,84\right)\%$ \quad
+  D: $\left[68,76\right)\%$ \quad
+  E: $\left[60,68\right)\%$
+\end{itemize}
+
+
+
+\pagebreak
+\pagestyle{plain}
+\thispagestyle{plain}
+\setcounter{page}{1}
+
+
+
+\question{4 points}
+
+Consider the following four pseudo-code fragments A, B, C, and D:\\
+
+\small
+\noindent
+\begin{minipage}[t]{0.44\columnwidth}
+  
+  \begin{tabbing}
+    \quad\=\quad\=\quad\=\quad\=\quad\=\kill
+    function \textbf{fragmentA} (\emph{arr}, \emph{len}):\\
+    \>// \emph{arr} is an array of numbers\\
+    \>// \emph{len} is the length of the array\\
+    \>for \emph{i} in 0\ldots\emph{len}-1:\\
+    \>\>for \emph{j} in 1\ldots\emph{len}-1:\\
+    \>\>\>if \emph{arr}[\emph{j}] $<$ \emph{arr}[\emph{j-1}] then\\
+    \>\>\>\>swap \emph{arr}[\emph{j}] with \emph{arr}[\emph{j-1}]\\
+    \>\>\>end if\\
+    \>\>end for\\
+    \>end for\\
+    end function
+  \end{tabbing}
+  
+  \begin{tabbing}
+    \quad\=\quad\=\quad\=\quad\=\quad\=\kill
+    function \textbf{fragmentC} (\emph{start})\\
+    \>// - \emph{start} is a node\\
+    \>// variables:\\
+    \>// - \emph{open} is a queue of nodes\\
+    \>// - \emph{closed} is a set of nodes\\
+    \>// - \emph{it} and \emph{nb} are nodes\\
+    \>\emph{open}.push(\emph{start})\\
+    \>while \emph{open} is not empty:\\
+    \>\>\emph{it} = \emph{open}.pop()\\
+    \>\>if \emph{closed} does not contain \emph{it} then\\
+    \>\>\>\emph{closed}.add(\emph{it})\\
+    \>\>\>for \emph{nb} in \emph{it}.neighbors:\\
+    \>\>\>\>if \emph{closed} does not contain \emph{nb} then\\
+    \>\>\>\>\>\emph{nb}.predecessor = \emph{it}\\
+    \>\>\>\>\>\emph{open}.push(\emph{nb})\\
+    \>\>\>\>end if\\
+    \>\>\>end for\\
+    \>\>end if\\
+    \>end while\\
+    end function
+  \end{tabbing}
+  
+\end{minipage}%
+\hfill%
+\begin{minipage}[t]{0.44\columnwidth}
+  
+  \begin{tabbing}
+    \quad\=\quad\=\quad\=\quad\=\quad\=\kill
+    function \textbf{fragmentB} (\emph{arr}, \emph{len}, \emph{num}):\\
+    \>// - \emph{arr} is an array of numbers\\
+    \>// - \emph{len} is the length of the array\\
+    \>// - \emph{num} is a number\\
+    \>for \emph{i} in 0\ldots\emph{len}-1:\\
+    \>\>if \emph{arr}[\emph{i}] $=$ \emph{num} then\\
+    \>\>\>return \emph{i}\\
+    \>\>end if\\
+    \>end for\\
+    \>return -1\\
+    end function
+  \end{tabbing}
+  
+  \begin{tabbing}
+    \quad\=\quad\=\quad\=\quad\=\quad\=\kill
+    function \textbf{fragmentD} (\emph{start})\\
+    \>// - \emph{start} is a node\\
+    \>// NOTE:\\
+    \>// \quad someFunction() can be assumed to be given.\\
+    \>// \quad It does not matter what that function does,\\
+    \>// \quad and it does not modify its argument.\\
+    \>someFunction(\emph{start})\\
+    \>if \emph{start}.left is not null then\\
+    \>\>fragmentD(\emph{start}.left)\\
+    \>end if\\
+    \>if \emph{start}.right is not null then\\
+    \>\>fragmentD(\emph{start}.right)\\
+    \>end if\\
+    end function
+  \end{tabbing}
+\end{minipage}
+\normalsize
+\vspace{\baselineskip}
+
+For each of those code fragments, choose which algorithm name from the table below best corresponds to what the fragment does, and mark its letter \emph{(A, B, C, or D)} in the space on the right.
+
+\begin{center}
+  \begin{tabular}{|l|p{0.3\columnwidth}|}
+    \hline
+    \emph{algorithm} & \emph{A, B, C, or D} \\
+    \hline
+    linear search & \\
+    \hline
+    binary search & \\
+    \hline
+    breadth-first search & \\
+    \hline
+    depth-first search & \\
+    \hline
+    pre-order traversal & \\
+    \hline
+    level-order traversal & \\
+    \hline
+    heap sort & \\
+    \hline
+    bubble sort & \\
+    \hline
+  \end{tabular}
+\end{center}
+
+
+\clearpage
+
+\question{4 points}
+
+For each of the following code fragments,
+\begin{itemize}
+\item
+  develop a formula allowing to estimate the running time depending on the parameter $N$,
+\item
+  and then determine its Big-Oh runtime complexity.
+\end{itemize}
+
+\noindent
+Note that the method \texttt{f\_1ms} always requires 1 ms to run, and the method \texttt{f\_3ms} always takes 3 ms.
+All other operation delays can be neglected.
+
+\begin{itemize}
+\item
+  fragment 1:\\
+  \begin{minipage}[t]{0.4\columnwidth}
+    \footnotesize
+    \verbatimtabinput{q2a.txt}
+  \end{minipage}
+\item
+  fragment 2:\\
+  \begin{minipage}[t]{0.4\columnwidth}
+    \footnotesize
+    \verbatimtabinput{q2b.txt}
+  \end{minipage}
+\item
+  fragment 3:
+  \emph{(important: compute the runtime of the \texttt{for} loop, not just the \texttt{foo} function)}\\
+  \begin{minipage}[t]{0.4\columnwidth}
+    \footnotesize
+    \verbatimtabinput{q2c.txt}
+  \end{minipage}
+\item
+  fragment 4:\\
+  \begin{minipage}[t]{0.4\columnwidth}
+    \footnotesize
+    \verbatimtabinput{q2d.txt}
+  \end{minipage}
+\end{itemize}
+
+
+\clearpage
+
+\question{6 points}
+
+\begin{enumerate}
+
+\item
+  The execution time $T_A$ of program $A$ has been measured on a problem of size $N=1024$:
+  it took $T_A(N) = 640ms$ to run.
+  What is the expected execution time $T'_A$ for a problem of size $N'=128$, if $A$'s big-Oh complexity is\\
+  \emph{(i)} logarithmic: $T_A(N) \in O(\log N)$ ?\\
+  \emph{(ii)} square: $T_A(N) \in O(N^2)$ ?
+  
+  \emph{\textbf{Notice the table of numeric values} for $x^2$, $x^3$, and $2^x$ on the bottom of this page, to help you with the computations.}
+  
+\item
+  Program $B$ required $T_B=10ms$ to run on a problem of size $N=1000$.
+  What problem size $N'$ can be expected to complete, if the available time is $T'_B=270ms$ and the big-Oh complexity of $B$ is\\
+  \emph{(i)} linear: $T_B(N) \in O(N)$ ?\\
+  \emph{(ii)} cubic: $T_B(N) \in O(N^3)$ ?
+  
+\item
+  The time $T_C$ it takes to run \texttt{function\_C} for $N=512$ is $T_C=5ms$.
+  Based on a big-Oh complexity analysis of the code shown below, how much time will it take for $N'=2048$?
+  You can assume that the various \texttt{slow\_X} functions take significantly longer to execute than any of the other operations.
+  
+\item
+  The time $T_D$ taken by \texttt{function\_D} given below is $30ms$ for an array of length $N=512$.
+  How large of an array can be handled when we only have $10ms$ available?
+  Again, you can assume that the \texttt{slow\_5} function takes up the majority of the computation time.
+  
+\end{enumerate}
+  
+\vfill
+
+\noindent
+\fbox{%
+  \begin{minipage}[t]{0.40\columnwidth}
+    \small
+    \verbatimtabinput{q3a.txt}
+\end{minipage}}\hfill
+\fbox{%
+  \begin{minipage}[t]{0.56\columnwidth}
+    \small
+    \verbatimtabinput{q3b.txt}
+\end{minipage}}
+
+\vfill
+
+\noindent
+\begin{tabular}{|l|r|r|r|r|r|r|r|r|r|r|r|r|r|r|r|}
+  \hline
+  $x=$   & 0 & 1 & 2 &  3 &  4 &   5 &   6 &   7 &   8 &   9 &   10 &   11 &   12 &   13 &    14 \\
+  $x^2=$ & 0 & 1 & 4 &  9 & 16 &  25 &  36 &  49 &  64 &  81 &  100 &  121 &  144 &  169 &   196 \\
+  $x^3=$ & 0 & 1 & 8 & 27 & 64 & 125 & 216 & 343 & 512 & 729 & 1000 & 1331 & 1728 & 2197 &  2744 \\
+  $2^x=$ & 1 & 2 & 4 &  8 & 16 &  32 &  64 & 128 & 256 & 512 & 1024 & 2048 & 4096 & 8192 & 16384 \\
+  \hline
+\end{tabular}
+
+
+\clearpage
+
+\question{6 points}
+
+% 6 pts for the second table (1 pt per correct row, but be nice concerning ``Folgefehler'')
+
+Dynamic programming can be used to choose coins that add up to a given amount, such that the number of coins is minimal.
+The following table shows this when the available coins are $C=\{1, 4\}$, for total amounts of up to $K=6$.
+
+The \emph{value} $F(K)$ stands for the minimum amount of coins to create a total of $K$.
+At each step, it is the minimum of the available options $f_1(K)$ and $f_4(K)$.
+Thus, $F$ is computed using $F(K)=\min(f_1(K), f_4(K))$.
+If an option is not available for a given step, it is marked $\varnothing$.
+Notice that the table starts at $K=0$, where $F(0)=0$.
+
+\begin{center}
+  \begin{tabular}{|c|l|l|l|c|}
+    \hline
+    \textbf{step} &
+    \multicolumn{3}{|c|}{\textbf{choices}} &
+    \textbf{value}
+    \\
+    $K$ &
+    cost of $c=1$ &
+    cost of $c=4$ &
+    \textbf{best} $c$ &
+    $F$ \\
+    \hline
+    $0$ &
+    $\varnothing$ &
+    $\varnothing$ &
+    $\varnothing$ &
+    $F(0) = 0$
+    \\
+    \hline
+    $1$ &
+    $1+F(0)=1$ &
+    $\varnothing$ &
+    $c=1$ &
+    $F(1) = 1$
+    \\
+    \hline
+    $2$ &
+    $1+F(1)=2$ &
+    $\varnothing$ &
+    $c=1$ &
+    $F(2) = 2$
+    \\
+    \hline
+    $3$ &
+    $1+F(2)=3$ &
+    $\varnothing$ &
+    $c=1$ &
+    $F(3) = 3$
+    \\
+    \hline
+    $4$ &
+    $1+F(3)=4$ &
+    $1+F(0)=1$ &
+    $c=4$ &
+    $F(4) = 1$
+    \\
+    \hline
+    $5$ &
+    $1+F(4)=2$ &
+    $1+F(1)=2$ &
+    $c\in\{1,4\}$ &
+    $F(5) = 2$
+    \\
+    \hline
+    $6$ &
+    $1+F(5)=3$ &
+    $1+F(2)=3$ &
+    $c\in\{1,4\}$ &
+    $F(6) = 3$
+    \\
+    \hline
+  \end{tabular}
+\end{center}
+
+\vfill
+
+Fill in the table below, similar to the one above, for up to $K=6$ \textbf{when there also is a $c=3$ coin}.
+In other words, use $C=\{1, 3, 4\}$, add $f_3(K)$ to the available choices, and use $F=\min(f_1, f_3, f_4)$.
+
+\vfill
+
+\begin{center}
+  \begin{tabular}{|c|p{0.22\columnwidth}|p{0.22\columnwidth}|p{0.22\columnwidth}|l|c|}
+    \hline
+    \textbf{step} &
+    \multicolumn{4}{|c|}{\textbf{choices}} &
+    \textbf{value}
+    \\
+    $K$ &
+    cost of $c=1$ &
+    cost of $c=3$ &
+    cost of $c=4$ &
+    \textbf{best} $c$ &
+    $F$ \\
+    \hline
+    $0$ &
+    $\varnothing$ &
+    $\varnothing$ &
+    $\varnothing$ &
+    $\varnothing$ &
+    $F(0) = 0$
+    \\
+    \hline
+    $1$ & & & & & \\ & & & & & \\ & & & & & \\ & & & & & \\
+    \hline
+    $2$ & & & & & \\ & & & & & \\ & & & & & \\ & & & & & \\
+    \hline
+    $3$ & & & & & \\ & & & & & \\ & & & & & \\ & & & & & \\
+    \hline
+    $4$ & & & & & \\ & & & & & \\ & & & & & \\ & & & & & \\
+    \hline
+    $5$ & & & & & \\ & & & & & \\ & & & & & \\ & & & & & \\
+    \hline
+    $6$ & & & & & \\ & & & & & \\ & & & & & \\ & & & & & \\
+    \hline
+  \end{tabular}
+\end{center}
+
+
+\clearpage
+
+\question{6 points}
+
+Imagine that your are working as a programmer and encounter the following situations.
+
+\begin{enumerate}
+\item
+  One of your colleagues wants to speed up an existing program that manages information about persons.
+  The program currently keeps the information in a linked list.
+  This list is only rarely modified, but very frequently used to search for persons.
+  Your colleague plans to change the program so that it sorts the information by name before storing it in the linked list, and then uses binary search.
+  Do you think this is a good idea?
+  Why, or why not?
+\item
+  Another colleague, working on a similar but different program, has written functions for saving the data from a binary search tree in a file and later loading them back from the file.
+  He implemented the safe function using in-order traversal, and everything worked correctly and quickly during his tests with small data sets.
+  However, with large data sets, the program becomes very slow after loading data from such a file.
+  What do you think is going wrong?
+  What do you suggest to solve this problem?
+\item
+  You are leading a team that works on designing and implementing an email routing system that is expected to handle a very large amount of messages.
+  The idea is to use up to 10 priority levels so that important email gets sent first while less important messages wait.
+  Your team has come up with three suggestions for implementing the message queue:
+  \begin{compactitem}
+  \item
+    use a min heap with array-backed storage;
+  \item
+    use an array of 10 linked lists, one for each priority level;
+  \item
+    use a binary search tree.
+  \end{compactitem}
+  Which of these solutions would you choose, and why?
+\end{enumerate}
+
+
+\end{document}

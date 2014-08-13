@@ -1,0 +1,21 @@
+int recurse (char *str, char **arr, int aa, int bb)
+{
+  int cc, dd;
+  if (aa > bb) {
+    return -1;
+  }
+  cc = (aa + bb) / 2;
+  dd = slow_5 (str, arr[cc]);
+  if (dd > 0) {
+    return recurse (str, arr, cc + 1, bb);
+  }
+  if (dd < 0) {
+    return recurse (str, arr, aa, cc - 1);
+  }
+  return cc;
+}
+
+int function_D (char *str, char **arr, int N)
+{
+  return recurse (str, arr, 0, N - 1);
+}
